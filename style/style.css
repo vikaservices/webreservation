@@ -1,0 +1,514 @@
+/****** BOOTSTRAP MODIFICATIONS *********/
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+	background-color: #eee !important;
+  background-image: url("/public/img/website-background.png");
+}
+
+hr {
+  color: #ccc;
+}
+
+.container-fluid {
+  padding: 0 !important;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  max-width: 910px;
+  margin: 0 auto;
+}
+
+
+/**********  SECTIONS  *************/
+
+.section-header {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.section-resource-selection {
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.section-time-search {
+  height: 100%;
+  overflow: hidden;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 769px) {
+  .section-time-search {
+    max-height: 508px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-time-search {
+    max-height: 100%;
+  }
+}
+
+.section-time-search-inactive {
+  height: 62px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.section-confirmation {
+  background-color: #fff;
+  margin-bottom: 50px;
+}
+
+.section-confirmation-inactive {
+  height: 62px;
+  background-color: #fff;
+  opacity: 0.5;
+  margin-bottom: 50px;
+}
+
+
+/******  SECTION : HEADER ********/
+
+.section-header-title {
+  font-family: Helvetica;
+  font-size: 40px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.section-header-links {
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.section-header-links span img {
+  margin-right: 5px;
+  vertical-align: center;
+}
+
+.section-header-links span a {
+  font-family: ArialMT;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #ffffff;
+}
+
+
+/********** SECTION : TIME SEARCH : HEADER    *************/
+.reservation-summary {
+  display: inline-block;
+  font-family: ArialMT;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #a4a4a4;
+  margin-top: 16px;
+}
+
+
+/********   SECTION : TIME SEARCH : FILTERS     ***********/
+.filter-time-of-day {
+  display: inline-block;
+}
+
+
+.input-reset {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+}
+.input-reset:hover {
+  opacity: 0.5;
+}
+.input-reset:before, .input-reset:after {
+  position: absolute;
+  left: 5px;
+  content: ' ';
+  height: 13px;
+  width: 2px;
+  background-color: #f10c29;;
+}
+.input-reset:before {
+  transform: rotate(45deg);
+}
+.input-reset:after {
+  transform: rotate(-45deg);
+}
+
+
+/*******  SECTION : TIME SEARCH : FILTERS : TERMS SEARCH ****/
+#terms-search {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#terms-search input {
+  width: 100%;
+  height: 39px;
+}
+
+/**** SECTION : TIME SEARCH : FILTERS : UNITS SEARCH  ****/
+#units-search {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#units-search input {
+  width: 100%;
+  height: 39px;
+}
+
+/*** SECTION : TIME SEARCH : TERMS & UNITS SEARCH RESULT DROPDOWNS ***/
+.search-hints {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: block;
+  height: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.search-hints ul {
+  width: 100;
+}
+
+.search-hints ul li {
+    width: 100%;
+}
+
+.search-hints ul li a {
+  width: 100%;
+  padding: 5px 0 5px 10px;
+  display: block;
+  color: #333;
+  text-decoration: none;
+}
+
+.search-hints ul li a:hover {
+  background-color: #eee;
+}
+
+
+/***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
+#extra-filters {
+  margin-bottom: 30px;
+}
+
+
+
+/***** SECTION : TIME SEARCH : FILTERS : CALENDAR   *****/
+#calendar-filter {
+  width: 50%;
+  max-width: 500px;
+}
+
+
+
+/*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
+@media (max-width: 768px) {
+  .timeslot-list {
+    margin-top: 30px;
+  }
+}
+
+
+.timeslot-list-header {
+  display: inline-block;
+  margin-top: 0;
+  font-family: ArialMT;
+  font-size: 17px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #333333;
+}
+
+.list-container {
+  overflow-x: hidden;
+}
+
+@media (min-width: 769px) {
+  .list-container {
+    overflow-y: auto;
+    height: 400px;
+  }
+}
+
+
+.slot-inline {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.slot-time {
+  display: inline-block;
+  height: 23px;
+  font-family: HelveticaNeue;
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #f10c29;
+}
+
+.slot-duration {
+  height: 15px;
+  font-family: HelveticaNeue;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #a4a4a4;
+}
+
+.slot-image {
+  max-width: 50px;
+  max-height: 50px;
+  margin-left: 10px;
+}
+
+.slot-resource {
+  height: 14px;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}
+
+.slot-title {
+  height: 14px;
+  opacity: 0.4;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}
+
+.slot-unit {
+  height: 14px;
+  opacity: 0.4;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}
+
+/**********  SECTION : CONFIRMATION **************/
+
+.confirmation-block {
+  margin-top: 50px;
+  border: 0px solid black;
+}
+
+.confirmation-logo {
+  display: inline-block;
+  vertical-align: top;
+  border: 0px solid black;
+  width: 170px;
+  text-align: right;
+}
+
+.confirmation-logo img {
+  max-width: 80px;
+  max-height: 80px;
+  margin-top: 22px;
+  margin-right: 30px;
+  border: 0px solid red;
+}
+
+.confirmation-content {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.confirmation-content textarea {
+  width: 298px;
+  height: 115px;
+}
+
+.confirmation-content input[type="checkbox"],
+.confirmation-content input[type="radio"] {
+  margin-right: 10px;
+}
+
+.confirmation-content input[type="text"] {
+  margin-top: 5px;
+  width: 298px;
+  height: 39px;
+}
+
+.confirmation-submit {
+  text-align: center;
+}
+
+.confirmation-submit button {
+  text-align: center;
+}
+
+.confirmation-terms {
+  margin-top: 30px;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
+  color: #a4a4a4;
+}
+
+.confirmation-terms p:first-child {
+  font-weight: bold;
+  margin-bottom: 0 !important;
+}
+
+
+/***************** SUMMARY PAGE  ******************/
+.reservation-info-face {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #cccccc;
+  border-radius: 40px;
+}
+
+/************* RESERVATION CANCELING PAGE ********/
+.cancel-reservation {
+  width: 100%;
+  max-width: 940px;
+  height: 500px;
+  background-color: #fff;
+  text-align: center;
+}
+
+
+/**************  COMMON **********/
+.hide {
+  display: none;
+}
+
+.link {
+  height: 15px;
+  font-family: HelveticaNeue;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #f10c29;
+  vertical-align: middle;
+}
+
+.section-title {
+  display: inline-block;
+  height: 19px;
+  font-family: Helvetica;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #333333;
+  margin-top: 21px;
+  margin-bottom: 14px;
+}
+
+.block {
+  background-color: #fff;
+  padding: 0 30px 30px 30px;
+}
+
+.block-separator {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.block-separator img {
+  width: 100%;
+}
+
+.submit-buttons-centered {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-buttons-centered button {
+  text-align: center;
+  padding: 5px 20px;
+  margin: 0 20px;
+  border-radius: 15px;
+}
+
+.btn-white {
+  border: 1px solid #f10c29;
+  background-color: #fff;
+  color: red;
+}
+
+.btn-red {
+  border: 1px solid #f10c29;
+  background-color: #f10c29;
+  color: #fff;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.block input[type="checkbox"],
+.block input[type="radio"] {
+  margin-right: 10px;
+}
+
+ol {
+  list-style: decimal;
+}
+
+.inline-box div {
+  display: inline-block;
+  border: 0px solid red;
+  vertical-align: top;
+}
+
+.padding-left-20 {
+  padding-left: 20px;
+}
+
+.padding-left-40 {
+  padding-left: 40px;
+}

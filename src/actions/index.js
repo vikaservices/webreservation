@@ -19,7 +19,7 @@ import { TERMS_SEARCH,
 import axios from 'axios';
 //import Config from 'Config';
 
-let UIServerUrl = "http://localhost:3000/";
+let UIServerUrl = "http://vob.fi:4000/";
 
 export function termsSearch(terms=null) {
 

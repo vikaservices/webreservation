@@ -13,6 +13,7 @@ export const LOGIN_CLIENT = 'login_client';
 export const SAVE_CLIENT_INFO = 'save_client_info';
 export const RESET = 'reset';
 export const CANCEL_RESERVATION = 'cancel_reservation';
+export const SET_TIME_OF_DAY_FILTER = 'set_time_of_day_filter';
 
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';
@@ -36,3 +37,8 @@ export const DLG_VIEW_CANCEL_RESERVATION = 'dlg_view_cancel_reservation';
 export const DLG_VIEW_CANCEL_RESERVATION_OK = 'dlg_view_cancel_reservation_ok';
 export const DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND = 'dlg_view_cancel_reservation_not_found';
 export const DLG_VIEW_CANCEL_RESERVATION_ERROR = 'dlg_view_cancel_reservation_error';
+
+// TIME OF DAY FILTER CUTOFFS
+export const TOD_MORNING = '7';
+export const TOD_DAY = '11';
+export const TOD_AFTERNOON = '17';

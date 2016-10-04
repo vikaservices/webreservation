@@ -47,7 +47,7 @@ hr {
 
 @media (min-width: 769px) {
   .section-time-search {
-    max-height: 508px;
+    max-height: 568px;
   }
 }
 
@@ -125,10 +125,6 @@ hr {
 
 
 /********   SECTION : TIME SEARCH : FILTERS     ***********/
-.filter-time-of-day {
-  display: inline-block;
-}
-
 
 .input-reset {
   position: absolute;
@@ -227,7 +223,29 @@ hr {
   max-width: 500px;
 }
 
+/****** SECTION : TIME SEARCH : FILTER : TIME OF DAY *****/
+.filter-time-of-day {
+  display: inline-block;
+}
 
+.filter-time-of-day form input[type="radio"] {
+  display: none;
+}
+
+.filter-time-of-day form input[type="radio"] + label {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: normal;
+  border: 1px solid #fff;
+}
+
+.filter-time-of-day form input[type="radio"] + label:hover  {
+  opacity: 0.2;
+}
+
+.filter-time-of-day form input[type="radio"]:checked + label {
+  border-bottom-color: red;
+}
 
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
 @media (max-width: 768px) {

@@ -40,7 +40,9 @@ class FilterMain extends Component {
       // Visibility of extra filters
       extra_filters: false,
       // visibility of units list
-      unit_list_visible: false
+      unit_list_visible: false,
+      // filtered unit list
+      units_list_filtered: []
     };
   }
 
@@ -51,45 +53,6 @@ class FilterMain extends Component {
       this.props.unitsSearch();
     }, 500);
   }
-
-  onClickHandlerTerms(id, type, name, event) {
-    event.preventDefault();
-    console.log("onClickHandlerSearch: type: " + type + " name: " + name);
-    let state;
-    switch(type) {
-      case "RESOURCE":
-        state = { terms_search: name, resource_filter: id };
-        break;
-      case "SPECIALITY":
-        state = { terms_search: name, speciality_filter: id };
-        break;
-      case "GROUP":
-        state = { terms_search: name, group_filter: id };
-        break;
-      case "UNIT":
-        state = { terms_search: name, unit_filter: id };
-        break;
-      default:
-    }
-    this.setState( state, function(){
-        this.doTimeslotsSearch();
-        this.doFreedaysSearch();
-        // clear search-hints
-        this.props.termsSearch();
-    });
-  }
-
-  onClickHandlerUnits(id, type, name, event) {
-    event.preventDefault();
-    console.log("onClickHandlerUnits: " + name);
-    this.setState( { units_search: name, unit_filter: id }, function(){
-        this.doTimeslotsSearch();
-        this.doFreedaysSearch();
-        // clear search-hints
-        this.props.unitsSearch();
-    });
-  }
-
 
   render() {
     return (
@@ -126,7 +89,8 @@ class FilterMain extends Component {
             onBlur={(event) => this.onBlur(event)} />
 
           {this.state.unit_list_visible ?
-          <SearchResultList items_list={this.props.units_list}
+          <SearchResultList items_list={this.state.units_list_filtered.length > 0 || this.state.units_search.length > 0
+                                        ? this.state.units_list_filtered : this.props.units_list }
                             onClickHandler={this.onClickHandlerUnits.bind(this)}
                             list_id="units-search-hints"
                             is_active={this.state.unit_list_visible} />
@@ -154,6 +118,7 @@ class FilterMain extends Component {
     );
   }
 
+  // Erases value from units or main search field depending on event target
   clearInput(input, event) {
     event.preventDefault();
     console.log("clearInput: " + input);
@@ -175,6 +140,7 @@ class FilterMain extends Component {
     }
   }
 
+  // Called every time user types in main search field
   onInputChangeTerms(terms_search) {
     this.setState( { terms_search }, function(){
       // defer search until:
@@ -188,16 +154,69 @@ class FilterMain extends Component {
     });
   }
 
+  // Called when user selects value from main search results
+  onClickHandlerTerms(id, type, name, event) {
+    event.preventDefault();
+    console.log("onClickHandlerSearch: type: " + type + " name: " + name);
+    let state;
+    switch(type) {
+      case "RESOURCE":
+        state = { terms_search: name, resource_filter: id };
+        break;
+      case "SPECIALITY":
+        state = { terms_search: name, speciality_filter: id };
+        break;
+      case "GROUP":
+        state = { terms_search: name, group_filter: id };
+        break;
+      case "UNIT":
+        state = { terms_search: name, unit_filter: id };
+        break;
+      default:
+    }
+    this.setState( state, function(){
+        this.doTimeslotsSearch();
+        this.doFreedaysSearch();
+        // clear search-hints
+        this.props.termsSearch();
+    });
+  }
+
+
+  filterUnitsList( filter ) {
+    let units_list_filtered = [];
+    if( this.props.units_list.length > 0 ) {
+      this.props.units_list.map((item) => {
+        if( item.name.toLowerCase().indexOf(filter.toLowerCase()) != -1 ) {
+          units_list_filtered.push(item);
+        }
+      });
+    }
+    this.setState( {units_list_filtered: units_list_filtered}, () => {
+      //console.log(this.state.units_list_filtered);
+    });
+  }
+
+  // Called every time user types in units search field
   onInputChangeUnit(units_search) {
     this.setState( { units_search }, function(){
 
-      if(this.state.units_search.length >= 3 ) {
-        this.props.unitsSearch(units_search);
-      } else {
-        this.props.unitsSearch();
-      }
+      this.filterUnitsList(units_search);
     });
   }
+
+  // Called when user selects value from units search results
+  onClickHandlerUnits(id, type, name, event) {
+    event.preventDefault();
+    console.log("onClickHandlerUnits: " + name);
+    this.setState( { units_search: name, unit_filter: id }, function(){
+        this.doTimeslotsSearch();
+        this.doFreedaysSearch();
+        // clear search-hints
+        //this.props.unitsSearch();
+    });
+  }
+
 
   onDayChange( date_filter ) {
     this.props.setSelectedDate(date_filter);

@@ -28527,7 +28527,9 @@
 	      // Visibility of extra filters
 	      extra_filters: false,
 	      // visibility of units list
-	      unit_list_visible: false
+	      unit_list_visible: false,
+	      // filtered unit list
+	      units_list_filtered: []
 	    };
 	    return _this;
 	  }
@@ -28542,46 +28544,6 @@
 	        console.log("componentDidMount: calling unitsSearch");
 	        _this2.props.unitsSearch();
 	      }, 500);
-	    }
-	  }, {
-	    key: 'onClickHandlerTerms',
-	    value: function onClickHandlerTerms(id, type, name, event) {
-	      event.preventDefault();
-	      console.log("onClickHandlerSearch: type: " + type + " name: " + name);
-	      var state = void 0;
-	      switch (type) {
-	        case "RESOURCE":
-	          state = { terms_search: name, resource_filter: id };
-	          break;
-	        case "SPECIALITY":
-	          state = { terms_search: name, speciality_filter: id };
-	          break;
-	        case "GROUP":
-	          state = { terms_search: name, group_filter: id };
-	          break;
-	        case "UNIT":
-	          state = { terms_search: name, unit_filter: id };
-	          break;
-	        default:
-	      }
-	      this.setState(state, function () {
-	        this.doTimeslotsSearch();
-	        this.doFreedaysSearch();
-	        // clear search-hints
-	        this.props.termsSearch();
-	      });
-	    }
-	  }, {
-	    key: 'onClickHandlerUnits',
-	    value: function onClickHandlerUnits(id, type, name, event) {
-	      event.preventDefault();
-	      console.log("onClickHandlerUnits: " + name);
-	      this.setState({ units_search: name, unit_filter: id }, function () {
-	        this.doTimeslotsSearch();
-	        this.doFreedaysSearch();
-	        // clear search-hints
-	        this.props.unitsSearch();
-	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -28637,7 +28599,7 @@
 	            onBlur: function onBlur(event) {
 	              return _this3.onBlur(event);
 	            } }),
-	          this.state.unit_list_visible ? _react2.default.createElement(_search_result_list2.default, { items_list: this.props.units_list,
+	          this.state.unit_list_visible ? _react2.default.createElement(_search_result_list2.default, { items_list: this.state.units_list_filtered.length > 0 || this.state.units_search.length > 0 ? this.state.units_list_filtered : this.props.units_list,
 	            onClickHandler: this.onClickHandlerUnits.bind(this),
 	            list_id: 'units-search-hints',
 	            is_active: this.state.unit_list_visible }) : '',
@@ -28664,6 +28626,9 @@
 	        )
 	      );
 	    }
+
+	    // Erases value from units or main search field depending on event target
+
 	  }, {
 	    key: 'clearInput',
 	    value: function clearInput(input, event) {
@@ -28688,6 +28653,9 @@
 	        });
 	      }
 	    }
+
+	    // Called every time user types in main search field
+
 	  }, {
 	    key: 'onInputChangeTerms',
 	    value: function onInputChangeTerms(terms_search) {
@@ -28702,16 +28670,76 @@
 	        }
 	      });
 	    }
+
+	    // Called when user selects value from main search results
+
+	  }, {
+	    key: 'onClickHandlerTerms',
+	    value: function onClickHandlerTerms(id, type, name, event) {
+	      event.preventDefault();
+	      console.log("onClickHandlerSearch: type: " + type + " name: " + name);
+	      var state = void 0;
+	      switch (type) {
+	        case "RESOURCE":
+	          state = { terms_search: name, resource_filter: id };
+	          break;
+	        case "SPECIALITY":
+	          state = { terms_search: name, speciality_filter: id };
+	          break;
+	        case "GROUP":
+	          state = { terms_search: name, group_filter: id };
+	          break;
+	        case "UNIT":
+	          state = { terms_search: name, unit_filter: id };
+	          break;
+	        default:
+	      }
+	      this.setState(state, function () {
+	        this.doTimeslotsSearch();
+	        this.doFreedaysSearch();
+	        // clear search-hints
+	        this.props.termsSearch();
+	      });
+	    }
+	  }, {
+	    key: 'filterUnitsList',
+	    value: function filterUnitsList(filter) {
+	      var units_list_filtered = [];
+	      if (this.props.units_list.length > 0) {
+	        this.props.units_list.map(function (item) {
+	          if (item.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+	            units_list_filtered.push(item);
+	          }
+	        });
+	      }
+	      this.setState({ units_list_filtered: units_list_filtered }, function () {
+	        //console.log(this.state.units_list_filtered);
+	      });
+	    }
+
+	    // Called every time user types in units search field
+
 	  }, {
 	    key: 'onInputChangeUnit',
 	    value: function onInputChangeUnit(units_search) {
 	      this.setState({ units_search: units_search }, function () {
 
-	        if (this.state.units_search.length >= 3) {
-	          this.props.unitsSearch(units_search);
-	        } else {
-	          this.props.unitsSearch();
-	        }
+	        this.filterUnitsList(units_search);
+	      });
+	    }
+
+	    // Called when user selects value from units search results
+
+	  }, {
+	    key: 'onClickHandlerUnits',
+	    value: function onClickHandlerUnits(id, type, name, event) {
+	      event.preventDefault();
+	      console.log("onClickHandlerUnits: " + name);
+	      this.setState({ units_search: name, unit_filter: id }, function () {
+	        this.doTimeslotsSearch();
+	        this.doFreedaysSearch();
+	        // clear search-hints
+	        //this.props.unitsSearch();
 	      });
 	    }
 	  }, {
@@ -28877,6 +28905,7 @@
 	exports.saveClientInfo = saveClientInfo;
 	exports.resetState = resetState;
 	exports.cancelReservation = cancelReservation;
+	exports.setTimeOfDayFilter = setTimeOfDayFilter;
 
 	var _types = __webpack_require__(264);
 
@@ -29157,6 +29186,13 @@
 	  }
 	}
 
+	function setTimeOfDayFilter(filter) {
+	  return {
+	    type: _types.SET_TIME_OF_DAY_FILTER,
+	    filter: filter
+	  };
+	}
+
 /***/ },
 /* 264 */
 /***/ function(module, exports) {
@@ -29181,6 +29217,7 @@
 	var SAVE_CLIENT_INFO = exports.SAVE_CLIENT_INFO = 'save_client_info';
 	var RESET = exports.RESET = 'reset';
 	var CANCEL_RESERVATION = exports.CANCEL_RESERVATION = 'cancel_reservation';
+	var SET_TIME_OF_DAY_FILTER = exports.SET_TIME_OF_DAY_FILTER = 'set_time_of_day_filter';
 
 	// APP STATE
 	var APP_STATE_INITIAL = exports.APP_STATE_INITIAL = 'app_state_initial';
@@ -29204,6 +29241,11 @@
 	var DLG_VIEW_CANCEL_RESERVATION_OK = exports.DLG_VIEW_CANCEL_RESERVATION_OK = 'dlg_view_cancel_reservation_ok';
 	var DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND = exports.DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND = 'dlg_view_cancel_reservation_not_found';
 	var DLG_VIEW_CANCEL_RESERVATION_ERROR = exports.DLG_VIEW_CANCEL_RESERVATION_ERROR = 'dlg_view_cancel_reservation_error';
+
+	// TIME OF DAY FILTER CUTOFFS
+	var TOD_MORNING = exports.TOD_MORNING = '7';
+	var TOD_DAY = exports.TOD_DAY = '11';
+	var TOD_AFTERNOON = exports.TOD_AFTERNOON = '17';
 
 /***/ },
 /* 265 */
@@ -39263,6 +39305,13 @@
 	var i18nConfig = {
 
 	  localeData: {
+	    fi: {
+	      monthNames: ['Tammikuu', 'Helmikuu', 'Maaliskuu', 'Huhtikuu', 'Toukokuu', 'Kesäkuu', 'Heinäkuu', 'Elokuu', 'Syyskuu', 'Lokakuu', 'Marraskuu', 'Joulukuu'],
+	      dayNamesMin: ['SU', 'MA', 'TI', 'KE', 'TO', 'PE', 'LA'],
+	      firstDay: 1,
+	      weekEnd: 0,
+	      isRTL: false
+	    },
 	    nl: {
 	      monthNames: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
 	      dayNamesMin: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
@@ -39303,6 +39352,7 @@
 	};
 
 	exports.default = i18nConfig;
+
 
 /***/ },
 /* 329 */
@@ -52497,7 +52547,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var SearchResultList = function SearchResultList(props) {
-	  //    onClickHandler={props.onClickHandler}
+
 	  var resultItems = props.items_list.map(function (item) {
 	    return _react2.default.createElement(_search_result_list_item2.default, {
 	      item: item,
@@ -52544,8 +52594,6 @@
 	      { href: "", onClick: function onClick(event) {
 	          return props.onClickHandler(props.item.id, props.item.type, props.item.name, event);
 	        } },
-	      props.item.type,
-	      ": ",
 	      props.item.name
 	    )
 	  );
@@ -52713,6 +52761,7 @@
 	        return _react2.default.createElement(_timeslot2.default, {
 	          slot: slot,
 	          reservationHandler: _this2.props.reservationHandler,
+	          filter: _this2.props.timeofdayfilter,
 	          key: '' + slot.time + slot.duration + slot.resourceName + slot.unitName });
 	      });
 	    }
@@ -52753,7 +52802,8 @@
 	  return {
 	    //timeslots: state.timeslots.timeslots_list
 	    timeslots: state.app.timeslots_list,
-	    selecteddate: state.app.selecteddate
+	    selecteddate: state.app.selecteddate,
+	    timeofdayfilter: state.app.timeofdayfilter
 	  };
 	}
 
@@ -52763,7 +52813,7 @@
 /* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -52774,6 +52824,14 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _actions = __webpack_require__(263);
+
+	var actions = _interopRequireWildcard(_actions);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52786,19 +52844,59 @@
 	var FilterTimeOfDay = function (_Component) {
 	  _inherits(FilterTimeOfDay, _Component);
 
-	  function FilterTimeOfDay() {
+	  function FilterTimeOfDay(props) {
 	    _classCallCheck(this, FilterTimeOfDay);
 
-	    return _possibleConstructorReturn(this, (FilterTimeOfDay.__proto__ || Object.getPrototypeOf(FilterTimeOfDay)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (FilterTimeOfDay.__proto__ || Object.getPrototypeOf(FilterTimeOfDay)).call(this, props));
+
+	    _this.state = {
+	      filter: null
+	    };
+	    return _this;
 	  }
 
 	  _createClass(FilterTimeOfDay, [{
-	    key: "render",
+	    key: 'changeHandler',
+	    value: function changeHandler(event) {
+	      var _this2 = this;
+
+	      this.setState({ filter: event.target.id }, function () {
+	        console.log("state: " + _this2.state.filter);
+	      });
+	      this.props.setTimeOfDayFilter(event.target.value);
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "filter-time-of-day pull-right" },
-	        "FilterTimeOfDay"
+	        'div',
+	        { className: 'filter-time-of-day pull-right' },
+	        _react2.default.createElement(
+	          'form',
+	          { onChange: function onChange(event) {
+	              return _this3.changeHandler(event);
+	            } },
+	          _react2.default.createElement('input', { type: 'radio', id: 'tod1', name: 'tod', value: 'morning', checked: this.state.filter === "tod1" ? "checked" : "" }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'tod1' },
+	            'AAMU'
+	          ),
+	          _react2.default.createElement('input', { type: 'radio', id: 'tod2', name: 'tod', value: 'day', checked: this.state.filter === "tod2" ? "checked" : "" }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'tod2' },
+	            'PÄIVÄ'
+	          ),
+	          _react2.default.createElement('input', { type: 'radio', id: 'tod3', name: 'tod', value: 'afternoon', checked: this.state.filter === "tod3" ? "checked" : "" }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'tod3' },
+	            'ILTA'
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -52806,7 +52904,7 @@
 	  return FilterTimeOfDay;
 	}(_react.Component);
 
-	exports.default = FilterTimeOfDay;
+	exports.default = (0, _reactRedux.connect)(null, actions)(FilterTimeOfDay);
 
 /***/ },
 /* 342 */
@@ -52827,7 +52925,7 @@
 	var TimeSlot = function TimeSlot(props) {
 	  return _react2.default.createElement(
 	    "li",
-	    { className: "list-group-item row" },
+	    { className: parseInt(props.slot.time.substr(0, props.slot.time.indexOf(":") + 1)) < parseInt(props.filter) ? "hide" : "list-group-item row" },
 	    _react2.default.createElement(
 	      "div",
 	      { className: "slot-inline" },
@@ -56237,7 +56335,7 @@
 
 	    case _types.LOGIN_CLIENT:
 	      console.log("reducer_app: LOGIN_CLIENT");
-	      console.log("reducer_app: open dialog");
+	      //console.log("reducer_app: open dialog");
 	      new_state = _extends({}, state);
 	      new_state.dialogisopen = true;
 	      new_state.dialogview = _types.DLG_VIEW_REGISTER_CHECK_SSN;
@@ -56379,8 +56477,24 @@
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION;
 	      }
-
 	      return new_state;
+
+	    case _types.SET_TIME_OF_DAY_FILTER:
+	      var filter = void 0;
+	      switch (action.filter) {
+	        case 'morning':
+	          filter = _types.TOD_MORNING;
+	          break;
+	        case 'day':
+	          filter = _types.TOD_DAY;
+	          break;
+	        case 'afternoon':
+	          filter = _types.TOD_AFTERNOON;
+	          break;
+	        default:
+	          filter = '';
+	      }
+	      return _extends({}, state, { timeofdayfilter: filter });
 
 	    default:
 	      return state;
@@ -56417,7 +56531,8 @@
 	  selecteddate: new Date(),
 	  selectedtimeslot: {},
 	  pendingreservation: false,
-	  headertitle: 'Ajanvaraus'
+	  headertitle: 'Ajanvaraus',
+	  timeofdayfilter: ''
 	};
 
 	var new_state = void 0;
@@ -56447,7 +56562,7 @@
 	        return _extends({}, state, { timeslots_list: [] });
 	      }
 	      // TODO: error handling
-	      console.log(action.payload.data.timeslots);
+	      //console.log(action.payload.data.timeslots);
 	      return _extends({}, state, { timeslots_list: action.payload.data.timeslots });
 	    default:
 	      return state;

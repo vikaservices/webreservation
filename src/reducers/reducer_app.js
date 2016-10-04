@@ -25,7 +25,11 @@ import { TIMESLOTS_SEARCH,
          CHANGE_TIME_SELECTION,
          SAVE_CLIENT_INFO,
          RESET,
-         CANCEL_RESERVATION
+         CANCEL_RESERVATION,
+         SET_TIME_OF_DAY_FILTER,
+         TOD_MORNING,
+         TOD_DAY,
+         TOD_AFTERNOON
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -45,7 +49,8 @@ let INITIAL_STATE = {
                       selecteddate: new Date(),
                       selectedtimeslot: {},
                       pendingreservation: false,
-                      headertitle: 'Ajanvaraus'
+                      headertitle: 'Ajanvaraus',
+                      timeofdayfilter: ''
                     };
 
 let new_state;
@@ -59,7 +64,7 @@ export default function(state = INITIAL_STATE, action) {
 
     case LOGIN_CLIENT:
       console.log("reducer_app: LOGIN_CLIENT");
-      console.log("reducer_app: open dialog");
+      //console.log("reducer_app: open dialog");
       new_state = {...state};
       new_state.dialogisopen = true;
       new_state.dialogview = DLG_VIEW_REGISTER_CHECK_SSN;
@@ -204,8 +209,24 @@ export default function(state = INITIAL_STATE, action) {
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION;
         }
-
         return new_state;
+
+      case SET_TIME_OF_DAY_FILTER:
+        let filter;
+        switch(action.filter) {
+          case 'morning':
+            filter=TOD_MORNING;
+            break;
+          case 'day':
+            filter=TOD_DAY;
+            break;
+          case 'afternoon':
+            filter=TOD_AFTERNOON;
+            break;
+          default:
+            filter='';
+        }
+        return {...state, timeofdayfilter: filter};
 
       default:
         return state;

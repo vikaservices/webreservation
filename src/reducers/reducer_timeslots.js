@@ -14,7 +14,7 @@ export default function(state = INITIAL_STATE, action) {
         return {...state, timeslots_list: []};
       }
       // TODO: error handling
-      console.log(action.payload.data.timeslots);
+      //console.log(action.payload.data.timeslots);
       return {...state, timeslots_list: action.payload.data.timeslots};
     default:
       return state;

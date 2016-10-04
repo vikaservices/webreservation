@@ -12,7 +12,8 @@ import { TERMS_SEARCH,
          LOGIN_CLIENT,
          SAVE_CLIENT_INFO,
          RESET,
-         CANCEL_RESERVATION
+         CANCEL_RESERVATION,
+         SET_TIME_OF_DAY_FILTER,
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -266,5 +267,12 @@ export function cancelReservation( code = null, hetu = null ) {
     return {
       type: CANCEL_RESERVATION
     }
+  }
+}
+
+export function setTimeOfDayFilter(filter) {
+  return {
+    type: SET_TIME_OF_DAY_FILTER,
+    filter: filter
   }
 }

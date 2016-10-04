@@ -2,7 +2,8 @@ import React from 'react';
 
 const TimeSlot = (props) => {
   return (
-    <li className="list-group-item row">
+    <li className={parseInt(props.slot.time.substr(0,(props.slot.time.indexOf(":")+1))) < parseInt(props.filter)
+      ? "hide" : "list-group-item row" }>
       <div className="slot-inline">
         <span className="slot-time">{props.slot.time}</span><br />
         <span className="slot-duration">{props.slot.duration} min</span>

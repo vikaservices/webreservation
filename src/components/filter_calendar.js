@@ -69,16 +69,17 @@ class FilterCalendar extends Component {
       selected_day = this.props.selected_day;
     }
 
-    return (<DatePicker
-                    locale='fi'
-                    value={selected_day}
-                    renderDay={ this.renderDay.bind(this) }
-                    onUpdate={ this.onDayChange.bind(this) }
-                    selectedDayStyle={ selectedStyle }
-                    onMonthUpdate={ this.onMonthChange.bind(this) }
-                    valueLink={this.linkState}
-                    />
-          );
+    return (
+        <DatePicker
+                locale='fi'
+                value={selected_day}
+                renderDay={ this.renderDay.bind(this) }
+                onUpdate={ this.onDayChange.bind(this) }
+                selectedDayStyle={ selectedStyle }
+                onMonthUpdate={ this.onMonthChange.bind(this) }
+                valueLink={this.linkState}
+                />
+    );
   }
 }
 

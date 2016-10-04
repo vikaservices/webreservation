@@ -7,7 +7,6 @@ import TimeSlot from './timeslot';
 class TimeslotList extends Component {
 
   renderTimeslots() {
-
     console.log("renderTimeslots");
 
     if( !this.props.timeslots ) {
@@ -23,6 +22,7 @@ class TimeslotList extends Component {
         <TimeSlot
           slot={slot}
           reservationHandler={this.props.reservationHandler}
+          filter={this.props.timeofdayfilter}
           key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}`}/>
       );
     });
@@ -49,7 +49,8 @@ function mapStateToProps(state) {
   return {
     //timeslots: state.timeslots.timeslots_list
     timeslots: state.app.timeslots_list,
-    selecteddate: state.app.selecteddate
+    selecteddate: state.app.selecteddate,
+    timeofdayfilter: state.app.timeofdayfilter
   };
 }
 

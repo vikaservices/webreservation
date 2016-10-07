@@ -278,7 +278,6 @@ export function cancelReservation( code = null, hetu = null ) {
   }
 }
 
-
 export function saveClientInfo(ssn, first_name, last_name, address, postcode, city, phone) {
   const client = {
     user: {
@@ -301,30 +300,6 @@ export function saveClientInfo(ssn, first_name, last_name, address, postcode, ci
 export function resetState() {
   return {
     type: RESET
-  }
-}
-
-// calling without code will init opening dialog asking for reservation code
-// calling with code will cause delete call with 'reservations' API call
-export function cancelReservation( code = null, hetu = null ) {
-  if( code ) {
-    let request_str = `reservations?method=DELETE&reservationCode=${code}`;
-    request_str += hetu ? `&hetu=${hetu}` : '';
-    console.log("cancelReservation: request_str = " + request_str);
-
-    const request = axios.get(`${UIServerUrl}${request_str}`);
-
-    console.log(request);
-
-    return {
-      type: CANCEL_RESERVATION,
-      payload: request
-    }
-
-  } else {
-    return {
-      type: CANCEL_RESERVATION
-    }
   }
 }
 

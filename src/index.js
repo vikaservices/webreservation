@@ -8,6 +8,7 @@ import App from './components/app';
 import CancelReservation from './components/cancel_reservation';
 import Error404 from './components/error_404';
 import reducers from './reducers';
+import newClientForm from './components/new_client_form';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -16,6 +17,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App} />
       <Route path="peruaikasi" component={CancelReservation} />
+      <Route path="form" component={newClientForm} />
       <Route path="*" component={Error404} />
     </Router>
   </Provider>

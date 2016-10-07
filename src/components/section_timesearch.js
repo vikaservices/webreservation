@@ -33,22 +33,32 @@ class SectionTimeSearch extends Component {
   render() {
     const active = this.props.timesearch_section_active;
 
-    return (
-      <div className={ active == 'active' ? "section-time-search row" : (active == 'inactive' ? "section-time-search-inactive row" : "hide") }>
+    if( active == 'hidden') {
+      return <div></div>;
+    }
 
-        <div className={ active == 'inactive' ? "col-xs-12" : "hide" }>
-          <h4 className="section-title pull-left">AJAN VALINTA</h4>
-          <div className="reservation-summary">
-            <span>
-              {formatDate2("fi", this.props.selecteddate)}&nbsp;
-              {this.props.selectedtimeslot.startTimeHours},&nbsp;
-              {this.props.selectedtimeslot.resourceName},&nbsp;
-              {this.props.selectedtimeslot.unitName}
-            </span>
+    else if( active == 'inactive') {
+      return (
+        <div className="section-time-search-inactive row">
+          <div className="col-xs-12">
+            <h4 className="section-title pull-left">AJAN VALINTA</h4>
+            <div className="reservation-summary">
+              <span>
+                {formatDate2("fi", this.props.selecteddate)}&nbsp;
+                {this.props.selectedtimeslot.startTimeHours},&nbsp;
+                {this.props.selectedtimeslot.resourceName},&nbsp;
+                {this.props.selectedtimeslot.unitName}
+              </span>
+            </div>
+            <a href="" className="link pull-right" onClick={(event) => this.handleClick(event)}>Muuta valintaa</a>
           </div>
-          <a href="" className="link pull-right" onClick={(event) => this.handleClick(event)}>Muuta valintaa</a>
         </div>
-        <div className={ active == 'active' ? "col-xs-12" : "hide" } >
+      );
+    }
+
+    return (
+      <div className="section-time-search row">
+        <div className="col-xs-12">
           <h4 className="section-title">AJAN VALINTA</h4>
           <hr />
           <FilterMain />

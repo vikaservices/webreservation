@@ -4,12 +4,15 @@ import { TERMS_SEARCH,
          FREEDAYS_SEARCH,
          MAKE_PRE_RESERVATION,
          CONFIRM_RESERVATION,
+         GET_RESERVATION,
          CHECK_CLIENT_SSN,
+         CHECK_OHC_CLIENT_SSN,
          CREATE_CLIENT,
          DIALOG_CLOSE,
          SET_SELECTED_DATE,
          SAVE_SELECTED_TIMESLOT,
          LOGIN_CLIENT,
+         LOGIN_OHC_CLIENT,
          SAVE_CLIENT_INFO,
          RESET,
          CANCEL_RESERVATION,
@@ -122,6 +125,12 @@ export function loginClient( pending_reservation = false ) {
   };
 }
 
+export function loginOhcClient() {
+  return {
+    type: LOGIN_OHC_CLIENT
+  };
+}
+
 export function checkClientSSN( ssn ) {
   console.log("checkSSN");
 
@@ -129,15 +138,24 @@ export function checkClientSSN( ssn ) {
   console.log("search_str = " + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
-  //const request = { data: { id: '12345678-2222' } };
-
-
   return {
     type: CHECK_CLIENT_SSN,
     payload: request
   };
 }
 
+export function checkOhcClientSSN( ssn ) {
+  console.log("checkSSN");
+
+  let search_str = `clients?method=GET&hetu=${ssn}`;
+  console.log("search_str = " + search_str);
+
+  const request = axios.get(`${UIServerUrl}${search_str}`);
+  return {
+    type: CHECK_OHC_CLIENT_SSN,
+    payload: request
+  };
+}
 
 export function createClient( ssn, first_name, last_name, address, postcode, city, phone) {
   console.log("createClient");
@@ -220,6 +238,46 @@ export function confirmReservation(reservationId, clientId,
     payload: request
   };
 }
+
+
+export function getReservation(code, ssn) {
+  let request_str = `reservations?hetu=${ssn}&reservationCode=${code}`;
+
+  console.log("getReservation: " + request_str);
+
+  const request = axios.get(`${UIServerUrl}${request_str}`);
+
+  return {
+    type: GET_RESERVATION,
+    payload: request
+  };
+}
+
+
+// calling without code will init opening dialog asking for reservation code
+// calling with code will cause delete call with 'reservations' API call
+export function cancelReservation( code = null, hetu = null ) {
+  if( code ) {
+    let request_str = `reservations?method=DELETE&reservationCode=${code}`;
+    request_str += hetu ? `&hetu=${hetu}` : '';
+    console.log("cancelReservation: request_str = " + request_str);
+
+    const request = axios.get(`${UIServerUrl}${request_str}`);
+
+    console.log(request);
+
+    return {
+      type: CANCEL_RESERVATION,
+      payload: request
+    }
+
+  } else {
+    return {
+      type: CANCEL_RESERVATION
+    }
+  }
+}
+
 
 export function saveClientInfo(ssn, first_name, last_name, address, postcode, city, phone) {
   const client = {

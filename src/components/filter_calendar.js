@@ -46,13 +46,19 @@ class FilterCalendar extends Component {
     }
   }
 
+  toggleCalendar(event) {
+    event.preventDefault();
+    console.log("toggleCalendar");
+    let display = $('.calendar-datepicker').css('display');
+     $('.calendar-datepicker').css('display', (display == 'none' ? 'inline' : 'none'));
+  }
+
   // DatePicker component supports only depraceted valueLink for
   // controlled day selection. I.e this is a hack...
   linkState =  {
     value: new Date(),
     requestChange: function(new_date){
       this.value = new_date;
-      //console.log( "linkState.value: " + this.value);
     }
   };
 
@@ -69,16 +75,31 @@ class FilterCalendar extends Component {
       selected_day = this.props.selected_day;
     }
 
+    let date = new Date();
+
+    let navleft = "";
+
     return (
-        <DatePicker
-                locale='fi'
-                value={selected_day}
-                renderDay={ this.renderDay.bind(this) }
-                onUpdate={ this.onDayChange.bind(this) }
-                selectedDayStyle={ selectedStyle }
-                onMonthUpdate={ this.onMonthChange.bind(this) }
-                valueLink={this.linkState}
-                />
+      <div>
+        <div className="calendar-day-selector">
+          <a href="" className="pull-left"><span className="glyphicon glyphicon-menu-left" /></a>
+          <span>{formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
+          <a href="" onClick={(event) => this.toggleCalendar(event)}><span className="glyphicon glyphicon-calendar"/></a>
+          <a href="" className="pull-right"><span className="glyphicon glyphicon-menu-right" /></a>
+        </div>
+        <div className="calendar-datepicker">
+          <DatePicker
+                  locale='fi'
+                  value={selected_day}
+                  renderDay={ this.renderDay.bind(this) }
+                  onUpdate={ this.onDayChange.bind(this) }
+                  selectedDayStyle={ selectedStyle }
+                  onMonthUpdate={ this.onMonthChange.bind(this) }
+                  valueLink={this.linkState}
+                  min={date.setDate(date.getDate() - 1)}
+                  />
+        </div>
+      </div>
     );
   }
 }

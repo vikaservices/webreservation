@@ -9,7 +9,7 @@ export default function(state = INITIAL_STATE, action) {
     case TIMESLOTS_SEARCH:
       console.log("reducer_timeslots: TIMESLOTS_SEARCH");
       //console.log(action);
-      if( !action.payload ) {
+      if( !action.payload || !action.payload.data.timeslots ) {
         console.log("got empty payload");
         return {...state, timeslots_list: []};
       }

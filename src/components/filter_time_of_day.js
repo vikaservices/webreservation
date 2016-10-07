@@ -19,7 +19,7 @@ class FilterTimeOfDay extends Component {
 
   render() {
     return (
-      <div className="filter-time-of-day pull-right">
+      <div className="filter-time-of-day">
         <form onChange={(event) => this.changeHandler(event)}>
           <input type="radio" id="tod1" name="tod" value="morning" checked={this.state.filter === "tod1" ? "checked" : ""} /><label htmlFor="tod1">AAMU</label>
           <input type="radio" id="tod2" name="tod" value="day" checked={this.state.filter === "tod2" ? "checked" : ""} /><label htmlFor="tod2">PÄIVÄ</label>

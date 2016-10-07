@@ -1,7 +1,8 @@
 import { MAKE_PRE_RESERVATION, CONFIRM_RESERVATION } from '../actions/types';
 
 const INITIAL_STATE = {
-    reservationstatus: 0
+    reservationstatus: 0,
+    prereservation: {}
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -16,7 +17,7 @@ export default function(state = INITIAL_STATE, action) {
         // TODO:
         console.log("MAKE_PRE_RESERVATION: some error");
       }
-      return {...state, reservationstatus: 0, reservation_id: action.payload.data.reservation};
+      return {...state, reservationstatus: 0, prereservation: action.payload.data.reservation};
 
     case CONFIRM_RESERVATION:
       console.log("CONFIRM_RESERVATION");

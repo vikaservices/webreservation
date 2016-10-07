@@ -1,0 +1,100 @@
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import * as actions from '../actions';
+
+class NewClientForm extends Component {
+
+  onSubmit() {
+    console.log("NewClientForm: onSubmit");
+  }
+
+  render() {
+    const { fields: { first_name, last_name, address, postcode, city, phone }, handleSubmit} = this.props;
+    //console.log("newClientForm");
+    return (
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+        <h4>Hei, kuka on tulossa vastaanotolle</h4>
+        <p>Henkilötunnus</p>
+        <input type="text" name="ssn" autofocus /><br />
+        <div>
+          <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
+            <table>
+              <tbody>
+                <tr>
+                  <td className={`${first_name.touched && first_name.error ? 'danger' : ''}`}>
+                    <label>Etunimi</label>
+                    <input type="text" className="form-control" {...first_name} />
+                    {first_name.touched && first_name.invalid ? <span>{first_name.error}</span> : ''}
+                  </td>
+                  <td className={`${last_name.touched && last_name.error ? 'danger' : ''}`}>
+                    <label>Sukunimi</label>
+                    <input type="text" className="form-control" {...last_name} />
+                    {last_name.touched && last_name.invalid ? <span>{last_name.error}</span> : ''}
+                  </td>
+                </tr>
+                <tr>
+                  <td className={`${address.touched && address.error ? 'danger' : ''}`}>
+                    <label>Katuosoite</label>
+                    <input type="text" className="form-control" {...address} />
+                    {address.touched && address.invalid ? <span>{address.error}</span> : ''}
+                  </td>
+                  <td className={`${postcode.touched && postcode.error ? 'danger' : ''}`}>
+                    <label>Postinumero</label>
+                    <input type="text" className="form-control" {...postcode} />
+                    {postcode.touched && postcode.invalid ? <span>{postcode.error}</span> : ''}
+                  </td>
+                </tr>
+                <tr>
+                  <td className={`${city.touched && city.error ? 'danger' : ''}`}>
+                    <label>Postitoimipaikka</label>
+                    <input type="text" className="form-control" {...city} />
+                    {city.touched && city.invalid ? <span>{city.error}</span> : ''}
+                  </td>
+                  <td className={`${phone.touched && phone.error ? 'danger' : ''}`}>
+                    <label>Puhelinnumero</label>
+                    <input type="text" className="form-control" {...phone} />
+                    {phone.touched && phone.invalid ? <span>{phone.error}</span> : ''}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div className="submit-buttons-centered">
+          <a href="" onClick={(event) => this.props.resetState(event)}><button>Peruuta</button></a>
+          <a href=""><button>Jatka</button></a>
+        </div>
+      </form>
+    );
+  }
+}
+
+const validate = values => {
+  const errors = {};
+  if( !values.first_name ) {
+    errors.first_name = "Pakollinen kenttä";
+  }
+  if( !values.last_name ) {
+    errors.last_name = "Pakollinen kenttä";
+  }
+  if( !values.address ) {
+    errors.address = "Pakollinen kenttä";
+  }
+  if( !values.postcode ) {
+    errors.postcode = "Pakollinen kenttä";
+  }
+  if( !values.city ) {
+    errors.city = "Pakollinen kenttä";
+  }
+  if( !values.phone ) {
+    errors.phone = "Pakollinen kenttä";
+  }
+  return errors;
+}
+
+export default reduxForm({
+  form: 'newClient',
+  fields: ['first_name', 'last_name', 'address', 'postcode', 'city', 'phone'],
+  validate
+}, null, actions)(NewClientForm);
+
+//export default NewClientForm;

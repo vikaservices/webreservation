@@ -10,6 +10,7 @@ function formatDate( date ) {
   return currY + "-" + currM + "-" + currD;
 }
 
+// return localized  weekday and date string "weekday DD.MM" (no day/month zero-filling)
 function formatDate2( locale, date ) {
 
   let currWD = date.getDay();
@@ -34,4 +35,40 @@ function getWeekdayStr( locale, day ) {
                          "Lauantaina"] };
 
   return wd_strings[locale][day];
+}
+
+
+// return localized  weekday and date string "weekday DD.MM.YYYY" (no day/month zero-filling)
+function formatDate3( locale, date ) {
+
+  let currWD = date.getDay();
+  let currM = date.getMonth() + 1;
+  let currD = date.getDate();
+  let currY = date.getFullYear();
+
+  let wd_str = getWeekdayStr2( locale, currWD );
+
+  //console.log("formatDate3: " + wd_str + " " + currD + "." + currM);
+
+  return wd_str + " " + currD + "." + currM + "." + currY;
+}
+
+// locale "fi", "sw", "ru"
+function getWeekdayStr2( locale, day ) {
+  var wd_strings = { fi:["Sunnuntai",
+                         "Maanantai",
+                         "Tiistai",
+                         "Keskiviikko",
+                         "Torstai",
+                         "Perjantai",
+                         "Lauantai"] };
+
+  return wd_strings[locale][day];
+}
+
+
+function formatDate4(locale, date_string) {
+  date = new Date(date_string);
+
+  return formatDate3(locale, date);
 }

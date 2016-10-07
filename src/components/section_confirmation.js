@@ -22,7 +22,7 @@ class SectionConfirmation extends Component {
                  " visitType: " + visitType +
                  " smsNotificationTo: " + smsNotificationTo +
                  " emailConfirmationTo: " + emailConfirmationTo);
-    this.props.confirmReservation( this.props.reservation_id,
+    this.props.confirmReservation( this.props.prereservation.id,
                                    this.props.client_id,
                                    notes,
                                    visitType,
@@ -43,12 +43,23 @@ class SectionConfirmation extends Component {
   render() {
     const active = this.props.confirmation_section_active;
 
-    return (
-      <div className={ active == 'active' ? "section-confirmation row" : (active == 'inactive' ? "section-confirmation-inactive row" : "hide") }>
-        <div className={ active == 'inactive' ? "col-xs-12" : "hide" }>
-          <h4 className="section-title">VARAUKSEN VAHVISTAMINEN</h4>
+    if( active == 'hidden') {
+      return <div></div>;
+    }
+
+    if( active == 'inactive') {
+      return (
+        <div className="section-confirmation-inactive row">
+          <div className="col-xs-12">
+            <h4 className="section-title">VARAUKSEN VAHVISTAMINEN</h4>
+          </div>
         </div>
-        <div className={ active == 'active' ? "col-xs-12" : "hide"} >
+      );
+    }
+
+    return (
+      <div className="section-confirmation row">
+        <div className="col-xs-12">
           <h4 className="section-title">VARAUKSEN VAHVISTAMINEN</h4>
           <p>Tarkista tiedot ennen varauksen vahvistamista. Esteen sattuessa
           peruuta aikasi viimeistään edellisenä päivänä ennen sovittua ajankohtaa.
@@ -133,7 +144,7 @@ function mapStateToProps(state) {
   return {
     selecteddate: state.app.selecteddate,
     selectedtimeslot: state.app.selectedtimeslot,
-    reservation_id: state.app.reservation_id,
+    prereservation: state.app.prereservation,
     appstate: state.app.appstate,
     client_id: state.app.client_id,
     confirmation_section_active: state.app.confirmation_section_active

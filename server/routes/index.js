@@ -252,6 +252,16 @@ router.get('/reservations', function(req, res, next) {
     apiRequest += req.query.hetu ? `&hetu=${req.query.hetu}` : '';
   }
 
+  else {  // GET
+    if( !req.query.reservationCode ||  !req.query.hetu) {
+      res.sendStatus(400);
+      return 0;
+    }
+    var apiRequest = dmobReservationUrl;
+    apiRequest += 'reservations?hetu=' + encodeURIComponent(req.query.hetu);
+    apiRequest += '&reservationCode=' + encodeURIComponent(req.query.reservationCode);
+  }
+
   //console.log(payload);
   wrapUnirest( apiRequest, req, res, next, payload, req.query.method, req.query.reservationId );
   //res.sendStatus(200);

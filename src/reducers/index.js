@@ -5,6 +5,7 @@ import unitsReducer from './reducer_units';
 import freedaysReducer from './reducer_freedays';
 //import clientReducer from './reducer_client';
 import appReducer from './reducer_app';
+import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
 //  timeslots: timeslotsReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   units: unitsReducer,
   freedays: freedaysReducer,
 //  clientid: clientReducer,
-  app: appReducer
+  app: appReducer,
+  form: formReducer
 });
 
 export default rootReducer;

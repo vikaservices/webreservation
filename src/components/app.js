@@ -8,7 +8,6 @@ import SectionReservationSummary from './section_reservation_summary';
 import Popup from './popup';
 import * as actions from '../actions/index';
 import Modal from 'react-modal';
-//import { reduxForm } from 'redux-form';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
@@ -43,11 +42,14 @@ class App extends Component {
     }
   }
 
-  // TODO: this should just open the cancel dialog
-  handleCancelReservation(event) {
+  onClickHeaderLink(event) {
     event.preventDefault();
-    console.log("handleCancelReservation");
-    this.props.cancelReservation();
+    console.log("onClickHeaderClick: " + event.target.dataset.target);
+    if( event.target.dataset.target == "cancel_reservation" ) {
+      this.props.cancelReservation();
+    } else if( event.target.dataset.target == "ohc_login" ) {
+      this.props.loginOhcClient();
+    }
   }
 
   // Callback from timeslot
@@ -71,7 +73,7 @@ class App extends Component {
 
     return (
       <div className="col-xs-12">
-        <SectionHeader clickHandler={this.handleCancelReservation.bind(this)} title={this.props.headertitle}/>
+        <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)} title={this.props.headertitle}/>
         <div className="app">
           <SectionResourceSelection />
           <SectionTimeSearch reservationHandler={this.makeReservation.bind(this)} />

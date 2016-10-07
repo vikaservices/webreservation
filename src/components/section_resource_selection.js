@@ -34,13 +34,15 @@ class SectionResourceSelection extends Component {
       <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
 
         <div className="col-xs-12">
-          <h4 className="section-title pull-left">TYÖTERVEYSTIIMISI</h4>
-          <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
-                           selected_employer={this.props.selected_employer}
-                           onChange={this.handleEmployerChange.bind(this)} />
-          <a href="#" className="link pull-right" onClick={(e) => this.toggleVisibility(e)}>
-            { show_team ? "Piilota" : "Näytä" }
-          </a>
+          <div>
+            <h4 className="section-title pull-left">TYÖTERVEYSTIIMISI</h4>
+            <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
+                             selected_employer={this.props.selected_employer}
+                             onChange={this.handleEmployerChange.bind(this)} />
+            <a href="#" className="link pull-right" onClick={(e) => this.toggleVisibility(e)}>
+              { show_team ? "Piilota" : "Näytä" }
+            </a>
+          </div>
           <div className={ active == 'active' && show_team ? "" : "hide" }>
             <hr />
             <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []} />

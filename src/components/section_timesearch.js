@@ -58,7 +58,7 @@ class SectionTimeSearch extends Component {
 
     return (
       <div className="section-time-search row">
-        <div className="col-xs-12">
+        <div className="col-xs-12 header-row">
           <h4 className="section-title">AJAN VALINTA</h4>
           <hr />
           <FilterMain />

@@ -1,0 +1,292 @@
+/********   SECTION : TIME SEARCH : FILTERS     ***********/
+
+.input-reset {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+}
+.input-reset:hover {
+  opacity: 0.5;
+}
+.input-reset:before, .input-reset:after {
+  position: absolute;
+  left: 5px;
+  content: ' ';
+  height: 13px;
+  width: 2px;
+  background-color: #f10c29;;
+}
+.input-reset:before {
+  transform: rotate(45deg);
+}
+.input-reset:after {
+  transform: rotate(-45deg);
+}
+
+/********** SECTION : TIME SEARCH : HEADER    *************/
+.reservation-summary {
+  display: inline-block;
+  font-family: ArialMT;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #a4a4a4;
+  margin-top: 16px;
+}
+/*******  SECTION : TIME SEARCH : FILTERS : TERMS SEARCH ****/
+#terms-search {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#terms-search input {
+  width: 100%;
+  height: 39px;
+}
+
+/**** SECTION : TIME SEARCH : FILTERS : UNITS SEARCH  ****/
+#units-search {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#units-search input {
+  width: 100%;
+  height: 39px;
+}
+
+/*** SECTION : TIME SEARCH : TERMS & UNITS SEARCH RESULT DROPDOWNS ***/
+.search-hints {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: block;
+  height: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.search-hints ul {
+  width: 100;
+  padding-left: 0;
+}
+
+.search-hints ul li {
+  width: 100%;
+  list-style-type: none;
+}
+
+.search-hints ul li a {
+  width: 100%;
+  padding: 5px 0 5px 10px;
+  display: block;
+  color: #333;
+  text-decoration: none;
+}
+
+.search-hints ul li a:hover {
+  background-color: #eee;
+}
+
+
+/***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
+#extra-filters {
+  margin-bottom: 30px;
+}
+
+
+
+/***** SECTION : TIME SEARCH : FILTERS : CALENDAR   *****/
+#calendar-filter {
+  width: 100%;
+  max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .calendar-datepicker {
+    display: none;
+    margin: 0 auto;
+    width: 257px;
+  }
+}
+
+@media (min-width: 769px) {
+  .calendar-day-selector {
+    display: none;
+  }
+
+}
+
+.calendar-day-selector {
+  width: 100%;
+  border: 0px solid black;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.calendar-day-selector a span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+
+.glyphicon-calendar {
+  opacity: 0.5 !important;
+}
+
+/****** SECTION : TIME SEARCH : FILTER : TIME OF DAY *****/
+.filter-time-of-day {
+  display: inline-block;
+  float: right;
+}
+
+@media (max-width: 768px) {
+  .filter-time-of-day {
+    display: block;
+    float: none;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  .filter-time-of-day label {
+    margin: 0 !important;
+    height: 30px;
+    width: 33%;
+    vertical-align: center;
+    line-height: 2;
+    border: 0 !important;
+  }
+}
+
+.filter-time-of-day form input[type="radio"] {
+  display: none;
+}
+
+.filter-time-of-day form input[type="radio"] + label {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: normal;
+  border: 1px solid #fff;
+}
+
+.filter-time-of-day form input[type="radio"] + label:hover  {
+  opacity: 0.2;
+}
+
+.filter-time-of-day form input[type="radio"]:checked + label {
+  border-bottom-color: red;
+}
+
+/*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
+@media (max-width: 768px) {
+  .timeslot-list {
+    border-top: 2px solid #f10c29;
+  }
+  .timeslot-list-header {
+    margin-top: 15px !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.timeslot-list-header {
+  display: inline-block;
+  margin-top: 0;
+  font-family: ArialMT;
+  font-size: 17px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #333333;
+  text-transform: uppercase;
+}
+
+.list-container {
+  overflow-x: hidden;
+}
+
+@media (min-width: 769px) {
+  .list-container {
+    overflow-y: auto;
+    height: 400px;
+  }
+}
+
+.slot-inline {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.slot-time {
+  display: inline-block;
+  height: 23px;
+  font-family: HelveticaNeue;
+  font-size: 20px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #f10c29;
+}
+
+.slot-duration {
+  height: 15px;
+  font-family: HelveticaNeue;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #a4a4a4;
+}
+
+.slot-image {
+  max-width: 50px;
+  max-height: 50px;
+  margin-left: 10px;
+}
+
+.slot-resource {
+  height: 14px;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}
+
+.slot-title {
+  height: 14px;
+  opacity: 0.4;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}
+
+.slot-unit {
+  height: 14px;
+  opacity: 0.4;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  color: #4a4a4a;
+}

@@ -74,8 +74,7 @@ class Popup extends Component {
       <div className="client-popup">
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <h4>Hei, kuka on tulossa vastaanotolle</h4>
-          <p>Henkilötunnus</p>
-          <input type="text" name="ssn" /><br />
+          <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <div className="submit-buttons-centered">
             <button onClick={(event) => this.resetState(event)}>Peruuta</button>
             <button>Jatka</button>
@@ -90,8 +89,7 @@ class Popup extends Component {
       <div className="client-popup">
         <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
-          <p>Henkilötunnus</p>
-          <input type="text" name="ssn" /><br />
+          <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <div className="submit-buttons-centered">
             <button onClick={(event) => this.resetState(event)}>Peruuta</button>
             <button>Jatka</button>
@@ -133,7 +131,7 @@ class Popup extends Component {
 
   renderAskClientInfo() {
     return (
-      <div className="dialog">
+      <div className="dialog mm-pop">
         <form onSubmit={(event) => this.createClient($('input[name="ssn"]').val(),
                                                      $('input[name="first_name"]').val(),
                                                      $('input[name="last_name"]').val(),
@@ -142,40 +140,33 @@ class Popup extends Component {
                                                      $('input[name="city"]').val(),
                                                      $('input[name="phone"]').val(), event)}>
           <h4>Hei, kuka on tulossa vastaanotolle</h4>
-          <p>Henkilötunnus</p>
-          <input type="text" name="ssn" autofocus /><br />
+          <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus />
           <div>
             <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
               <table>
                 <tbody>
                   <tr>
                     <td>
-                      Etunimi<br />
-                      <input type="text" name="first_name" />
+                      <input placeholder="Etunimi" type="text" name="first_name" />
                     </td>
                     <td>
-                      Sukunimi<br />
-                      <input type="text" name="last_name" />
+                      <input placeholder="Sukunimi" type="text" name="last_name" />
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      Katuosoite<br />
-                      <input type="text" name="address" />
+                      <input placeholder="Katuosoite" type="text" name="address" />
                     </td>
                     <td>
-                      Postinumero<br />
-                      <input type="text" name="postcode" />
+                      <input placeholder="Postinumero" type="text" name="postcode" />
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      Postitoimipaikka<br />
-                      <input type="text" name="city" />
+                      <input placeholder="Postitoimipaikka" type="text" name="city" />
                     </td>
                     <td>
-                      Puhelinnumero<br />
-                      <input type="text" name="phone" />
+                      <input placeholder="Puhelinnumero" type="text" name="phone" />
                     </td>
                   </tr>
                   </tbody>
@@ -329,7 +320,7 @@ class Popup extends Component {
       case DLG_VIEW_REGISTER_OHC_FORBIDDEN:
         return ohcReservationForbidden();
       case DLG_VIEW_REGISTER_CREATE_CLIENT:
-        return this.renderAskClientInfo(); //renderAskClientInfoForm
+        return this.renderAskClientInfoForm(); //renderAskClientInfoForm || renderAskClientInfo
       case DLG_VIEW_REGISTER_ERROR:
         return this.renderClientCreationError();
       case DLG_VIEW_PRERESERVATION_ERROR:

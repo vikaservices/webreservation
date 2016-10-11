@@ -14,45 +14,38 @@ class NewClientForm extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
-        <p>Henkilötunnus</p>
-        <input type="text" name="ssn" autofocus /><br />
+        <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus /><br />
         <div>
           <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
             <table>
               <tbody>
                 <tr>
                   <td className={`${first_name.touched && first_name.error ? 'danger' : ''}`}>
-                    <label>Etunimi</label>
-                    <input type="text" className="form-control" {...first_name} />
+                    <input placeholder="Etunimi" type="text" className="form-control" {...first_name} />
                     {first_name.touched && first_name.invalid ? <span>{first_name.error}</span> : ''}
                   </td>
                   <td className={`${last_name.touched && last_name.error ? 'danger' : ''}`}>
-                    <label>Sukunimi</label>
-                    <input type="text" className="form-control" {...last_name} />
+                    <input placeholder="Sukunimi" type="text" className="form-control" {...last_name} />
                     {last_name.touched && last_name.invalid ? <span>{last_name.error}</span> : ''}
                   </td>
                 </tr>
                 <tr>
                   <td className={`${address.touched && address.error ? 'danger' : ''}`}>
-                    <label>Katuosoite</label>
-                    <input type="text" className="form-control" {...address} />
+                    <input placeholder="Katuosoite" type="text" className="form-control" {...address} />
                     {address.touched && address.invalid ? <span>{address.error}</span> : ''}
                   </td>
-                  <td className={`${postcode.touched && postcode.error ? 'danger' : ''}`}>
-                    <label>Postinumero</label>
+                  <td placeholder="Postinumero" className={`${postcode.touched && postcode.error ? 'danger' : ''}`}>
                     <input type="text" className="form-control" {...postcode} />
                     {postcode.touched && postcode.invalid ? <span>{postcode.error}</span> : ''}
                   </td>
                 </tr>
                 <tr>
                   <td className={`${city.touched && city.error ? 'danger' : ''}`}>
-                    <label>Postitoimipaikka</label>
-                    <input type="text" className="form-control" {...city} />
+                    <input placeholder="Postitoimipaikka<" type="text" className="form-control" {...city} />
                     {city.touched && city.invalid ? <span>{city.error}</span> : ''}
                   </td>
                   <td className={`${phone.touched && phone.error ? 'danger' : ''}`}>
-                    <label>Puhelinnumero</label>
-                    <input type="text" className="form-control" {...phone} />
+                    <input placeholder="Puhelinnumero" type="text" className="form-control" {...phone} />
                     {phone.touched && phone.invalid ? <span>{phone.error}</span> : ''}
                   </td>
                 </tr>

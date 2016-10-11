@@ -1,12 +1,13 @@
 import React from 'react';
 import OhcTeamListItem from './ohc_team_list_item';
 
-const OhcTeamList = (props) => {
+const OhcTeamList = ({team, onClick}) => {
 
-  const result = props.team.map((item) => {
+  const result = team.map((item) => {
     return (
       <OhcTeamListItem
         item={item}
+        onClick={onClick}
         key={item.resourceId} />
     );
   });

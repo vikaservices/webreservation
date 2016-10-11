@@ -17,10 +17,11 @@ export const CONFIRM_RESERVATION = 'confirm_reservation';
 export const GET_RESERVATION = 'get_reservation';
 export const CANCEL_RESERVATION = 'cancel_reservation';
 // -----
-export const SET_SELECTED_DATE = 'set_selected_date';
-export const SAVE_SELECTED_TIMESLOT = 'save_selected_timeslot';
 export const RESET = 'reset';
+export const SAVE_SELECTED_TIMESLOT = 'save_selected_timeslot';
+export const SET_SELECTED_DATE = 'set_selected_date';
 export const SET_TIME_OF_DAY_FILTER = 'set_time_of_day_filter';
+export const SET_FILTERS = 'set_filters';
 
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';

@@ -1,33 +1,21 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import React from 'react';
 
-class FilterTimeOfDay extends Component {
+const FilterTimeOfDay = ({timeofdayfilter, changeTimeOfDay}) =>  {
 
-  constructor(props) {
-    super(props);
+  return (
+    <div className="filter-time-of-day">
+      <form onChange={(event) => changeTimeOfDay(event)}>
+        <input type="radio" id="morning" name="tod" value="morning" checked={timeofdayfilter === "morning" ? "checked" : ""} />
+        <label htmlFor="morning">AAMU</label>
 
-    this.state = {
-      filter: null
-    };
-  }
+        <input type="radio" id="day" name="tod" value="day" checked={timeofdayfilter === "day" ? "checked" : ""} />
+        <label htmlFor="day">PÄIVÄ</label>
 
-  changeHandler(event) {
-    this.setState( {filter: event.target.id}, () => { console.log("state: " + this.state.filter) } );
-    this.props.setTimeOfDayFilter(event.target.value);
-  }
-
-  render() {
-    return (
-      <div className="filter-time-of-day">
-        <form onChange={(event) => this.changeHandler(event)}>
-          <input type="radio" id="tod1" name="tod" value="morning" checked={this.state.filter === "tod1" ? "checked" : ""} /><label htmlFor="tod1">AAMU</label>
-          <input type="radio" id="tod2" name="tod" value="day" checked={this.state.filter === "tod2" ? "checked" : ""} /><label htmlFor="tod2">PÄIVÄ</label>
-          <input type="radio" id="tod3" name="tod" value="afternoon" checked={this.state.filter === "tod3" ? "checked" : ""} /><label htmlFor="tod3">ILTA</label>
-        </form>
-      </div>
-    );
-  }
+        <input type="radio" id="afternoon" name="tod" value="afternoon" checked={timeofdayfilter === "afternoon" ? "checked" : ""} />
+        <label htmlFor="afternoon">ILTA</label>
+      </form>
+    </div>
+  );
 }
 
-export default connect(null, actions)(FilterTimeOfDay);
+export default FilterTimeOfDay;

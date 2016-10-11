@@ -24,8 +24,11 @@ class SectionReservationSummary extends Component {
     return (
       <div className="section-summary row">
         <div className="col-xs-12">
+          <div className="header-row">
+            <h4 className="section-title pull-left">VARAUKSEN TIEDOT</h4>
+          </div>
+
           <div className="block row">
-            <h4 className="section-title">VARAUKSEN TIEDOT</h4>
             <p>
             Hienoa! Varaus on vastaanotettu ja olemme lähettäneet sähköpostivarmistuksen
             osoitteeseesi! Varauksesi tunnus on <span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : "TESTINGTESTING"}</span>
@@ -115,6 +118,7 @@ class SectionReservationSummary extends Component {
               <a href="http://diacor.fi"><button className="btn-red">POISTU AJANVARAUKSESTA</button></a>
             </div>
           </div>
+
         </div>
       </div>
     );

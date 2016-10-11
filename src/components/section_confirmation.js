@@ -50,8 +50,8 @@ class SectionConfirmation extends Component {
     if( active == 'inactive') {
       return (
         <div className="section-confirmation-inactive row">
-          <div className="col-xs-12">
-            <h4 className="section-title">VARAUKSEN VAHVISTAMINEN</h4>
+          <div className="col-xs-12 header-row">
+            <h4 className="section-title pull-left">VARAUKSEN VAHVISTAMINEN</h4>
           </div>
         </div>
       );
@@ -60,7 +60,9 @@ class SectionConfirmation extends Component {
     return (
       <div className="section-confirmation row">
         <div className="col-xs-12">
-          <h4 className="section-title">VARAUKSEN VAHVISTAMINEN</h4>
+          <div className="header-row">
+            <h4 className="section-title pull-left">VARAUKSEN VAHVISTAMINEN</h4>
+          </div>
           <p>Tarkista tiedot ennen varauksen vahvistamista. Esteen sattuessa
           peruuta aikasi viimeistään edellisenä päivänä ennen sovittua ajankohtaa.
           Peruuttamattomasta tai samaman päivänä perutusta varauksesta perimme maksun.</p>

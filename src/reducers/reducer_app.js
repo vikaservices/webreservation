@@ -26,6 +26,7 @@ import { TIMESLOTS_SEARCH,
          APP_STATE_WAIT_CONFIRMATION,
          APP_STATE_CONFIRMATION_OK,
          SET_SELECTED_DATE,
+         SET_FILTERS,
          SAVE_SELECTED_TIMESLOT,
          CHANGE_TIME_SELECTION,
          SAVE_CLIENT_INFO,
@@ -57,7 +58,18 @@ let INITIAL_STATE = {
                       pendingreservation: false,
                       headertitle: 'Ajanvaraus',
                       timeofdayfilter: '',
-                      reservation: {}
+                      reservation: {},
+                      filters: {
+                        terms_search: '',
+                        units_search: '',
+                        resource_filter: null,
+                        speciality_filter: null,
+                        group_filter: null,
+                        unit_filter: null,
+                        lang_filter: null,
+                        gender_filter: null,
+                        city_filter: null,
+                      }
                     };
 
 let new_state;
@@ -189,7 +201,7 @@ export default function(state = INITIAL_STATE, action) {
           new_state.appstate = APP_STATE_CONFIRMATION_OK;
           new_state.dialogisopen = false;
           new_state.dialogview = DLG_VIEW_NONE;
-          new_state.reseource_selection_active = 'hidden';
+          new_state.resource_section_active = 'hidden';
           new_state.timesearch_section_active = 'hidden';
           new_state.confirmation_section_active = 'hidden';
           new_state.reservation_summary_section_active = 'active';
@@ -286,7 +298,7 @@ export default function(state = INITIAL_STATE, action) {
 
       case SET_TIME_OF_DAY_FILTER:
         let filter;
-        switch(action.filter) {
+        switch(action.timeofdayfilter) {
           case 'morning':
             filter=TOD_MORNING;
             break;
@@ -300,6 +312,9 @@ export default function(state = INITIAL_STATE, action) {
             filter='';
         }
         return {...state, timeofdayfilter: filter};
+
+      case SET_FILTERS:
+        return {...state, filters: action.filters};
 
       default:
         return state;

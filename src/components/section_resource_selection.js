@@ -22,6 +22,12 @@ class SectionResourceSelection extends Component {
     console.log("handleEmployerChange: " + event.target.value);
   }
 
+  handleResourceSelection(event, resourceId) {
+    event.preventDefault();
+    console.log("handleResourceSelection: " + resourceId);
+    this.props.setFilter( {resource_filter: resourceId} );
+  }
+
   render () {
     var active = this.props.resource_section_active;
     var show_team = this.state.show_team;
@@ -34,7 +40,7 @@ class SectionResourceSelection extends Component {
       <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
 
         <div className="col-xs-12">
-          <div>
+          <div className="header-row">
             <h4 className="section-title pull-left">TYÖTERVEYSTIIMISI</h4>
             <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
                              selected_employer={this.props.selected_employer}
@@ -45,7 +51,8 @@ class SectionResourceSelection extends Component {
           </div>
           <div className={ active == 'active' && show_team ? "" : "hide" }>
             <hr />
-            <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []} />
+            <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
+                         onClick={this.handleResourceSelection.bind(this)} />
             <p>Varmista, että palvelu kuuluu yrityksesi työterveys-sopimukseen.</p>
           </div>
         </div>

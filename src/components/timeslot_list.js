@@ -1,57 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FilterTimeOfDay from './filter_time_of_day';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import TimeSlot from './timeslot';
+import TimeSlotListItem from './timeslot_list_item';
 
-class TimeslotList extends Component {
+const TimeslotList = (props) => {
 
-  renderTimeslots() {
-    console.log("renderTimeslots");
-
-    if( !this.props.timeslots ) {
-      return '';
-    }
-
-    if( this.props.timeslots.length == 0 ) {
-      return <p>Ei aikoja tälle päivälle</p>
-    }
-
-    return this.props.timeslots.map((slot) => {
-      return (
-        <TimeSlot
-          slot={slot}
-          reservationHandler={this.props.reservationHandler}
-          filter={this.props.timeofdayfilter}
-          key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}`}/>
-      );
-    });
-  }
-
-  render() {
+  const result = props.timeslots_list.map((slot) => {
     return (
-      <div className="timeslot-list col-xs-12 col-sm-6">
-        <div className="row">
-          <h4 className="timeslot-list-header">Vapaat ajat {formatDate2("fi", this.props.selecteddate)}</h4>
-          <FilterTimeOfDay />
-        </div>
-        <div className="list-container row">
-          <ul className="list-group">
-            {this.renderTimeslots()}
-          </ul>
-        </div>
-      </div>
+      <TimeSlotListItem
+        slot={slot}
+        reservationHandler={props.reservationHandler}
+        filter={props.timeofdayfilter}
+        key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}`}/>
     );
-  }
+  });
+
+  return (
+    <div className="timeslot-list col-xs-12 col-sm-6">
+      <div className="row">
+        <h4 className="timeslot-list-header">Vapaat ajat {formatDate2("fi", props.selecteddate)}</h4>
+        <FilterTimeOfDay {...props}/>
+      </div>
+      <div className="list-container row">
+        <ul className="list-group">
+          {!props.timeslots_list || props.timeslots_list.length == 0 ?
+            <p>Ei aikoja tälle päivälle</p> :
+           result}
+        </ul>
+      </div>
+    </div>
+  );
 }
 
-function mapStateToProps(state) {
-  return {
-    //timeslots: state.timeslots.timeslots_list
-    timeslots: state.app.timeslots_list,
-    selecteddate: state.app.selecteddate,
-    timeofdayfilter: state.app.timeofdayfilter
-  };
-}
-
-export default connect(mapStateToProps, null)(TimeslotList);
+export default TimeslotList;

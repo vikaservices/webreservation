@@ -13,6 +13,26 @@ class FilterMain extends Component {
     super(props);
 
     this.state = {
+      filters : {
+        // value in search-terms input box
+        terms_search: '',
+        // value in units-search input box
+        units_search: '',
+        // resource id
+        resource_filter: null,
+        // speciality id
+        speciality_filter: null,
+        // grpup id
+        group_filter: null,
+        // unit id
+        unit_filter: null,
+        // value of language-filter
+        lang_filter: null,
+        // value of gender-filter
+        gender_filter: null,
+        // value of city-filter
+        city_filter: null,
+      },
       // value in search-terms input box
       terms_search: '',
       // value in units-search input box
@@ -42,14 +62,81 @@ class FilterMain extends Component {
       // visibility of units list
       unit_list_visible: false,
       // filtered unit list
-      units_list_filtered: []
+      units_list_filtered: [],
+      //
+      doupdate: false
     };
+  }
+
+  componentWillReceiveProps(next_props) {
+    console.log("componentWillReceiveProps");
+
+    if( next_props.filters.terms_search && (next_props.filters.terms_search != this.state.filters.terms_search) ) {
+      console.log("componentWillReceiveProps: 1");
+      if( this.state.doupdate ) {
+        // user clicked a value from terms search list
+        this.setState( {...this.state, doupdate: false, filters: next_props.filters}, () => {
+            console.log("componentWillReceiveProps: 2");
+            this.doTimeslotsSearch();
+            this.doFreedaysSearch();
+            // clear search-hints
+            this.props.termsSearch();
+        }); 
+        return;
+      } else {
+        console.log("componentWillReceiveProps: 3");
+        // user wrote a character to terns search box
+        // {filters: {terms_search: next_props.filters.terms_search}}
+        this.setState( {filters: next_props.filters} , () => {
+          console.log("componentWillReceiveProps: 4");
+          // defer search until:
+          // 1) 3 chars written
+          // TODO: 2) at least 200-300ms between keypresses
+          if( this.state.filters.terms_search.length >= 3 ) {
+            console.log("componentWillReceiveProps: 5");
+            this.props.termsSearch(this.state.filters.terms_search);
+          } else {
+            this.props.termsSearch();
+          }
+        });
+        return;
+      }
+    }
+
+    //console.log("next_props.filters.units_search: " + next_props.filters.units_search);
+    //console.log("this.state.units_search: " + this.state.units_search);
+
+    if( next_props.filters.units_search && (next_props.filters.units_search != this.state.units_search) ) {
+      console.log("componentWillReceiveProps: 6");
+      if( this.state.doupdate ) {
+        // user clicked a value from units list
+        this.setState( {doupdate: false, filters: next_props.filters}, () => {
+          console.log("componentWillReceiveProps: 7");
+          this.doTimeslotsSearch();
+          this.doFreedaysSearch();
+        });
+        return;
+      } else {
+        console.log("componentWillReceiveProps: 8");
+        // user wrote a character to to units search box, filter unit list
+        // by new field value
+        this.setState( {filters: next_props.filters}, () => {
+          this.filterUnitsList(this.state.filters.units_search);
+        });
+        return;
+      }
+    }
+
+    if( next_props.selecteddate != this.props.selecteddate ) {
+      console.log("componentWillReceiveProps: selecteddate");
+      return;
+    }
+
   }
 
   componentDidMount() {
     // Prefetch all units
     setTimeout(() => {
-      console.log("componentDidMount: calling unitsSearch");
       this.props.unitsSearch();
     }, 500);
   }
@@ -59,7 +146,7 @@ class FilterMain extends Component {
       <div className="filter-main col-xs-12 col-sm-6">
         <div id="terms-search">
           <input
-            value={this.state.terms_search}
+            value={this.state.filters.terms_search}
             placeholder="Nimi tai palvelu"
             data-name="terms"
             onChange={(event) => this.onInputChangeTerms(event.target.value)}
@@ -75,13 +162,13 @@ class FilterMain extends Component {
             terms search quicklinks here
           </div>
 
-          <a className={this.state.terms_search == '' ? "hide" : "input-reset"}
+          <a className={this.state.filters.terms_search == '' ? "hide" : "input-reset"}
               onClick={(event) => this.clearInput('terms', event)} href=""></a>
         </div>
 
         <div id="units-search">
           <input
-            value={this.state.units_search}
+            value={this.state.filters.units_search}
             placeholder="Toimipiste"
             data-name="units"
             onChange={(event) => this.onInputChangeUnit(event.target.value)}
@@ -100,7 +187,7 @@ class FilterMain extends Component {
             units search quicklinks here
           </div>
 
-          <a className={this.state.units_search == '' ? "hide" : "input-reset"}
+          <a className={this.state.filters.units_search == '' ? "hide" : "input-reset"}
              onClick={(event) => this.clearInput('units', event)} href=""></a>
         </div>
 
@@ -123,8 +210,8 @@ class FilterMain extends Component {
     event.preventDefault();
     console.log("clearInput: " + input);
     if( input == 'terms' ) {
-      this.setState( {terms_search: '',
-                      resource_filter: null,
+      this.props.setFilter( {terms_search: ''} );
+      this.setState( {resource_filter: null,
                       speciality_filter: null,
                       group_filter: null }, () => {
         this.props.termsSearch();
@@ -142,46 +229,34 @@ class FilterMain extends Component {
 
   // Called every time user types in main search field
   onInputChangeTerms(terms_search) {
-    this.setState( { terms_search }, function(){
-      // defer search until:
-      // 1) 3 chars written
-      // TODO: 2) at least 200-300ms between keypresses
-      if( this.state.terms_search.length >= 3 ) {
-        this.props.termsSearch(terms_search);
-      } else {
-        this.props.termsSearch();
-      }
-    });
+    console.log("onInputChangeTerms: " + terms_search);
+    this.props.setFilter({terms_search: terms_search});
   }
 
   // Called when user selects value from main search results
   onClickHandlerTerms(id, type, name, event) {
     event.preventDefault();
     console.log("onClickHandlerSearch: type: " + type + " name: " + name);
-    let state;
+    let filter;
     switch(type) {
       case "RESOURCE":
-        state = { terms_search: name, resource_filter: id };
+        filter = { terms_search: name, resource_filter: id };
         break;
       case "SPECIALITY":
-        state = { terms_search: name, speciality_filter: id };
+        filter = { terms_search: name, speciality_filter: id };
         break;
       case "GROUP":
-        state = { terms_search: name, group_filter: id };
+        filter = { terms_search: name, group_filter: id };
         break;
       case "UNIT":
-        state = { terms_search: name, unit_filter: id };
+        filter = { terms_search: name, unit_filter: id };
         break;
       default:
     }
-    this.setState( state, function(){
-        this.doTimeslotsSearch();
-        this.doFreedaysSearch();
-        // clear search-hints
-        this.props.termsSearch();
+    this.setState( {doupdate: true}, () =>{
+      this.props.setFilter( filter );
     });
   }
-
 
   filterUnitsList( filter ) {
     let units_list_filtered = [];
@@ -199,21 +274,15 @@ class FilterMain extends Component {
 
   // Called every time user types in units search field
   onInputChangeUnit(units_search) {
-    this.setState( { units_search }, function(){
-
-      this.filterUnitsList(units_search);
-    });
+    this.props.setFilter( {units_search: units_search} );
   }
 
   // Called when user selects value from units search results
   onClickHandlerUnits(id, type, name, event) {
     event.preventDefault();
     console.log("onClickHandlerUnits: " + name);
-    this.setState( { units_search: name, unit_filter: id }, function(){
-        this.doTimeslotsSearch();
-        this.doFreedaysSearch();
-        // clear search-hints
-        //this.props.unitsSearch();
+    this.setState( {doupdate: true}, () => {
+      this.props.setFilter( {units_search: name, unit_filter: id} );
     });
   }
 
@@ -239,17 +308,15 @@ class FilterMain extends Component {
   }
 
   onFocus(event) {
-    console.log( event.target.dataset.name  + " on focus");
+    //console.log( event.target.dataset.name  + " on focus");
     if(  event.target.dataset.name == "units" ) {
       this.setState( {unit_list_visible: true} );
     }
-
-
     // TODO: show quick select buttons
   }
 
   onBlur(event) {
-    console.log( event.target.dataset.name + " off focus")
+    //console.log( event.target.dataset.name + " off focus")
     if(  event.target.dataset.name == "units" ) {
       setTimeout((event) => {
         this.setState( {unit_list_visible: false} );
@@ -285,14 +352,22 @@ class FilterMain extends Component {
     console.log("group_filter :" + this.state.group_filter);
     console.log("unit_filter :" + this.state.unit_filter);
 */
+    // this.props.timeslotsSearch( formatDate(this.state.date_filter),
+    //                             this.state.resource_filter,
+    //                             this.state.speciality_filter,
+    //                             this.state.group_filter,
+    //                             this.state.unit_filter,
+    //                             this.state.lang_filter,
+    //                             this.state.gender_filter,
+    //                             this.state.city_filter );
     this.props.timeslotsSearch( formatDate(this.state.date_filter),
-                                this.state.resource_filter,
-                                this.state.speciality_filter,
-                                this.state.group_filter,
-                                this.state.unit_filter,
-                                this.state.lang_filter,
-                                this.state.gender_filter,
-                                this.state.city_filter );
+                                this.state.filters.resource_filter,
+                                this.state.filters.speciality_filter,
+                                this.state.filters.group_filter,
+                                this.state.filters.unit_filter,
+                                this.state.filters.lang_filter,
+                                this.state.filters.gender_filter,
+                                this.state.filters.city_filter );
   }
 
   doFreedaysSearch() {
@@ -346,7 +421,7 @@ class FilterMain extends Component {
                                this.state.gender_filter,
                                this.state.city_filter );
   }
-} //class
+}
 
 
 function mapStateToProps(state) {
@@ -354,6 +429,8 @@ function mapStateToProps(state) {
     terms_list: state.terms.terms_list,
     units_list: state.units.units_list,
     freedays_list: state.freedays.freedays_list,
+    filters: state.app.filters,
+    selecteddate: state.app.selecteddate
   };
 }
 

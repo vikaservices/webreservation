@@ -1,12 +1,14 @@
 import React from 'react';
 
-const SearchResultListItem = ({item}) => {
+const SearchResultListItem = ({item, onClick}) => {
   return (
     <li>
-      <img src={item.imageUrl} />
+      <div className="img-box-round-50">
+        <img src={item.imageUrl} />
+      </div>
       <p>{item.resourceName}</p>
       <p>{item.title}</p>
-      <a href="" className="link">Valitse</a>
+      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId)}>Valitse</a>
     </li>
   );
 }

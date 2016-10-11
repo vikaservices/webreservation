@@ -17,6 +17,7 @@ import { TERMS_SEARCH,
          RESET,
          CANCEL_RESERVATION,
          SET_TIME_OF_DAY_FILTER,
+         SET_FILTERS
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -26,8 +27,8 @@ let UIServerUrl = "http://vob.fi:4000/";
 
 export function termsSearch(terms=null) {
 
-  //console.log( "termsSearch" );
-  console.log("UIServerUrl : " + UIServerUrl);
+  console.log( "termsSearch: " + terms );
+  //console.log("UIServerUrl : " + UIServerUrl);
 
   if( !terms ) {
     return {
@@ -306,6 +307,13 @@ export function resetState() {
 export function setTimeOfDayFilter(filter) {
   return {
     type: SET_TIME_OF_DAY_FILTER,
-    filter: filter
+    timeofdayfilter: filter
+  }
+}
+
+export function setFilter(filters) {
+  return {
+    type: SET_FILTERS,
+    filters: filters
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TimeSlot = (props) => {
+const TimeSlotListItem = (props) => {
   return (
     <li className={parseInt(props.slot.time.substr(0,(props.slot.time.indexOf(":")+1))) < parseInt(props.filter)
       ? "hide" : "list-group-item row" }>
@@ -14,7 +14,7 @@ const TimeSlot = (props) => {
       <div className="slot-inline">
         <span className="slot-resource">{props.slot.resourceName}</span><br />
         <span className="slot-title">{props.slot.title}</span><br />
-        <span className="slot-unit">Diacor {props.slot.unitName}</span>
+        <span className="slot-unit">{props.slot.unitName}</span>
       </div>
       <div className="slot-inline pull-right">
         <a className="link" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
@@ -26,4 +26,4 @@ const TimeSlot = (props) => {
   );
 }
 
-export default TimeSlot;
+export default TimeSlotListItem;

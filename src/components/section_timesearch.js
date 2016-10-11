@@ -9,25 +9,20 @@ import * as actions  from '../actions/index';
 class SectionTimeSearch extends Component {
 
   componentWillMount() {
-    let d = new Date();
-    let currY = d.getFullYear();
-    let currM = (d.getMonth()+1 < 10) ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
-
-    // Get number of days in this month
-    let daysInMonth = new Date(currY, currM, 0).getDate();
-    let today = d.toISOString().substr(0,10);
-    let last_of_m  = currY + "-" + currM + "-" + daysInMonth;
-
-    // Initiall search timeslots for today for general practioner (specility = 2)
+    let today = new Date().toISOString().substr(0,10);
+    // Initially search timeslots for today for general practioner (speciality = 2)
     this.props.timeslotsSearch(today, null, 2);
-    //this.props.freedaysSearch(today, last_of_m);
   }
 
   // Go back to time selection
-  handleClick(e) {
-    console.log("handleClick");
+  backToTimeSelection(e) {
     e.preventDefault();
     this.props.resetState();
+  }
+
+  changeTimeOfDay(event) {
+    console.log("changeTimeOfDay");
+    this.props.setTimeOfDayFilter(event.target.value);
   }
 
   render() {
@@ -41,16 +36,18 @@ class SectionTimeSearch extends Component {
       return (
         <div className="section-time-search-inactive row">
           <div className="col-xs-12">
-            <h4 className="section-title pull-left">AJAN VALINTA</h4>
-            <div className="reservation-summary">
-              <span>
-                {formatDate2("fi", this.props.selecteddate)}&nbsp;
-                {this.props.selectedtimeslot.startTimeHours},&nbsp;
-                {this.props.selectedtimeslot.resourceName},&nbsp;
-                {this.props.selectedtimeslot.unitName}
-              </span>
+            <div className="header-row">
+              <h4 className="section-title pull-left">AJAN VALINTA</h4>
+              <div className="reservation-summary">
+                <span>
+                  {formatDate2("fi", this.props.selecteddate)}&nbsp;
+                  {this.props.selectedtimeslot.startTimeHours},&nbsp;
+                  {this.props.selectedtimeslot.resourceName},&nbsp;
+                  {this.props.selectedtimeslot.unitName}
+                </span>
+              </div>
+              <a href="" className="link pull-right" onClick={(event) => this.backToTimeSelection(event)}>Muuta valintaa</a>
             </div>
-            <a href="" className="link pull-right" onClick={(event) => this.handleClick(event)}>Muuta valintaa</a>
           </div>
         </div>
       );
@@ -58,11 +55,15 @@ class SectionTimeSearch extends Component {
 
     return (
       <div className="section-time-search row">
-        <div className="col-xs-12 header-row">
-          <h4 className="section-title">AJAN VALINTA</h4>
+        <div className="col-xs-12">
+          <div className="header-row">
+            <h4 className="section-title pull-left">AJAN VALINTA</h4>
+          </div>
           <hr />
-          <FilterMain />
-          <TimeslotList reservationHandler={this.props.reservationHandler}/>
+          <FilterMain {...this.props} />
+          <TimeslotList {...this.props}
+                        reservationHandler={this.props.reservationHandler}
+                        changeTimeOfDay={this.changeTimeOfDay.bind(this)} />
         </div>
       </div>
     );
@@ -73,7 +74,9 @@ function mapStateToProps(state) {
   return {
     selecteddate: state.app.selecteddate,
     selectedtimeslot: state.app.selectedtimeslot,
-    timesearch_section_active: state.app.timesearch_section_active
+    timesearch_section_active: state.app.timesearch_section_active,
+    timeslots_list: state.app.timeslots_list,
+    timeofdayfilter: state.app.timeofdayfilter
   };
 }
 

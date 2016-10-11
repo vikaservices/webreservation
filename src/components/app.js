@@ -24,14 +24,6 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      occupational_hc_client: false
-    };
-  }
-
   componentDidUpdate() {
     console.log("componentDidUpdate");
     if( (this.props.appstate == APP_STATE_CLIENT_IDENTIFIED) &&
@@ -76,7 +68,8 @@ class App extends Component {
         <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)} title={this.props.headertitle}/>
         <div className="app">
           <SectionResourceSelection />
-          <SectionTimeSearch reservationHandler={this.makeReservation.bind(this)} />
+          <SectionTimeSearch {...this.props}                             
+                             reservationHandler={this.makeReservation.bind(this)} />
           <SectionConfirmation />
           <SectionReservationSummary />
           <Popup />

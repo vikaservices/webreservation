@@ -9,25 +9,25 @@ var dmobAuth = dmob.apiCredentials;
 function wrapUnirest( apiRequest, req, res, next, payload, method) {
 
   // log request
-  console.log( apiRequest );
+  console.log( "apiRequest: " + apiRequest );
 
   if( method && method == "PUT" ) {
     console.log("sending PUT");
     console.log(payload);
 
-    unirest.put( apiRequest )
-            .type('json')
-            .auth(dmobAuth)
-            .send(payload)
-            .end(function(response){
-              if( response.ok ) {
-                console.log("response.statusCode - ok : " + response.statusCode);
-                res.status(response.statusCode).json(response.body);
-              } else {
-                console.log("response.statusCode - not ok : " + response.statusCode);
-                res.sendStatus(response.statusCode);
-              }
-            });
+    // unirest.put( apiRequest )
+    //         .type('json')
+    //         .auth(dmobAuth)
+    //         .send(payload)
+    //         .end(function(response){
+    //           if( response.ok ) {
+    //             console.log("response.statusCode - ok : " + response.statusCode);
+    //             res.status(response.statusCode).json(response.body);
+    //           } else {
+    //             console.log("response.statusCode - not ok : " + response.statusCode);
+    //             res.sendStatus(response.statusCode);
+    //           }
+    //         });
 
   } else if( method && method == "POST" ) {
     console.log("sending POST");
@@ -168,22 +168,15 @@ router.get('/clients', function(req, res, next) {
     }
     var apiRequest = dmobReservationUrl + 'clients';
 
-    var hetu = encodeURIComponent(req.query.hetu);
-    var firstName = encodeURIComponent(req.query.firstName);
-    var lastName = encodeURIComponent(req.query.lastName);
-    var address = encodeURIComponent(req.query.address);
-    var postcode = encodeURIComponent(req.query.postcode);
-    var city = encodeURIComponent(req.query.city);
-    var phone = encodeURIComponent(req.query.phone);
+    var hetu = req.query.hetu;
+    var firstName = req.query.firstName;
+    var lastName = req.query.lastName;
+    var address = req.query.address;
+    var postcode = req.query.postcode;
+    var city = req.query.city;
+    var phone = req.query.phone;
     var mail = (req.query.email != undefined) ? req.query.email : '';
-    var payload = `{"hetu":"${hetu}",
-                    "firstName":"${firstName}",
-                    "lastName":"${lastName}",
-                    "address":"${address}",
-                    "postcode":"${postcode}",
-                    "city":"${city}",
-                    "phone":"${phone}",
-                    "email":"${mail}" }`;
+    var payload = `{"hetu":"${hetu}", "firstName":"${firstName}", "lastName":"${lastName}", "address":"${address}", "postcode":"${postcode}", "city":"${city}", "phone":"${phone}", "email":"${mail}" }`;
 
     //console.log(payload);
     wrapUnirest( apiRequest, req, res, next, payload, req.query.method );
@@ -209,16 +202,12 @@ router.get('/reservations', function(req, res, next) {
     }
     apiRequest = dmobReservationUrl + 'reservations';
 
-    var clientId = encodeURIComponent(req.query.clientId);
-    var resourceId = encodeURIComponent(req.query.resourceId);
-    var unitId = encodeURIComponent(req.query.unitId);
+    var clientId = req.query.clientId;
+    var resourceId = req.query.resourceId;
+    var unitId = req.query.unitId;
     var start = req.query.start;
-    var duration = encodeURIComponent(req.query.duration);
-    payload = `{"clientId":${clientId},
-                "resourceId":${resourceId},
-                "unitId":${unitId},
-                "start":"${start}",
-                "duration":${duration} }`;
+    var duration = req.query.duration;
+    payload = `{"clientId":${clientId}, "resourceId":${resourceId}, "unitId":${unitId}, "start":"${start}", "duration":${duration} }`;
   }
 
   else if( req.query.method  == "POST" ) {
@@ -229,16 +218,12 @@ router.get('/reservations', function(req, res, next) {
     }
     apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId;
 
-    var clientId = encodeURIComponent(req.query.clientId);
-    var notes = encodeURIComponent(req.query.notes);
-    var visitType = encodeURIComponent(req.query.visitType);
-    var smsNotificationTo = encodeURIComponent(req.query.smsNotificationTo);
+    var clientId = req.query.clientId;
+    var notes = req.query.notes;
+    var visitType = req.query.visitType;
+    var smsNotificationTo = req.query.smsNotificationTo;
     var emailConfirmationTo = req.query.emailConfirmationTo;
-    payload = `{"clientId":${clientId},
-                "notes":"${notes}",
-                "visitType":"${visitType}",
-                "smsNotificationTo":"${smsNotificationTo}",
-                "emailConfirmationTo":"${emailConfirmationTo}" }`;
+    payload = `{"clientId":${clientId}, "notes":"${notes}", "visitType":"${visitType}", "smsNotificationTo":"${smsNotificationTo}", "emailConfirmationTo":"${emailConfirmationTo}" }`;
   }
 
   else if( req.query.method  == "DELETE" ) {

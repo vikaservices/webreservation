@@ -547,6 +547,22 @@ ol {
   border-radius: 25px;
   overflow: hidden;
 }
+.modal-class {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  background-color: papayawhip;
+}
+.overlay-class {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rebeccapurple;
+}
 .mm-pop {
   width: 648.3px;
   font-size: 19px;

@@ -56222,21 +56222,23 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var customStyles = {
-	        overlay: {
-	          position: 'absolute'
+	      /*const customStyles = {
+	        overlay : {
+	          position : 'absolute'
 	        },
-	        content: {
-	          zIndex: '1000'
+	        content : {
+	          zIndex : '1000'
 	        }
-	      };
+	      };*/
 	      return _react2.default.createElement(
 	        _reactModal2.default,
 	        {
 	          isOpen: this.props.dialogisopen,
 	          onRequestClose: this.resetState.bind(this),
 	          shouldCloseOnOverlayClick: false,
-	          style: customStyles },
+	          className: 'modal-class',
+	          overlayClassName: 'overlay-class'
+	        },
 	        this.renderDialog()
 	      );
 	    }

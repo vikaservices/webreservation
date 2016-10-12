@@ -341,20 +341,22 @@ class Popup extends Component {
   }
 
   render() {
-    const customStyles = {
+    /*const customStyles = {
       overlay : {
         position : 'absolute'
       },
       content : {
         zIndex : '1000'
       }
-    };
+    };*/
     return (
       <Modal
         isOpen={this.props.dialogisopen}
         onRequestClose={this.resetState.bind(this)}
         shouldCloseOnOverlayClick={false}
-        style={customStyles} >
+        className="modal-class"
+        overlayClassName="overlay-class"
+        >
         { this.renderDialog() }
       </Modal>
     );

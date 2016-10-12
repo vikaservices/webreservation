@@ -9,7 +9,6 @@ import { TERMS_SEARCH,
          CHECK_OHC_CLIENT_SSN,
          CREATE_CLIENT,
          DIALOG_CLOSE,
-         SET_SELECTED_DATE,
          SAVE_SELECTED_TIMESLOT,
          LOGIN_CLIENT,
          LOGIN_OHC_CLIENT,
@@ -96,15 +95,23 @@ export function timeslotsSearch(date, resource=null, speciality=null, groups=nul
 }
 
 
-export function freedaysSearch(from, to, resource=null, speciality=null, group=null,
+export function freedaysSearch(from, to, resource=null, speciality=null, groups=null,
                                 unit=null, lang=null, gender=null, city=null, employer=null) {
 
   console.log( "freedaysSearch" );
 
+  if( resource == null && speciality == null && groups == null && unit == null &&
+      lang == null && gender == null && city == null && employer == null ) {
+    return {
+      type: FREEDAYS_SEARCH,
+      payload: null
+    };
+  }
+
   let search_str = `freedays?from=${from}&to=${to}`;
   search_str += resource    ? `&resource=${resource}`     : '';
   search_str += speciality  ? `&speciality=${speciality}` : '';
-  search_str += group       ? `&group=${group}`           : '';
+  search_str += groups      ? `&groups=${groups}`           : '';
   search_str += unit        ? `&unit=${unit}`             : '';
   //search_str += lang        ? `&lang=${lang}`             : '';
   //search_str += gender      ? `&gender=${gender}`         : '';
@@ -200,13 +207,6 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration,
     type: SAVE_SELECTED_TIMESLOT,
     selectedtimeslot: timeslot
   };
-}
-
-export function setSelectedDate( date ) {
-  return {
-    type: SET_SELECTED_DATE,
-    newdate: date
-  }
 }
 
 export function makePreReservation(clientId, resourceId, unitId, start, duration) {

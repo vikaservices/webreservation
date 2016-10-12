@@ -41,9 +41,20 @@ import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
 import reducerReservation from './reducer_reservation';
 
+let d = new Date();
+let month = d.getMonth();
+let year  = d.getFullYear();
+let today = d.toISOString();
+
+// date_filter: new Date(),
+// date_filter_month: new Date().getMonth(),
+// date_filter_year: new Date().getFullYear()
+
 let INITIAL_STATE = {
                       timeslots_list: [],
                       client_id: 0,
+                      employers: [],
+                      is_ohc_client: false,
                       client: {},
                       selected_employer: {},
                       dialogisopen: false,
@@ -53,11 +64,12 @@ let INITIAL_STATE = {
                       timesearch_section_active: 'active',
                       confirmation_section_active: 'inactive',
                       reservation_summary_section_active: 'hidden',
-                      selecteddate: new Date(),
                       selectedtimeslot: {},
                       pendingreservation: false,
                       headertitle: 'Ajanvaraus',
                       timeofdayfilter: '',
+                      reservationstatus: 0,
+                      prereservation: {},
                       reservation: {},
                       filters: {
                         terms_search: '',
@@ -70,14 +82,17 @@ let INITIAL_STATE = {
                         gender_filter: null,
                         city_filter: null,
                         employer_id_filter: null,
-                        date_filter: new Date(),
-                        date_filter_month: new Date().getMonth(),
-                        date_filter_year: new Date().getFullYear()
-                      },
-                      updated: 0
+                        date_filter: today,
+                        date_filter_month: month,
+                        date_filter_year: year,
+                        do_terms_search: false,
+                        do_units_filtering: false,
+                        do_time_search: false
+                      }
                     };
 
 let new_state;
+console.log(INITIAL_STATE);
 
 export default function(state = INITIAL_STATE, action) {
   switch( action.type ) {
@@ -138,6 +153,7 @@ export default function(state = INITIAL_STATE, action) {
             new_state.selected_employer = employer;
             new_state.filters.employer_id_filter = employer.id;
             new_state.filters.terms_search = employer.name + " työterveystiimi";
+            new_state.filters.do_time_search = true;
           }
         });
 
@@ -175,6 +191,7 @@ export default function(state = INITIAL_STATE, action) {
 
       case MAKE_PRE_RESERVATION:
         console.log("reducer_app: MAKE_PRE_RESERVATION");
+        console.log(action);
         new_state = reducerReservation(state, action);
         if( new_state.reservationstatus == 0 ) {
           // prereservation ok
@@ -201,6 +218,7 @@ export default function(state = INITIAL_STATE, action) {
 
       case CONFIRM_RESERVATION:
         console.log("CONFIRM_RESERVATION");
+        console.log(action);
         new_state = reducerReservation(state, action);
         if( new_state.reservationstatus == 0 ) {
           // confirming reservation ok
@@ -243,10 +261,6 @@ export default function(state = INITIAL_STATE, action) {
         new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
         new_state.reservation = action.payload.data.reservation;
         return new_state;
-
-      case SET_SELECTED_DATE:
-        console.log("reducer_app: SET_SELECTED_DATE");
-        return {...state, selecteddate: action.newdate};
 
       case SAVE_SELECTED_TIMESLOT:
         console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
@@ -323,12 +337,7 @@ export default function(state = INITIAL_STATE, action) {
       case SET_FILTERS:
         console.log("SET_FILTERS");
         new_state = {...state};
-        // for(var key in action.filters) {
-        //   console.log(key);
-        //   new_state.filters[key] = action.filters[key];
-        // }
         new_state.filters = action.filters;
-        new_state.updated++;
         console.log(new_state);
         return new_state;
 

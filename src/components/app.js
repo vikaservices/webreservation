@@ -52,9 +52,9 @@ class App extends Component {
     }
     console.log("makeReservation: " + resourceId + " " + unitId + " " + start + " " + duration);
 
-    console.log("selectedtate: " + formatDate(this.props.selecteddate));
+    console.log("selectedtate: " + formatDate(this.props.date_filter));
     let start_str = (start.length == 4) ? ("0" + start) : start;
-    var starttime = formatDate(this.props.selecteddate) + "T" + start_str + ":00";
+    var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
     this.props.saveSelectedTimeslot( resourceId, unitId, starttime, duration, imageUrl, resourceName, title, unitName, start );
     if ( this.props.appstate == APP_STATE_INITIAL ) {
       this.props.loginClient( true );
@@ -68,7 +68,7 @@ class App extends Component {
         <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)} title={this.props.headertitle}/>
         <div className="app">
           <SectionResourceSelection />
-          <SectionTimeSearch {...this.props}                             
+          <SectionTimeSearch {...this.props}
                              reservationHandler={this.makeReservation.bind(this)} />
           <SectionConfirmation />
           <SectionReservationSummary />
@@ -87,7 +87,7 @@ function mapStateToProps(state) {
     appstate: state.app.appstate,
     pendingreservation: state.app.pendingreservation,
     selectedtimeslot: state.app.selectedtimeslot,
-    selecteddate: state.app.selecteddate,
+    date_filter: new Date(state.app.filters.date_filter),
     headertitle: state.app.headertitle
   };
 }

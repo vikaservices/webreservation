@@ -30,6 +30,7 @@ class SectionResourceSelection extends Component {
     filters.resource_filter = resourceId;
     filters.terms_search = resourceName;
     filters.employer_id_filter = null;
+    filters.do_time_search = true;
     this.props.setFilter( filters );
   }
 

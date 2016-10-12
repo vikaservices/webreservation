@@ -3,13 +3,8 @@ import { CHECK_CLIENT_SSN,
          CREATE_CLIENT
        } from '../actions/types';
 
-const INITIAL_STATE = {
-  client_id: 0,
-  employers: [],
-  is_ohc_client: false
-};
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = {}, action) {
   switch(action.type) {
     // handle both cases same way, upper lever reducer_app will check from
     // is_ohc_client field whether client is Occupation Health Care client

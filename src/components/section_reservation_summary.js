@@ -16,6 +16,7 @@ class SectionReservationSummary extends Component {
 
   render() {
     const active = this.props.reservation_summary_section_active;
+    const reservation = this.props.selectedtimeslot;
 
     if( active == 'hidden') {
       return <div></div>;
@@ -31,17 +32,17 @@ class SectionReservationSummary extends Component {
           <div className="block row">
             <p>
             Hienoa! Varaus on vastaanotettu ja olemme lähettäneet sähköpostivarmistuksen
-            osoitteeseesi! Varauksesi tunnus on <span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : "TESTINGTESTING"}</span>
+            osoitteeseesi! Varauksesi tunnus on <span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : ""}</span>
             </p>
             <div className="inline-box">
               <div className="col-xs-12 col-sm-6">
                 <div className="summary-logo">
-                  <img className="reservation-info-face" src={this.props.selectedtimeslot.imageUrl ? this.props.selectedtimeslot.imageUrl : ""} />
+                  <img className="reservation-info-face" src={reservation.imageUrl ? reservation.imageUrl : ""} />
                 </div>
                 <div className="padding-left-20">
-                  <span>{this.props.selectedtimeslot.resourceName ? this.props.selectedtimeslot.resourceName : "Jaakko Teppo"}</span><br />
-                  <span>{this.props.selectedtimeslot.title ? this.props.selectedtimeslot.title : "Yleislääkäri"}</span><br />
-                  <span>Diacor {this.props.selectedtimeslot.unitName ? this.props.selectedtimeslot.unitName : "keskusta "}</span>
+                  <span>{reservation.resourceName ? reservation.resourceName : ""}</span><br />
+                  <span>{reservation.title ? reservation.title : ""}</span><br />
+                  <span>Diacor {reservation.unitName ? reservation.unitName : " "}</span>
                 </div>
               </div>
               <div className="col-xs-12 col-sm-6">
@@ -49,9 +50,9 @@ class SectionReservationSummary extends Component {
                   <img src="public/img/calendar-logo.png"/>
                 </div>
                 <div className="padding-left-20">
-                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', this.props.selecteddate) : "Keskiviikkona 18.5.2016"}</span><br />
-                  <span>{this.props.selectedtimeslot.startTimeHours ? this.props.selectedtimeslot.startTimeHours : "12:00"} </span>
-                  <span>{this.props.selectedtimeslot.duration ? "(" + this.props.selectedtimeslot.duration + " min)" : "(30 min)"}</span><br />
+                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', new Date(this.props.selecteddate)) : ""}</span><br />
+                  <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
+                  <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
                   <span><a href="#" onClick={(event) => event.preventDefault()}>Lisää kalenteriin</a></span>
                 </div>
               </div>
@@ -83,7 +84,7 @@ class SectionReservationSummary extends Component {
             <img src="public/img/block-separator.png" />
           </div>
 
-          <div className="row block">
+          <div className={this.props.online ? "row block" : "hide"}>
             <h4 className="section-title">MITEN KÄYTÄN DIACOR ONLINE-PALVELUA?</h4>
             <div className="inline-box">
               <div>
@@ -100,7 +101,7 @@ class SectionReservationSummary extends Component {
               </div>
             </div>
           </div>
-          <div className="block-separator row">
+          <div className={this.props.online ? "block-separator row" : "hide"}>
             <img src="public/img/block-separator.png" />
           </div>
 
@@ -129,7 +130,8 @@ function mapStateToProps(state) {
   return {
     reservation_code: state.app.reservation_code,
     selectedtimeslot: state.app.selectedtimeslot,
-    selecteddate: state.app.selecteddate,
+    selecteddate: state.app.filters.date_filter,
+    online: state.app.prereservation.online,
     reservation_summary_section_active: state.app.reservation_summary_section_active
   };
 }

@@ -17,7 +17,7 @@ const TimeslotList = (props) => {
   return (
     <div className="timeslot-list col-xs-12 col-sm-6">
       <div className="row">
-        <h4 className="timeslot-list-header">Vapaat ajat {formatDate2("fi", props.selecteddate)}</h4>
+        <h4 className="timeslot-list-header">Vapaat ajat {formatDate2("fi", props.date_filter)}</h4>
         <FilterTimeOfDay {...props}/>
       </div>
       <div className="list-container row">

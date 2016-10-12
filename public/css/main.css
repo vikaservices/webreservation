@@ -3,32 +3,34 @@ html,
 body {
   width: 100%;
   height: 100%;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
 }
 body {
   background-color: #eee !important;
   background-image: url("/public/img/website-background.png");
 }
 hr {
-  color: #ccc;
+  color: #eee;
   margin-top: 0 !important;
 }
 .container-fluid {
   padding: 0 !important;
 }
-h4 {
+h4,
+h5 {
   font-family: Gotham-Book, ArialMT !important;
-  font-size: 18px !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-stretch: normal !important;
+}
+h4 {
+  font-size: 18px !important;
   color: #4a4a4a !important;
 }
 h5 {
-  font-family: Gotham-Book, ArialMT !important;
   font-size: 17px !important;
-  font-weight: normal !important;
-  font-style: normal !important;
-  font-stretch: normal !important;
   color: #333333 !important;
 }
 .app {
@@ -84,11 +86,8 @@ h5 {
 .section-header-title {
   font-family: Helvetica;
   font-size: 40px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   text-align: center;
-  color: #ffffff;
+  color: #fff;
 }
 .section-header-links {
   width: 100%;
@@ -102,10 +101,7 @@ h5 {
 .section-header-links span a {
   font-family: ArialMT;
   font-size: 18px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  color: #ffffff;
+  color: #fff;
 }
 /********* SECTION : RESOURCE SELECTION    ****************/
 .ohc-employer-list {
@@ -144,7 +140,7 @@ h5 {
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: #a4a4a4;
+  color: #4a4a4a;
 }
 /********   SECTION : TIME SEARCH : FILTERS     ***********/
 .input-reset {
@@ -165,7 +161,7 @@ h5 {
   content: ' ';
   height: 13px;
   width: 2px;
-  background-color: #f10c29;
+  background-color: #F10C29;
 }
 .input-reset:before {
   transform: rotate(45deg);
@@ -350,7 +346,7 @@ h5 {
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: #a4a4a4;
+  color: #4a4a4a;
 }
 .slot-image {
   max-width: 50px;
@@ -365,7 +361,7 @@ h5 {
   font-style: normal;
   font-stretch: normal;
   line-height: 1.17;
-  color: #4a4a4a;
+  color: #000;
 }
 .slot-title {
   height: 14px;
@@ -435,11 +431,8 @@ h5 {
   margin-top: 30px;
   font-family: ArialMT;
   font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   line-height: 1.67;
-  color: #a4a4a4;
+  color: #4a4a4a;
 }
 .confirmation-terms p:first-child {
   font-weight: bold;
@@ -449,7 +442,7 @@ h5 {
 .reservation-info-face {
   width: 80px;
   height: 80px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 40px;
 }
 /************* RESERVATION CANCELING PAGE ********/
@@ -470,11 +463,8 @@ h5 {
   height: 15px;
   font-family: HelveticaNeue;
   font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   text-align: left;
-  color: #f10c29;
+  color: #F10C29;
   vertical-align: middle;
   text-decoration: none;
 }
@@ -489,9 +479,6 @@ h5 {
   height: 19px;
   font-family: Helvetica;
   font-size: 18px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   color: #333333;
   margin-top: 21px;
   margin-bottom: 14px;
@@ -519,13 +506,13 @@ h5 {
   border-radius: 15px;
 }
 .btn-white {
-  border: 1px solid #f10c29;
+  border: 1px solid #F10C29;
   background-color: #fff;
   color: red;
 }
 .btn-red {
-  border: 1px solid #f10c29;
-  background-color: #f10c29;
+  border: 1px solid #F10C29;
+  background-color: #F10C29;
   color: #fff;
 }
 button:focus {
@@ -573,10 +560,11 @@ ol {
   padding-left: 10px;
   font-family: ArialMT;
   font-size: 17px;
+  border-radius: 2px;
   color: #333333;
 }
 .mm-pop textarea:focus,
-input:focus {
+.mm-pop input:focus {
   outline: none;
 }
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
@@ -860,7 +848,7 @@ button:-moz-focusring,
  * Change the border, margin, and padding in all browsers (opinionated).
  */
 fieldset {
-  border: 1px solid #c0c0c0;
+  border: 1px solid #C0C0C0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }

@@ -29569,7 +29569,7 @@
 
 	var _section_resource_selection2 = _interopRequireDefault(_section_resource_selection);
 
-	var _section_timesearch = __webpack_require__(277);
+	var _section_timesearch = __webpack_require__(301);
 
 	var _section_timesearch2 = _interopRequireDefault(_section_timesearch);
 
@@ -29585,7 +29585,7 @@
 
 	var _popup2 = _interopRequireDefault(_popup);
 
-	var _index = __webpack_require__(279);
+	var _index = __webpack_require__(274);
 
 	var actions = _interopRequireWildcard(_index);
 
@@ -29593,7 +29593,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -29782,13 +29782,19 @@
 
 	var _reactRedux = __webpack_require__(173);
 
-	var _ohc_team_list = __webpack_require__(274);
+	var _actions = __webpack_require__(274);
+
+	var actions = _interopRequireWildcard(_actions);
+
+	var _ohc_team_list = __webpack_require__(298);
 
 	var _ohc_team_list2 = _interopRequireDefault(_ohc_team_list);
 
-	var _ohc_employer_list = __webpack_require__(276);
+	var _ohc_employer_list = __webpack_require__(300);
 
 	var _ohc_employer_list2 = _interopRequireDefault(_ohc_employer_list);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29825,10 +29831,14 @@
 	    }
 	  }, {
 	    key: 'handleResourceSelection',
-	    value: function handleResourceSelection(event, resourceId) {
+	    value: function handleResourceSelection(event, resourceId, resourceName) {
 	      event.preventDefault();
 	      console.log("handleResourceSelection: " + resourceId);
-	      this.props.setFilter({ resource_filter: resourceId });
+	      var filters = this.props.filters;
+	      filters.resource_filter = resourceId;
+	      filters.terms_search = resourceName;
+	      filters.employer_id_filter = null;
+	      this.props.setFilter(filters);
 	    }
 	  }, {
 	    key: 'render',
@@ -29892,854 +29902,15 @@
 	    resource_section_active: state.app.resource_section_active,
 	    ohc_team: state.app.selected_employer.professionals,
 	    employers: state.app.employers,
-	    selected_employer: state.app.selected_employer
+	    selected_employer: state.app.selected_employer,
+	    filters: state.app.filters
 	  };
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(SectionResourceSelection);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(SectionResourceSelection);
 
 /***/ },
 /* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _ohc_team_list_item = __webpack_require__(275);
-
-	var _ohc_team_list_item2 = _interopRequireDefault(_ohc_team_list_item);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var OhcTeamList = function OhcTeamList(_ref) {
-	  var team = _ref.team;
-	  var onClick = _ref.onClick;
-
-
-	  var result = team.map(function (item) {
-	    return _react2.default.createElement(_ohc_team_list_item2.default, {
-	      item: item,
-	      onClick: onClick,
-	      key: item.resourceId });
-	  });
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'ohc-team-list' },
-	    _react2.default.createElement(
-	      'ul',
-	      null,
-	      result
-	    )
-	  );
-	};
-
-	exports.default = OhcTeamList;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SearchResultListItem = function SearchResultListItem(_ref) {
-	  var item = _ref.item;
-	  var _onClick = _ref.onClick;
-
-	  return _react2.default.createElement(
-	    "li",
-	    null,
-	    _react2.default.createElement(
-	      "div",
-	      { className: "img-box-round-50" },
-	      _react2.default.createElement("img", { src: item.imageUrl })
-	    ),
-	    _react2.default.createElement(
-	      "p",
-	      null,
-	      item.resourceName
-	    ),
-	    _react2.default.createElement(
-	      "p",
-	      null,
-	      item.title
-	    ),
-	    _react2.default.createElement(
-	      "a",
-	      { href: "", className: "link", onClick: function onClick(event) {
-	          return _onClick(event, item.resourceId);
-	        } },
-	      "Valitse"
-	    )
-	  );
-	};
-
-	exports.default = SearchResultListItem;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var OhcEmployerList = function OhcEmployerList(_ref) {
-	  var employers = _ref.employers;
-	  var selected_employer = _ref.selected_employer;
-	  var _onChange = _ref.onChange;
-
-
-	  var result = employers.map(function (employer) {
-	    return _react2.default.createElement(
-	      "option",
-	      { value: employer.id,
-	        key: employer.id,
-	        selected: selected_employer.id == employer.id ? "selected" : "" },
-	      employer.name
-	    );
-	  });
-
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "ohc-employer-list" },
-	    _react2.default.createElement(
-	      "select",
-	      { onChange: function onChange(event) {
-	          return _onChange(event);
-	        } },
-	      result
-	    )
-	  );
-	};
-
-	exports.default = OhcEmployerList;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(173);
-
-	var _filter_main = __webpack_require__(278);
-
-	var _filter_main2 = _interopRequireDefault(_filter_main);
-
-	var _filter_extra = __webpack_require__(354);
-
-	var _filter_extra2 = _interopRequireDefault(_filter_extra);
-
-	var _filter_calendar = __webpack_require__(303);
-
-	var _filter_calendar2 = _interopRequireDefault(_filter_calendar);
-
-	var _timeslot_list = __webpack_require__(355);
-
-	var _timeslot_list2 = _interopRequireDefault(_timeslot_list);
-
-	var _index = __webpack_require__(279);
-
-	var actions = _interopRequireWildcard(_index);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var SectionTimeSearch = function (_Component) {
-	  _inherits(SectionTimeSearch, _Component);
-
-	  function SectionTimeSearch() {
-	    _classCallCheck(this, SectionTimeSearch);
-
-	    return _possibleConstructorReturn(this, (SectionTimeSearch.__proto__ || Object.getPrototypeOf(SectionTimeSearch)).apply(this, arguments));
-	  }
-
-	  _createClass(SectionTimeSearch, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var today = new Date().toISOString().substr(0, 10);
-	      // Initially search timeslots for today for general practioner (speciality = 2)
-	      this.props.timeslotsSearch(today, null, 2);
-	    }
-
-	    // Go back to time selection
-
-	  }, {
-	    key: 'backToTimeSelection',
-	    value: function backToTimeSelection(e) {
-	      e.preventDefault();
-	      this.props.resetState();
-	    }
-	  }, {
-	    key: 'changeTimeOfDay',
-	    value: function changeTimeOfDay(event) {
-	      console.log("changeTimeOfDay");
-	      this.props.setTimeOfDayFilter(event.target.value);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      var active = this.props.timesearch_section_active;
-
-	      if (active == 'hidden') {
-	        return _react2.default.createElement('div', null);
-	      } else if (active == 'inactive') {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'section-time-search-inactive row' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-xs-12' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'header-row' },
-	              _react2.default.createElement(
-	                'h4',
-	                { className: 'section-title pull-left' },
-	                'AJAN VALINTA'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'reservation-summary' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  formatDate2("fi", this.props.selecteddate),
-	                  '\xA0',
-	                  this.props.selectedtimeslot.startTimeHours,
-	                  ',\xA0',
-	                  this.props.selectedtimeslot.resourceName,
-	                  ',\xA0',
-	                  this.props.selectedtimeslot.unitName
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'a',
-	                { href: '', className: 'link pull-right', onClick: function onClick(event) {
-	                    return _this2.backToTimeSelection(event);
-	                  } },
-	                'Muuta valintaa'
-	              )
-	            )
-	          )
-	        );
-	      }
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'section-time-search row' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-xs-12' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'header-row' },
-	            _react2.default.createElement(
-	              'h4',
-	              { className: 'section-title pull-left' },
-	              'AJAN VALINTA'
-	            )
-	          ),
-	          _react2.default.createElement('hr', null),
-	          _react2.default.createElement(_filter_main2.default, this.props),
-	          _react2.default.createElement(_timeslot_list2.default, _extends({}, this.props, {
-	            reservationHandler: this.props.reservationHandler,
-	            changeTimeOfDay: this.changeTimeOfDay.bind(this) }))
-	        )
-	      );
-	    }
-	  }]);
-
-	  return SectionTimeSearch;
-	}(_react.Component);
-
-	function mapStateToProps(state) {
-	  return {
-	    selecteddate: state.app.selecteddate,
-	    selectedtimeslot: state.app.selectedtimeslot,
-	    timesearch_section_active: state.app.timesearch_section_active,
-	    timeslots_list: state.app.timeslots_list,
-	    timeofdayfilter: state.app.timeofdayfilter
-	  };
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(SectionTimeSearch);
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(173);
-
-	var _index = __webpack_require__(279);
-
-	var actions = _interopRequireWildcard(_index);
-
-	var _reactRouter = __webpack_require__(208);
-
-	var _filter_calendar = __webpack_require__(303);
-
-	var _filter_calendar2 = _interopRequireDefault(_filter_calendar);
-
-	var _lodash = __webpack_require__(351);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _search_result_list = __webpack_require__(352);
-
-	var _search_result_list2 = _interopRequireDefault(_search_result_list);
-
-	var _filter_extra = __webpack_require__(354);
-
-	var _filter_extra2 = _interopRequireDefault(_filter_extra);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var FilterMain = function (_Component) {
-	  _inherits(FilterMain, _Component);
-
-	  function FilterMain(props) {
-	    _classCallCheck(this, FilterMain);
-
-	    var _this = _possibleConstructorReturn(this, (FilterMain.__proto__ || Object.getPrototypeOf(FilterMain)).call(this, props));
-
-	    _this.state = {
-	      filters: {
-	        // value in search-terms input box
-	        terms_search: '',
-	        // value in units-search input box
-	        units_search: '',
-	        // resource id
-	        resource_filter: null,
-	        // speciality id
-	        speciality_filter: null,
-	        // grpup id
-	        group_filter: null,
-	        // unit id
-	        unit_filter: null,
-	        // value of language-filter
-	        lang_filter: null,
-	        // value of gender-filter
-	        gender_filter: null,
-	        // value of city-filter
-	        city_filter: null
-	      },
-	      // value in search-terms input box
-	      terms_search: '',
-	      // value in units-search input box
-	      units_search: '',
-	      // resource id
-	      resource_filter: null,
-	      // speciality id
-	      speciality_filter: null,
-	      // grpup id
-	      group_filter: null,
-	      // unit id
-	      unit_filter: null,
-	      // value of language-filter
-	      lang_filter: null,
-	      // value of gender-filter
-	      gender_filter: null,
-	      // value of city-filter
-	      city_filter: null,
-	      // selected day value of calendar-filter
-	      date_filter: new Date(),
-	      // selected month of calendar-filter
-	      date_filter_month: new Date().getMonth(),
-	      // selected year of calendar-filter
-	      date_filter_year: new Date().getFullYear(),
-	      // Visibility of extra filters
-	      extra_filters: false,
-	      // visibility of units list
-	      unit_list_visible: false,
-	      // filtered unit list
-	      units_list_filtered: [],
-	      //
-	      doupdate: false
-	    };
-	    return _this;
-	  }
-
-	  _createClass(FilterMain, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(next_props) {
-	      var _this2 = this;
-
-	      console.log("componentWillReceiveProps");
-
-	      if (next_props.filters.terms_search && next_props.filters.terms_search != this.state.filters.terms_search) {
-	        console.log("componentWillReceiveProps: 1");
-	        if (this.state.doupdate) {
-	          // user clicked a value from terms search list
-	          this.setState(_extends({}, this.state, { doupdate: false, filters: next_props.filters }), function () {
-	            console.log("componentWillReceiveProps: 2");
-	            _this2.doTimeslotsSearch();
-	            _this2.doFreedaysSearch();
-	            // clear search-hints
-	            _this2.props.termsSearch();
-	          });
-	          return;
-	        } else {
-	          console.log("componentWillReceiveProps: 3");
-	          // user wrote a character to terns search box
-	          // {filters: {terms_search: next_props.filters.terms_search}}
-	          this.setState({ filters: next_props.filters }, function () {
-	            console.log("componentWillReceiveProps: 4");
-	            // defer search until:
-	            // 1) 3 chars written
-	            // TODO: 2) at least 200-300ms between keypresses
-	            if (_this2.state.filters.terms_search.length >= 3) {
-	              console.log("componentWillReceiveProps: 5");
-	              _this2.props.termsSearch(_this2.state.filters.terms_search);
-	            } else {
-	              _this2.props.termsSearch();
-	            }
-	          });
-	          return;
-	        }
-	      }
-
-	      //console.log("next_props.filters.units_search: " + next_props.filters.units_search);
-	      //console.log("this.state.units_search: " + this.state.units_search);
-
-	      if (next_props.filters.units_search && next_props.filters.units_search != this.state.units_search) {
-	        console.log("componentWillReceiveProps: 6");
-	        if (this.state.doupdate) {
-	          // user clicked a value from units list
-	          this.setState({ doupdate: false, filters: next_props.filters }, function () {
-	            console.log("componentWillReceiveProps: 7");
-	            _this2.doTimeslotsSearch();
-	            _this2.doFreedaysSearch();
-	          });
-	          return;
-	        } else {
-	          console.log("componentWillReceiveProps: 8");
-	          // user wrote a character to to units search box, filter unit list
-	          // by new field value
-	          this.setState({ filters: next_props.filters }, function () {
-	            _this2.filterUnitsList(_this2.state.filters.units_search);
-	          });
-	          return;
-	        }
-	      }
-
-	      if (next_props.selecteddate != this.props.selecteddate) {
-	        console.log("componentWillReceiveProps: selecteddate");
-	        return;
-	      }
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this3 = this;
-
-	      // Prefetch all units
-	      setTimeout(function () {
-	        _this3.props.unitsSearch();
-	      }, 500);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this4 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'filter-main col-xs-12 col-sm-6' },
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'terms-search' },
-	          _react2.default.createElement('input', {
-	            value: this.state.filters.terms_search,
-	            placeholder: 'Nimi tai palvelu',
-	            'data-name': 'terms',
-	            onChange: function onChange(event) {
-	              return _this4.onInputChangeTerms(event.target.value);
-	            },
-	            onFocus: function onFocus(event) {
-	              return _this4.onFocus(event);
-	            },
-	            onBlur: function onBlur(event) {
-	              return _this4.onBlur(event);
-	            } }),
-	          _react2.default.createElement(_search_result_list2.default, { items_list: this.props.terms_list,
-	            onClickHandler: this.onClickHandlerTerms.bind(this),
-	            list_id: 'terms-search-hints',
-	            is_active: this.props.terms_list.length == 0 ? false : true }),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'terms-search-quicklinks', className: 'hide' },
-	            'terms search quicklinks here'
-	          ),
-	          _react2.default.createElement('a', { className: this.state.filters.terms_search == '' ? "hide" : "input-reset",
-	            onClick: function onClick(event) {
-	              return _this4.clearInput('terms', event);
-	            }, href: '' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'units-search' },
-	          _react2.default.createElement('input', {
-	            value: this.state.filters.units_search,
-	            placeholder: 'Toimipiste',
-	            'data-name': 'units',
-	            onChange: function onChange(event) {
-	              return _this4.onInputChangeUnit(event.target.value);
-	            },
-	            onFocus: function onFocus(event) {
-	              return _this4.onFocus(event);
-	            },
-	            onBlur: function onBlur(event) {
-	              return _this4.onBlur(event);
-	            } }),
-	          this.state.unit_list_visible ? _react2.default.createElement(_search_result_list2.default, { items_list: this.state.units_list_filtered.length > 0 || this.state.units_search.length > 0 ? this.state.units_list_filtered : this.props.units_list,
-	            onClickHandler: this.onClickHandlerUnits.bind(this),
-	            list_id: 'units-search-hints',
-	            is_active: this.state.unit_list_visible }) : '',
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'units-search-quicklinks', className: 'hide' },
-	            'units search quicklinks here'
-	          ),
-	          _react2.default.createElement('a', { className: this.state.filters.units_search == '' ? "hide" : "input-reset",
-	            onClick: function onClick(event) {
-	              return _this4.clearInput('units', event);
-	            }, href: '' })
-	        ),
-	        _react2.default.createElement(_filter_extra2.default, { onChange: this.onChange.bind(this),
-	          onClick: this.onToggleExtraFilters.bind(this),
-	          show: this.state.extra_filters }),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'calendar-filter' },
-	          _react2.default.createElement(_filter_calendar2.default, { freedays_list: this.props.freedays_list,
-	            selected_day: this.state.date_filter,
-	            onDayChange: this.onDayChange.bind(this),
-	            onMonthChange: this.onMonthChange.bind(this) })
-	        )
-	      );
-	    }
-
-	    // Erases value from units or main search field depending on event target
-
-	  }, {
-	    key: 'clearInput',
-	    value: function clearInput(input, event) {
-	      var _this5 = this;
-
-	      event.preventDefault();
-	      console.log("clearInput: " + input);
-	      if (input == 'terms') {
-	        this.props.setFilter({ terms_search: '' });
-	        this.setState({ resource_filter: null,
-	          speciality_filter: null,
-	          group_filter: null }, function () {
-	          _this5.props.termsSearch();
-	          // update free days
-	          _this5.doFreedaysSearch();
-	        });
-	      } else if (input == 'units') {
-	        this.setState({ units_search: '', unit_filter: null }, function () {
-	          _this5.props.unitsSearch();
-	          // update free days
-	          _this5.doFreedaysSearch();
-	        });
-	      }
-	    }
-
-	    // Called every time user types in main search field
-
-	  }, {
-	    key: 'onInputChangeTerms',
-	    value: function onInputChangeTerms(terms_search) {
-	      console.log("onInputChangeTerms: " + terms_search);
-	      this.props.setFilter({ terms_search: terms_search });
-	    }
-
-	    // Called when user selects value from main search results
-
-	  }, {
-	    key: 'onClickHandlerTerms',
-	    value: function onClickHandlerTerms(id, type, name, event) {
-	      var _this6 = this;
-
-	      event.preventDefault();
-	      console.log("onClickHandlerSearch: type: " + type + " name: " + name);
-	      var filter = void 0;
-	      switch (type) {
-	        case "RESOURCE":
-	          filter = { terms_search: name, resource_filter: id };
-	          break;
-	        case "SPECIALITY":
-	          filter = { terms_search: name, speciality_filter: id };
-	          break;
-	        case "GROUP":
-	          filter = { terms_search: name, group_filter: id };
-	          break;
-	        case "UNIT":
-	          filter = { terms_search: name, unit_filter: id };
-	          break;
-	        default:
-	      }
-	      this.setState({ doupdate: true }, function () {
-	        _this6.props.setFilter(filter);
-	      });
-	    }
-	  }, {
-	    key: 'filterUnitsList',
-	    value: function filterUnitsList(filter) {
-	      var units_list_filtered = [];
-	      if (this.props.units_list.length > 0) {
-	        this.props.units_list.map(function (item) {
-	          if (item.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
-	            units_list_filtered.push(item);
-	          }
-	        });
-	      }
-	      this.setState({ units_list_filtered: units_list_filtered }, function () {
-	        //console.log(this.state.units_list_filtered);
-	      });
-	    }
-
-	    // Called every time user types in units search field
-
-	  }, {
-	    key: 'onInputChangeUnit',
-	    value: function onInputChangeUnit(units_search) {
-	      this.props.setFilter({ units_search: units_search });
-	    }
-
-	    // Called when user selects value from units search results
-
-	  }, {
-	    key: 'onClickHandlerUnits',
-	    value: function onClickHandlerUnits(id, type, name, event) {
-	      var _this7 = this;
-
-	      event.preventDefault();
-	      console.log("onClickHandlerUnits: " + name);
-	      this.setState({ doupdate: true }, function () {
-	        _this7.props.setFilter({ units_search: name, unit_filter: id });
-	      });
-	    }
-	  }, {
-	    key: 'onDayChange',
-	    value: function onDayChange(date_filter) {
-	      this.props.setSelectedDate(date_filter);
-	      this.setState({ date_filter: date_filter }, function () {
-	        var date = formatDate(date_filter);
-	        console.log("onDayChange: date = " + date);
-	        this.doTimeslotsSearch();
-	      });
-	    }
-	  }, {
-	    key: 'onMonthChange',
-	    value: function onMonthChange(month, year) {
-	      var _this8 = this;
-
-	      console.log("FilterMain: current month = " + this.state.date_filter_month + " year = " + this.state.date_filter_year);
-	      console.log("FilterMain: new month = " + month + " year = " + year);
-
-	      // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
-	      // for jaascript Date-object
-	      this.setState({ date_filter_month: month - 1, date_filter_year: year }, function () {
-	        _this8.doFreedaysSearch();
-	      });
-	    }
-	  }, {
-	    key: 'onFocus',
-	    value: function onFocus(event) {
-	      //console.log( event.target.dataset.name  + " on focus");
-	      if (event.target.dataset.name == "units") {
-	        this.setState({ unit_list_visible: true });
-	      }
-	      // TODO: show quick select buttons
-	    }
-	  }, {
-	    key: 'onBlur',
-	    value: function onBlur(event) {
-	      var _this9 = this;
-
-	      //console.log( event.target.dataset.name + " off focus")
-	      if (event.target.dataset.name == "units") {
-	        setTimeout(function (event) {
-	          _this9.setState({ unit_list_visible: false });
-	        }, 200);
-	      }
-	      // TODO: hide quick select buttons ?
-	    }
-	  }, {
-	    key: 'onToggleExtraFilters',
-	    value: function onToggleExtraFilters(event) {
-	      event.preventDefault();
-	      this.setState({ extra_filters: !this.state.extra_filters });
-	    }
-
-	    // Handle extra filter changes
-
-	  }, {
-	    key: 'onChange',
-	    value: function onChange(event, name, value) {
-	      if (event.target.name == "lang_filter") this.setState({ lang_filter: event.target.value });
-	      if (event.target.name == "gender_filter") this.setState({ gender_filter: event.target.value });
-	      if (event.target.name == "city_filter") this.setState({ city_filter: event.target.value });
-	      //console.log( "lang_filter: " + this.state.lang_filter);
-	      //console.log( "gender_filter: " + this.state.gender_filter);
-	      //console.log( "city_filter: " + this.state.city_filter);
-	      this.doTimeslotsSearch();
-	    }
-	  }, {
-	    key: 'doTimeslotsSearch',
-	    value: function doTimeslotsSearch() {
-	      /*
-	          console.log("date_filter :" + this.state.date_filter);
-	          console.log("resource_filter :" + this.state.resource_filter);
-	          console.log("speciality_filter :" + this.state.speciality_filter);
-	          console.log("group_filter :" + this.state.group_filter);
-	          console.log("unit_filter :" + this.state.unit_filter);
-	      */
-	      // this.props.timeslotsSearch( formatDate(this.state.date_filter),
-	      //                             this.state.resource_filter,
-	      //                             this.state.speciality_filter,
-	      //                             this.state.group_filter,
-	      //                             this.state.unit_filter,
-	      //                             this.state.lang_filter,
-	      //                             this.state.gender_filter,
-	      //                             this.state.city_filter );
-	      this.props.timeslotsSearch(formatDate(this.state.date_filter), this.state.filters.resource_filter, this.state.filters.speciality_filter, this.state.filters.group_filter, this.state.filters.unit_filter, this.state.filters.lang_filter, this.state.filters.gender_filter, this.state.filters.city_filter);
-	    }
-	  }, {
-	    key: 'doFreedaysSearch',
-	    value: function doFreedaysSearch() {
-
-	      console.log("date_filter :" + this.state.date_filter);
-	      console.log("resource_filter :" + this.state.resource_filter);
-	      console.log("speciality_filter :" + this.state.speciality_filter);
-	      console.log("group_filter :" + this.state.group_filter);
-	      console.log("unit_filter :" + this.state.unit_filter);
-
-	      /*
-	          let today = new Date();
-	          let currY = today.getFullYear();
-	          let currM = (today.getMonth() < 10) ? "0" + (today.getMonth()) : (today.getMonth());
-	          let daysInMonth = new Date(currY, currM, 0).getDate();
-	          let last_of_month = new Date(currY, currM, daysInMonth);
-	      */
-
-	      // calculate start day
-	      // start day is either
-	      // - if selected month fro calendar is current month -> current day
-	      // - selected month some next month -> 1
-	      var today = new Date();
-	      var currY = today.getFullYear();
-	      var currM = today.getMonth() < 10 ? "0" + today.getMonth() : today.getMonth();
-	      var start_day = void 0;
-	      if (currM != this.state.date_filter_month || currY != this.state.date_filter_year) {
-	        // set to first day of selected month
-	        start_day = new Date(this.state.date_filter_year, this.state.date_filter_month, 1);
-	      } else {
-	        start_day = today;
-	      }
-
-	      // calculate end day
-	      var daysInMonth = new Date(this.state.date_filter_year, this.state.date_filter_month, 0).getDate();
-	      var last_of_month = new Date(this.state.date_filter_year, this.state.date_filter_month, daysInMonth);
-
-	      console.log("currY = " + currY + " currM = " + currM);
-	      console.log("year = " + this.state.date_filter_year + " month = " + this.state.date_filter_month);
-	      console.log("doFreedaysSearch: start_day = " + start_day);
-	      console.log("doFreedaysSearch: last_of_month = " + last_of_month);
-
-	      this.props.freedaysSearch(formatDate(start_day), formatDate(last_of_month), this.state.resource_filter, this.state.speciality_filter, this.state.group_filter, this.state.unit_filter, this.state.lang_filter, this.state.gender_filter, this.state.city_filter);
-	    }
-	  }]);
-
-	  return FilterMain;
-	}(_react.Component);
-
-	function mapStateToProps(state) {
-	  return {
-	    terms_list: state.terms.terms_list,
-	    units_list: state.units.units_list,
-	    freedays_list: state.freedays.freedays_list,
-	    filters: state.app.filters,
-	    selecteddate: state.app.selecteddate
-	  };
-	}
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(FilterMain);
-
-/***/ },
-/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30768,9 +29939,9 @@
 	exports.setTimeOfDayFilter = setTimeOfDayFilter;
 	exports.setFilter = setFilter;
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
-	var _axios = __webpack_require__(281);
+	var _axios = __webpack_require__(276);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -30778,7 +29949,8 @@
 
 	//import Config from 'Config';
 
-	var UIServerUrl = "http://vob.fi:4000/";
+	//let UIServerUrl = "http://vob.fi:4000/";
+	var UIServerUrl = "http://localhost:3000/";
 	//import { UIServerUrl } from '../../utils/conf';
 	function termsSearch() {
 	  var terms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -30830,11 +30002,12 @@
 	function timeslotsSearch(date) {
 	  var resource = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var speciality = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-	  var group = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+	  var groups = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
 	  var unit = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 	  var lang = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
 	  var gender = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : null;
 	  var city = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
+	  var employer = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : null;
 
 
 	  console.log("timeslotsSearch");
@@ -30842,11 +30015,12 @@
 	  var search_str = 'timeslots?date=' + date;
 	  search_str += resource ? '&resource=' + resource : '';
 	  search_str += speciality ? '&speciality=' + speciality : '';
-	  search_str += group ? '&group=' + group : '';
+	  search_str += groups ? '&groups=' + groups : '';
 	  search_str += unit ? '&unit=' + unit : '';
 	  //search_str += lang        ? `&lang=${lang}`             : '';
 	  //search_str += gender      ? `&gender=${gender}`         : '';
 	  //search_str += city        ? `&city=${city}`             : '';
+	  search_str += employer ? '&employer=' + employer : '';
 	  console.log('search_str: ' + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -30865,6 +30039,7 @@
 	  var lang = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : null;
 	  var gender = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
 	  var city = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : null;
+	  var employer = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : null;
 
 
 	  console.log("freedaysSearch");
@@ -30877,6 +30052,7 @@
 	  //search_str += lang        ? `&lang=${lang}`             : '';
 	  //search_str += gender      ? `&gender=${gender}`         : '';
 	  //search_str += city        ? `&city=${city}`             : '';
+	  search_str += employer ? '&employer=' + employer : '';
 	  console.log('search_str = ' + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -31091,7 +30267,7 @@
 	}
 
 /***/ },
-/* 280 */
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31155,20 +30331,20 @@
 	var TOD_AFTERNOON = exports.TOD_AFTERNOON = '17';
 
 /***/ },
-/* 281 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(282);
+	module.exports = __webpack_require__(277);
 
 /***/ },
-/* 282 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
-	var bind = __webpack_require__(284);
-	var Axios = __webpack_require__(285);
+	var utils = __webpack_require__(278);
+	var bind = __webpack_require__(279);
+	var Axios = __webpack_require__(280);
 
 	/**
 	 * Create an instance of Axios
@@ -31204,7 +30380,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(302);
+	axios.spread = __webpack_require__(297);
 
 	module.exports = axios;
 
@@ -31213,12 +30389,12 @@
 
 
 /***/ },
-/* 283 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var bind = __webpack_require__(284);
+	var bind = __webpack_require__(279);
 
 	/*global toString:true*/
 
@@ -31518,7 +30694,7 @@
 
 
 /***/ },
-/* 284 */
+/* 279 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31535,17 +30711,17 @@
 
 
 /***/ },
-/* 285 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(286);
-	var utils = __webpack_require__(283);
-	var InterceptorManager = __webpack_require__(288);
-	var dispatchRequest = __webpack_require__(289);
-	var isAbsoluteURL = __webpack_require__(300);
-	var combineURLs = __webpack_require__(301);
+	var defaults = __webpack_require__(281);
+	var utils = __webpack_require__(278);
+	var InterceptorManager = __webpack_require__(283);
+	var dispatchRequest = __webpack_require__(284);
+	var isAbsoluteURL = __webpack_require__(295);
+	var combineURLs = __webpack_require__(296);
 
 	/**
 	 * Create a new instance of Axios
@@ -31626,13 +30802,13 @@
 
 
 /***/ },
-/* 286 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
-	var normalizeHeaderName = __webpack_require__(287);
+	var utils = __webpack_require__(278);
+	var normalizeHeaderName = __webpack_require__(282);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -31704,12 +30880,12 @@
 
 
 /***/ },
-/* 287 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -31722,12 +30898,12 @@
 
 
 /***/ },
-/* 288 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -31780,13 +30956,13 @@
 
 
 /***/ },
-/* 289 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(283);
-	var transformData = __webpack_require__(290);
+	var utils = __webpack_require__(278);
+	var transformData = __webpack_require__(285);
 
 	/**
 	 * Dispatch a request to the server using whichever adapter
@@ -31827,10 +31003,10 @@
 	    adapter = config.adapter;
 	  } else if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(291);
+	    adapter = __webpack_require__(286);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(291);
+	    adapter = __webpack_require__(286);
 	  }
 
 	  return Promise.resolve(config)
@@ -31862,12 +31038,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ },
-/* 290 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	/**
 	 * Transform the data for a request or a response
@@ -31888,18 +31064,18 @@
 
 
 /***/ },
-/* 291 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
-	var settle = __webpack_require__(292);
-	var buildURL = __webpack_require__(295);
-	var parseHeaders = __webpack_require__(296);
-	var isURLSameOrigin = __webpack_require__(297);
-	var createError = __webpack_require__(293);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(298);
+	var utils = __webpack_require__(278);
+	var settle = __webpack_require__(287);
+	var buildURL = __webpack_require__(290);
+	var parseHeaders = __webpack_require__(291);
+	var isURLSameOrigin = __webpack_require__(292);
+	var createError = __webpack_require__(288);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(293);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -31993,7 +31169,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(299);
+	      var cookies = __webpack_require__(294);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -32056,12 +31232,12 @@
 
 
 /***/ },
-/* 292 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(293);
+	var createError = __webpack_require__(288);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -32087,12 +31263,12 @@
 
 
 /***/ },
-/* 293 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(294);
+	var enhanceError = __webpack_require__(289);
 
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -32110,7 +31286,7 @@
 
 
 /***/ },
-/* 294 */
+/* 289 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32135,12 +31311,12 @@
 
 
 /***/ },
-/* 295 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -32209,12 +31385,12 @@
 
 
 /***/ },
-/* 296 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	/**
 	 * Parse headers into an object
@@ -32252,12 +31428,12 @@
 
 
 /***/ },
-/* 297 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -32326,7 +31502,7 @@
 
 
 /***/ },
-/* 298 */
+/* 293 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32368,12 +31544,12 @@
 
 
 /***/ },
-/* 299 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(283);
+	var utils = __webpack_require__(278);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -32427,7 +31603,7 @@
 
 
 /***/ },
-/* 300 */
+/* 295 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32447,7 +31623,7 @@
 
 
 /***/ },
-/* 301 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32465,7 +31641,7 @@
 
 
 /***/ },
-/* 302 */
+/* 297 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32496,6 +31672,776 @@
 	  };
 	};
 
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ohc_team_list_item = __webpack_require__(299);
+
+	var _ohc_team_list_item2 = _interopRequireDefault(_ohc_team_list_item);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var OhcTeamList = function OhcTeamList(_ref) {
+	  var team = _ref.team;
+	  var onClick = _ref.onClick;
+
+
+	  var result = team.map(function (item) {
+	    return _react2.default.createElement(_ohc_team_list_item2.default, {
+	      item: item,
+	      onClick: onClick,
+	      key: item.resourceId });
+	  });
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'ohc-team-list' },
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      result
+	    )
+	  );
+	};
+
+	exports.default = OhcTeamList;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SearchResultListItem = function SearchResultListItem(_ref) {
+	  var item = _ref.item;
+	  var _onClick = _ref.onClick;
+
+	  return _react2.default.createElement(
+	    "li",
+	    null,
+	    _react2.default.createElement(
+	      "div",
+	      { className: "img-box-round-50" },
+	      _react2.default.createElement("img", { src: item.imageUrl })
+	    ),
+	    _react2.default.createElement(
+	      "p",
+	      null,
+	      item.resourceName
+	    ),
+	    _react2.default.createElement(
+	      "p",
+	      null,
+	      item.title
+	    ),
+	    _react2.default.createElement(
+	      "a",
+	      { href: "", className: "link", onClick: function onClick(event) {
+	          return _onClick(event, item.resourceId, item.resourceName);
+	        } },
+	      "Valitse"
+	    )
+	  );
+	};
+
+	exports.default = SearchResultListItem;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var OhcEmployerList = function OhcEmployerList(_ref) {
+	  var employers = _ref.employers;
+	  var selected_employer = _ref.selected_employer;
+	  var _onChange = _ref.onChange;
+
+
+	  var result = employers.map(function (employer) {
+	    return _react2.default.createElement(
+	      "option",
+	      { value: employer.id,
+	        key: employer.id,
+	        selected: selected_employer.id == employer.id ? "selected" : "" },
+	      employer.name
+	    );
+	  });
+
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "ohc-employer-list" },
+	    _react2.default.createElement(
+	      "select",
+	      { onChange: function onChange(event) {
+	          return _onChange(event);
+	        } },
+	      result
+	    )
+	  );
+	};
+
+	exports.default = OhcEmployerList;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(173);
+
+	var _filter_main = __webpack_require__(302);
+
+	var _filter_main2 = _interopRequireDefault(_filter_main);
+
+	var _filter_extra = __webpack_require__(354);
+
+	var _filter_extra2 = _interopRequireDefault(_filter_extra);
+
+	var _filter_calendar = __webpack_require__(303);
+
+	var _filter_calendar2 = _interopRequireDefault(_filter_calendar);
+
+	var _timeslot_list = __webpack_require__(355);
+
+	var _timeslot_list2 = _interopRequireDefault(_timeslot_list);
+
+	var _index = __webpack_require__(274);
+
+	var actions = _interopRequireWildcard(_index);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SectionTimeSearch = function (_Component) {
+	  _inherits(SectionTimeSearch, _Component);
+
+	  function SectionTimeSearch() {
+	    _classCallCheck(this, SectionTimeSearch);
+
+	    return _possibleConstructorReturn(this, (SectionTimeSearch.__proto__ || Object.getPrototypeOf(SectionTimeSearch)).apply(this, arguments));
+	  }
+
+	  _createClass(SectionTimeSearch, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var today = new Date().toISOString().substr(0, 10);
+	      // Initially search timeslots for today for general practioner (speciality = 2)
+	      this.props.timeslotsSearch(today, null, null, 72);
+	    }
+
+	    // Go back to time selection
+
+	  }, {
+	    key: 'backToTimeSelection',
+	    value: function backToTimeSelection(e) {
+	      e.preventDefault();
+	      this.props.resetState();
+	    }
+	  }, {
+	    key: 'changeTimeOfDay',
+	    value: function changeTimeOfDay(event) {
+	      console.log("changeTimeOfDay");
+	      this.props.setTimeOfDayFilter(event.target.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var active = this.props.timesearch_section_active;
+
+	      if (active == 'hidden') {
+	        return _react2.default.createElement('div', null);
+	      } else if (active == 'inactive') {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'section-time-search-inactive row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-12' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'header-row' },
+	              _react2.default.createElement(
+	                'h4',
+	                { className: 'section-title pull-left' },
+	                'AJAN VALINTA'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'reservation-summary' },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  formatDate2("fi", this.props.selecteddate),
+	                  '\xA0',
+	                  this.props.selectedtimeslot.startTimeHours,
+	                  ',\xA0',
+	                  this.props.selectedtimeslot.resourceName,
+	                  ',\xA0',
+	                  this.props.selectedtimeslot.unitName
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'a',
+	                { href: '', className: 'link pull-right', onClick: function onClick(event) {
+	                    return _this2.backToTimeSelection(event);
+	                  } },
+	                'Muuta valintaa'
+	              )
+	            )
+	          )
+	        );
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'section-time-search row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-12' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'header-row' },
+	            _react2.default.createElement(
+	              'h4',
+	              { className: 'section-title pull-left' },
+	              'AJAN VALINTA'
+	            )
+	          ),
+	          _react2.default.createElement('hr', null),
+	          _react2.default.createElement(_filter_main2.default, this.props),
+	          _react2.default.createElement(_timeslot_list2.default, _extends({}, this.props, {
+	            reservationHandler: this.props.reservationHandler,
+	            changeTimeOfDay: this.changeTimeOfDay.bind(this) }))
+	        )
+	      );
+	    }
+	  }]);
+
+	  return SectionTimeSearch;
+	}(_react.Component);
+
+	function mapStateToProps(state) {
+	  return {
+	    selecteddate: state.app.filters.date_filter,
+	    selectedtimeslot: state.app.selectedtimeslot,
+	    timesearch_section_active: state.app.timesearch_section_active,
+	    timeslots_list: state.app.timeslots_list,
+	    timeofdayfilter: state.app.timeofdayfilter
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(SectionTimeSearch);
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(173);
+
+	var _index = __webpack_require__(274);
+
+	var actions = _interopRequireWildcard(_index);
+
+	var _reactRouter = __webpack_require__(208);
+
+	var _filter_calendar = __webpack_require__(303);
+
+	var _filter_calendar2 = _interopRequireDefault(_filter_calendar);
+
+	var _lodash = __webpack_require__(351);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _search_result_list = __webpack_require__(352);
+
+	var _search_result_list2 = _interopRequireDefault(_search_result_list);
+
+	var _filter_extra = __webpack_require__(354);
+
+	var _filter_extra2 = _interopRequireDefault(_filter_extra);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FilterMain = function (_Component) {
+	  _inherits(FilterMain, _Component);
+
+	  function FilterMain(props) {
+	    _classCallCheck(this, FilterMain);
+
+	    var _this = _possibleConstructorReturn(this, (FilterMain.__proto__ || Object.getPrototypeOf(FilterMain)).call(this, props));
+
+	    _this.state = {
+	      // visibility of extra filters
+	      extra_filters_visible: false,
+	      // visibility of units list
+	      unit_list_visible: false,
+	      // filtered unit list
+	      units_list_filtered: [],
+	      //
+	      do_terms_search: false,
+	      do_units_filtering: false,
+	      do_time_search: false
+	    };
+	    return _this;
+	  }
+
+	  _createClass(FilterMain, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      // Prefetch all units
+	      setTimeout(function () {
+	        _this2.props.unitsSearch();
+	      }, 500);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var _this3 = this;
+
+	      console.log("componentWillReceiveProps");
+
+	      if (this.state.do_terms_search == true) {
+	        console.log("do_terms_search");
+	        this.setState({ do_terms_search: false }, function () {
+	          if (nextProps.filters.terms_search.length >= 3) {
+	            console.log("do_terms_search: 1");
+	            _this3.props.termsSearch(nextProps.filters.terms_search);
+	          } else {
+	            console.log("do_terms_search: 2");
+	            _this3.props.termsSearch();
+	          }
+	        });
+	      }
+
+	      if (this.state.do_units_filtering == true) {
+	        console.log("do_units_search");
+	        this.setState({ do_units_search: false }, function () {
+	          _this3.filterUnitsList(nextProps.filters.units_search);
+	        });
+	      }
+
+	      if (this.state.do_time_search == true) {
+	        console.log("do_time_search");
+	        this.setState({ do_time_search: false }, function () {
+	          _this3.doTimeslotsSearch(nextProps.filters);
+	          _this3.doFreedaysSearch(nextProps.filters);
+	          _this3.props.termsSearch();
+	        });
+	      }
+
+	      if (nextProps.filters.employer_id_filter) {
+	        console.log("employer_id_filter search");
+	        //this.doTimeslotsSearch(nextProps.filters);
+	        //this.doFreedaysSearch(nextProps.filters);
+	      }
+	    } // componentWillReceiveProps
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this4 = this;
+
+	      var filters = this.props.filters;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'filter-main col-xs-12 col-sm-6' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'terms-search' },
+	          _react2.default.createElement('input', {
+	            value: filters.terms_search,
+	            placeholder: 'Nimi tai palvelu',
+	            'data-name': 'terms',
+	            onChange: function onChange(event) {
+	              return _this4.onInputChangeTerms(event.target.value);
+	            },
+	            onFocus: function onFocus(event) {
+	              return _this4.onFocus(event);
+	            },
+	            onBlur: function onBlur(event) {
+	              return _this4.onBlur(event);
+	            } }),
+	          _react2.default.createElement(_search_result_list2.default, { items_list: this.props.terms_list,
+	            onClickHandler: this.onClickHandlerTerms.bind(this),
+	            list_id: 'terms-search-hints',
+	            is_active: this.props.terms_list.length == 0 ? false : true }),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'terms-search-quicklinks', className: 'hide' },
+	            'terms search quicklinks here'
+	          ),
+	          _react2.default.createElement('a', { className: filters.terms_search == '' ? "hide" : "input-reset",
+	            onClick: function onClick(event) {
+	              return _this4.clearInput('terms', event);
+	            }, href: '' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'units-search' },
+	          _react2.default.createElement('input', {
+	            value: filters.units_search,
+	            placeholder: 'Toimipiste',
+	            'data-name': 'units',
+	            onChange: function onChange(event) {
+	              return _this4.onInputChangeUnit(event.target.value);
+	            },
+	            onFocus: function onFocus(event) {
+	              return _this4.onFocus(event);
+	            },
+	            onBlur: function onBlur(event) {
+	              return _this4.onBlur(event);
+	            } }),
+	          this.state.unit_list_visible ? _react2.default.createElement(_search_result_list2.default, { items_list: this.state.units_list_filtered.length > 0 || filters.units_search.length > 0 ? this.state.units_list_filtered : this.props.units_list,
+	            onClickHandler: this.onClickHandlerUnits.bind(this),
+	            list_id: 'units-search-hints',
+	            is_active: this.state.unit_list_visible }) : '',
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'units-search-quicklinks', className: 'hide' },
+	            'units search quicklinks here'
+	          ),
+	          _react2.default.createElement('a', { className: filters.units_search == '' ? "hide" : "input-reset",
+	            onClick: function onClick(event) {
+	              return _this4.clearInput('units', event);
+	            }, href: '' })
+	        ),
+	        _react2.default.createElement(_filter_extra2.default, { onChange: this.onChange.bind(this),
+	          onClick: this.onToggleExtraFilters.bind(this),
+	          show: this.state.extra_filters_visible }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'calendar-filter' },
+	          _react2.default.createElement(_filter_calendar2.default, { freedays_list: this.props.freedays_list,
+	            selected_day: this.props.filters.date_filter,
+	            onDayChange: this.onDayChange.bind(this),
+	            onMonthChange: this.onMonthChange.bind(this) })
+	        )
+	      );
+	    }
+
+	    // Erases value from units or main search field depending on event target
+
+	  }, {
+	    key: 'clearInput',
+	    value: function clearInput(input, event) {
+	      var _this5 = this;
+
+	      event.preventDefault();
+	      console.log("clearInput: " + input);
+	      if (input == 'terms') {
+	        this.setState({ do_terms_search: true, do_time_search: true }, function () {
+	          var filters = _this5.props.filters;
+	          filters.terms_search = '';
+	          filters.resource_filter = null;
+	          filters.group_filter = null;
+	          filters.employer_id_filter = null;
+	          _this5.props.setFilter(filters);
+	        });
+	      } else if (input == 'units') {
+	        this.setState({ do_time_search: true }, function () {
+	          var filters = _this5.props.filters;
+	          filters.units_search = '';
+	          filters.unit_filter = null;
+	          _this5.props.setFilter(filters);
+	          // this.props.unitsSearch();
+	          // // update free days
+	          // this.doFreedaysSearch();
+	        });
+	      }
+	    }
+
+	    // Called every time user types in main search field
+
+	  }, {
+	    key: 'onInputChangeTerms',
+	    value: function onInputChangeTerms(terms_search) {
+	      var _this6 = this;
+
+	      console.log("onInputChangeTerms: " + terms_search);
+	      var filters = this.props.filters;
+	      filters.terms_search = terms_search;
+	      this.setState({ do_terms_search: true }, function () {
+	        console.log("calling setFilter : dotermssearch = " + _this6.state.dotermssearch);
+	        _this6.props.setFilter(filters);
+	      });
+	    }
+
+	    // Called when user selects value from main search results
+
+	  }, {
+	    key: 'onClickHandlerTerms',
+	    value: function onClickHandlerTerms(id, type, name, event) {
+	      var _this7 = this;
+
+	      event.preventDefault();
+	      console.log("onClickHandlerSearch: type: " + type + " name: " + name);
+	      var filters = this.props.filters;
+	      filters.terms_search = name;
+	      switch (type) {
+	        case "RESOURCE":
+	          filters.resource_filter = id;
+	          break;
+	        case "GROUP":
+	          filters.group_filter = id;
+	          break;
+	        case "UNIT":
+	          filters.unit_filter = id;
+	          break;
+	        default:
+	      }
+	      this.setState({ do_time_search: true }, function () {
+	        _this7.props.setFilter(filters);
+	      });
+	    }
+	  }, {
+	    key: 'filterUnitsList',
+	    value: function filterUnitsList(filter) {
+	      var units_list_filtered = [];
+	      if (this.props.units_list.length > 0) {
+	        this.props.units_list.map(function (item) {
+	          if (item.name.toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+	            units_list_filtered.push(item);
+	          }
+	        });
+	      }
+	      this.setState({ units_list_filtered: units_list_filtered });
+	    }
+
+	    // Called every time user types in units search field
+
+	  }, {
+	    key: 'onInputChangeUnit',
+	    value: function onInputChangeUnit(units_search) {
+	      var _this8 = this;
+
+	      var filters = this.props.filters;
+	      filters.units_search = units_search;
+	      this.setState({ do_units_filtering: true }, function () {
+	        _this8.props.setFilter(filters);
+	      });
+	    }
+
+	    // Called when user selects value from units search results
+
+	  }, {
+	    key: 'onClickHandlerUnits',
+	    value: function onClickHandlerUnits(id, type, name, event) {
+	      var _this9 = this;
+
+	      event.preventDefault();
+	      console.log("onClickHandlerUnits: " + name);
+	      var filters = this.props.filters;
+	      filters.units_search = name;
+	      filters.unit_filter = id;
+	      this.setState({ do_time_search: true }, function () {
+	        _this9.props.setFilter(filters);
+	      });
+	    }
+	  }, {
+	    key: 'onDayChange',
+	    value: function onDayChange(date_filter) {
+	      var _this10 = this;
+
+	      this.setState({ do_time_search: true }, function () {
+	        var filters = _this10.props.filters;
+	        filters.date_filter = date_filter;
+	        _this10.props.setFilter(filters);
+	      });
+	    }
+	  }, {
+	    key: 'onMonthChange',
+	    value: function onMonthChange(month, year) {
+	      var _this11 = this;
+
+	      console.log("FilterMain: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
+	      console.log("FilterMain: new month = " + month + " year = " + year);
+
+	      // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
+	      // for jaascript Date-object
+	      this.setState({ date_filter_month: month - 1, date_filter_year: year }, function () {
+	        _this11.doFreedaysSearch();
+	      });
+	      // this.setState( {do_time}, () => {
+	      //
+	      // });
+	    }
+	  }, {
+	    key: 'onFocus',
+	    value: function onFocus(event) {
+	      //console.log( event.target.dataset.name  + " on focus");
+	      if (event.target.dataset.name == "units") {
+	        this.setState({ unit_list_visible: true });
+	      }
+	      // TODO: show quick select buttons
+	    }
+	  }, {
+	    key: 'onBlur',
+	    value: function onBlur(event) {
+	      var _this12 = this;
+
+	      //console.log( event.target.dataset.name + " off focus")
+	      if (event.target.dataset.name == "units") {
+	        setTimeout(function (event) {
+	          _this12.setState({ unit_list_visible: false });
+	        }, 200);
+	      }
+	      // TODO: hide quick select buttons ?
+	    }
+	  }, {
+	    key: 'onToggleExtraFilters',
+	    value: function onToggleExtraFilters(event) {
+	      event.preventDefault();
+	      this.setState({ extra_filters_visible: !this.state.extra_filters_visible });
+	    }
+
+	    // Handle extra filter changes
+
+	  }, {
+	    key: 'onChange',
+	    value: function onChange(event, name, value) {
+	      if (event.target.name == "lang_filter") this.setState({ lang_filter: event.target.value });
+	      if (event.target.name == "gender_filter") this.setState({ gender_filter: event.target.value });
+	      if (event.target.name == "city_filter") this.setState({ city_filter: event.target.value });
+	      //console.log( "lang_filter: " + this.state.lang_filter);
+	      //console.log( "gender_filter: " + this.state.gender_filter);
+	      //console.log( "city_filter: " + this.state.city_filter);
+	      this.doTimeslotsSearch();
+	    }
+	  }, {
+	    key: 'doTimeslotsSearch',
+	    value: function doTimeslotsSearch(filters) {
+	      if (filters.resource_filter == null && filters.group_filter == null && filters.unit_filter == null && filters.lang_filter == null && filters.gender_filter == null && filters.city_filter == null && filters.employer_id_filter == null) {
+	        return;
+	      }
+	      this.props.timeslotsSearch(formatDate(filters.date_filter), filters.resource_filter, null, filters.group_filter, filters.unit_filter, filters.lang_filter, filters.gender_filter, filters.city_filter, filters.employer_id_filter);
+	    }
+	  }, {
+	    key: 'doFreedaysSearch',
+	    value: function doFreedaysSearch(filters) {
+	      if (filters.resource_filter == null && filters.group_filter == null && filters.unit_filter == null && filters.lang_filter == null && filters.gender_filter == null && filters.city_filter == null && filters.employer_id_filter == null) {
+	        return;
+	      }
+	      // calculate start day
+	      // start day is either
+	      // - if selected month fro calendar is current month -> current day
+	      // - selected month some next month -> 1
+	      var today = new Date();
+	      var currY = today.getFullYear();
+	      var currM = today.getMonth() < 10 ? "0" + today.getMonth() : today.getMonth();
+	      var start_day = void 0;
+	      if (currM != filters.date_filter_month || currY != filters.date_filter_year) {
+	        // set to first day of selected month
+	        start_day = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+	      } else {
+	        start_day = today;
+	      }
+
+	      // calculate end day
+	      var daysInMonth = new Date(filters.date_filter_year, filters.date_filter_month, 0).getDate();
+	      var last_of_month = new Date(filters.date_filter_year, filters.date_filter_month, daysInMonth);
+
+	      console.log("currY = " + currY + " currM = " + currM);
+	      console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
+	      console.log("doFreedaysSearch: start_day = " + start_day);
+	      console.log("doFreedaysSearch: last_of_month = " + last_of_month);
+
+	      this.props.freedaysSearch(formatDate(start_day), formatDate(last_of_month), filters.resource_filter, null, filters.group_filter, filters.unit_filter, filters.lang_filter, filters.gender_filter, filters.city_filter, filters.employer_id_filter);
+	    }
+	  }]);
+
+	  return FilterMain;
+	}(_react.Component);
+
+	function mapStateToProps(state) {
+	  return {
+	    terms_list: state.terms.terms_list,
+	    units_list: state.units.units_list,
+	    freedays_list: state.freedays.freedays_list,
+	    filters: state.app.filters,
+	    selecteddate: state.app.selecteddate,
+	    updated: state.app.updated
+	  };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(FilterMain);
 
 /***/ },
 /* 303 */
@@ -32658,8 +32604,8 @@
 	            onUpdate: this.onDayChange.bind(this),
 	            selectedDayStyle: selectedStyle,
 	            onMonthUpdate: this.onMonthChange.bind(this),
-	            valueLink: this.linkState,
-	            min: date.setDate(date.getDate() - 1)
+	            valueLink: this.linkState
+
 	          })
 	        )
 	      );
@@ -54831,11 +54777,11 @@
 
 	var _reactRedux = __webpack_require__(173);
 
-	var _index = __webpack_require__(279);
+	var _index = __webpack_require__(274);
 
 	var actions = _interopRequireWildcard(_index);
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -55501,7 +55447,7 @@
 
 	var _reactRedux = __webpack_require__(173);
 
-	var _index = __webpack_require__(279);
+	var _index = __webpack_require__(274);
 
 	var actions = _interopRequireWildcard(_index);
 
@@ -55509,7 +55455,7 @@
 
 	var _new_client_form2 = _interopRequireDefault(_new_client_form);
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -58293,7 +58239,7 @@
 
 	var _reduxForm = __webpack_require__(382);
 
-	var _actions = __webpack_require__(279);
+	var _actions = __webpack_require__(274);
 
 	var actions = _interopRequireWildcard(_actions);
 
@@ -58339,7 +58285,7 @@
 
 	      return _react2.default.createElement(
 	        'form',
-	        { onSubmit: handleSubmit(this.onSubmit.bind(this)) },
+	        { className: 'mm-pop', onSubmit: handleSubmit(this.onSubmit.bind(this)) },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -58400,8 +58346,8 @@
 	                ),
 	                _react2.default.createElement(
 	                  'td',
-	                  { placeholder: 'Postinumero', className: '' + (postcode.touched && postcode.error ? 'danger' : '') },
-	                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, postcode)),
+	                  { className: '' + (postcode.touched && postcode.error ? 'danger' : '') },
+	                  _react2.default.createElement('input', _extends({ placeholder: 'Postinumero', type: 'text', className: 'form-control' }, postcode)),
 	                  postcode.touched && postcode.invalid ? _react2.default.createElement(
 	                    'span',
 	                    null,
@@ -58415,7 +58361,7 @@
 	                _react2.default.createElement(
 	                  'td',
 	                  { className: '' + (city.touched && city.error ? 'danger' : '') },
-	                  _react2.default.createElement('input', _extends({ placeholder: 'Postitoimipaikka<', type: 'text', className: 'form-control' }, city)),
+	                  _react2.default.createElement('input', _extends({ placeholder: 'Postitoimipaikka', type: 'text', className: 'form-control' }, city)),
 	                  city.touched && city.invalid ? _react2.default.createElement(
 	                    'span',
 	                    null,
@@ -61788,7 +61734,7 @@
 
 	var _reactRedux = __webpack_require__(173);
 
-	var _actions = __webpack_require__(279);
+	var _actions = __webpack_require__(274);
 
 	var actions = _interopRequireWildcard(_actions);
 
@@ -61995,7 +61941,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  terms_list: []
@@ -62030,7 +61976,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  units_list: []
@@ -62070,7 +62016,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  freedays_list: []
@@ -62148,6 +62094,8 @@
 	          // TODO: error handling ?
 	          if (employer.mainEmployer) {
 	            new_state.selected_employer = employer;
+	            new_state.filters.employer_id_filter = employer.id;
+	            new_state.filters.terms_search = employer.name + " työterveystiimi";
 	          }
 	        });
 	      } else if (false) {
@@ -62326,14 +62274,23 @@
 	      return _extends({}, state, { timeofdayfilter: filter });
 
 	    case _types.SET_FILTERS:
-	      return _extends({}, state, { filters: action.filters });
+	      console.log("SET_FILTERS");
+	      new_state = _extends({}, state);
+	      // for(var key in action.filters) {
+	      //   console.log(key);
+	      //   new_state.filters[key] = action.filters[key];
+	      // }
+	      new_state.filters = action.filters;
+	      new_state.updated++;
+	      console.log(new_state);
+	      return new_state;
 
 	    default:
 	      return state;
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var _reducer_timeslots = __webpack_require__(438);
 
@@ -62376,8 +62333,13 @@
 	    unit_filter: null,
 	    lang_filter: null,
 	    gender_filter: null,
-	    city_filter: null
-	  }
+	    city_filter: null,
+	    employer_id_filter: null,
+	    date_filter: new Date(),
+	    date_filter_month: new Date().getMonth(),
+	    date_filter_year: new Date().getFullYear()
+	  },
+	  updated: 0
 	};
 
 	var new_state = void 0;
@@ -62402,8 +62364,10 @@
 	    case _types.TIMESLOTS_SEARCH:
 	      console.log("reducer_timeslots: TIMESLOTS_SEARCH");
 	      //console.log(action);
-	      if (!action.payload || !action.payload.data.timeslots) {
-	        console.log("got empty payload");
+	      if (!action.payload.data) {
+	        if (action.payload.response) {
+	          console.log("TIMESLOTS_SEARCH: got error status: " + action.payload.response.status);
+	        }
 	        return _extends({}, state, { timeslots_list: [] });
 	      }
 	      // TODO: error handling
@@ -62414,7 +62378,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  timeslots_list: [] };
@@ -62476,7 +62440,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  client_id: 0,
@@ -62530,7 +62494,7 @@
 	  }
 	};
 
-	var _types = __webpack_require__(280);
+	var _types = __webpack_require__(275);
 
 	var INITIAL_STATE = {
 	  reservationstatus: 0,

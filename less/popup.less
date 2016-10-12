@@ -1,21 +1,23 @@
+@import "variables.less";
 .mm-pop {
   width: 648.3px;
   font-size: 19px;
-}
 
-.mm-pop td {
-  padding: 0 2.2em .8em 0;
-}
+  td {
+    padding: 0 2.2em .8em 0;
+  }
 
-.mm-pop input {
-  width: 200px;
-  height: 30px;
-  padding-left: 10px;
-  font-family: ArialMT;
-  font-size: 17px;
-  color: #333333;
-}
+  input {
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
+    font-family: @font-arialmt;
+    font-size: 17px;
+    border-radius: 2px;
+    color: @green;
+  }
 
-.mm-pop textarea:focus, input:focus {
-    outline: none;
+  textarea:focus, input:focus {
+      outline: none;
+  }
 }

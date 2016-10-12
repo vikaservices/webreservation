@@ -1,3 +1,4 @@
+@import "variables.less";
 /**************  COMMON **********/
 .hide {
   display: none;
@@ -5,13 +6,10 @@
 
 .link:link, .link:visited, .link:hover {
   height: 15px;
-  font-family: HelveticaNeue;
+  font-family: @font-helveticaneue;
   font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   text-align: left;
-  color: #f10c29;
+  color: @red-ribbon;
   vertical-align: middle;
   text-decoration: none;
 }
@@ -26,18 +24,15 @@
 .section-title {
   display: inline-block;
   height: 19px;
-  font-family: Helvetica;
+  font-family: @font-helvetica;
   font-size: 18px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  color: #333333;
+  color: @green;
   margin-top: 21px;
   margin-bottom: 14px;
 }
 
 .block {
-  background-color: #fff;
+  background-color: @white;
   padding: 0 30px 30px 30px;
 }
 
@@ -64,15 +59,15 @@
 }
 
 .btn-white {
-  border: 1px solid #f10c29;
-  background-color: #fff;
+  border: 1px solid @red-ribbon;
+  background-color: @white;
   color: red;
 }
 
 .btn-red {
-  border: 1px solid #f10c29;
-  background-color: #f10c29;
-  color: #fff;
+  border: 1px solid @red-ribbon;
+  background-color: @red-ribbon;
+  color: @white;
 }
 
 button:focus {
@@ -110,7 +105,7 @@ ol {
   display: inline-block;
   width: 50px;
   height: 50px;
-  border: 1px solid #ccc;
+  border: 1px solid @gray-white;
   border-radius: 25px;
   overflow: hidden;
 }

@@ -1,3 +1,4 @@
+@import "variables.less";
 /********** SECTION : TIME SEARCH : HEADER    *************/
 .reservation-summary {
   display: inline-block;
@@ -7,7 +8,7 @@
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: #a4a4a4;
+  color: @gray-dark;
 }
 
 
@@ -30,7 +31,7 @@
   content: ' ';
   height: 13px;
   width: 2px;
-  background-color: #f10c29;;
+  background-color: @red-ribbon;
 }
 .input-reset:before {
   transform: rotate(45deg);
@@ -70,7 +71,7 @@
   z-index: 1000;
   display: block;
   height: 200px;
-  background-color: #fff;
+  background-color: @white;
   border: 1px solid #ccc;
   overflow-y: auto;
   overflow-x: hidden;
@@ -176,7 +177,7 @@
   display: inline-block;
   margin-left: 10px;
   font-weight: normal;
-  border: 1px solid #fff;
+  border: 1px solid @white;
 }
 
 .filter-time-of-day form input[type="radio"] + label:hover  {
@@ -208,7 +209,7 @@
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  color: #333333;
+  color: @green;
   text-transform: uppercase;
 }
 
@@ -249,7 +250,7 @@
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: #a4a4a4;
+  color: @gray-dark;
 }
 
 .slot-image {
@@ -266,7 +267,7 @@
   font-style: normal;
   font-stretch: normal;
   line-height: 1.17;
-  color: #4a4a4a;
+  color: @black;
 }
 
 .slot-title {
@@ -278,7 +279,7 @@
   font-style: normal;
   font-stretch: normal;
   line-height: 1.17;
-  color: #4a4a4a;
+  color: @gray-dark;
 }
 
 .slot-unit {
@@ -290,5 +291,5 @@
   font-style: normal;
   font-stretch: normal;
   line-height: 1.17;
-  color: #4a4a4a;
+  color: @gray-dark;
 }

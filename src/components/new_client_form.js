@@ -12,7 +12,7 @@ class NewClientForm extends Component {
     const { fields: { first_name, last_name, address, postcode, city, phone }, handleSubmit} = this.props;
     //console.log("newClientForm");
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form className="mm-pop" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus /><br />
         <div>
@@ -34,14 +34,14 @@ class NewClientForm extends Component {
                     <input placeholder="Katuosoite" type="text" className="form-control" {...address} />
                     {address.touched && address.invalid ? <span>{address.error}</span> : ''}
                   </td>
-                  <td placeholder="Postinumero" className={`${postcode.touched && postcode.error ? 'danger' : ''}`}>
-                    <input type="text" className="form-control" {...postcode} />
+                  <td className={`${postcode.touched && postcode.error ? 'danger' : ''}`}>
+                    <input placeholder="Postinumero" type="text" className="form-control" {...postcode} />
                     {postcode.touched && postcode.invalid ? <span>{postcode.error}</span> : ''}
                   </td>
                 </tr>
                 <tr>
                   <td className={`${city.touched && city.error ? 'danger' : ''}`}>
-                    <input placeholder="Postitoimipaikka<" type="text" className="form-control" {...city} />
+                    <input placeholder="Postitoimipaikka" type="text" className="form-control" {...city} />
                     {city.touched && city.invalid ? <span>{city.error}</span> : ''}
                   </td>
                   <td className={`${phone.touched && phone.error ? 'danger' : ''}`}>

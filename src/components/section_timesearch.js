@@ -11,7 +11,7 @@ class SectionTimeSearch extends Component {
   componentWillMount() {
     let today = new Date().toISOString().substr(0,10);
     // Initially search timeslots for today for general practioner (speciality = 2)
-    this.props.timeslotsSearch(today, null, 2);
+    this.props.timeslotsSearch(today, null, null, 72);
   }
 
   // Go back to time selection
@@ -72,7 +72,7 @@ class SectionTimeSearch extends Component {
 
 function mapStateToProps(state) {
   return {
-    selecteddate: state.app.selecteddate,
+    selecteddate: state.app.filters.date_filter,
     selectedtimeslot: state.app.selectedtimeslot,
     timesearch_section_active: state.app.timesearch_section_active,
     timeslots_list: state.app.timeslots_list,

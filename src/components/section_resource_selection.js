@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
 import OhcTeamList from './ohc_team_list';
 import OhcEmployerList from './ohc_employer_list';
 
@@ -22,10 +23,14 @@ class SectionResourceSelection extends Component {
     console.log("handleEmployerChange: " + event.target.value);
   }
 
-  handleResourceSelection(event, resourceId) {
+  handleResourceSelection(event, resourceId, resourceName) {
     event.preventDefault();
     console.log("handleResourceSelection: " + resourceId);
-    this.props.setFilter( {resource_filter: resourceId} );
+    let filters = this.props.filters;
+    filters.resource_filter = resourceId;
+    filters.terms_search = resourceName;
+    filters.employer_id_filter = null;
+    this.props.setFilter( filters );
   }
 
   render () {
@@ -67,8 +72,9 @@ function mapStateToProps(state) {
     resource_section_active: state.app.resource_section_active,
     ohc_team: state.app.selected_employer.professionals,
     employers: state.app.employers,
-    selected_employer: state.app.selected_employer
+    selected_employer: state.app.selected_employer,
+    filters: state.app.filters
   };
 }
 
-export default connect(mapStateToProps)(SectionResourceSelection);
+export default connect(mapStateToProps, actions)(SectionResourceSelection);

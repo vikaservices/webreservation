@@ -96,7 +96,7 @@ class FilterCalendar extends Component {
                   selectedDayStyle={ selectedStyle }
                   onMonthUpdate={ this.onMonthChange.bind(this) }
                   valueLink={this.linkState}
-                  min={date.setDate(date.getDate() - 1)}
+                  
                   />
         </div>
       </div>

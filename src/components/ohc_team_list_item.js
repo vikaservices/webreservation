@@ -8,7 +8,7 @@ const SearchResultListItem = ({item, onClick}) => {
       </div>
       <p>{item.resourceName}</p>
       <p>{item.title}</p>
-      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId)}>Valitse</a>
+      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId, item.resourceName)}>Valitse</a>
     </li>
   );
 }

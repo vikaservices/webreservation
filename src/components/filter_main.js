@@ -13,125 +13,17 @@ class FilterMain extends Component {
     super(props);
 
     this.state = {
-      filters : {
-        // value in search-terms input box
-        terms_search: '',
-        // value in units-search input box
-        units_search: '',
-        // resource id
-        resource_filter: null,
-        // speciality id
-        speciality_filter: null,
-        // grpup id
-        group_filter: null,
-        // unit id
-        unit_filter: null,
-        // value of language-filter
-        lang_filter: null,
-        // value of gender-filter
-        gender_filter: null,
-        // value of city-filter
-        city_filter: null,
-      },
-      // value in search-terms input box
-      terms_search: '',
-      // value in units-search input box
-      units_search: '',
-      // resource id
-      resource_filter: null,
-      // speciality id
-      speciality_filter: null,
-      // grpup id
-      group_filter: null,
-      // unit id
-      unit_filter: null,
-      // value of language-filter
-      lang_filter: null,
-      // value of gender-filter
-      gender_filter: null,
-      // value of city-filter
-      city_filter: null,
-      // selected day value of calendar-filter
-      date_filter: new Date(),
-      // selected month of calendar-filter
-      date_filter_month: new Date().getMonth(),
-      // selected year of calendar-filter
-      date_filter_year: new Date().getFullYear(),
-      // Visibility of extra filters
-      extra_filters: false,
+      // visibility of extra filters
+      extra_filters_visible: false,
       // visibility of units list
       unit_list_visible: false,
       // filtered unit list
       units_list_filtered: [],
       //
-      doupdate: false
+      do_terms_search: false,
+      do_units_filtering: false,
+      do_time_search: false
     };
-  }
-
-  componentWillReceiveProps(next_props) {
-    console.log("componentWillReceiveProps");
-
-    if( next_props.filters.terms_search && (next_props.filters.terms_search != this.state.filters.terms_search) ) {
-      console.log("componentWillReceiveProps: 1");
-      if( this.state.doupdate ) {
-        // user clicked a value from terms search list
-        this.setState( {...this.state, doupdate: false, filters: next_props.filters}, () => {
-            console.log("componentWillReceiveProps: 2");
-            this.doTimeslotsSearch();
-            this.doFreedaysSearch();
-            // clear search-hints
-            this.props.termsSearch();
-        }); 
-        return;
-      } else {
-        console.log("componentWillReceiveProps: 3");
-        // user wrote a character to terns search box
-        // {filters: {terms_search: next_props.filters.terms_search}}
-        this.setState( {filters: next_props.filters} , () => {
-          console.log("componentWillReceiveProps: 4");
-          // defer search until:
-          // 1) 3 chars written
-          // TODO: 2) at least 200-300ms between keypresses
-          if( this.state.filters.terms_search.length >= 3 ) {
-            console.log("componentWillReceiveProps: 5");
-            this.props.termsSearch(this.state.filters.terms_search);
-          } else {
-            this.props.termsSearch();
-          }
-        });
-        return;
-      }
-    }
-
-    //console.log("next_props.filters.units_search: " + next_props.filters.units_search);
-    //console.log("this.state.units_search: " + this.state.units_search);
-
-    if( next_props.filters.units_search && (next_props.filters.units_search != this.state.units_search) ) {
-      console.log("componentWillReceiveProps: 6");
-      if( this.state.doupdate ) {
-        // user clicked a value from units list
-        this.setState( {doupdate: false, filters: next_props.filters}, () => {
-          console.log("componentWillReceiveProps: 7");
-          this.doTimeslotsSearch();
-          this.doFreedaysSearch();
-        });
-        return;
-      } else {
-        console.log("componentWillReceiveProps: 8");
-        // user wrote a character to to units search box, filter unit list
-        // by new field value
-        this.setState( {filters: next_props.filters}, () => {
-          this.filterUnitsList(this.state.filters.units_search);
-        });
-        return;
-      }
-    }
-
-    if( next_props.selecteddate != this.props.selecteddate ) {
-      console.log("componentWillReceiveProps: selecteddate");
-      return;
-    }
-
   }
 
   componentDidMount() {
@@ -141,12 +33,53 @@ class FilterMain extends Component {
     }, 500);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps");
+
+    if( this.state.do_terms_search == true ) {
+      console.log("do_terms_search");
+      this.setState( { do_terms_search: false }, () => {
+        if( nextProps.filters.terms_search.length >= 3 ) {
+          console.log("do_terms_search: 1");
+          this.props.termsSearch(nextProps.filters.terms_search);
+        } else {
+          console.log("do_terms_search: 2");
+          this.props.termsSearch();
+        }
+      });
+    }
+
+    if( this.state.do_units_filtering == true ) {
+      console.log("do_units_search");
+      this.setState( {do_units_search: false}, () => {
+        this.filterUnitsList(nextProps.filters.units_search);
+      });
+    }
+
+    if( this.state.do_time_search == true ) {
+      console.log("do_time_search");
+      this.setState( {do_time_search: false}, ()  => {
+        this.doTimeslotsSearch(nextProps.filters);
+        this.doFreedaysSearch(nextProps.filters);
+        this.props.termsSearch();
+      });
+    }
+
+    if( nextProps.filters.employer_id_filter ) {
+      console.log("employer_id_filter search");
+      //this.doTimeslotsSearch(nextProps.filters);
+      //this.doFreedaysSearch(nextProps.filters);
+    }
+  } // componentWillReceiveProps
+
   render() {
+    const filters = this.props.filters;
+
     return (
       <div className="filter-main col-xs-12 col-sm-6">
         <div id="terms-search">
           <input
-            value={this.state.filters.terms_search}
+            value={filters.terms_search}
             placeholder="Nimi tai palvelu"
             data-name="terms"
             onChange={(event) => this.onInputChangeTerms(event.target.value)}
@@ -162,13 +95,13 @@ class FilterMain extends Component {
             terms search quicklinks here
           </div>
 
-          <a className={this.state.filters.terms_search == '' ? "hide" : "input-reset"}
+          <a className={filters.terms_search == '' ? "hide" : "input-reset"}
               onClick={(event) => this.clearInput('terms', event)} href=""></a>
         </div>
 
         <div id="units-search">
           <input
-            value={this.state.filters.units_search}
+            value={filters.units_search}
             placeholder="Toimipiste"
             data-name="units"
             onChange={(event) => this.onInputChangeUnit(event.target.value)}
@@ -176,7 +109,7 @@ class FilterMain extends Component {
             onBlur={(event) => this.onBlur(event)} />
 
           {this.state.unit_list_visible ?
-          <SearchResultList items_list={this.state.units_list_filtered.length > 0 || this.state.units_search.length > 0
+          <SearchResultList items_list={this.state.units_list_filtered.length > 0 || filters.units_search.length > 0
                                         ? this.state.units_list_filtered : this.props.units_list }
                             onClickHandler={this.onClickHandlerUnits.bind(this)}
                             list_id="units-search-hints"
@@ -187,17 +120,17 @@ class FilterMain extends Component {
             units search quicklinks here
           </div>
 
-          <a className={this.state.filters.units_search == '' ? "hide" : "input-reset"}
+          <a className={filters.units_search == '' ? "hide" : "input-reset"}
              onClick={(event) => this.clearInput('units', event)} href=""></a>
         </div>
 
         <FilterExtra onChange={this.onChange.bind(this)}
                      onClick={this.onToggleExtraFilters.bind(this)}
-                     show={this.state.extra_filters} />
+                     show={this.state.extra_filters_visible} />
 
         <div id="calendar-filter">
             <FilterCalendar freedays_list={this.props.freedays_list}
-                            selected_day={this.state.date_filter}
+                            selected_day={this.props.filters.date_filter}
                             onDayChange={this.onDayChange.bind(this)}
                             onMonthChange={this.onMonthChange.bind(this)} />
         </div>
@@ -210,51 +143,59 @@ class FilterMain extends Component {
     event.preventDefault();
     console.log("clearInput: " + input);
     if( input == 'terms' ) {
-      this.props.setFilter( {terms_search: ''} );
-      this.setState( {resource_filter: null,
-                      speciality_filter: null,
-                      group_filter: null }, () => {
-        this.props.termsSearch();
-        // update free days
-        this.doFreedaysSearch();
-      } );
+      this.setState( {do_terms_search: true, do_time_search: true}, () => {
+        let filters = this.props.filters;
+        filters.terms_search = '';
+        filters.resource_filter = null;
+        filters.group_filter = null;
+        filters.employer_id_filter = null;
+        this.props.setFilter( filters );
+      });
+
     } else if( input == 'units' ) {
-      this.setState( {units_search: '', unit_filter: null}, () => {
-        this.props.unitsSearch();
-        // update free days
-        this.doFreedaysSearch();
-      } );
+      this.setState( {do_time_search: true}, () => {
+        let filters = this.props.filters;
+        filters.units_search = '';
+        filters.unit_filter = null;
+        this.props.setFilter( filters );
+        // this.props.unitsSearch();
+        // // update free days
+        // this.doFreedaysSearch();
+      });
     }
   }
 
   // Called every time user types in main search field
   onInputChangeTerms(terms_search) {
     console.log("onInputChangeTerms: " + terms_search);
-    this.props.setFilter({terms_search: terms_search});
+    let filters = this.props.filters;
+    filters.terms_search = terms_search;
+    this.setState( {do_terms_search: true}, () => {
+      console.log("calling setFilter : dotermssearch = " + this.state.dotermssearch);
+      this.props.setFilter( filters );
+    });
   }
 
   // Called when user selects value from main search results
   onClickHandlerTerms(id, type, name, event) {
     event.preventDefault();
     console.log("onClickHandlerSearch: type: " + type + " name: " + name);
-    let filter;
+    let filters = this.props.filters;
+    filters.terms_search = name;
     switch(type) {
       case "RESOURCE":
-        filter = { terms_search: name, resource_filter: id };
-        break;
-      case "SPECIALITY":
-        filter = { terms_search: name, speciality_filter: id };
+        filters.resource_filter = id ;
         break;
       case "GROUP":
-        filter = { terms_search: name, group_filter: id };
+        filters.group_filter = id;
         break;
       case "UNIT":
-        filter = { terms_search: name, unit_filter: id };
+        filters.unit_filter = id;
         break;
       default:
     }
-    this.setState( {doupdate: true}, () =>{
-      this.props.setFilter( filter );
+    this.setState( {do_time_search: true}, () =>{
+      this.props.setFilter( filters );
     });
   }
 
@@ -267,37 +208,40 @@ class FilterMain extends Component {
         }
       });
     }
-    this.setState( {units_list_filtered: units_list_filtered}, () => {
-      //console.log(this.state.units_list_filtered);
-    });
+    this.setState( {units_list_filtered: units_list_filtered} );
   }
 
   // Called every time user types in units search field
   onInputChangeUnit(units_search) {
-    this.props.setFilter( {units_search: units_search} );
+    let filters = this.props.filters;
+    filters.units_search = units_search;
+    this.setState( {do_units_filtering: true}, () => {
+      this.props.setFilter( filters );
+    });
   }
 
   // Called when user selects value from units search results
   onClickHandlerUnits(id, type, name, event) {
     event.preventDefault();
     console.log("onClickHandlerUnits: " + name);
-    this.setState( {doupdate: true}, () => {
-      this.props.setFilter( {units_search: name, unit_filter: id} );
+    let filters = this.props.filters;
+    filters.units_search = name;
+    filters.unit_filter = id;
+    this.setState( {do_time_search: true}, () => {
+      this.props.setFilter( filters );
     });
   }
 
-
   onDayChange( date_filter ) {
-    this.props.setSelectedDate(date_filter);
-    this.setState( { date_filter }, function() {
-      let date = formatDate( date_filter );
-      console.log("onDayChange: date = " + date);
-      this.doTimeslotsSearch();
+    this.setState( {do_time_search: true}, () => {
+      let filters = this.props.filters;
+      filters.date_filter = date_filter;
+      this.props.setFilter( filters );
     });
   }
 
   onMonthChange( month, year ) {
-    console.log("FilterMain: current month = " + this.state.date_filter_month + " year = " + this.state.date_filter_year);
+    console.log("FilterMain: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
     console.log("FilterMain: new month = " + month + " year = " + year);
 
     // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
@@ -305,6 +249,9 @@ class FilterMain extends Component {
     this.setState( {date_filter_month: month-1, date_filter_year: year}, () => {
       this.doFreedaysSearch();
     });
+    // this.setState( {do_time}, () => {
+    //
+    // });
   }
 
   onFocus(event) {
@@ -327,7 +274,7 @@ class FilterMain extends Component {
 
   onToggleExtraFilters(event) {
     event.preventDefault();
-    this.setState( {extra_filters: !this.state.extra_filters} );
+    this.setState( {extra_filters_visible: !this.state.extra_filters_visible} );
   }
 
   // Handle extra filter changes
@@ -344,48 +291,37 @@ class FilterMain extends Component {
     this.doTimeslotsSearch();
   }
 
-  doTimeslotsSearch() {
-/*
-    console.log("date_filter :" + this.state.date_filter);
-    console.log("resource_filter :" + this.state.resource_filter);
-    console.log("speciality_filter :" + this.state.speciality_filter);
-    console.log("group_filter :" + this.state.group_filter);
-    console.log("unit_filter :" + this.state.unit_filter);
-*/
-    // this.props.timeslotsSearch( formatDate(this.state.date_filter),
-    //                             this.state.resource_filter,
-    //                             this.state.speciality_filter,
-    //                             this.state.group_filter,
-    //                             this.state.unit_filter,
-    //                             this.state.lang_filter,
-    //                             this.state.gender_filter,
-    //                             this.state.city_filter );
-    this.props.timeslotsSearch( formatDate(this.state.date_filter),
-                                this.state.filters.resource_filter,
-                                this.state.filters.speciality_filter,
-                                this.state.filters.group_filter,
-                                this.state.filters.unit_filter,
-                                this.state.filters.lang_filter,
-                                this.state.filters.gender_filter,
-                                this.state.filters.city_filter );
+  doTimeslotsSearch( filters ) {
+    if( filters.resource_filter == null &&
+        filters.group_filter == null &&
+        filters.unit_filter == null &&
+        filters.lang_filter == null &&
+        filters.gender_filter == null &&
+        filters.city_filter == null &&
+        filters.employer_id_filter == null ) {
+      return;
+    }
+    this.props.timeslotsSearch( formatDate(filters.date_filter),
+                                           filters.resource_filter,
+                                           null,
+                                           filters.group_filter,
+                                           filters.unit_filter,
+                                           filters.lang_filter,
+                                           filters.gender_filter,
+                                           filters.city_filter,
+                                           filters.employer_id_filter );
   }
 
-  doFreedaysSearch() {
-
-    console.log("date_filter :" + this.state.date_filter);
-    console.log("resource_filter :" + this.state.resource_filter);
-    console.log("speciality_filter :" + this.state.speciality_filter);
-    console.log("group_filter :" + this.state.group_filter);
-    console.log("unit_filter :" + this.state.unit_filter);
-
-/*
-    let today = new Date();
-    let currY = today.getFullYear();
-    let currM = (today.getMonth() < 10) ? "0" + (today.getMonth()) : (today.getMonth());
-    let daysInMonth = new Date(currY, currM, 0).getDate();
-    let last_of_month = new Date(currY, currM, daysInMonth);
-*/
-
+  doFreedaysSearch( filters ) {
+    if( filters.resource_filter == null &&
+        filters.group_filter == null &&
+        filters.unit_filter == null &&
+        filters.lang_filter == null &&
+        filters.gender_filter == null &&
+        filters.city_filter == null &&
+        filters.employer_id_filter == null ) {
+      return;
+    }
     // calculate start day
     // start day is either
     // - if selected month fro calendar is current month -> current day
@@ -394,32 +330,33 @@ class FilterMain extends Component {
     let currY = today.getFullYear();
     let currM = (today.getMonth() < 10) ? "0" + (today.getMonth()) : (today.getMonth());
     let start_day;
-    if( (currM != this.state.date_filter_month) ||
-        (currY != this.state.date_filter_year) ) {
+    if( (currM != filters.date_filter_month) ||
+        (currY != filters.date_filter_year) ) {
       // set to first day of selected month
-      start_day = new Date(this.state.date_filter_year, this.state.date_filter_month, 1);
+      start_day = new Date(filters.date_filter_year, filters.date_filter_month, 1);
     } else {
       start_day = today;
     }
 
     // calculate end day
-    let daysInMonth = new Date(this.state.date_filter_year, this.state.date_filter_month, 0).getDate();
-    let last_of_month = new Date(this.state.date_filter_year, this.state.date_filter_month, daysInMonth);
+    let daysInMonth = new Date(filters.date_filter_year, filters.date_filter_month, 0).getDate();
+    let last_of_month = new Date(filters.date_filter_year, filters.date_filter_month, daysInMonth);
 
     console.log("currY = " + currY + " currM = " + currM);
-    console.log("year = " + this.state.date_filter_year + " month = " + this.state.date_filter_month);
+    console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
     console.log("doFreedaysSearch: start_day = " + start_day);
     console.log("doFreedaysSearch: last_of_month = " + last_of_month);
 
     this.props.freedaysSearch( formatDate(start_day),
                                formatDate(last_of_month),
-                               this.state.resource_filter,
-                               this.state.speciality_filter,
-                               this.state.group_filter,
-                               this.state.unit_filter,
-                               this.state.lang_filter,
-                               this.state.gender_filter,
-                               this.state.city_filter );
+                               filters.resource_filter,
+                               null,
+                               filters.group_filter,
+                               filters.unit_filter,
+                               filters.lang_filter,
+                               filters.gender_filter,
+                               filters.city_filter,
+                               filters.employer_id_filter );
   }
 }
 
@@ -430,7 +367,8 @@ function mapStateToProps(state) {
     units_list: state.units.units_list,
     freedays_list: state.freedays.freedays_list,
     filters: state.app.filters,
-    selecteddate: state.app.selecteddate
+    selecteddate: state.app.selecteddate,
+    updated: state.app.updated
   };
 }
 

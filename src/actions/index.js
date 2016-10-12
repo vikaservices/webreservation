@@ -23,7 +23,8 @@ import { TERMS_SEARCH,
 import axios from 'axios';
 //import Config from 'Config';
 
-let UIServerUrl = "http://vob.fi:4000/";
+//let UIServerUrl = "http://vob.fi:4000/";
+let UIServerUrl = "http://localhost:3000/";
 
 export function termsSearch(terms=null) {
 
@@ -70,19 +71,20 @@ export function unitsSearch(units = '') {
 }
 
 
-export function timeslotsSearch(date, resource=null, speciality=null, group=null,
-                               unit=null, lang=null, gender=null, city=null) {
+export function timeslotsSearch(date, resource=null, speciality=null, groups=null,
+                               unit=null, lang=null, gender=null, city=null, employer=null) {
 
   console.log( "timeslotsSearch" );
 
   let search_str = `timeslots?date=${date}`;
   search_str += resource    ? `&resource=${resource}`     : '';
   search_str += speciality  ? `&speciality=${speciality}` : '';
-  search_str += group       ? `&group=${group}`           : '';
+  search_str += groups      ? `&groups=${groups}`         : '';
   search_str += unit        ? `&unit=${unit}`             : '';
   //search_str += lang        ? `&lang=${lang}`             : '';
   //search_str += gender      ? `&gender=${gender}`         : '';
   //search_str += city        ? `&city=${city}`             : '';
+  search_str += employer      ? `&employer=${employer}`     : '';
   console.log('search_str: ' + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
@@ -95,7 +97,7 @@ export function timeslotsSearch(date, resource=null, speciality=null, group=null
 
 
 export function freedaysSearch(from, to, resource=null, speciality=null, group=null,
-                                unit=null, lang=null, gender=null, city=null) {
+                                unit=null, lang=null, gender=null, city=null, employer=null) {
 
   console.log( "freedaysSearch" );
 
@@ -107,6 +109,7 @@ export function freedaysSearch(from, to, resource=null, speciality=null, group=n
   //search_str += lang        ? `&lang=${lang}`             : '';
   //search_str += gender      ? `&gender=${gender}`         : '';
   //search_str += city        ? `&city=${city}`             : '';
+  search_str += employer      ? `&employer=${employer}`     : '';
   console.log('search_str = ' + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);

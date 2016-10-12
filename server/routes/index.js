@@ -15,19 +15,19 @@ function wrapUnirest( apiRequest, req, res, next, payload, method) {
     console.log("sending PUT");
     console.log(payload);
 
-    // unirest.put( apiRequest )
-    //         .type('json')
-    //         .auth(dmobAuth)
-    //         .send(payload)
-    //         .end(function(response){
-    //           if( response.ok ) {
-    //             console.log("response.statusCode - ok : " + response.statusCode);
-    //             res.status(response.statusCode).json(response.body);
-    //           } else {
-    //             console.log("response.statusCode - not ok : " + response.statusCode);
-    //             res.sendStatus(response.statusCode);
-    //           }
-    //         });
+    unirest.put( apiRequest )
+            .type('json')
+            .auth(dmobAuth)
+            .send(payload)
+            .end(function(response){
+              if( response.ok ) {
+                console.log("response.statusCode - ok : " + response.statusCode);
+                res.status(response.statusCode).json(response.body);
+              } else {
+                console.log("response.statusCode - not ok : " + response.statusCode);
+                res.sendStatus(response.statusCode);
+              }
+            });
 
   } else if( method && method == "POST" ) {
     console.log("sending POST");
@@ -114,12 +114,15 @@ router.get('/timeslots', function(req, res, next) {
     if( req.query.speciality ) {
       apiRequest += '&speciality=' + encodeURIComponent(req.query.speciality);
     }
-    if( req.query.group ) {
-      apiRequest += '&group=' + encodeURIComponent(req.query.group);
+    if( req.query.groups ) {
+      apiRequest += '&groups=' + encodeURIComponent(req.query.groups);
     }
     if( req.query.unit ) {
       apiRequest += '&unit=' + encodeURIComponent(req.query.unit);
     }
+    // if( req.query.employer ) {
+    //   apiRequest += '&employerid=' + encodeURIComponent(req.query.employer);
+    // }
     wrapUnirest( apiRequest, req, res, next );
   }
 });
@@ -143,6 +146,9 @@ router.get('/freedays', function(req, res, next) {
     if( req.query.unit ) {
       apiRequest += '&unit=' + encodeURIComponent(req.query.unit);
     }
+    // if( req.query.employer ) {
+    //   apiRequest += '&employerid=' + encodeURIComponent(req.query.employer);
+    // }
     wrapUnirest( apiRequest, req, res, next );
   }
 });

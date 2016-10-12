@@ -69,7 +69,12 @@ let INITIAL_STATE = {
                         lang_filter: null,
                         gender_filter: null,
                         city_filter: null,
-                      }
+                        employer_id_filter: null,
+                        date_filter: new Date(),
+                        date_filter_month: new Date().getMonth(),
+                        date_filter_year: new Date().getFullYear()
+                      },
+                      updated: 0
                     };
 
 let new_state;
@@ -131,6 +136,8 @@ export default function(state = INITIAL_STATE, action) {
           // TODO: error handling ?
           if( employer.mainEmployer ) {
             new_state.selected_employer = employer;
+            new_state.filters.employer_id_filter = employer.id;
+            new_state.filters.terms_search = employer.name + " työterveystiimi";
           }
         });
 
@@ -314,7 +321,16 @@ export default function(state = INITIAL_STATE, action) {
         return {...state, timeofdayfilter: filter};
 
       case SET_FILTERS:
-        return {...state, filters: action.filters};
+        console.log("SET_FILTERS");
+        new_state = {...state};
+        // for(var key in action.filters) {
+        //   console.log(key);
+        //   new_state.filters[key] = action.filters[key];
+        // }
+        new_state.filters = action.filters;
+        new_state.updated++;
+        console.log(new_state);
+        return new_state;
 
       default:
         return state;

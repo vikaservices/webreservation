@@ -29949,8 +29949,9 @@
 
 	//import Config from 'Config';
 
-	//let UIServerUrl = "http://vob.fi:4000/";
-	var UIServerUrl = "http://localhost:3000/";
+	var UIServerUrl = "http://vob.fi:4000/";
+	//let UIServerUrl = "http://localhost:3000/";
+
 	//import { UIServerUrl } from '../../utils/conf';
 	function termsSearch() {
 	  var terms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;

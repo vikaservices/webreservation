@@ -31,15 +31,24 @@
 .modal-class {
     //TODO: figure out a function for centering this
     position: absolute;
+    display: inline-block;
     width: 648.3px;
     top: 12em;
-    left: 32%;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
     bottom: auto;
     height: auto;
     background-color: white;
     border: solid 1px gray;
-}
 
+    @media @respond-below-mobile {
+        top: 0;
+        bottom: 0;
+    }
+}
+//calc(100% - 10px);
 .modal-class:focus {
   border: none;
 }

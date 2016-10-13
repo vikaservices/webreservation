@@ -500,17 +500,22 @@ h5 {
 .submit-buttons-centered {
   text-align: center;
   margin-top: 30px;
+  font-family: Gotham-Book, ArialMT;
+  letter-spacing: 1px;
+  color: #fff;
 }
 .submit-buttons-centered button {
+  height: 37px;
   text-align: center;
-  padding: 5px 20px;
+  padding: 5px 15px;
   margin: 0 20px;
-  border-radius: 15px;
+  border-radius: 18.5px;
+  text-transform: uppercase;
 }
 .btn-white {
-  border: 1px solid #F10C29;
+  border: none;
   background-color: #fff;
-  color: red;
+  color: #F10C29;
 }
 .btn-red {
   border: 1px solid #F10C29;
@@ -549,13 +554,51 @@ ol {
   border-radius: 25px;
   overflow: hidden;
 }
+.client-popup h4,
+.client-popup .popup-form-input {
+  margin-left: 55px;
+}
+.client-popup h4 {
+  margin-top: 72px;
+  margin-bottom: 25px;
+}
+.client-popup input {
+  width: 200px;
+  height: 30px;
+  font-size: 17px;
+  font-family: ArialMT;
+  padding-left: 10px;
+  margin-bottom: 90px;
+}
+.client-popup .popup-control-box {
+  height: 80px;
+  border-top: 1px solid #dbdbdb;
+}
+.client-popup .popup-control-box .submit-buttons-centered {
+  margin-top: 20px;
+}
 .modal-class {
   position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  background-color: papayawhip;
+  display: inline-block;
+  width: 648.3px;
+  top: 12em;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  bottom: auto;
+  height: auto;
+  background-color: white;
+  border: solid 1px gray;
+}
+@media only screen and (max-width: 430px) {
+  .modal-class {
+    top: 0;
+    bottom: 0;
+  }
+}
+.modal-class:focus {
+  border: none;
 }
 .overlay-class {
   position: fixed;
@@ -563,7 +606,7 @@ ol {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rebeccapurple;
+  z-index: 1000;
 }
 .mm-pop {
   width: 648.3px;

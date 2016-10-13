@@ -74,11 +74,11 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <input className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <button onClick={(event) => this.resetState(event)}>Peruuta</button>
-              <button>Jatka</button>
+              <button className="btn-white" onClick={(event) => this.resetState(event)}>Peruuta</button>
+              <button className="btn-red">Jatka</button>
             </div>
           </div>
         </form>
@@ -133,7 +133,7 @@ class Popup extends Component {
 
   renderAskClientInfo() {
     return (
-      <div className="dialog mm-pop">
+      <div className="dialog">
         <form onSubmit={(event) => this.createClient($('input[name="ssn"]').val(),
                                                      $('input[name="first_name"]').val(),
                                                      $('input[name="last_name"]').val(),

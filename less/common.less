@@ -1,111 +1,118 @@
 @import "variables.less";
+@button-height: 37px;
 /**************  COMMON **********/
 .hide {
-  display: none;
+    display: none;
 }
 
 .link:link, .link:visited, .link:hover {
-  height: 15px;
-  font-family: @font-helveticaneue;
-  font-size: 13px;
-  text-align: left;
-  color: @red-ribbon;
-  vertical-align: middle;
-  text-decoration: none;
+    height: 15px;
+    font-family: @font-helveticaneue;
+    font-size: 13px;
+    text-align: left;
+    color: @red-ribbon;
+    vertical-align: middle;
+    text-decoration: none;
 }
 
 .header-row {
-  height: 62px;
-  text-align: center;
-  line-height: 62px;
-  vertical-align: center;
+    height: 62px;
+    text-align: center;
+    line-height: 62px;
+    vertical-align: center;
 }
 
 .section-title {
-  display: inline-block;
-  height: 19px;
-  font-family: @font-helvetica;
-  font-size: 18px;
-  color: @green;
-  margin-top: 21px;
-  margin-bottom: 14px;
+    display: inline-block;
+    height: 19px;
+    font-family: @font-helvetica;
+    font-size: 18px;
+    color: @green;
+    margin-top: 21px;
+    margin-bottom: 14px;
 }
 
 .block {
-  background-color: @white;
-  padding: 0 30px 30px 30px;
+    background-color: @white;
+    padding: 0 30px 30px 30px;
 }
 
 .block-separator {
-  margin: 0;
-  padding: 0;
-  line-height: 0;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
 }
 
 .block-separator img {
-  width: 100%;
+    width: 100%;
 }
 
 .submit-buttons-centered {
-  text-align: center;
-  margin-top: 30px;
-}
+    text-align: center;
+    margin-top: 30px;
+    font-family: @font-gotham;
+    letter-spacing: 1px;
+    color:@white;
 
-.submit-buttons-centered button {
-  text-align: center;
-  padding: 5px 20px;
-  margin: 0 20px;
-  border-radius: 15px;
+    button {
+        height: @button-height;
+        text-align: center;
+        padding: 5px 15px;
+        margin: 0 20px;
+        border-radius: @button-height / 2;
+        text-transform: uppercase;
+    }
 }
 
 .btn-white {
-  border: 1px solid @red-ribbon;
-  background-color: @white;
-  color: red;
+    //border: 1px solid @red-ribbon;
+    border: none;
+    background-color: @white;
+    color: @red-ribbon;
 }
 
 .btn-red {
-  border: 1px solid @red-ribbon;
-  background-color: @red-ribbon;
-  color: @white;
+    border: 1px solid @red-ribbon;
+    background-color: @red-ribbon;
+    color: @white;
 }
 
 button:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .block input[type="checkbox"],
 .block input[type="radio"] {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 ol {
-  list-style: decimal;
+    list-style: decimal;
 }
 
 .inline-box div {
-  display: inline-block;
-  border: 0px solid red;
-  vertical-align: top;
+    display: inline-block;
+    border: 0px solid red;
+    vertical-align: top;
 }
 
 .padding-left-20 {
-  padding-left: 20px;
+    padding-left: 20px;
 }
 
 .padding-left-40 {
-  padding-left: 40px;
+    padding-left: 40px;
 }
 
 .danger input {
-  border-color: red;
+    border-color: red;
 }
 
 .img-box-round-50 {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border: 1px solid @gray-white;
-  border-radius: 25px;
-  overflow: hidden;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid @gray-white;
+    border-radius: 25px;
+    overflow: hidden;
 }

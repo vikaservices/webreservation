@@ -55540,7 +55540,7 @@
 	          { name: 'regularLoginForm', onSubmit: function onSubmit(event) {
 	              return _this2.checkClientSSN($('input[name="ssn"]').val(), event);
 	            } },
-	          _react2.default.createElement('input', { placeholder: 'Henkil\xF6tunnus', type: 'text', name: 'ssn' }),
+	          _react2.default.createElement('input', { className: 'popup-form-input', placeholder: 'Henkil\xF6tunnus', type: 'text', name: 'ssn' }),
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
 	            'div',
@@ -55550,14 +55550,14 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { onClick: function onClick(event) {
+	                { className: 'btn-white', onClick: function onClick(event) {
 	                    return _this2.resetState(event);
 	                  } },
 	                'Peruuta'
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                null,
+	                { className: 'btn-red' },
 	                'Jatka'
 	              )
 	            )
@@ -55681,7 +55681,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog mm-pop' },
+	        { className: 'dialog' },
 	        _react2.default.createElement(
 	          'form',
 	          { onSubmit: function onSubmit(event) {
@@ -58287,7 +58287,7 @@
 
 	      return _react2.default.createElement(
 	        'form',
-	        { className: 'mm-pop', onSubmit: handleSubmit(this.onSubmit.bind(this)) },
+	        { onSubmit: handleSubmit(this.onSubmit.bind(this)) },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -58394,7 +58394,7 @@
 	              } },
 	            _react2.default.createElement(
 	              'button',
-	              null,
+	              { className: 'btn-white' },
 	              'Peruuta'
 	            )
 	          ),
@@ -58403,7 +58403,7 @@
 	            { href: '' },
 	            _react2.default.createElement(
 	              'button',
-	              null,
+	              { className: 'btn-red' },
 	              'Jatka'
 	            )
 	          )

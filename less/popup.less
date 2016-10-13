@@ -1,8 +1,8 @@
 @import "variables.less";
 
 .client-popup {
-  h4, form {
-    padding-left: 55px;
+  h4, .popup-form-input {
+    margin-left: 55px;
   }
 
   h4 {
@@ -19,18 +19,21 @@
   }
   .popup-control-box {
     height: 80px;
+    border-top: 1px solid #dbdbdb;
 
     .submit-buttons-centered {
-      margin-top: 0;
+      //TODO: Change this
+      margin-top: 20px;
     }
   }
 }
 
 .modal-class {
+    //TODO: figure out a function for centering this
     position: absolute;
+    width: 648.3px;
     top: 12em;
-    left: 15%;
-    right: 15%;
+    left: 32%;
     bottom: auto;
     height: auto;
     background-color: white;
@@ -47,7 +50,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-      z-index: 1000;
+    z-index: 1000;
   }
 
 .mm-pop {

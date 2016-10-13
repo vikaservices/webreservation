@@ -46,7 +46,7 @@ class SectionTimeSearch extends Component {
                   {this.props.selectedtimeslot.unitName}
                 </span>
               </div>
-              <a href="" className="link pull-right" onClick={(event) => this.backToTimeSelection(event)}>Muuta valintaa</a>
+              <a href="" className="link font-size-14 pull-right" onClick={(event) => this.backToTimeSelection(event)}>Muuta valintaa</a>
             </div>
           </div>
         </div>

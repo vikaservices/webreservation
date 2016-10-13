@@ -17,10 +17,10 @@ const TimeSlotListItem = (props) => {
         <span className="slot-unit">{props.slot.unitName}</span>
       </div>
       <div className="slot-inline pull-right">
-        <a className="link" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
-                                                        props.slot.time, props.slot.duration,
-                                                        props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName,
-                                                        event)}>Varaa</a>
+        <a className="link font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
+                                                                    props.slot.time, props.slot.duration,
+                                                                    props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName,
+                                                                    event)}>Varaa</a>
       </div>
     </li>
   );

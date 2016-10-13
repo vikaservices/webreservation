@@ -138,6 +138,10 @@ class FilterMain extends Component {
                      onClick={this.onToggleExtraFilters.bind(this)}
                      show={this.state.extra_filters_visible} />
 
+        <div className="turku-link">
+          <a href="https://wrui01.securasp.fi/LA2094_Eloni/">DIACOR TURUN AJANVARAUS &gt;</a>
+        </div>
+
         <div id="calendar-filter">
             <FilterCalendar freedays_list={this.props.freedays_list}
                             selected_day={new Date(this.props.filters.date_filter)}

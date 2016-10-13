@@ -222,7 +222,7 @@ h5 {
 }
 /***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
 #extra-filters {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 /***** SECTION : TIME SEARCH : FILTERS : CALENDAR   *****/
 #calendar-filter {
@@ -387,6 +387,21 @@ h5 {
   line-height: 1.17;
   color: #4a4a4a;
 }
+/***************************/
+.turku-link {
+  margin-bottom: 20px;
+}
+.turku-link a:link,
+.turku-link a:visited,
+.turku-link a:hover {
+  text-decoration: none;
+  font-family: ArialMT;
+  font-size: 11px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #000;
+}
 /**********  SECTION : CONFIRMATION **************/
 .confirmation-block {
   margin-top: 50px;
@@ -464,11 +479,19 @@ h5 {
 .link:hover {
   height: 15px;
   font-family: HelveticaNeue;
-  font-size: 13px;
   text-align: left;
   color: #F10C29;
   vertical-align: middle;
   text-decoration: none;
+}
+.font-size-11 {
+  font-size: 11px;
+}
+.font-size-13 {
+  font-size: 13px;
+}
+.font-size-14 {
+  font-size: 14px;
 }
 .header-row {
   height: 62px;
@@ -500,17 +523,22 @@ h5 {
 .submit-buttons-centered {
   text-align: center;
   margin-top: 30px;
+  font-family: Gotham-Book, ArialMT;
+  letter-spacing: 1px;
+  color: #fff;
 }
 .submit-buttons-centered button {
+  height: 37px;
   text-align: center;
-  padding: 5px 20px;
+  padding: 5px 15px;
   margin: 0 20px;
-  border-radius: 15px;
+  border-radius: 18.5px;
+  text-transform: uppercase;
 }
 .btn-white {
-  border: 1px solid #F10C29;
+  border: none;
   background-color: #fff;
-  color: red;
+  color: #F10C29;
 }
 .btn-red {
   border: 1px solid #F10C29;
@@ -549,13 +577,41 @@ ol {
   border-radius: 25px;
   overflow: hidden;
 }
+.client-popup h4,
+.client-popup .popup-form-input {
+  margin-left: 55px;
+}
+.client-popup h4 {
+  margin-top: 72px;
+  margin-bottom: 25px;
+}
+.client-popup input {
+  width: 200px;
+  height: 30px;
+  font-size: 17px;
+  font-family: ArialMT;
+  padding-left: 10px;
+  margin-bottom: 90px;
+}
+.client-popup .popup-control-box {
+  height: 80px;
+  border-top: 1px solid #dbdbdb;
+}
+.client-popup .popup-control-box .submit-buttons-centered {
+  margin-top: 20px;
+}
 .modal-class {
   position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  background-color: papayawhip;
+  width: 648.3px;
+  top: 12em;
+  left: 32%;
+  bottom: auto;
+  height: auto;
+  background-color: white;
+  border: solid 1px gray;
+}
+.modal-class:focus {
+  border: none;
 }
 .overlay-class {
   position: fixed;
@@ -563,7 +619,7 @@ ol {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rebeccapurple;
+  z-index: 1000;
 }
 .mm-pop {
   width: 648.3px;

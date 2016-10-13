@@ -1,12 +1,45 @@
 @import "variables.less";
 
+.client-popup {
+  h4, form {
+    padding-left: 55px;
+  }
+
+  h4 {
+    margin-top: 72px;
+    margin-bottom: 25px;
+  }
+  //test
+  input {
+    width: 200px;
+    height: 30px;
+    font-size: 17px;
+    font-family: ArialMT;
+    padding-left: 10px;
+    margin-bottom: 90px;
+  }
+  .popup-control-box {
+    height: 80px;
+
+    .submit-buttons-centered {
+      margin-top: 0;
+    }
+  }
+}
+
 .modal-class {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  background-color: papayawhip;
+    position: absolute;
+    top: 12em;
+    left: 15%;
+    right: 15%;
+    bottom: auto;
+    height: auto;
+    background-color: white;
+    border: solid 1px gray;
+}
+
+.modal-class:focus {
+  border: none;
 }
 
 .overlay-class {
@@ -15,7 +48,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rebeccapurple;
+      z-index: 1000;
   }
 
 .mm-pop {
@@ -33,7 +66,7 @@
     font-family: @font-arialmt;
     font-size: 17px;
     border-radius: 2px;
-    color: @green;
+	color: @green;
   }
 
   textarea:focus, input:focus {

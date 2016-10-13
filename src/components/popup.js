@@ -72,14 +72,16 @@ class Popup extends Component {
   renderAskSnn() {
     return (
       <div className="client-popup">
+        <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <h4>Hei, kuka on tulossa vastaanotolle</h4>
           <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+        </form>
+        <div className="popup-control-box">
           <div className="submit-buttons-centered">
             <button onClick={(event) => this.resetState(event)}>Peruuta</button>
             <button>Jatka</button>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
@@ -87,8 +89,8 @@ class Popup extends Component {
   renderAskSnnOhc() {
     return (
       <div className="client-popup">
+        <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
         <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
           <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <div className="submit-buttons-centered">
             <button onClick={(event) => this.resetState(event)}>Peruuta</button>

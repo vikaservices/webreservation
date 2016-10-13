@@ -8,11 +8,31 @@ class NewClientForm extends Component {
     console.log("NewClientForm: onSubmit");
   }
 
+  renderNormalButtons() {
+      return (
+          <div className="submit-buttons-centered">
+            <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
+            <a href=""><button className="btn-red">Jatka</button></a>
+          </div>
+      );
+  }
+
+  renderPopupButtons() {
+      return (
+          <div className="popup-control-box">
+              <div className="submit-buttons-centered">
+                <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
+                <a href=""><button className="btn-red">Jatka</button></a>
+              </div>
+          </div>
+      );
+  }
+
   render() {
     const { fields: { first_name, last_name, address, postcode, city, phone }, handleSubmit} = this.props;
     //console.log("newClientForm");
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form className={this.props.popUp === true ? 'client-popup-form' : ''} onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus /><br />
         <div>
@@ -52,10 +72,7 @@ class NewClientForm extends Component {
               </tbody>
             </table>
         </div>
-        <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
-          <a href=""><button className="btn-red">Jatka</button></a>
-        </div>
+        {this.props.popUp === true ? this.renderPopupButtons() : this.renderNormalButtons()}
       </form>
     );
   }

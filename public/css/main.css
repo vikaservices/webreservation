@@ -554,6 +554,59 @@ ol {
   border-radius: 25px;
   overflow: hidden;
 }
+.img-doctor {
+  position: absolute;
+  top: 5em;
+  right: 14em;
+  width: 8em;
+}
+.client-popup-form {
+  margin-left: 55px;
+}
+.client-popup-form h4,
+.client-popup-form .popup-form-input {
+  margin-left: 55px;
+}
+.client-popup-form h4 {
+  margin-top: 72px;
+  margin-bottom: 25px;
+}
+.client-popup-form td {
+  padding: 0 2.2em .8em 0;
+}
+.client-popup-form td input {
+  margin-bottom: 0;
+}
+.client-popup-form input {
+  width: 240px;
+  height: 34px;
+  font-size: 17px;
+  font-family: ArialMT;
+  padding-left: 10px;
+  margin-bottom: 90px;
+  border-radius: 2px;
+  border: solid 1px #e8e8e8;
+}
+.client-popup-form .popup-control-box {
+  height: 80px;
+  border-top: 1px solid #dbdbdb;
+}
+.client-popup-form .popup-control-box .submit-buttons-centered {
+  margin-top: 20px;
+}
+.client-popup-form input {
+  margin: 0;
+}
+.client-popup-form h4 {
+  margin-left: 0;
+}
+.client-popup-form div h4 {
+  margin-top: 35px;
+}
+.client-popup-form .popup-control-box {
+  margin-top: 50px;
+  margin-left: -55px;
+}
 .client-popup h4,
 .client-popup .popup-form-input {
   margin-left: 55px;
@@ -562,13 +615,21 @@ ol {
   margin-top: 72px;
   margin-bottom: 25px;
 }
+.client-popup td {
+  padding: 0 2.2em .8em 0;
+}
+.client-popup td input {
+  margin-bottom: 0;
+}
 .client-popup input {
-  width: 200px;
-  height: 30px;
+  width: 240px;
+  height: 34px;
   font-size: 17px;
   font-family: ArialMT;
   padding-left: 10px;
   margin-bottom: 90px;
+  border-radius: 2px;
+  border: solid 1px #e8e8e8;
 }
 .client-popup .popup-control-box {
   height: 80px;
@@ -598,7 +659,7 @@ ol {
   }
 }
 .modal-class:focus {
-  border: none;
+  outline: none;
 }
 .overlay-class {
   position: fixed;
@@ -607,26 +668,6 @@ ol {
   right: 0;
   bottom: 0;
   z-index: 1000;
-}
-.mm-pop {
-  width: 648.3px;
-  font-size: 19px;
-}
-.mm-pop td {
-  padding: 0 2.2em .8em 0;
-}
-.mm-pop input {
-  width: 200px;
-  height: 30px;
-  padding-left: 10px;
-  font-family: ArialMT;
-  font-size: 17px;
-  border-radius: 2px;
-  color: #333333;
-}
-.mm-pop textarea:focus,
-.mm-pop input:focus {
-  outline: none;
 }
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 /**

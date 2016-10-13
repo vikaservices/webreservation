@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import NewClientForm from './new_client_form';
+import SvgDefinitions from './common/svg_definitions';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
@@ -81,6 +82,7 @@ class Popup extends Component {
               <button className="btn-red">Jatka</button>
             </div>
           </div>
+          <img className='img-doctor' src="public/img/group-15@3x.png" />
         </form>
       </div>
     );
@@ -187,7 +189,7 @@ class Popup extends Component {
     console.log("renderAskClientInfoForm");
     return (
       <div className="dialog">
-        <NewClientForm resetState={this.resetState.bind(this)}/>
+        <NewClientForm popUp={true} resetState={this.resetState.bind(this)}/>
       </div>
     );
   }

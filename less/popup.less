@@ -1,29 +1,73 @@
 @import "variables.less";
 
-.client-popup {
-  h4, .popup-form-input {
-    margin-left: 55px;
-  }
+.img-doctor {
 
-  h4 {
-    margin-top: 72px;
-    margin-bottom: 25px;
-  }
-  input {
-    width: 200px;
-    height: 30px;
-    font-size: 17px;
-    font-family: ArialMT;
-    padding-left: 10px;
-    margin-bottom: 90px;
-  }
-  .popup-control-box {
-    height: 80px;
-    border-top: 1px solid #dbdbdb;
+    position: absolute;
+    top: 5em;
+    right: 14em;
+    width: 8em;
+}
+
+.client-popup-form {
+
+    margin-left: 55px;
+
+    .client-popup;
+
+    input {
+        margin: 0;
+    }
+
+    h4 {
+        margin-left: 0;
+    }
+
+    div h4 {
+        margin-top: 35px;
+    }
+
+    .popup-control-box {
+        margin-top: 50px;
+        margin-left: -55px;
+    }
+}
+
+.client-popup {
+    h4, .popup-form-input {
+        margin-left: 55px;
+    }
+
+    h4 {
+        margin-top: 72px;
+        margin-bottom: 25px;
+    }
+
+    td {
+        padding: 0 2.2em .8em 0;
+
+        input {
+            margin-bottom: 0;
+        }
+    }
+
+    input {
+        width: 240px;
+        height: 34px;
+        font-size: 17px;
+        font-family: ArialMT;
+        padding-left: 10px;
+        margin-bottom: 90px;
+        border-radius: 2px;
+        border: solid 1px #e8e8e8;
+    }
+
+    .popup-control-box {
+        height: 80px;
+        border-top: 1px solid #dbdbdb;
 
     .submit-buttons-centered {
-      //TODO: Change this
-      margin-top: 20px;
+          //TODO: Change this
+          margin-top: 20px;
     }
   }
 }
@@ -48,9 +92,9 @@
         bottom: 0;
     }
 }
-//calc(100% - 10px);
+
 .modal-class:focus {
-  border: none;
+  outline: none;
 }
 
 .overlay-class {
@@ -60,27 +104,4 @@
     right: 0;
     bottom: 0;
     z-index: 1000;
-  }
-
-.mm-pop {
-  width: 648.3px;
-  font-size: 19px;
-
-  td {
-    padding: 0 2.2em .8em 0;
-  }
-
-  input {
-    width: 200px;
-    height: 30px;
-    padding-left: 10px;
-    font-family: @font-arialmt;
-    font-size: 17px;
-    border-radius: 2px;
-	color: @green;
-  }
-
-  textarea:focus, input:focus {
-      outline: none;
-  }
 }

@@ -75,15 +75,15 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _cancel_reservation = __webpack_require__(431);
+	var _cancel_reservation = __webpack_require__(432);
 
 	var _cancel_reservation2 = _interopRequireDefault(_cancel_reservation);
 
-	var _error_ = __webpack_require__(432);
+	var _error_ = __webpack_require__(433);
 
 	var _error_2 = _interopRequireDefault(_error_);
 
-	var _reducers = __webpack_require__(433);
+	var _reducers = __webpack_require__(434);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -55452,6 +55452,10 @@
 
 	var _new_client_form2 = _interopRequireDefault(_new_client_form);
 
+	var _svg_definitions = __webpack_require__(431);
+
+	var _svg_definitions2 = _interopRequireDefault(_svg_definitions);
+
 	var _types = __webpack_require__(275);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -55562,7 +55566,8 @@
 	                'Jatka'
 	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement('img', { className: 'img-doctor', src: 'public/img/group-15@3x.png' })
 	        )
 	      );
 	    }
@@ -55779,7 +55784,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog' },
-	        _react2.default.createElement(_new_client_form2.default, { resetState: this.resetState.bind(this) })
+	        _react2.default.createElement(_new_client_form2.default, { popUp: true, resetState: this.resetState.bind(this) })
 	      );
 	    }
 	  }, {
@@ -58271,10 +58276,72 @@
 	      console.log("NewClientForm: onSubmit");
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'renderNormalButtons',
+	    value: function renderNormalButtons() {
 	      var _this2 = this;
 
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'submit-buttons-centered' },
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this2.props.resetState(event);
+	            } },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn-white' },
+	            'Peruuta'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn-red' },
+	            'Jatka'
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'renderPopupButtons',
+	    value: function renderPopupButtons() {
+	      var _this3 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'popup-control-box' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'submit-buttons-centered' },
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', onClick: function onClick(event) {
+	                return _this3.props.resetState(event);
+	              } },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn-white' },
+	              'Peruuta'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: '' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn-red' },
+	              'Jatka'
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	      var _props = this.props;
 	      var _props$fields = _props.fields;
 	      var first_name = _props$fields.first_name;
@@ -58288,7 +58355,7 @@
 
 	      return _react2.default.createElement(
 	        'form',
-	        { onSubmit: handleSubmit(this.onSubmit.bind(this)) },
+	        { className: this.props.popUp === true ? 'client-popup-form' : '', onSubmit: handleSubmit(this.onSubmit.bind(this)) },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -58385,30 +58452,7 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'submit-buttons-centered' },
-	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this2.props.resetState(event);
-	              } },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn-white' },
-	              'Peruuta'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { href: '' },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn-red' },
-	              'Jatka'
-	            )
-	          )
-	        )
+	        this.props.popUp === true ? this.renderPopupButtons() : this.renderNormalButtons()
 	      );
 	    }
 	  }]);
@@ -61726,6 +61770,160 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SvgDefinitions = function (_Component) {
+	    _inherits(SvgDefinitions, _Component);
+
+	    function SvgDefinitions(props) {
+	        _classCallCheck(this, SvgDefinitions);
+
+	        return _possibleConstructorReturn(this, (SvgDefinitions.__proto__ || Object.getPrototypeOf(SvgDefinitions)).call(this, props));
+	    }
+
+	    _createClass(SvgDefinitions, [{
+	        key: 'renderSvg',
+	        value: function renderSvg() {
+	            switch (this.props.Icon) {
+	                case 'doctor':
+	                    return this.doctor();
+	                default:
+	                    return null;
+	            }
+	        }
+	    }, {
+	        key: 'doctor',
+	        value: function doctor() {
+	            return _react2.default.createElement(
+	                'svg',
+	                { className: this.props.className, width: '113px', height: '132px', viewBox: '0 0 113 132' },
+	                _react2.default.createElement(
+	                    'filter',
+	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-1' },
+	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '10 0', 'in': 'SourceGraphic' })
+	                ),
+	                _react2.default.createElement('path', { d: 'M0.756410256,49.9466304 C0.756410256,43.8273883 5.598243,37.7648503 11.5838164,36.5040214 C11.5838164,36.5040214 17.867274,34.7948718 23.1611433,34.7948718 C28.1944985,34.7948718 33.9749085,36.4363961 33.9749085,36.4363961 C39.9447893,37.7786504 44.7843339,43.8403469 44.7843339,49.9466304 L44.7843339,116.487179 L0.756410256,116.487179 L0.756410256,49.9466304 Z', id: 'path-2' }),
+	                _react2.default.createElement(
+	                    'filter',
+	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-3' },
+	                    _react2.default.createElement('feOffset', { dx: '0', dy: '0', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
+	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2.5', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
+	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.619791667   0 0 0 0 0.619791667   0 0 0 0 0.619791667  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
+	                ),
+	                _react2.default.createElement('rect', { id: 'path-4', x: '8.32051282', y: '116.487179', width: '9.54451492', height: '10.0670901' }),
+	                _react2.default.createElement(
+	                    'filter',
+	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-5' },
+	                    _react2.default.createElement('feOffset', { dx: '0', dy: '1', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
+	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
+	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.53651148   0 0 0 0 0.53651148   0 0 0 0 0.53651148  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
+	                ),
+	                _react2.default.createElement('rect', { id: 'path-6', x: '26.474359', y: '116.538579', width: '9.54451492', height: '10.0670901' }),
+	                _react2.default.createElement(
+	                    'filter',
+	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-7' },
+	                    _react2.default.createElement('feOffset', { dx: '0', dy: '1', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
+	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
+	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.53651148   0 0 0 0 0.53651148   0 0 0 0 0.53651148  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
+	                ),
+	                _react2.default.createElement(
+	                    'g',
+	                    { id: 'Ajanvaraus-Desktop', stroke: 'none', 'stroke-width': '1', fill: 'none', 'fill-rule': 'evenodd' },
+	                    _react2.default.createElement(
+	                        'g',
+	                        { id: 'TT---Dialogi---Ty\xF6terveysasiakkaan---kirjaudu-Desktop', transform: 'translate(-431.000000, -116.000000)' },
+	                        _react2.default.createElement(
+	                            'g',
+	                            { id: 'Group-15', transform: 'translate(458.000000, 116.000000)' },
+	                            _react2.default.createElement('path', { d: 'M22.8448698,131.489755 C24.9836723,131.571949 27.2114017,131.615385 29.5,131.615385 C45.7924001,131.615385 59,129.414118 59,126.698718 C59,123.983318 45.7924001,121.782051 29.5,121.782051 C13.2075999,121.782051 0,123.983318 0,126.698718 C0,129.032685 9.75765996,130.986815 22.8448698,131.489755 Z', id: 'Oval-3', fill: '#D8D8D8', opacity: '0.261660448', filter: 'url(#filter-1)' }),
+	                            _react2.default.createElement(
+	                                'g',
+	                                { id: 'Group-14', transform: 'translate(6.051282, 0.000000)' },
+	                                _react2.default.createElement('ellipse', { id: 'Oval-100', fill: '#52312B', cx: '8.77479598', cy: '22.3363562', rx: '8.77479598', ry: '9.12330042' }),
+	                                _react2.default.createElement(
+	                                    'g',
+	                                    { id: 'Rectangle-46' },
+	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-3)' }),
+	                                    _react2.default.createElement('use', { fill: '#FFFFFF', 'fill-rule': 'evenodd' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'g',
+	                                    { id: 'Rectangle-48-+-Rectangle-48-Copy', transform: 'translate(16.318042, 40.897554)' },
+	                                    _react2.default.createElement('rect', { id: 'Rectangle-48', fill: '#F10C29', x: '0', y: '0', width: '13.5470534', height: '75.5896259' }),
+	                                    _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy', fill: '#EABF91', points: '0 0 13.5470534 0 13.5470534 12.1546084 6.83199708 21.3874922 0 12.1546084' })
+	                                ),
+	                                _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy-2', fill: '#F10C29', points: '33.559746 35.549412 33.559746 45.9310987 23.0915684 41.8732362' }),
+	                                _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy-3', fill: '#F10C29', transform: 'translate(16.625929, 40.740255) scale(-1, 1) translate(-16.625929, -40.740255) ', points: '21.860018 35.549412 21.860018 45.9310987 11.3918404 41.8732362' }),
+	                                _react2.default.createElement('ellipse', { id: 'Oval-100-Copy', fill: '#52312B', cx: '36.7925656', cy: '22.3363562', rx: '8.77479598', ry: '9.12330042' }),
+	                                _react2.default.createElement('path', { d: 'M8.94334124,15.4190288 C8.60556618,7.77206878 14.5323518,1.57298283 22.1910755,1.57298283 L23.3762905,1.57298283 C31.0305872,1.57298283 36.9617441,7.77332974 36.6240248,15.4190288 L36.0407243,28.6244905 C35.7029492,36.2714505 29.2260911,42.4705365 21.5628182,42.4705365 L24.0045478,42.4705365 C16.3463961,42.4705365 9.8643611,36.2701895 9.52664174,28.6244905 L8.94334124,15.4190288 Z', id: 'Rectangle-40', fill: '#EABF91' }),
+	                                _react2.default.createElement('path', { d: 'M36.6383358,20.3643029 L36.9186815,14.1482719 C37.2712751,6.33030931 31.2138518,0 23.3894596,0 L22.1779065,0 C14.3489889,0 8.29627537,6.33439711 8.64868457,14.1482719 L8.97985389,21.4912006 C14.137483,18.7834163 21.2734998,7.57240762 28.6247631,9.25285316 C36.2754428,11.0017431 34.8805832,22.0217596 34.8805832,22.0217596 L36.6383358,20.3643029 Z', id: 'Rectangle-40-Copy-3', fill: '#52312B' }),
+	                                _react2.default.createElement('path', { d: 'M33.6847749,20.7886878 C34.2709146,19.0649736 36.1250758,18.1484361 37.8269954,18.7418351 L37.8269954,18.7418351 C39.528541,19.3351037 40.4332917,21.2118143 39.8466164,22.9371035 L38.668806,26.4007972 C38.0826663,28.1245113 36.2285051,29.0410489 34.5265854,28.4476498 L34.5265854,28.4476498 C32.8250399,27.8543812 31.9202892,25.9776707 32.5069645,24.2523815 L33.6847749,20.7886878 L33.6847749,20.7886878 Z', id: 'Rectangle-40-Copy', fill: '#EABF91' }),
+	                                _react2.default.createElement('path', { d: 'M12.4983618,20.7886878 C11.9122221,19.0649736 10.0580609,18.1484361 8.35614127,18.7418351 L8.35614127,18.7418351 C6.65459574,19.3351037 5.74984505,21.2118143 6.33652036,22.9371035 L7.51433075,26.4007972 C8.10047046,28.1245113 9.95463165,29.0410489 11.6565513,28.4476498 L11.6565513,28.4476498 C13.3580968,27.8543812 14.2628475,25.9776707 13.6761722,24.2523815 L12.4983618,20.7886878 L12.4983618,20.7886878 Z', id: 'Rectangle-40-Copy-2', fill: '#EABF91' }),
+	                                _react2.default.createElement('path', { d: 'M23.3994559,37.4369914 C26.6302466,37.4369914 29.2493199,34.7608475 29.2493199,31.4596566 C26.3195598,31.8667682 21.4402378,31.4596567 17.549592,31.4596566 C17.549592,34.7608475 20.1686653,37.4369914 23.3994559,37.4369914 Z', id: 'Oval-102', fill: '#FFFFFF' }),
+	                                _react2.default.createElement('ellipse', { id: 'Oval-103', fill: '#000000', cx: '27.8638258', cy: '19.3476888', rx: '1.3854941', ry: '1.41568455' }),
+	                                _react2.default.createElement('ellipse', { id: 'Oval-103-Copy', fill: '#000000', cx: '17.3956482', cy: '19.3476888', rx: '1.3854941', ry: '1.41568455' }),
+	                                _react2.default.createElement('rect', { id: 'Rectangle-52', fill: '#F10C29', x: '35.4070715', y: '74.5593862', width: '9.54451492', height: '3.46056223' }),
+	                                _react2.default.createElement('rect', { id: 'Rectangle-52-Copy', fill: '#F10C29', x: '0.615775156', y: '74.5593862', width: '9.54451492', height: '3.46056223' }),
+	                                _react2.default.createElement('rect', { id: 'Rectangle-53', fill: '#EABF91', x: '0.615775156', y: '78.0199485', width: '9.54451492', height: '10.0670901' }),
+	                                _react2.default.createElement(
+	                                    'g',
+	                                    { id: 'Rectangle-53' },
+	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-5)' }),
+	                                    _react2.default.createElement('use', { fill: '#EABF91', 'fill-rule': 'evenodd' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'g',
+	                                    { id: 'Rectangle-53-Copy-2' },
+	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-7)' }),
+	                                    _react2.default.createElement('use', { fill: '#EABF91', 'fill-rule': 'evenodd' })
+	                                ),
+	                                _react2.default.createElement('rect', { id: 'Rectangle-53-Copy', fill: '#EABF91', x: '35.4070715', y: '78.0199485', width: '9.54451492', height: '10.0670901' })
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.renderSvg()
+	            );
+	        }
+	    }]);
+
+	    return SvgDefinitions;
+	}(_react.Component);
+
+	;
+
+	exports.default = SvgDefinitions;
+
+/***/ },
+/* 432 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
@@ -61843,7 +62041,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(CancelReservation);
 
 /***/ },
-/* 432 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61873,7 +62071,7 @@
 	exports.default = Error404;
 
 /***/ },
-/* 433 */
+/* 434 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61884,19 +62082,19 @@
 
 	var _redux = __webpack_require__(180);
 
-	var _reducer_terms = __webpack_require__(434);
+	var _reducer_terms = __webpack_require__(435);
 
 	var _reducer_terms2 = _interopRequireDefault(_reducer_terms);
 
-	var _reducer_units = __webpack_require__(435);
+	var _reducer_units = __webpack_require__(436);
 
 	var _reducer_units2 = _interopRequireDefault(_reducer_units);
 
-	var _reducer_freedays = __webpack_require__(436);
+	var _reducer_freedays = __webpack_require__(437);
 
 	var _reducer_freedays2 = _interopRequireDefault(_reducer_freedays);
 
-	var _reducer_app = __webpack_require__(437);
+	var _reducer_app = __webpack_require__(438);
 
 	var _reducer_app2 = _interopRequireDefault(_reducer_app);
 
@@ -61915,7 +62113,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 434 */
+/* 435 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -61951,7 +62149,7 @@
 	};
 
 /***/ },
-/* 435 */
+/* 436 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -61986,7 +62184,7 @@
 	};
 
 /***/ },
-/* 436 */
+/* 437 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -62027,7 +62225,7 @@
 	};
 
 /***/ },
-/* 437 */
+/* 438 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62290,15 +62488,15 @@
 
 	var _types = __webpack_require__(275);
 
-	var _reducer_timeslots = __webpack_require__(438);
+	var _reducer_timeslots = __webpack_require__(439);
 
 	var _reducer_timeslots2 = _interopRequireDefault(_reducer_timeslots);
 
-	var _reducer_client = __webpack_require__(439);
+	var _reducer_client = __webpack_require__(440);
 
 	var _reducer_client2 = _interopRequireDefault(_reducer_client);
 
-	var _reducer_reservation = __webpack_require__(440);
+	var _reducer_reservation = __webpack_require__(441);
 
 	var _reducer_reservation2 = _interopRequireDefault(_reducer_reservation);
 
@@ -62358,7 +62556,7 @@
 	console.log(INITIAL_STATE);
 
 /***/ },
-/* 438 */
+/* 439 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -62400,7 +62598,7 @@
 	};
 
 /***/ },
-/* 439 */
+/* 440 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -62459,7 +62657,7 @@
 	var _types = __webpack_require__(275);
 
 /***/ },
-/* 440 */
+/* 441 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

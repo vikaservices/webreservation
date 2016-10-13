@@ -75,13 +75,13 @@ class Popup extends Component {
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
-        </form>
-        <div className="popup-control-box">
-          <div className="submit-buttons-centered">
-            <button onClick={(event) => this.resetState(event)}>Peruuta</button>
-            <button>Jatka</button>
+          <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <button onClick={(event) => this.resetState(event)}>Peruuta</button>
+              <button>Jatka</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }

@@ -141,7 +141,7 @@ router.get('/freedays', function(req, res, next) {
       apiRequest += '&speciality=' + encodeURIComponent(req.query.speciality);
     }
     if( req.query.group ) {
-      apiRequest += '&group=' + encodeURIComponent(req.query.group);
+      apiRequest += '&groups=' + encodeURIComponent(req.query.groups);
     }
     if( req.query.unit ) {
       apiRequest += '&unit=' + encodeURIComponent(req.query.unit);
@@ -217,7 +217,7 @@ router.get('/reservations', function(req, res, next) {
   }
 
   else if( req.query.method  == "POST" ) {
-    if( !req.query.reservationId || !req.query.clientId || !req.query.notes || !req.query.visitType ||
+    if( !req.query.reservationId || !req.query.clientId || !req.query.visitType ||
         !req.query.smsNotificationTo || !req.query.emailConfirmationTo || !req.query.method ) {
       res.sendStatus(400);
       return 0;

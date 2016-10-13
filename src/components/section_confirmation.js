@@ -74,7 +74,7 @@ class SectionConfirmation extends Component {
               <h5>VARATTAVA AIKA</h5>
               <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.resourceName : ""}</span><br />
               <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.title : ""}</span><br />
-              <span>{formatDate2('fi', this.props.selecteddate)}</span><br />
+              <span>{formatDate2('fi', new Date(this.props.date_filter))}</span><br />
               <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.startTimeHours : ""} </span>
               <span>{this.props.selectedtimeslot ? "(" + this.props.selectedtimeslot.duration + " min)" : ""}</span><br />
               <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.unitName : ""}</span>
@@ -144,7 +144,7 @@ class SectionConfirmation extends Component {
 
 function mapStateToProps(state) {
   return {
-    selecteddate: state.app.selecteddate,
+    date_filter: state.app.filters.date_filter,
     selectedtimeslot: state.app.selectedtimeslot,
     prereservation: state.app.prereservation,
     appstate: state.app.appstate,

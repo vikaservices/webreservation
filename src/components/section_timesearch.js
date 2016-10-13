@@ -40,7 +40,7 @@ class SectionTimeSearch extends Component {
               <h4 className="section-title pull-left">AJAN VALINTA</h4>
               <div className="reservation-summary">
                 <span>
-                  {formatDate2("fi", this.props.selecteddate)}&nbsp;
+                  {formatDate2("fi", this.props.date_filter)}&nbsp;
                   {this.props.selectedtimeslot.startTimeHours},&nbsp;
                   {this.props.selectedtimeslot.resourceName},&nbsp;
                   {this.props.selectedtimeslot.unitName}
@@ -72,7 +72,7 @@ class SectionTimeSearch extends Component {
 
 function mapStateToProps(state) {
   return {
-    selecteddate: state.app.filters.date_filter,
+    date_filter: new Date(state.app.filters.date_filter),
     selectedtimeslot: state.app.selectedtimeslot,
     timesearch_section_active: state.app.timesearch_section_active,
     timeslots_list: state.app.timeslots_list,

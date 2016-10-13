@@ -1,4 +1,4 @@
-// Take Date object and return date string "YYYY-MM-DD"
+// Take js Date object and return date string "YYYY-MM-DD"
 function formatDate( date ) {
 
   let currY = date.getFullYear();
@@ -10,7 +10,11 @@ function formatDate( date ) {
   return currY + "-" + currM + "-" + currD;
 }
 
-// return localized  weekday and date string "weekday DD.MM" (no day/month zero-filling)
+// Arguments:
+//   locale   - 2 character locale code
+//   date     - js Date objec
+// return
+//   localized  weekday and date string "weekday DD.MM" (no day/month zero-filling)
 function formatDate2( locale, date ) {
 
   let currWD = date.getDay();

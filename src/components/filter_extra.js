@@ -5,7 +5,7 @@ const FilterExtra = (props) => {
   return (
     <div id="extra-filters">
       <div className={props.show ? "" : "hide"}>
-        <a href="" className="link" onClick={(event) => props.onClick(event)}>Piilota lisävalinnat -</a>
+        <a href="" className="link font-size-11" onClick={(event) => props.onClick(event)}>Piilota lisävalinnat -</a>
         <div id="lang-filter">
           <input type="radio" name="lang_filter" value="fi" onChange={(event) => props.onChange(event)} />Suomi
           <input type="radio" name="lang_filter" value="sw" onChange={(event) => props.onChange(event)} />Ruotsi
@@ -22,7 +22,7 @@ const FilterExtra = (props) => {
         </div>
       </div>
       <div className={!props.show ? "" : "hide"}>
-        <a href="" className="link" onClick={(event) => props.onClick(event)}>Näytä lisävalinnat +</a>
+        <a href="" className="link font-size-11" onClick={(event) => props.onClick(event)}>Näytä lisävalinnat +</a>
       </div>
     </div>
   );

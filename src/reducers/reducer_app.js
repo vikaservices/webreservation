@@ -131,6 +131,15 @@ export default function(state = INITIAL_STATE, action) {
         new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
         new_state.timesearch_section_active = 'inactive';
         new_state.confirmation_section_active = 'active';
+        // check if this is Occupation Health Care client and
+        // set selected employer according to mainEmployer
+        new_state.employers.map((employer) => {
+          // TODO: error handling ?
+          if( employer.mainEmployer ) {
+            new_state.is_ohc_client = true;
+            new_state.selected_employer = employer;
+          }
+        });
       }
       console.log(new_state);
       return new_state;
@@ -273,6 +282,9 @@ export default function(state = INITIAL_STATE, action) {
         new_state = {...state};
         if( new_state.appstate != APP_STATE_INITIAL ) {
           new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
+        }
+        if( new_state.is_ohc_client ) {
+          new_state.resource_section_active = 'active';
         }
         new_state.timesearch_section_active = 'active';
         new_state.confirmation_section_active = 'inactive';

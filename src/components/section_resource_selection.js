@@ -51,8 +51,8 @@ class SectionResourceSelection extends Component {
             <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
                              selected_employer={this.props.selected_employer}
                              onChange={this.handleEmployerChange.bind(this)} />
-            <a href="#" className="link pull-right" onClick={(e) => this.toggleVisibility(e)}>
-              { show_team ? "Piilota" : "Näytä" }
+            <a href="#" className="link font-size-14 pull-right" onClick={(e) => this.toggleVisibility(e)}>
+              { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
             </a>
           </div>
           <div className={ active == 'active' && show_team ? "" : "hide" }>

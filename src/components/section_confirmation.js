@@ -102,7 +102,9 @@ class SectionConfirmation extends Component {
               <div className="confirmation-content">
                 <h5>MAKSAJA</h5>
                 <input type="radio" name="visitType" value="PRIVATE" selected="selected" />Yksityiskäynti<br />
-                <input type="radio" name="visitType" value="OCCUPATIONAL" />Työterveyskäynti, [==yrityksen nimi tähän==]<br />
+                <span className={this.props.is_ohc_client ? "" : "hide" }>
+                <input type="radio" name="visitType" value="OCCUPATIONAL" />Työterveyskäynti, {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
+                </span>
                 <input type="radio" name="visitType" value="OTHER" />Muu maksaja (vakuutusyhtiö tai maksusitoumus)
 
               </div>
@@ -149,6 +151,8 @@ function mapStateToProps(state) {
     prereservation: state.app.prereservation,
     appstate: state.app.appstate,
     client_id: state.app.client_id,
+    is_ohc_client: state.app.is_ohc_client,
+    selected_employer: state.app.selected_employer,
     confirmation_section_active: state.app.confirmation_section_active
   };
 }

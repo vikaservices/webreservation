@@ -140,7 +140,7 @@ router.get('/freedays', function(req, res, next) {
     if( req.query.speciality ) {
       apiRequest += '&speciality=' + encodeURIComponent(req.query.speciality);
     }
-    if( req.query.group ) {
+    if( req.query.groups ) {
       apiRequest += '&groups=' + encodeURIComponent(req.query.groups);
     }
     if( req.query.unit ) {

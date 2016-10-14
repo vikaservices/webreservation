@@ -30,6 +30,19 @@ class Popup extends Component {
     };
   }
 
+  componentDidUpdate() {
+    this.modParentOpacity();
+  }
+
+  modParentOpacity() {
+      if (this.props.dialogisopen) {
+          console.log("isopen");
+          $('.container-fluid').css({ opacity: 0.7 });
+      } else {
+          $('.container-fluid').css({ opacity: 1 });
+      }
+  }
+
   checkClientSSN( ssn, event ) {
     event.preventDefault();
     console.log("Popup : checkSSN : ssn = " + ssn);
@@ -345,14 +358,6 @@ class Popup extends Component {
   }
 
   render() {
-    /*const customStyles = {
-      overlay : {
-        position : 'absolute'
-      },
-      content : {
-        zIndex : '1000'
-      }
-    };*/
     return (
       <Modal
         isOpen={this.props.dialogisopen}

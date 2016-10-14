@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../actions';
+import SvgIcon from './common/svg_definitions';
 
 class NewClientForm extends Component {
 
@@ -24,6 +25,9 @@ class NewClientForm extends Component {
                 <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
                 <a href=""><button className="btn-red">Jatka</button></a>
               </div>
+              <a href="" onClick={(event) => this.resetState(event)}>
+                <SvgIcon className="popup-close" Icon='close' />
+              </a>
           </div>
       );
   }

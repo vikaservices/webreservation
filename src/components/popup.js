@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import NewClientForm from './new_client_form';
-import SvgDefinitions from './common/svg_definitions';
+import SvgIcon from './common/svg_definitions';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
@@ -36,10 +36,9 @@ class Popup extends Component {
 
   modParentOpacity() {
       if (this.props.dialogisopen) {
-          console.log("isopen");
-          $('.container-fluid').css({ opacity: 0.7 });
+          $('.container-fluid').css({ backgroundColor: 'rgba(0,0,0,0.28)' });
       } else {
-          $('.container-fluid').css({ opacity: 1 });
+          $('.container-fluid').css({ backgroundColor: 'transparent' });
       }
   }
 
@@ -95,7 +94,10 @@ class Popup extends Component {
               <button className="btn-red">Jatka</button>
             </div>
           </div>
-          <img className='img-doctor' src="public/img/group-15@3x.png" />
+          <img className='img-private-doctor' src="public/img/group-15@3x.png" />
+          <a href="" onClick={(event) => this.resetState(event)}>
+            <SvgIcon className="popup-close" Icon='close' />
+          </a>
         </form>
       </div>
     );
@@ -106,11 +108,17 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
         <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
-          <div className="submit-buttons-centered">
-            <button onClick={(event) => this.resetState(event)}>Peruuta</button>
-            <button>Jatka</button>
+          <input className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <div className="popup-control-box">
+              <div className="submit-buttons-centered">
+                <button className="btn-white" onClick={(event) => this.resetState(event)}>Peruuta</button>
+                <button className="btn-red">Jatka</button>
+              </div>
           </div>
+          <img className='img-occupational-doctor' src="public/img/group-15@3x.png" />
+          <a href="" onClick={(event) => this.resetState(event)}>
+            <SvgIcon className="popup-close" Icon='close' />
+          </a>
         </form>
       </div>
     );
@@ -118,30 +126,40 @@ class Popup extends Component {
 
   ohcClientNotFound() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <h4>Hups, jotain meni pieleen.</h4>
         <p>
           Henkilötiedoillasi ei löytynyt työterveysasiakkuutta. Tarkista
           työterveyssopimuksen voimassaolo työnantajaltasi.
         </p>
-        <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.resetState(event)}><button>Palaa ajanvaraukseen</button></a>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
 
   ohcReservationForbidden() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <h4>Ajanvarausta ei voitu tehdä.</h4>
         <p>
           Voit varata ajan internetin kautta vain yksityiskäyntinä. Varaa
           työterveyskäynti soittamalla numeroon 09 7750 7755
         </p>
-        <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.resetState(event)}><button>Palaa ajanvaraukseen</button></a>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
@@ -209,29 +227,39 @@ class Popup extends Component {
 
   renderClientCreationError() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <h4>Jotakin meni pieleen...</h4>
-        <div className="submit-buttons-centered">
-          <button onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
 
   renderPreReservationError() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <h4>Jotakin meni pieleen esivarauksen teossa...</h4>
-        <div className="submit-buttons-centered">
-          <button onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
 
   renderCancelReservation() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup-form">
         <form onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
@@ -239,10 +267,15 @@ class Popup extends Component {
           <input type="text" name="code" placeholder="Varauskoodi" /><br />
           <input type="text" name="ssn" placeholder="Henkilötunnus" /><br />
           <p>Löydät varauskoodin sähköpostistasi varausvahvistuksesta.</p>
-          <div className="submit-buttons-centered">
-            <a href="" onClick={(event) => this.resetState(event)}><button>Peruuta</button></a>
-            <a href=""><button>Jatka</button></a>
+          <div className="popup-control-box">
+              <div className="submit-buttons-centered">
+                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">Peruuta</button></a>
+                <a href=""><button className="btn-red">Jatka</button></a>
+              </div>
           </div>
+          <a href="" onClick={(event) => this.resetState(event)}>
+            <SvgIcon className="popup-close" Icon='close' />
+          </a>
         </form>
       </div>
     );
@@ -250,11 +283,16 @@ class Popup extends Component {
 
   renderCancelReservationNotFound() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <p>Varaustunnuksella {this.state.reservation_code} ei löytynyt varausta.</p>
-        <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.resetState(event)}><button>Palaa ajanvaraukseen</button></a>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
@@ -279,8 +317,8 @@ class Popup extends Component {
         <p>Varauskoodi: {this.state.reservation_code}</p>
         <p>Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
         <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.resetState(event)}><button>Palaa ajanvaraukseen</button></a>
-          <a href="" onClick={(event) => this.cancelReservation(event)}><button>Peruuta varaus</button></a>
+          <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">Palaa ajanvaraukseen</button></a>
+          <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red">Peruuta varaus</button></a>
         </div>
       </div>
     );
@@ -307,8 +345,8 @@ class Popup extends Component {
         <p>Varauskoodi: {this.state.reservation_code}</p>
         <p>Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
         <div className="submit-buttons-centered">
-          <a href="http://diacor.fi"><button>Poistu ajanvarauksesta</button></a>
-          <a href="" onClick={(event) => this.resetState(event)}><button>Varaa uusi aika</button></a>
+          <a href="http://diacor.fi"><button className="btn-white">Poistu ajanvarauksesta</button></a>
+          <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Varaa uusi aika</button></a>
         </div>
       </div>
     );
@@ -316,11 +354,16 @@ class Popup extends Component {
 
   renderCancelReservationError() {
     return (
-      <div className="dialog">
+      <div className="dialog client-popup">
         <h4>Jotakin meni pieleen varauksen peruuttamisessa...</h4>
-        <div className="submit-buttons-centered">
-          <a href="" onClick={(event) => this.resetState(event)}><button>Palaa ajanvaraukseen</button></a>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+            </div>
         </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }

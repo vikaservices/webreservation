@@ -19,10 +19,6 @@ class FilterMain extends Component {
       unit_list_visible: false,
       // filtered unit list
       units_list_filtered: [],
-      // flags for triggerin searches when props update
-      // do_terms_search: false,
-      // do_units_filtering: false,
-      // do_time_search: false
     };
   }
 
@@ -34,19 +30,17 @@ class FilterMain extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps");
+    //console.log("componentWillReceiveProps");
 
     if( nextProps.filters.do_terms_search == true ) {
       console.log("do_terms_search");
-      //this.setState( { do_terms_search: false }, () => {
-        if( nextProps.filters.terms_search.length >= 3 ) {
-          console.log("do_terms_search: 1");
-          this.props.termsSearch(nextProps.filters.terms_search);
-        } else {
-          console.log("do_terms_search: 2");
-          this.props.termsSearch();
-        }
-      //});
+      if( nextProps.filters.terms_search.length >= 3 ) {
+        console.log("do_terms_search: 1");
+        this.props.termsSearch(nextProps.filters.terms_search);
+      } else {
+        console.log("do_terms_search: 2");
+        this.props.termsSearch();
+      }
       let filters = nextProps.filters;
       filters.do_terms_search = false;
       this.props.setFilter( filters );
@@ -54,9 +48,7 @@ class FilterMain extends Component {
 
     if( nextProps.filters.do_units_filtering == true ) {
       console.log("do_units_search");
-      //this.setState( {do_units_search: false}, () => {
-        this.filterUnitsList(nextProps.filters.units_search);
-      //});
+      this.filterUnitsList(nextProps.filters.units_search);
       let filters = nextProps.filters;
       filters.do_units_filtering = false;
       this.props.setFilter( filters );
@@ -64,11 +56,10 @@ class FilterMain extends Component {
 
     if( nextProps.filters.do_time_search == true ) {
       console.log("do_time_search");
-      //this.setState( {do_time_search: false}, ()  => {
-        this.doTimeslotsSearch(nextProps.filters);
-        this.doFreedaysSearch(nextProps.filters);
-        this.props.termsSearch();
-      //});
+      console.log(nextProps.filters);
+      this.doTimeslotsSearch(nextProps.filters);
+      this.doFreedaysSearch(nextProps.filters);
+      this.props.termsSearch();
       let filters = nextProps.filters;
       filters.do_time_search = false;
       this.props.setFilter( filters );
@@ -352,10 +343,10 @@ class FilterMain extends Component {
     let daysInMonth = new Date(filters.date_filter_year, filters.date_filter_month, 0).getDate();
     let last_of_month = new Date(filters.date_filter_year, filters.date_filter_month, daysInMonth);
 
-    console.log("currY = " + currY + " currM = " + currM);
-    console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
-    console.log("doFreedaysSearch: start_day = " + start_day);
-    console.log("doFreedaysSearch: last_of_month = " + last_of_month);
+    // console.log("currY = " + currY + " currM = " + currM);
+    // console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
+    // console.log("doFreedaysSearch: start_day = " + start_day);
+    // console.log("doFreedaysSearch: last_of_month = " + last_of_month);
 
     this.props.freedaysSearch( formatDate(start_day),
                                formatDate(last_of_month),

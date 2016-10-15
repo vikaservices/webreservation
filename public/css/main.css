@@ -84,7 +84,7 @@ h5 {
 }
 /******  SECTION : HEADER ********/
 .section-header-title {
-  font-family: Helvetica;
+  font-family: Gotham-Book, ArialMT;
   font-size: 40px;
   text-align: center;
   color: #fff;
@@ -222,7 +222,7 @@ h5 {
 }
 /***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
 #extra-filters {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 /***** SECTION : TIME SEARCH : FILTERS : CALENDAR   *****/
 #calendar-filter {
@@ -387,6 +387,21 @@ h5 {
   line-height: 1.17;
   color: #4a4a4a;
 }
+/***************************/
+.turku-link {
+  margin-bottom: 20px;
+}
+.turku-link a:link,
+.turku-link a:visited,
+.turku-link a:hover {
+  text-decoration: none;
+  font-family: ArialMT;
+  font-size: 11px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #000;
+}
 /**********  SECTION : CONFIRMATION **************/
 .confirmation-block {
   margin-top: 50px;
@@ -447,13 +462,26 @@ h5 {
   border: 1px solid #ccc;
   border-radius: 40px;
 }
-/************* RESERVATION CANCELING PAGE ********/
+/************* RESERVATION CANCELING PAGE *********/
 .cancel-reservation {
   width: 100%;
   max-width: 940px;
-  height: 500px;
+  min-height: 400px;
   background-color: #fff;
   text-align: center;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+.cancel-reservation .content {
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+  padding-top: 50px;
+  margin: 0 auto;
+}
+.cancel-reservation .content h4,
+.cancel-reservation .content p {
+  margin-bottom: 25px;
 }
 /**************  COMMON **********/
 .hide {
@@ -464,11 +492,19 @@ h5 {
 .link:hover {
   height: 15px;
   font-family: HelveticaNeue;
-  font-size: 13px;
   text-align: left;
   color: #F10C29;
   vertical-align: middle;
   text-decoration: none;
+}
+.font-size-11 {
+  font-size: 11px;
+}
+.font-size-13 {
+  font-size: 13px;
+}
+.font-size-14 {
+  font-size: 14px;
 }
 .header-row {
   height: 62px;
@@ -556,9 +592,9 @@ ol {
 }
 .img-doctor {
   position: absolute;
-  top: 5em;
-  right: 14em;
-  width: 8em;
+  top: 6em;
+  right: 9em;
+  width: 7.5em;
 }
 .client-popup-form {
   margin-left: 55px;

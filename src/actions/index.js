@@ -244,7 +244,7 @@ export function confirmReservation(reservationId, clientId,
 }
 
 
-export function getReservation(code, ssn) {
+export function getReservation(code, ssn, standalone=null) {
   let request_str = `reservations?hetu=${ssn}&reservationCode=${code}`;
 
   console.log("getReservation: " + request_str);
@@ -253,7 +253,8 @@ export function getReservation(code, ssn) {
 
   return {
     type: GET_RESERVATION,
-    payload: request
+    payload: request,
+    meta: {reservation_code: code, hetu: ssn, standalone: standalone}
   };
 }
 

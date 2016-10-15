@@ -53,6 +53,7 @@ let today = d.toISOString();
 let INITIAL_STATE = {
                       timeslots_list: [],
                       client_id: 0,
+                      hetu: null,
                       employers: [],
                       is_ohc_client: false,
                       client: {},
@@ -69,6 +70,7 @@ let INITIAL_STATE = {
                       headertitle: 'Ajanvaraus',
                       timeofdayfilter: '',
                       reservationstatus: 0,
+                      reservation_code: null,
                       prereservation: {},
                       reservation: {},
                       filters: {
@@ -126,11 +128,9 @@ export default function(state = INITIAL_STATE, action) {
         new_state.dialogview = DLG_VIEW_REGISTER_CREATE_CLIENT;
       } else if( new_state.client_id > 0 ) {
         // client identified
-        new_state.dialogisopen = true;
+        new_state.dialogisopen = false;
         new_state.dialogview = DLG_VIEW_NONE;
         new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
-        new_state.timesearch_section_active = 'inactive';
-        new_state.confirmation_section_active = 'active';
         // check if this is Occupation Health Care client and
         // set selected employer according to mainEmployer
         new_state.employers.map((employer) => {
@@ -140,6 +140,9 @@ export default function(state = INITIAL_STATE, action) {
             new_state.selected_employer = employer;
           }
         });
+        if( new_state.is_ohc_client ) {
+          new_state.resource_section_active = 'active';
+        }
       }
       console.log(new_state);
       return new_state;
@@ -263,12 +266,17 @@ export default function(state = INITIAL_STATE, action) {
           if( action.payload.response && action.payload.response.status == 404 ) {
             new_state.dialogisopen = true;
             new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
+            new_state.reservationstatus = action.payload.response.status;
             return new_state;
           }
         }
-        new_state.dialogisopen = true;
-        new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
+        if( !action.meta.standalone ) {
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
+        }
         new_state.reservation = action.payload.data.reservation;
+        new_state.reservation_code = action.meta.reservation_code;
+        new_state.hetu = action.meta.hetu;
         return new_state;
 
       case SAVE_SELECTED_TIMESLOT:

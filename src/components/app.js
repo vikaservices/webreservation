@@ -24,6 +24,33 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
 
 class App extends Component {
 
+  componentDidMount() {
+    console.log("App: componentDidMount");
+
+    const hetu = this.props.location.query.hetu;
+    const employerId = this.props.location.query.employerId;
+    const resourceId = this.props.location.query.resourceId;
+    const resourceName = this.props.location.query.resourceName;
+
+    if( hetu ) {
+      this.props.checkClientSSN(hetu).then(() => {
+        let filters = this.props.filters;
+        if( employerId ) {
+          filters.employer_id_filter = employerId;
+          filters.do_time_search = true;
+        }
+        if( resourceId ) {
+          filters.resource_filter = resourceId;
+          filters.do_time_search = true;
+        }
+        if( resourceName ) {
+          filters.terms_search = resourceName;
+        }
+        this.props.setFilter( filters );
+      });
+    }
+  }
+
   componentDidUpdate() {
     console.log("componentDidUpdate");
     if( (this.props.appstate == APP_STATE_CLIENT_IDENTIFIED) &&
@@ -88,7 +115,8 @@ function mapStateToProps(state) {
     pendingreservation: state.app.pendingreservation,
     selectedtimeslot: state.app.selectedtimeslot,
     date_filter: new Date(state.app.filters.date_filter),
-    headertitle: state.app.headertitle
+    headertitle: state.app.headertitle,
+    filters: state.app.filters
   };
 }
 

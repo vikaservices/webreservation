@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../actions';
+import { findDOMNode } from 'react-dom';
 
 class NewClientForm extends Component {
+
+  componentDidMount() {
+    findDOMNode(this.refs.nameInput).focus();
+  }
 
   onSubmit() {
     console.log("NewClientForm: onSubmit");
@@ -34,14 +39,14 @@ class NewClientForm extends Component {
     return (
       <form className={this.props.popUp === true ? 'client-popup-form' : ''} onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
-        <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus /><br />
+        <input placeholder="Henkilötunnus" type="text" name="ssn" /><br />
         <div>
           <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
             <table>
               <tbody>
                 <tr>
                   <td className={`${first_name.touched && first_name.error ? 'danger' : ''}`}>
-                    <input placeholder="Etunimi" type="text" className="form-control" {...first_name} />
+                    <input placeholder="Etunimi" type="text" className="form-control" ref="nameInput" {...first_name} />
                     {first_name.touched && first_name.invalid ? <span>{first_name.error}</span> : ''}
                   </td>
                   <td className={`${last_name.touched && last_name.error ? 'danger' : ''}`}>

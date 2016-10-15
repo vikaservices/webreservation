@@ -1,9 +1,9 @@
 // Take js Date object and return date string "YYYY-MM-DD"
 function formatDate( date ) {
 
-  let currY = date.getFullYear();
-  let currM = (date.getMonth()+1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
-  let currD = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+  var currY = date.getFullYear();
+  var currM = (date.getMonth()+1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+  var currD = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
 
   //console.log("formatDate: " + currY + "-" + currM + "-" + currD);
 
@@ -17,11 +17,11 @@ function formatDate( date ) {
 //   localized  weekday and date string "weekday DD.MM" (no day/month zero-filling)
 function formatDate2( locale, date ) {
 
-  let currWD = date.getDay();
-  let currM = date.getMonth() + 1;
-  let currD = date.getDate();
+  var currWD = date.getDay();
+  var currM = date.getMonth() + 1;
+  var currD = date.getDate();
 
-  let wd_str = getWeekdayStr( locale, currWD );
+  var wd_str = getWeekdayStr( locale, currWD );
 
   //console.log("formatDate2: " + wd_str + " " + currD + "." + currM);
 
@@ -45,12 +45,12 @@ function getWeekdayStr( locale, day ) {
 // return localized  weekday and date string "weekday DD.MM.YYYY" (no day/month zero-filling)
 function formatDate3( locale, date ) {
 
-  let currWD = date.getDay();
-  let currM = date.getMonth() + 1;
-  let currD = date.getDate();
-  let currY = date.getFullYear();
+  var currWD = date.getDay();
+  var currM = date.getMonth() + 1;
+  var currD = date.getDate();
+  var currY = date.getFullYear();
 
-  let wd_str = getWeekdayStr2( locale, currWD );
+  var wd_str = getWeekdayStr2( locale, currWD );
 
   //console.log("formatDate3: " + wd_str + " " + currD + "." + currM);
 

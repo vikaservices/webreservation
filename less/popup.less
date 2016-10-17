@@ -1,18 +1,69 @@
 @import "variables.less";
+@popup-margin-left: 55px;
+@popup-margin-left-mobile: 30px;
+@popup-margin-bottom: 25px;
 
-.img-doctor {
-
+.popup-close {
     position: absolute;
+    top: 1.5em;
+    right: 2em;
+    cursor: pointer;
+}
+
+.popup-close:hover {
+    width: 1.3em;
+    height: 1.5em;
+    g {
+        fill: darken(@color-close-btn, 5%);
+    }
+}
+
+.img-private-doctor, .img-occupational-doctor {
+    position: absolute;
+
+    @media @respond-below-mobile {
+        position: static;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.img-private-doctor {
     top: 6em;
     right: 9em;
     width: 7.5em;
+
+    @media @respond-below-tablet {
+        right: 2em;
+    }
+
+    @media @respond-below-mobile {
+        width: 11.5em;
+        margin-bottom: 89px;
+    }
+}
+
+.img-occupational-doctor {
+    top: 8em;
+    right: 14em;
+    width: 6.5em;
+
+    @media @respond-below-tablet {
+        right: 2em;
+    }
+
+    @media @respond-below-mobile {
+        width: 11.5em;
+        margin-bottom: 75px;
+    }
 }
 
 .client-popup-form {
 
-    margin-left: 55px;
-
     .client-popup;
+
+    margin-left: @popup-margin-left;
 
     input {
         margin: 0;
@@ -30,16 +81,47 @@
         margin-top: 50px;
         margin-left: -55px;
     }
+
+    @media @respond-below-tablet {
+        margin-left: @popup-margin-left-mobile;
+
+        table,tbody,tr,td {
+            display: block;
+        }
+    }
+
+    @media @respond-below-mobile {
+        h4 {
+            width: 12em;
+        }
+    }
 }
 
 .client-popup {
-    h4, .popup-form-input {
+
+    h4, p, .popup-form-input {
         margin-left: 55px;
+    }
+
+    a {
+        color: @crimson;
+    }
+
+    p {
+        margin-bottom: 50px;
+        padding-right: 6em;
+        font-size: 16px;
+        line-height: 19px;
+        color: @gray-black;
+
+        @media @respond-below-mobile {
+            padding-right: 0;
+        }
     }
 
     h4 {
         margin-top: 72px;
-        margin-bottom: 25px;
+        margin-bottom: @popup-margin-bottom;
     }
 
     td {
@@ -61,6 +143,18 @@
         border: solid 1px #e8e8e8;
     }
 
+    .input-reservation-code {
+        margin-bottom: 0.8em;
+    }
+
+    .input-reservation-ssn {
+        margin-bottom: @popup-margin-bottom;
+    }
+
+    .reservation-input-info {
+        margin-left: 0;
+    }
+
     .popup-control-box {
         height: 80px;
         border-top: 1px solid #dbdbdb;
@@ -70,14 +164,73 @@
           margin-top: 20px;
     }
   }
+
+  @media @respond-below-mobile {
+
+      h4, p, .popup-form-input {
+          margin-left: @popup-margin-left-mobile;
+      }
+
+      .popup-form-input {
+          margin-bottom: 59px;
+      }
+
+      .reservation-forbidden {
+          margin-right: 30px;
+          margin-bottom: 296px;
+      }
+  }
+}
+
+.modal-class-big {
+    .modal-class;
+
+    top: 12em;
+    color: @gray-dark;
+
+    p {
+        font-size: 17px;
+        color: lighten(@gray-dark, 10%);
+    }
+
+    .cancellation-statement {
+        margin-left: @popup-margin-left;
+    }
+
+    .popup-reservation-info {
+        width: 143px;
+        height: 88px;
+        margin-bottom: 27px;
+        margin-top: @popup-margin-bottom;
+        margin-left: @popup-margin-left;
+    }
+
+    .popup-unit-info {
+        position: relative;
+        margin-left: @popup-margin-left;
+        margin-bottom: @popup-margin-bottom;
+
+        .svg-icon, .popup-unit-name {
+            cursor: pointer;
+        }
+
+        .svg-icon {
+            position: absolute;
+        }
+        .popup-unit-name {
+            margin-left: 16px;
+            a {
+                color: @crimson;
+            }
+        }
+    }
 }
 
 .modal-class {
-    //TODO: figure out a function for centering this
     position: absolute;
     display: inline-block;
     width: 648.3px;
-    top: 12em;
+    top: 19.7em;
     right: 0;
     left: 0;
     margin-right: auto;
@@ -87,9 +240,12 @@
     background-color: white;
     border: solid 1px gray;
 
+    @media @respond-below-tablet {
+        width: auto;
+    }
+
     @media @respond-below-mobile {
         top: 0;
-        bottom: 0;
     }
 }
 
@@ -98,7 +254,7 @@
 }
 
 .overlay-class {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;

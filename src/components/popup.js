@@ -11,6 +11,8 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
          DLG_VIEW_PRERESERVATION_ERROR,
+         DLG_VIEW_CONFIRMATION_ERROR,
+         DLG_VIEW_ORDER_REMINDER_ERROR,
          DLG_VIEW_CANCEL_RESERVATION,
          DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND,
          DLG_VIEW_CANCEL_RESERVATION_CONFIRM,
@@ -79,6 +81,10 @@ class Popup extends Component {
     event.preventDefault();
     console.log("Popup: resetState");
     this.props.resetState();
+  }
+
+  closeDialog() {
+    this.props.closeDialog();
   }
 
   /************* DIALOG CONTENT RENDERING FUNCTIONS ***************/
@@ -260,6 +266,32 @@ class Popup extends Component {
     );
   }
 
+  renderReservationConfirmationError() {
+    return (
+      <div className="client-popup">
+        <h4>Jotakin meni pieleen varauksen vahvistamisessa, yritä hetken kuluttua uudelleen</h4>
+        <div className="popup-control-box">
+          <div className="submit-buttons-centered">
+            <button onClick={this.closeDialog.bind(this)} className="btn-red">Poistu</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderOrderReminderError() {
+    return (
+      <div className="client-popup">
+        <h4>Jotakin meni pieleen muistutuksen tallentamisessa, yritä hetken kuluttua uudelleen</h4>
+        <div className="popup-control-box">
+          <div className="submit-buttons-centered">
+            <button onClick={this.closeDialog.bind(this)} className="btn-red">Poistu</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   renderCancelReservation() {
     return (
       <div className="dialog client-popup-form">
@@ -406,6 +438,10 @@ class Popup extends Component {
         return this.renderClientCreationError();
       case DLG_VIEW_PRERESERVATION_ERROR:
         return this.renderPreReservationError();
+      case DLG_VIEW_CONFIRMATION_ERROR:
+        return this.renderReservationConfirmationError();
+      case DLG_VIEW_ORDER_REMINDER_ERROR:
+        return this.renderOrderReminderError();
       case DLG_VIEW_CANCEL_RESERVATION:
         return this.renderCancelReservation();
       case DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND:

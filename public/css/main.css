@@ -590,6 +590,10 @@ ol {
   border-radius: 25px;
   overflow: hidden;
 }
+.no-gutter > [class*='col-'] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 .img-doctor {
   position: absolute;
   top: 6em;

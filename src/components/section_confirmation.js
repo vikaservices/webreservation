@@ -1,13 +1,22 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { APP_STATE_CONFIRMATION_OK, APP_STATE_CONFIRMATION_FAILED } from '../actions/types';
 
 class SectionConfirmation extends Component {
+  constructor(props) {
+    super(props);
 
-  static contextTypes = {
-    router: PropTypes.object
-  };
+    this.state = {
+      payer: ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let payer = nextProps.is_ohc_client ? 'OCCUPATIONAL' : 'PRIVATE';
+    this.setState( {payer: payer} );
+    console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
+  }
 
   handleCancel(event) {
     event.preventDefault();
@@ -17,7 +26,7 @@ class SectionConfirmation extends Component {
 
   confirmReservation( notes, visitType, smsNotificationTo, emailConfirmationTo, event) {
     event.preventDefault();
-    console.log( "cancelPreReservation" +
+    console.log( "confirmReservation" +
                  " notes: " + notes +
                  " visitType: " + visitType +
                  " smsNotificationTo: " + smsNotificationTo +
@@ -30,14 +39,17 @@ class SectionConfirmation extends Component {
                                    emailConfirmationTo,
                                  ).then( () => {
                                    if( this.props.appstate == APP_STATE_CONFIRMATION_OK) {
-                                     // route to summary page
                                      console.log("confirmReservation: confirmation ok");
-                                     //this.context.router.push('/summary');
                                    } else {
                                      // error
                                      console.log("confirmReservation: confirmation failed");
                                    }
                                  });
+  }
+
+  onPayerChange(event) {
+    console.log("onPayerClick: " + event.target.value);
+    this.setState( { payer: event.target.value } );
   }
 
   render() {
@@ -82,7 +94,7 @@ class SectionConfirmation extends Component {
           </div>
 
           <form onSubmit={(event) => this.confirmReservation( $('textarea[name="notes"]').val(),
-                                                              $('input[name="visitType"]').val(),
+                                                              this.state.payer,
                                                               $('input[name="smsNotificationTo"]').val(),
                                                               $('input[name="emailConfirmationTo"]').val(),
                                                               event)} >
@@ -101,11 +113,23 @@ class SectionConfirmation extends Component {
               </div>
               <div className="confirmation-content">
                 <h5>MAKSAJA</h5>
-                <input type="radio" name="visitType" value="PRIVATE" selected="selected" />Yksityiskäynti<br />
+                <input type="radio"
+                       onChange={this.onPayerChange.bind(this)}
+                       checked={this.state.payer === "PRIVATE"}
+                       name="visitType"
+                       value="PRIVATE" />Yksityiskäynti<br />
                 <span className={this.props.is_ohc_client ? "" : "hide" }>
-                <input type="radio" name="visitType" value="OCCUPATIONAL" />Työterveyskäynti, {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
+                <input type="radio"
+                       onChange={this.onPayerChange.bind(this)}
+                       checked={this.state.payer === "OCCUPATIONAL"}
+                       name="visitType"
+                       value="OCCUPATIONAL" />Työterveyskäynti, {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
                 </span>
-                <input type="radio" name="visitType" value="OTHER" />Muu maksaja (vakuutusyhtiö tai maksusitoumus)
+                <input type="radio"
+                       onChange={this.onPayerChange.bind(this)}
+                       checked={this.state.payer === "OTHER"}
+                       name="visitType"
+                       value="OTHER" />Muu maksaja (vakuutusyhtiö tai maksusitoumus)
 
               </div>
             </div>

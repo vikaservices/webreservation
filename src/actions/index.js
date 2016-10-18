@@ -16,14 +16,15 @@ import { TERMS_SEARCH,
          RESET,
          CANCEL_RESERVATION,
          SET_TIME_OF_DAY_FILTER,
-         SET_FILTERS
+         SET_FILTERS,
+         ORDER_REMINDER
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
 //import Config from 'Config';
 
-let UIServerUrl = "http://vob.fi:4000/";
-//let UIServerUrl = "http://localhost:3000/";
+//let UIServerUrl = "http://vob.fi:4000/";
+let UIServerUrl = "http://localhost:3000/";
 
 export function termsSearch(terms=null) {
 
@@ -223,8 +224,8 @@ export function makePreReservation(clientId, resourceId, unitId, start, duration
   };
 }
 
-export function confirmReservation(reservationId, clientId,
-                            notes, visitType, smsNotificationTo, emailConfirmationTo=null) {
+export function confirmReservation(reservationId, clientId, notes, visitType,
+                                   smsNotificationTo, emailConfirmationTo=null) {
 
   console.log("confirmReservation");
 
@@ -319,5 +320,18 @@ export function setFilter(filters) {
   return {
     type: SET_FILTERS,
     filters: filters
+  }
+}
+
+export function orderReminder(reservationId, clientId, reminderId, value) {
+  let request_str = `reservations?method=POST&reminders=1&reservationId=${reservationId}&clientId=${clientId}&reminderId=1234`;
+  console.log("orderReminder: request_str: " + request_str);
+
+  let request = axios.get(`${UIServerUrl}${request_str}`);
+  console.log(request)
+
+  return {
+    type: ORDER_REMINDER,
+    payload: request
   }
 }

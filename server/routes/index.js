@@ -217,19 +217,33 @@ router.get('/reservations', function(req, res, next) {
   }
 
   else if( req.query.method  == "POST" ) {
-    if( !req.query.reservationId || !req.query.clientId || !req.query.visitType ||
-        !req.query.smsNotificationTo || !req.query.emailConfirmationTo || !req.query.method ) {
-      res.sendStatus(400);
-      return 0;
-    }
-    apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId;
+    if( req.query.reminders ) {
+      // ORDER REMINDERS
+      if( !req.query.reservationId || !req.query.clientId ||
+          !req.query.reminderId || !req.query.method ) {
+        res.sendStatus(400);
+        return 0;
+      }
+      apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId + '/reminders';
 
-    var clientId = req.query.clientId;
-    var notes = req.query.notes;
-    var visitType = req.query.visitType;
-    var smsNotificationTo = req.query.smsNotificationTo;
-    var emailConfirmationTo = req.query.emailConfirmationTo;
-    payload = `{"clientId":${clientId}, "notes":"${notes}", "visitType":"${visitType}", "smsNotificationTo":"${smsNotificationTo}", "emailConfirmationTo":"${emailConfirmationTo}" }`;
+      payload = `{"clientId":${req.query.clientId}, "reminderId":${req.query.reminderId}}`;
+
+    } else {
+      // RESERVATION CONFIRMATION
+      if( !req.query.reservationId || !req.query.clientId || !req.query.visitType ||
+          !req.query.smsNotificationTo || !req.query.emailConfirmationTo || !req.query.method ) {
+        res.sendStatus(400);
+        return 0;
+      }
+      apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId;
+
+      var clientId = req.query.clientId;
+      var notes = req.query.notes;
+      var visitType = req.query.visitType;
+      var smsNotificationTo = req.query.smsNotificationTo;
+      var emailConfirmationTo = req.query.emailConfirmationTo;
+      payload = `{"clientId":${clientId}, "notes":"${notes}", "visitType":"${visitType}", "smsNotificationTo":"${smsNotificationTo}", "emailConfirmationTo":"${emailConfirmationTo}" }`;
+    }
   }
 
   else if( req.query.method  == "DELETE" ) {

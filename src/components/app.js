@@ -37,15 +37,23 @@ class App extends Component {
         let filters = this.props.filters;
         if( employerId ) {
           filters.employer_id_filter = employerId;
+          filters.terms_search = this.props.selected_employer.name;
+          console.log("App: this.props.selected_employer.employerName = " + this.props.selected_employer.employerName)
+
+          if( resourceId ) {
+            // If resource is given -> do more specific search with resource
+            // instead of employer
+            filters.employer_id_filter = null;
+            filters.resource_filter = resourceId;
+            filters.terms_search = '';
+            if( resourceName ) {
+              filters.terms_search = resourceName;
+            }
+          }
+
           filters.do_time_search = true;
         }
-        if( resourceId ) {
-          filters.resource_filter = resourceId;
-          filters.do_time_search = true;
-        }
-        if( resourceName ) {
-          filters.terms_search = resourceName;
-        }
+
         this.props.setFilter( filters );
       });
     }
@@ -116,7 +124,8 @@ function mapStateToProps(state) {
     selectedtimeslot: state.app.selectedtimeslot,
     date_filter: new Date(state.app.filters.date_filter),
     headertitle: state.app.headertitle,
-    filters: state.app.filters
+    filters: state.app.filters,
+    selected_employer: state.app.selected_employer
   };
 }
 

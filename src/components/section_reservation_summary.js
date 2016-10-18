@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
+import { APP_STATE_ORDER_REMINDER_OK } from '../actions/types';
 
 class SectionReservationSummary extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      reminder: '60 min'
+    }
+  }
 
   componentDidUpdate() {
     if( this.props.reservation_summary_section_active == 'active' ) {
@@ -9,9 +19,41 @@ class SectionReservationSummary extends Component {
     }
   }
 
-  handleCancelReservation(event) {
+  onReminderChange(event) {
+    console.log("onReminderChange: " + event.target.value);
+    this.setState( { reminder: event.target.value } );
+  }
+
+  onSubmitReminder(value, event) {
     event.preventDefault();
-    console.log("handleCancel");
+    console.log("onSubmitReminder: " + value);
+    this.props.orderReminder(this.props.prereservation.id, this.props.client_id, 0, value);
+  }
+
+  addCalendarEntry(event) {
+    event.preventDefault();
+    console.log("addCalendarEntry");
+    let start = "";
+    let end = "";
+    let name = "";
+    let location = "";
+    let uid = "";
+    let cn = "";
+    let mailto = "";
+
+    let e = "";
+    e += "BEGIN:VCALENDAR\n";
+    e += "VERSION:2.0\n";
+    e += "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\n";
+    e += "BEGIN:VEVENT\n";
+    e += "UID:uid1@example.com\n";
+    e += "DTSTAMP:19970714T170000Z\n";
+    e += "ORGANIZER;CN=Asiakaspalvelu:MAILTO:info@diacor.fi\n";
+    e += "DTSTART:20161019T140000\n";
+    e += "DTEND:20161019T141500\n";
+    e += "SUMMARY:Lekuri, Esko Paatero\n";
+    e += "END:VEVENT\n";
+    e += "END:VCALENDAR\n";
   }
 
   render() {
@@ -53,7 +95,7 @@ class SectionReservationSummary extends Component {
                   <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', new Date(this.props.selecteddate)) : ""}</span><br />
                   <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
                   <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
-                  <span><a href="#" onClick={(event) => event.preventDefault()}>Lisää kalenteriin</a></span>
+                  <span><a href="#" onClick={this.addCalendarEntry()}>Lisää kalenteriin</a></span>
                 </div>
               </div>
             </div>
@@ -63,28 +105,52 @@ class SectionReservationSummary extends Component {
           </div>
 
           <div className="block row">
-            <h4 className="section-title">HALUATKO MUISTUTUKSEN?</h4>
-            <p>Valitse milloin haluat muistutuksen tekstiviestillä.</p>
-            <div className="inline-box">
-              <div>
-                <img src="public/img/reminder-logo.png"/>
-              </div>
-              <div className="padding-left-20">
-                <input type="radio" name="sms_reminder" value="30" />30 min ennen<br />
-                <input type="radio" name="sms_reminder" value="60" />60 min ennen<br />
-                <input type="radio" name="sms_reminder" value="120" />2h  ennen<br />
-                <input type="radio" name="sms_reminder" value="1440" />24h ennen
-              </div>
+            <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "" : "hide" }>
+              <br /><br />
+              <p>Tilaus tallennettu. Saat muistutuksen tekstiviestinä {this.state.reminder} ennen vastaanottoaikaa.</p>
             </div>
-            <div className="submit-buttons-centered">
-              <button className="btn-red">TILAA MUISTUTUS</button>
+            <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "hide" : ""}>
+              <h4 className="section-title">HALUATKO MUISTUTUKSEN?</h4>
+              <p>Valitse milloin haluat muistutuksen tekstiviestillä.</p>
+              <form onSubmit={(event) => this.onSubmitReminder(this.state.reminder, event)}>
+                <div className="inline-box">
+                  <div>
+                    <img src="public/img/reminder-logo.png"/>
+                  </div>
+                  <div className="padding-left-20">
+                      <input type="radio"
+                             onChange={this.onReminderChange.bind(this)}
+                             checked={this.state.reminder === "30 min" ? true : false}
+                             name="sms_reminder"
+                             value="30 min" />30 min ennen<br />
+                      <input type="radio"
+                             onChange={this.onReminderChange.bind(this)}
+                             checked={this.state.reminder === "60 min" ? true : false}
+                             name="sms_reminder"
+                             value="60 min" />60 min ennen<br />
+                      <input type="radio"
+                             onChange={this.onReminderChange.bind(this)}
+                             checked={this.state.reminder === "2 h" ? true : false}
+                             name="sms_reminder"
+                             value="2 h" />2h  ennen<br />
+                      <input type="radio"
+                             onChange={this.onReminderChange.bind(this)}
+                             checked={this.state.reminder === "24 h" ? true : false}
+                             name="sms_reminder"
+                             value="24 h" />24h ennen
+                  </div>
+                </div>
+                <div className="submit-buttons-centered">
+                  <button className="btn-red">TILAA MUISTUTUS</button>
+                </div>
+              </form>
             </div>
           </div>
           <div className="block-separator row">
             <img src="public/img/block-separator.png" />
           </div>
 
-          <div className={this.props.online ? "row block" : "hide"}>
+          <div className={this.props.prereservation.online ? "row block" : "hide"}>
             <h4 className="section-title">MITEN KÄYTÄN DIACOR ONLINE-PALVELUA?</h4>
             <div className="inline-box">
               <div>
@@ -101,7 +167,7 @@ class SectionReservationSummary extends Component {
               </div>
             </div>
           </div>
-          <div className={this.props.online ? "block-separator row" : "hide"}>
+          <div className={this.props.prereservation.online ? "block-separator row" : "hide"}>
             <img src="public/img/block-separator.png" />
           </div>
 
@@ -128,13 +194,15 @@ class SectionReservationSummary extends Component {
 
 function mapStateToProps(state) {
   return {
+    client_id: state.app.client_id,
+    appstate: state.app.appstate,
     reservation_code: state.app.reservation_code,
     selectedtimeslot: state.app.selectedtimeslot,
     selecteddate: state.app.filters.date_filter,
-    online: state.app.prereservation.online,
+    prereservation: state.app.prereservation,
     reservation_summary_section_active: state.app.reservation_summary_section_active
   };
 }
 
 
-export default connect(mapStateToProps)(SectionReservationSummary);
+export default connect(mapStateToProps, actions)(SectionReservationSummary);

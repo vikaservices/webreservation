@@ -14,6 +14,8 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
          DLG_VIEW_PRERESERVATION_ERROR,
+         DLG_VIEW_CONFIRMATION_ERROR,
+         DLG_VIEW_ORDER_REMINDER_ERROR,
          DLG_VIEW_CANCEL_RESERVATION,
          DLG_VIEW_CANCEL_RESERVATION_CONFIRM,
          DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND,
@@ -25,6 +27,11 @@ import { TIMESLOTS_SEARCH,
          APP_STATE_PRE_RESERVATION_OK,
          APP_STATE_WAIT_CONFIRMATION,
          APP_STATE_CONFIRMATION_OK,
+         APP_STATE_CONFIRMATION_FAILED,
+         APP_STATE_ORDER_REMINDER_OK,
+         APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT,
+         APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION,
+         APP_STATE_ORDER_REMINDER_FAILED,
          SET_SELECTED_DATE,
          SET_FILTERS,
          SAVE_SELECTED_TIMESLOT,
@@ -35,7 +42,9 @@ import { TIMESLOTS_SEARCH,
          SET_TIME_OF_DAY_FILTER,
          TOD_MORNING,
          TOD_DAY,
-         TOD_AFTERNOON
+         TOD_AFTERNOON,
+         ORDER_REMINDER,
+         DIALOG_CLOSE
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -108,7 +117,6 @@ export default function(state = INITIAL_STATE, action) {
       new_state = {...state};
       new_state.dialogisopen = true;
       new_state.dialogview = DLG_VIEW_REGISTER_CHECK_SSN;
-      //new_state.pendingreservation = action.pendingreservation;
       return new_state;
 
     case LOGIN_OHC_CLIENT:
@@ -207,7 +215,7 @@ export default function(state = INITIAL_STATE, action) {
         new_state = reducerReservation(state, action);
         if( new_state.reservationstatus == 0 ) {
           // prereservation ok
-          console.log("reducer_app: client already identified, go to confirmation");
+          console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation ok");
           if( new_state.is_ohc_client ) {
             new_state.resource_section_active = 'inactive';
           } else {
@@ -221,7 +229,7 @@ export default function(state = INITIAL_STATE, action) {
           new_state.pendingreservation = false;
         } else {
           // prereservation failed
-          console.log("reducer_app: open dialog");
+          console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
         }
@@ -359,6 +367,34 @@ export default function(state = INITIAL_STATE, action) {
         new_state = {...state};
         new_state.filters = action.filters;
         console.log(new_state);
+        return new_state;
+
+      case ORDER_REMINDER:
+        console.log("ORDER_REMINDER");
+        new_state = {...state};
+
+        if( action.payload.response && action.payload.response.status == 200 ) {
+          new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
+        } else {
+          new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
+          return new_state;
+          if( action.payload.response && action.payload.response.status == 400 ) {
+            new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
+          } else if( action.payload.response && action.payload.response.status == 404 ) {
+            new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION;
+          } else {
+            new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED;
+          }
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_ORDER_REMINDER_ERROR;
+        }
+        console.log("appstate: " + new_state.appstate);
+        return new_state;
+
+      case DIALOG_CLOSE:
+        new_state = {...state};
+        new_state.dialogisopen = false;
+        new_state.dialogview = DLG_VIEW_NONE;
         return new_state;
 
       default:

@@ -210,7 +210,7 @@ class Popup extends Component {
     console.log("renderAskClientInfoForm");
     return (
       <div className="dialog">
-        <NewClientForm popUp={true} resetState={this.resetState.bind(this)}/>
+        <NewClientForm ssn={this.state.ssn} popUp={true} resetState={this.resetState.bind(this)}/>
       </div>
     );
   }

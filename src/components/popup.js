@@ -31,18 +31,6 @@ class Popup extends Component {
     };
   }
 
-  componentDidUpdate() {
-    this.modParentOpacity();
-  }
-
-  modParentOpacity() {
-      if (this.props.dialogisopen) {
-          $('.container-fluid').css({ backgroundColor: 'rgba(0,0,0,0.35)' });
-      } else {
-          $('.container-fluid').css({ backgroundColor: 'transparent' });
-      }
-  }
-
   checkClientSSN( ssn, event ) {
     event.preventDefault();
     console.log("Popup : checkSSN : ssn = " + ssn);

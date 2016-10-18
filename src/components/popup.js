@@ -76,7 +76,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>Hei, kuka on tulossa vastaanotolle</h4>
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <input autoFocus className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <img className='img-private-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
             <div className="submit-buttons-centered">
@@ -97,7 +97,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
         <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <input autoFocus className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
           <img className='img-occupational-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
@@ -255,7 +255,7 @@ class Popup extends Component {
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
           <h4>Syötä varauskoodi peruaksesi varaus</h4>
-          <input className="input-reservation-code" type="text" name="code" placeholder="Varauskoodi" /><br />
+          <input autoFocus className="input-reservation-code" type="text" name="code" placeholder="Varauskoodi" /><br />
           <input className="input-reservation-ssn" type="text" name="ssn" placeholder="Henkilötunnus" /><br />
           <p className="reservation-input-info">Löydät varauskoodin sähköpostistasi varausvahvistuksesta.</p>
           <div className="popup-control-box">

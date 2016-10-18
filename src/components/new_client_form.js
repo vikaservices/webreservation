@@ -47,7 +47,7 @@ class NewClientForm extends Component {
               <tbody>
                 <tr>
                   <td className={`${first_name.touched && first_name.error ? 'danger' : ''}`}>
-                    <input placeholder="Etunimi" type="text" className="form-control" {...first_name} />
+                    <input autoFocus placeholder="Etunimi" type="text" className="form-control" {...first_name} />
                     {first_name.touched && first_name.invalid ? <span>{first_name.error}</span> : ''}
                   </td>
                   <td className={`${last_name.touched && last_name.error ? 'danger' : ''}`}>

@@ -95,7 +95,7 @@ class SectionReservationSummary extends Component {
                   <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', new Date(this.props.selecteddate)) : ""}</span><br />
                   <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
                   <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
-                  <span><a href="#" onClick={this.addCalendarEntry()}>Lisää kalenteriin</a></span>
+                  <span><a href="#" onClick={() => this.addCalendarEntry()}>Lisää kalenteriin</a></span>
                 </div>
               </div>
             </div>

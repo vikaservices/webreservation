@@ -65,7 +65,9 @@ class App extends Component {
         (this.props.pendingreservation == true) ) {
       console.log("Have pending reservation");
       let slot = this.props.selectedtimeslot;
-      this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId, slot.start, slot.duration );
+      let employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null
+      this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId,
+                                     slot.start, slot.duration, employerId );
     }
   }
 

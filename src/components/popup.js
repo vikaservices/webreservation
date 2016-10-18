@@ -337,7 +337,7 @@ class Popup extends Component {
         <a className="popup-svg-phone" href={reservation.unitLinkUrl}>
           <SvgIcon className="" Icon='phone' />
         </a>
-          <span className="popup-unit-name"><a href={reservation.unitLinkUrl}>TODO: yksikön nimi</a></span><br />
+          <span className="popup-unit-name"><a href={reservation.unitLinkUrl}>{reservation.unitName}</a></span><br />
           <span>{reservation.unitAddress}</span><br />
           <span>{reservation.unitPostCode} {reservation.unitCity}</span><br />
           <span>Varauskoodi: {this.state.reservation_code}</span>
@@ -374,7 +374,7 @@ class Popup extends Component {
             <a className="popup-svg-phone" href={reservation.unitLinkUrl}>
               <SvgIcon className="" Icon='phone' />
             </a>
-            <span className="popup-unit-name"><a href={reservation.unitLinkUrl}>TODO: yksikön nimi</a></span><br />
+            <span className="popup-unit-name"><a href={reservation.unitLinkUrl}>{reservation.unitName}</a></span><br />
             <span>{reservation.unitAddress}</span><br />
             <span>{reservation.unitPostCode} {reservation.unitCity}</span><br />
             <span>Varauskoodi: {this.state.reservation_code}</span>

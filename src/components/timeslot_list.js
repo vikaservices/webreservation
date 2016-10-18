@@ -10,7 +10,7 @@ const TimeslotList = (props) => {
         slot={slot}
         reservationHandler={props.reservationHandler}
         filter={props.timeofdayfilter}
-        key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}`}/>
+        key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}${slot.online}`}/>
     );
   });
 

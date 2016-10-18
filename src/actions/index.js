@@ -71,8 +71,8 @@ export function unitsSearch(units = '') {
 }
 
 
-export function timeslotsSearch(date, resource=null, speciality=null, groups=null,
-                               unit=null, lang=null, gender=null, city=null, employer=null) {
+export function timeslotsSearch(date, resource=null, speciality=null, groups=null, unit=null,
+                                lang=null, gender=null, city=null, employer=null, client=null) {
 
   console.log( "timeslotsSearch" );
 
@@ -84,7 +84,8 @@ export function timeslotsSearch(date, resource=null, speciality=null, groups=nul
   //search_str += lang        ? `&lang=${lang}`             : '';
   //search_str += gender      ? `&gender=${gender}`         : '';
   //search_str += city        ? `&city=${city}`             : '';
-  search_str += employer      ? `&employer=${employer}`     : '';
+  search_str += employer    ? `&employer=${employer}`     : '';
+  search_str += employer && client ? `&client=${client}`  : '';
   console.log('search_str: ' + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
@@ -96,13 +97,13 @@ export function timeslotsSearch(date, resource=null, speciality=null, groups=nul
 }
 
 
-export function freedaysSearch(from, to, resource=null, speciality=null, groups=null,
-                                unit=null, lang=null, gender=null, city=null, employer=null) {
+export function freedaysSearch(from, to, resource=null, speciality=null, groups=null, unit=null,
+                               lang=null, gender=null, city=null, employer=null, client=null) {
 
   console.log( "freedaysSearch" );
 
   if( resource == null && speciality == null && groups == null && unit == null &&
-      lang == null && gender == null && city == null && employer == null ) {
+      lang == null && gender == null && city == null && employer == null && client == null) {
     return {
       type: FREEDAYS_SEARCH,
       payload: null
@@ -118,6 +119,7 @@ export function freedaysSearch(from, to, resource=null, speciality=null, groups=
   //search_str += gender      ? `&gender=${gender}`         : '';
   //search_str += city        ? `&city=${city}`             : '';
   search_str += employer      ? `&employer=${employer}`     : '';
+  search_str += employer && client ? `&client=${client}`    : '';
   console.log('search_str = ' + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
@@ -210,11 +212,14 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration,
   };
 }
 
-export function makePreReservation(clientId, resourceId, unitId, start, duration) {
+export function makePreReservation(clientId, resourceId, unitId, start, duration, employerId=null) {
   console.log("makePreReservation");
 
   let request_str = `reservations?method=PUT&clientId=${clientId}&resourceId=${resourceId}`;
   request_str += `&unitId=${unitId}&start=${start}&duration=${duration}`;
+  request_str += employerId != null ? `&employerId=${employerId}` : '';
+
+  console.log("makePreReservation: " + request_str)
 
   const request = axios.get(`${UIServerUrl}${request_str}`);
 

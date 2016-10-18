@@ -30,7 +30,7 @@ class FilterMain extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log("componentWillReceiveProps");
+    //console.log("FilterMain: componentWillReceiveProps");
 
     if( nextProps.filters.do_terms_search == true ) {
       console.log("do_terms_search");
@@ -56,9 +56,9 @@ class FilterMain extends Component {
 
     if( nextProps.filters.do_time_search == true ) {
       console.log("do_time_search");
-      console.log(nextProps.filters);
-      this.doTimeslotsSearch(nextProps.filters);
-      this.doFreedaysSearch(nextProps.filters);
+      console.log(nextProps);
+      this.doTimeslotsSearch(nextProps);
+      this.doFreedaysSearch(nextProps);
       this.props.termsSearch();
       let filters = nextProps.filters;
       filters.do_time_search = false;
@@ -67,8 +67,8 @@ class FilterMain extends Component {
 
     // if( nextProps.filters.employer_id_filter ) {
     //   console.log("employer_id_filter search");
-    //   //this.doTimeslotsSearch(nextProps.filters);
-    //   //this.doFreedaysSearch(nextProps.filters);
+    //   //this.doTimeslotsSearch(nextProps);
+    //   //this.doFreedaysSearch(nextProps);
     // }
   } // componentWillReceiveProps
 
@@ -222,9 +222,7 @@ class FilterMain extends Component {
     let filters = this.props.filters;
     filters.units_search = units_search;
     filters.do_units_filtering = true;
-    //this.setState( {do_units_filtering: true}, () => {
-      this.props.setFilter( filters );
-    //});
+    this.props.setFilter( filters );
   }
 
   // Called when user selects value from units search results
@@ -235,18 +233,14 @@ class FilterMain extends Component {
     filters.units_search = name;
     filters.unit_filter = id;
     filters.do_time_search = true;
-    //this.setState( {do_time_search: true}, () => {
-      this.props.setFilter( filters );
-    //});
+    this.props.setFilter( filters );
   }
 
   onDayChange( date_filter ) {
     let filters = this.props.filters;
     filters.date_filter = date_filter.toISOString();
     filters.do_time_search = true;
-    //this.setState( {do_time_search: true}, () => {
-      this.props.setFilter( filters );
-    //});
+    this.props.setFilter( filters );
   }
 
   onMonthChange( month, year ) {
@@ -300,29 +294,29 @@ class FilterMain extends Component {
     this.props.setFilter( filters );
   }
 
-  doTimeslotsSearch( filters ) {
-    if( filters.resource_filter == null &&
-        filters.group_filter == null &&
-        filters.unit_filter == null &&
-        filters.lang_filter == null &&
-        filters.gender_filter == null &&
-        filters.city_filter == null &&
-        filters.employer_id_filter == null ) {
+  doTimeslotsSearch( props ) {
+    if( props.filters.resource_filter == null &&
+        props.filters.group_filter == null &&
+        props.filters.unit_filter == null &&
+        props.filters.lang_filter == null &&
+        props.filters.gender_filter == null &&
+        props.filters.city_filter == null &&
+        props.filters.employer_id_filter == null ) {
       return;
     }
-    this.props.timeslotsSearch( formatDate(new Date(filters.date_filter)),
-                                           filters.resource_filter,
+    this.props.timeslotsSearch( formatDate(new Date(props.filters.date_filter)),
+                                           props.filters.resource_filter,
                                            null,
-                                           filters.group_filter,
-                                           filters.unit_filter,
-                                           filters.lang_filter,
-                                           filters.gender_filter,
-                                           filters.city_filter,
-                                           filters.employer_id_filter );
+                                           props.filters.group_filter,
+                                           props.filters.unit_filter,
+                                           props.filters.lang_filter,
+                                           props.filters.gender_filter,
+                                           props.filters.city_filter,
+                                           props.filters.employer_id_filter,
+                                           props.client_id == 0 ? null : props.client_id );
   }
 
-  doFreedaysSearch( filters ) {
-
+  doFreedaysSearch( props ) {
     // calculate start day
     // start day is either
     // - if selected month fro calendar is current month -> current day
@@ -331,33 +325,29 @@ class FilterMain extends Component {
     let currY = today.getFullYear();
     let currM = (today.getMonth() < 10) ? "0" + (today.getMonth()) : (today.getMonth());
     let start_day;
-    if( (currM != filters.date_filter_month) ||
-        (currY != filters.date_filter_year) ) {
+    if( (currM != props.filters.date_filter_month) ||
+        (currY != props.filters.date_filter_year) ) {
       // set to first day of selected month
-      start_day = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+      start_day = new Date(props.filters.date_filter_year, props.filters.date_filter_month, 1);
     } else {
       start_day = today;
     }
 
     // calculate end day
-    let daysInMonth = new Date(filters.date_filter_year, filters.date_filter_month, 0).getDate();
-    let last_of_month = new Date(filters.date_filter_year, filters.date_filter_month, daysInMonth);
-
-    // console.log("currY = " + currY + " currM = " + currM);
-    // console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
-    // console.log("doFreedaysSearch: start_day = " + start_day);
-    // console.log("doFreedaysSearch: last_of_month = " + last_of_month);
+    let daysInMonth = new Date(props.filters.date_filter_year, props.filters.date_filter_month, 0).getDate();
+    let last_of_month = new Date(props.filters.date_filter_year, props.filters.date_filter_month, daysInMonth);
 
     this.props.freedaysSearch( formatDate(start_day),
                                formatDate(last_of_month),
-                               filters.resource_filter,
+                               props.filters.resource_filter,
                                null,
-                               filters.group_filter,
-                               filters.unit_filter,
-                               filters.lang_filter,
-                               filters.gender_filter,
-                               filters.city_filter,
-                               filters.employer_id_filter );
+                               props.filters.group_filter,
+                               props.filters.unit_filter,
+                               props.filters.lang_filter,
+                               props.filters.gender_filter,
+                               props.filters.city_filter,
+                               props.filters.employer_id_filter,
+                               props.client_id == 0 ? null : props.client_id );
   }
 }
 
@@ -367,7 +357,8 @@ function mapStateToProps(state) {
     terms_list: state.terms.terms_list,
     units_list: state.units.units_list,
     freedays_list: state.freedays.freedays_list,
-    filters: state.app.filters
+    filters: state.app.filters,
+    client_id: state.app.client_id
   };
 }
 

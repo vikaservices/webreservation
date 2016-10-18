@@ -9,7 +9,7 @@ var dmobAuth = dmob.apiCredentials;
 function wrapUnirest( apiRequest, req, res, next, payload, method) {
 
   // log request
-  console.log( "apiRequest: " + apiRequest );
+  console.log( "wrapUnirest: apiRequest: " + apiRequest );
 
   if( method && method == "PUT" ) {
     console.log("sending PUT");
@@ -81,98 +81,78 @@ router.get('/', function(req, res, next) {
   res.sendStatus(200);
 });
 
+
 router.get('/terms', function(req, res, next) {
-  if( !req.query.prefix ) {
-    res.sendStatus(400);
-    return 0;
-  } else {
-    var apiRequest = dmobReservationUrl + 'terms?prefix=' + encodeURIComponent(req.query.prefix);
-    wrapUnirest( apiRequest, req, res, next );
-  }
+  var apiRequest = dmobReservationUrl + 'terms?prefix=' + encodeURIComponent(req.query.prefix);
+  wrapUnirest( apiRequest, req, res, next );
 });
+
 
 router.get('/units', function(req, res, next) {
-  // if( !req.query.prefix ) {
-  //   res.sendStatus(400);
-  //   return 0;
-  // } else {
-    var apiRequest = dmobReservationUrl + 'units?prefix=' + encodeURIComponent(req.query.prefix);
-    wrapUnirest( apiRequest, req, res, next );
-  // }
+  var apiRequest = dmobReservationUrl + 'units?prefix=' + encodeURIComponent(req.query.prefix);
+  wrapUnirest( apiRequest, req, res, next );
 });
+
 
 router.get('/timeslots', function(req, res, next) {
-  if( !req.query.date ) {
-    res.sendStatus(400);
-    return 0;
-  } else {
-    var apiRequest = dmobReservationUrl + 'timeslots?date=' + req.query.date;
-    // optional parameters
-    if( req.query.resource ) {
-      apiRequest += '&resource=' + encodeURIComponent(req.query.resource);
-    }
-    if( req.query.speciality ) {
-      apiRequest += '&speciality=' + encodeURIComponent(req.query.speciality);
-    }
-    if( req.query.groups ) {
-      apiRequest += '&groups=' + encodeURIComponent(req.query.groups);
-    }
-    if( req.query.unit ) {
-      apiRequest += '&unit=' + encodeURIComponent(req.query.unit);
-    }
-    // if( req.query.employer ) {
-    //   apiRequest += '&employerid=' + encodeURIComponent(req.query.employer);
-    // }
-    wrapUnirest( apiRequest, req, res, next );
+  console.log('router - timeslots');
+
+  var apiRequest = dmobReservationUrl + 'timeslots?';
+  for( var key in req.query ) {
+    console.log( key + " : " + req.query[key] );
+    apiRequest += key + '=' + encodeURIComponent(req.query[key]) + '&';
   }
+  console.log("apiRequest: " + apiRequest);
+
+  wrapUnirest( apiRequest, req, res, next );
 });
 
+
 router.get('/freedays', function(req, res, next) {
-  if( !req.query.from || !req.query.to ) {
-    res.sendStatus(400);
-    return 0;
-  } else {
-    var apiRequest = dmobReservationUrl + 'freedays?from=' + req.query.from + '&to=' + req.query.to;
-    // optional parameters
-    if( req.query.resource ) {
-      apiRequest += '&resource=' + encodeURIComponent(req.query.resource);
-    }
-    if( req.query.speciality ) {
-      apiRequest += '&speciality=' + encodeURIComponent(req.query.speciality);
-    }
-    if( req.query.groups ) {
-      apiRequest += '&groups=' + encodeURIComponent(req.query.groups);
-    }
-    if( req.query.unit ) {
-      apiRequest += '&unit=' + encodeURIComponent(req.query.unit);
-    }
-    // if( req.query.employer ) {
-    //   apiRequest += '&employerid=' + encodeURIComponent(req.query.employer);
-    // }
-    wrapUnirest( apiRequest, req, res, next );
+  console.log('router - freedays');
+
+  var apiRequest = dmobReservationUrl + 'freedays?';
+  for( var key in req.query ) {
+    console.log( key + " : " + req.query[key] );
+    apiRequest += key + '=' + encodeURIComponent(req.query[key]) + '&';
   }
+  console.log("apiRequest: " + apiRequest);
+
+  wrapUnirest( apiRequest, req, res, next );
 });
+
 
 router.get('/clients', function(req, res, next) {
 
   if( req.query.method == "GET" ) {
-    if( !req.query.hetu ) {
-      res.sendStatus(400);
-      return 0;
-    } else {
-      var apiRequest = dmobReservationUrl + 'clients?hetu=' + encodeURIComponent(req.query.hetu);
-      console.log("calling wrapUnirest");
-      wrapUnirest( apiRequest, req, res, next );
-    }
+    console.log('router - freedays - GET');
+    var apiRequest = dmobReservationUrl + 'clients?';
+    apiRequest += req.query.hetu ? "hetu=" + encodeURIComponent(req.query.hetu) : '';
+    console.log("apiRequest: " + apiRequest);
+    wrapUnirest( apiRequest, req, res, next );
   }
 
   else if( req.query.method == "PUT") {
+    console.log('router - freedays - PUT');
     if( !req.query.hetu || !req.query.firstName || !req.query.lastName || 
         !req.query.address || !req.query.postcode || !req.query.city || !req.query.phone ) {
       res.sendStatus(400);
       return 0;
     }
     var apiRequest = dmobReservationUrl + 'clients';
+
+    // var payload = "{";
+    // for( var key in req.query ) {
+    //   console.log( key + " : " + req.query[key] );
+    //   payload += '"' + key + '":"' + req.query[key] + '",';
+    // }
+    // if( payload.length > 1 ) {
+    //   // remove comma after last parameter
+    //   var n = payload.lastIndexOf(',');
+    //   payload = payload.substr(0, n);
+    // }
+    // payload += "}";
+    //console.log("payload: " + payload);
 
     var hetu = req.query.hetu;
     var firstName = req.query.firstName;
@@ -213,7 +193,8 @@ router.get('/reservations', function(req, res, next) {
     var unitId = req.query.unitId;
     var start = req.query.start;
     var duration = req.query.duration;
-    payload = `{"clientId":${clientId}, "resourceId":${resourceId}, "unitId":${unitId}, "start":"${start}", "duration":${duration} }`;
+    payload = `{"clientId":${clientId}, "resourceId":${resourceId}, "unitId":${unitId}, "start":"${start}", "duration":${duration}`;
+    payload += req.query.employerId ? ` ,"employerId":${req.query.employerId}}` : "}";
   }
 
   else if( req.query.method  == "POST" ) {

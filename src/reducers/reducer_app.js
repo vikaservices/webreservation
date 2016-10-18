@@ -376,8 +376,6 @@ export default function(state = INITIAL_STATE, action) {
         if( action.payload.response && action.payload.response.status == 200 ) {
           new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
         } else {
-          new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
-          return new_state;
           if( action.payload.response && action.payload.response.status == 400 ) {
             new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
           } else if( action.payload.response && action.payload.response.status == 404 ) {

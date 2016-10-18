@@ -14,7 +14,7 @@ const TimeSlotListItem = (props) => {
       <div className="slot-inline">
         <span className="slot-resource">{props.slot.resourceName}</span><br />
         <span className="slot-title">{props.slot.title}</span><br />
-        <span className="slot-unit">{props.slot.unitName}</span>
+        <span className="slot-unit">{props.slot.online ? "DiacorPlus" : props.slot.unitName}</span>
       </div>
       <div className="slot-inline pull-right">
         <a className="link font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,

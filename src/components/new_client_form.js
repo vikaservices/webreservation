@@ -25,14 +25,16 @@ class NewClientForm extends Component {
 
   renderPopupButtons() {
       return (
-          <div className="popup-control-box">
-              <div className="submit-buttons-centered">
-                <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
-                <a href=""><button className="btn-red">Jatka</button></a>
-              </div>
+          <div>
               <a href="" onClick={(event) => this.resetState(event)}>
                 <SvgIcon className="popup-close" Icon='close' />
               </a>
+              <div className="popup-control-box">
+                  <div className="submit-buttons-centered">
+                    <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">Peruuta</button></a>
+                    <a href=""><button className="btn-red">Jatka</button></a>
+                  </div>
+              </div>
           </div>
       );
   }

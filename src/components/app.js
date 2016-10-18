@@ -99,7 +99,7 @@ class App extends Component {
   render() {
 
     return (
-      <div className="col-xs-12">
+      <div className="col-xs-12 overlay-bg-color">
         <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)} title={this.props.headertitle}/>
         <div className="app">
           <SectionResourceSelection />

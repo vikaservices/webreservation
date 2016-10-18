@@ -33,18 +33,6 @@ class Popup extends Component {
     };
   }
 
-  componentDidUpdate() {
-    this.modParentOpacity();
-  }
-
-  modParentOpacity() {
-      if (this.props.dialogisopen) {
-          $('.container-fluid').css({ backgroundColor: 'rgba(0,0,0,0.28)' });
-      } else {
-          $('.container-fluid').css({ backgroundColor: 'transparent' });
-      }
-  }
-
   checkClientSSN( ssn, event ) {
     event.preventDefault();
     console.log("Popup : checkSSN : ssn = " + ssn);
@@ -237,7 +225,7 @@ class Popup extends Component {
       //TODO: does this need more?
     return (
       <div className="dialog client-popup">
-        <h4 className="popup-error-creation">Jotakin meni pieleen...</h4>
+        <h4>Jotakin meni pieleen...</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
@@ -253,7 +241,7 @@ class Popup extends Component {
   renderPreReservationError() {
     return (
       <div className="dialog client-popup">
-        <h4 className="popup-error-prereservation">Jotakin meni pieleen esivarauksen teossa...</h4>
+        <h4>Jotakin meni pieleen esivarauksen teossa...</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
@@ -391,7 +379,7 @@ class Popup extends Component {
             <span>{reservation.unitPostCode} {reservation.unitCity}</span><br />
             <span>Varauskoodi: {this.state.reservation_code}</span>
         </div>
-        <p>Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
+        <p className="popup-cancellation-ok-margin">Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <a href="http://diacor.fi"><button className="btn-white">Poistu ajanvarauksesta</button></a>
@@ -426,8 +414,7 @@ class Popup extends Component {
       case DLG_VIEW_REGISTER_CHECK_SSN:
         return this.renderAskSnn();
       case DLG_VIEW_REGISTER_OHC_CHECK_SSN:
-        //return this.renderAskSnnOhc();
-        return this.renderCancelReservationConfirm();
+        return this.renderAskSnnOhc();
       case DLG_VIEW_REGISTER_OHC_NOT_FOUND:
         return this.ohcClientNotFound();
       case DLG_VIEW_REGISTER_OHC_FORBIDDEN:

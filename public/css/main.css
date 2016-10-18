@@ -593,6 +593,10 @@ ol {
 .svg-icon {
   display: inline;
 }
+.overlay-bg-color {
+  width: 100%;
+  height: 100%;
+}
 .popup-close {
   position: absolute;
   top: 1.5em;
@@ -632,7 +636,7 @@ ol {
 @media only screen and (max-width: 430px) {
   .img-private-doctor {
     width: 11.5em;
-    margin-bottom: 89px;
+    margin-bottom: 91px;
   }
 }
 .img-occupational-doctor {
@@ -648,7 +652,7 @@ ol {
 @media only screen and (max-width: 430px) {
   .img-occupational-doctor {
     width: 11.5em;
-    margin-bottom: 75px;
+    margin-bottom: 72px;
   }
 }
 .client-popup-form {
@@ -722,7 +726,10 @@ ol {
     margin-left: 30px;
   }
   .client-popup-form .popup-control-box {
+    position: absolute;
     height: auto;
+    bottom: 0;
+    width: 100%;
   }
   .client-popup-form .popup-control-box .btn-red {
     margin-bottom: 20px;
@@ -730,21 +737,10 @@ ol {
   .client-popup-form .popup-control-box .btn-red-mobile-margin {
     margin-top: 10px;
   }
-  .client-popup-form .popup-form-input {
-    margin-bottom: 59px;
-  }
   .client-popup-form .reservation-forbidden {
     margin-right: 30px;
-    margin-bottom: 298px;
-  }
-  .client-popup-form .popup-error-creation {
-    margin-bottom: 398px;
-  }
-  .client-popup-form .popup-error-prereservation {
-    margin-bottom: 378px;
   }
   .client-popup-form .popup-error-not-found {
-    margin-bottom: 378px;
     width: 15em;
   }
 }
@@ -773,6 +769,9 @@ ol {
   }
 }
 @media only screen and (max-width: 430px) {
+  .client-popup-form .popup-control-box {
+    margin-left: -30px;
+  }
   .client-popup-form h4 {
     width: 12em;
   }
@@ -845,7 +844,10 @@ ol {
     margin-left: 30px;
   }
   .client-popup .popup-control-box {
+    position: absolute;
     height: auto;
+    bottom: 0;
+    width: 100%;
   }
   .client-popup .popup-control-box .btn-red {
     margin-bottom: 20px;
@@ -853,21 +855,10 @@ ol {
   .client-popup .popup-control-box .btn-red-mobile-margin {
     margin-top: 10px;
   }
-  .client-popup .popup-form-input {
-    margin-bottom: 59px;
-  }
   .client-popup .reservation-forbidden {
     margin-right: 30px;
-    margin-bottom: 298px;
-  }
-  .client-popup .popup-error-creation {
-    margin-bottom: 398px;
-  }
-  .client-popup .popup-error-prereservation {
-    margin-bottom: 378px;
   }
   .client-popup .popup-error-not-found {
-    margin-bottom: 378px;
     width: 15em;
   }
 }
@@ -895,6 +886,7 @@ ol {
 @media only screen and (max-width: 430px) {
   .modal-class-big {
     top: 0;
+    height: 100%;
   }
 }
 .modal-class-big p {
@@ -933,8 +925,13 @@ ol {
   .modal-class-big p {
     margin-bottom: 67px;
   }
-  .modal-class-big .popup-reservation-info {
+  .modal-class-big .popup-reservation-info,
+  .modal-class-big .popup-unit-info,
+  .modal-class-big .cancellation-statement {
     margin-left: 30px;
+  }
+  .modal-class-big .popup-cancellation-ok-margin {
+    margin-bottom: 32px;
   }
 }
 .modal-class {
@@ -959,6 +956,7 @@ ol {
 @media only screen and (max-width: 430px) {
   .modal-class {
     top: 0;
+    height: 100%;
   }
 }
 .modal-class:focus {
@@ -970,6 +968,7 @@ ol {
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: rgba(0, 0, 0, 0.35);
   z-index: 1000;
 }
 @media only screen and (max-width: 430px) {

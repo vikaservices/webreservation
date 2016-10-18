@@ -29697,7 +29697,8 @@
 	      if (this.props.appstate == _types.APP_STATE_CLIENT_IDENTIFIED && this.props.pendingreservation == true) {
 	        console.log("Have pending reservation");
 	        var slot = this.props.selectedtimeslot;
-	        this.props.makePreReservation(this.props.client_id, slot.resourceId, slot.unitId, slot.start, slot.duration);
+	        var employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null;
+	        this.props.makePreReservation(this.props.client_id, slot.resourceId, slot.unitId, slot.start, slot.duration, employerId);
 	      }
 	    }
 	  }, {
@@ -29742,7 +29743,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'col-xs-12' },
+	        { className: 'col-xs-12 overlay-bg-color' },
 	        _react2.default.createElement(_section_header2.default, { clickHandler: this.onClickHeaderLink.bind(this), title: this.props.headertitle }),
 	        _react2.default.createElement(
 	          'div',
@@ -30028,8 +30029,9 @@
 
 	//import Config from 'Config';
 
-	//let UIServerUrl = "http://vob.fi:4000/";
-	var UIServerUrl = "http://localhost:3000/";
+	var UIServerUrl = "http://vob.fi:4000/";
+	//let UIServerUrl = "http://localhost:3000/";
+
 	//import { UIServerUrl } from '../../utils/conf';
 	function termsSearch() {
 	  var terms = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
@@ -30087,6 +30089,7 @@
 	  var gender = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 	  var city = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
 	  var employer = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
+	  var client = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
 
 
 	  console.log("timeslotsSearch");
@@ -30100,6 +30103,7 @@
 	  //search_str += gender      ? `&gender=${gender}`         : '';
 	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
+	  search_str += employer && client ? '&client=' + client : '';
 	  console.log('search_str: ' + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -30119,11 +30123,12 @@
 	  var gender = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
 	  var city = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
 	  var employer = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
+	  var client = arguments.length <= 10 || arguments[10] === undefined ? null : arguments[10];
 
 
 	  console.log("freedaysSearch");
 
-	  if (resource == null && speciality == null && groups == null && unit == null && lang == null && gender == null && city == null && employer == null) {
+	  if (resource == null && speciality == null && groups == null && unit == null && lang == null && gender == null && city == null && employer == null && client == null) {
 	    return {
 	      type: _types.FREEDAYS_SEARCH,
 	      payload: null
@@ -30139,6 +30144,7 @@
 	  //search_str += gender      ? `&gender=${gender}`         : '';
 	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
+	  search_str += employer && client ? '&client=' + client : '';
 	  console.log('search_str = ' + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -30233,10 +30239,15 @@
 	}
 
 	function makePreReservation(clientId, resourceId, unitId, start, duration) {
+	  var employerId = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+
 	  console.log("makePreReservation");
 
 	  var request_str = 'reservations?method=PUT&clientId=' + clientId + '&resourceId=' + resourceId;
 	  request_str += '&unitId=' + unitId + '&start=' + start + '&duration=' + duration;
+	  request_str += employerId != null ? '&employerId=' + employerId : '';
+
+	  console.log("makePreReservation: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
 
@@ -32170,7 +32181,7 @@
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      //console.log("componentWillReceiveProps");
+	      //console.log("FilterMain: componentWillReceiveProps");
 
 	      if (nextProps.filters.do_terms_search == true) {
 	        console.log("do_terms_search");
@@ -32196,9 +32207,9 @@
 
 	      if (nextProps.filters.do_time_search == true) {
 	        console.log("do_time_search");
-	        console.log(nextProps.filters);
-	        this.doTimeslotsSearch(nextProps.filters);
-	        this.doFreedaysSearch(nextProps.filters);
+	        console.log(nextProps);
+	        this.doTimeslotsSearch(nextProps);
+	        this.doFreedaysSearch(nextProps);
 	        this.props.termsSearch();
 	        var _filters2 = nextProps.filters;
 	        _filters2.do_time_search = false;
@@ -32207,8 +32218,8 @@
 
 	      // if( nextProps.filters.employer_id_filter ) {
 	      //   console.log("employer_id_filter search");
-	      //   //this.doTimeslotsSearch(nextProps.filters);
-	      //   //this.doFreedaysSearch(nextProps.filters);
+	      //   //this.doTimeslotsSearch(nextProps);
+	      //   //this.doFreedaysSearch(nextProps);
 	      // }
 	    } // componentWillReceiveProps
 
@@ -32397,9 +32408,7 @@
 	      var filters = this.props.filters;
 	      filters.units_search = units_search;
 	      filters.do_units_filtering = true;
-	      //this.setState( {do_units_filtering: true}, () => {
 	      this.props.setFilter(filters);
-	      //});
 	    }
 
 	    // Called when user selects value from units search results
@@ -32413,9 +32422,7 @@
 	      filters.units_search = name;
 	      filters.unit_filter = id;
 	      filters.do_time_search = true;
-	      //this.setState( {do_time_search: true}, () => {
 	      this.props.setFilter(filters);
-	      //});
 	    }
 	  }, {
 	    key: 'onDayChange',
@@ -32423,9 +32430,7 @@
 	      var filters = this.props.filters;
 	      filters.date_filter = date_filter.toISOString();
 	      filters.do_time_search = true;
-	      //this.setState( {do_time_search: true}, () => {
 	      this.props.setFilter(filters);
-	      //});
 	    }
 	  }, {
 	    key: 'onMonthChange',
@@ -32491,16 +32496,15 @@
 	    }
 	  }, {
 	    key: 'doTimeslotsSearch',
-	    value: function doTimeslotsSearch(filters) {
-	      if (filters.resource_filter == null && filters.group_filter == null && filters.unit_filter == null && filters.lang_filter == null && filters.gender_filter == null && filters.city_filter == null && filters.employer_id_filter == null) {
+	    value: function doTimeslotsSearch(props) {
+	      if (props.filters.resource_filter == null && props.filters.group_filter == null && props.filters.unit_filter == null && props.filters.lang_filter == null && props.filters.gender_filter == null && props.filters.city_filter == null && props.filters.employer_id_filter == null) {
 	        return;
 	      }
-	      this.props.timeslotsSearch(formatDate(new Date(filters.date_filter)), filters.resource_filter, null, filters.group_filter, filters.unit_filter, filters.lang_filter, filters.gender_filter, filters.city_filter, filters.employer_id_filter);
+	      this.props.timeslotsSearch(formatDate(new Date(props.filters.date_filter)), props.filters.resource_filter, null, props.filters.group_filter, props.filters.unit_filter, props.filters.lang_filter, props.filters.gender_filter, props.filters.city_filter, props.filters.employer_id_filter, props.client_id == 0 ? null : props.client_id);
 	    }
 	  }, {
 	    key: 'doFreedaysSearch',
-	    value: function doFreedaysSearch(filters) {
-
+	    value: function doFreedaysSearch(props) {
 	      // calculate start day
 	      // start day is either
 	      // - if selected month fro calendar is current month -> current day
@@ -32509,23 +32513,18 @@
 	      var currY = today.getFullYear();
 	      var currM = today.getMonth() < 10 ? "0" + today.getMonth() : today.getMonth();
 	      var start_day = void 0;
-	      if (currM != filters.date_filter_month || currY != filters.date_filter_year) {
+	      if (currM != props.filters.date_filter_month || currY != props.filters.date_filter_year) {
 	        // set to first day of selected month
-	        start_day = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+	        start_day = new Date(props.filters.date_filter_year, props.filters.date_filter_month, 1);
 	      } else {
 	        start_day = today;
 	      }
 
 	      // calculate end day
-	      var daysInMonth = new Date(filters.date_filter_year, filters.date_filter_month, 0).getDate();
-	      var last_of_month = new Date(filters.date_filter_year, filters.date_filter_month, daysInMonth);
+	      var daysInMonth = new Date(props.filters.date_filter_year, props.filters.date_filter_month, 0).getDate();
+	      var last_of_month = new Date(props.filters.date_filter_year, props.filters.date_filter_month, daysInMonth);
 
-	      // console.log("currY = " + currY + " currM = " + currM);
-	      // console.log("year = " + filters.date_filter_year + " month = " + filters.date_filter_month);
-	      // console.log("doFreedaysSearch: start_day = " + start_day);
-	      // console.log("doFreedaysSearch: last_of_month = " + last_of_month);
-
-	      this.props.freedaysSearch(formatDate(start_day), formatDate(last_of_month), filters.resource_filter, null, filters.group_filter, filters.unit_filter, filters.lang_filter, filters.gender_filter, filters.city_filter, filters.employer_id_filter);
+	      this.props.freedaysSearch(formatDate(start_day), formatDate(last_of_month), props.filters.resource_filter, null, props.filters.group_filter, props.filters.unit_filter, props.filters.lang_filter, props.filters.gender_filter, props.filters.city_filter, props.filters.employer_id_filter, props.client_id == 0 ? null : props.client_id);
 	    }
 	  }]);
 
@@ -32537,7 +32536,8 @@
 	    terms_list: state.terms.terms_list,
 	    units_list: state.units.units_list,
 	    freedays_list: state.freedays.freedays_list,
-	    filters: state.app.filters
+	    filters: state.app.filters,
+	    client_id: state.app.client_id
 	  };
 	}
 
@@ -54693,7 +54693,7 @@
 	      slot: slot,
 	      reservationHandler: props.reservationHandler,
 	      filter: props.timeofdayfilter,
-	      key: '' + slot.time + slot.duration + slot.resourceName + slot.unitName });
+	      key: '' + slot.time + slot.duration + slot.resourceName + slot.unitName + slot.online });
 	  });
 
 	  return _react2.default.createElement(
@@ -54840,7 +54840,7 @@
 	      _react2.default.createElement(
 	        "span",
 	        { className: "slot-unit" },
-	        props.slot.unitName
+	        props.slot.online ? "DiacorPlus" : props.slot.unitName
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -55412,7 +55412,9 @@
 	                    null,
 	                    _react2.default.createElement(
 	                      'a',
-	                      { href: '#', onClick: this.addCalendarEntry() },
+	                      { href: '#', onClick: function onClick() {
+	                          return _this2.addCalendarEntry();
+	                        } },
 	                      'Lisää kalenteriin'
 	                    )
 	                  )
@@ -55701,27 +55703,13 @@
 
 	    _this.state = {
 	      reservation_code: '',
-	      hetu: ''
+	      hetu: '',
+	      bigPop: false
 	    };
 	    return _this;
 	  }
 
 	  _createClass(Popup, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      this.modParentOpacity();
-	    }
-	  }, {
-	    key: 'modParentOpacity',
-	    value: function modParentOpacity() {
-	      if (this.props.dialogisopen) {
-	        console.log("isopen");
-	        $('.container-fluid').css({ opacity: 0.7 });
-	      } else {
-	        $('.container-fluid').css({ opacity: 1 });
-	      }
-	    }
-	  }, {
 	    key: 'checkClientSSN',
 	    value: function checkClientSSN(ssn, event) {
 	      event.preventDefault();
@@ -55790,6 +55778,7 @@
 	            } },
 	          _react2.default.createElement('input', { className: 'popup-form-input', placeholder: 'Henkilötunnus', type: 'text', name: 'ssn' }),
 	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('img', { className: 'img-private-doctor', src: 'public/img/group-15@3x.png' }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'popup-control-box' },
@@ -55810,7 +55799,13 @@
 	              )
 	            )
 	          ),
-	          _react2.default.createElement('img', { className: 'img-doctor', src: 'public/img/group-15@3x.png' })
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', onClick: function onClick(event) {
+	                return _this2.resetState(event);
+	              } },
+	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
+	          )
 	        )
 	      );
 	    }
@@ -55832,23 +55827,35 @@
 	          { name: 'ohcLoginForm', onSubmit: function onSubmit(event) {
 	              return _this3.checkClientSSN($('input[name="ssn"]').val(), event);
 	            } },
-	          _react2.default.createElement('input', { placeholder: 'Henkilötunnus', type: 'text', name: 'ssn' }),
+	          _react2.default.createElement('input', { className: 'popup-form-input', placeholder: 'Henkilötunnus', type: 'text', name: 'ssn' }),
 	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('img', { className: 'img-occupational-doctor', src: 'public/img/group-15@3x.png' }),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'submit-buttons-centered' },
+	            { className: 'popup-control-box' },
 	            _react2.default.createElement(
-	              'button',
-	              { onClick: function onClick(event) {
-	                  return _this3.resetState(event);
-	                } },
-	              'Peruuta'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Jatka'
+	              'div',
+	              { className: 'submit-buttons-centered' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-white', onClick: function onClick(event) {
+	                    return _this3.resetState(event);
+	                  } },
+	                'Peruuta'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Jatka'
+	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', onClick: function onClick(event) {
+	                return _this3.resetState(event);
+	              } },
+	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
 	        )
 	      );
@@ -55860,7 +55867,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -55873,18 +55880,29 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this4.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Palaa ajanvaraukseen'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this4.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Palaa ajanvaraukseen'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this4.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -55893,9 +55911,10 @@
 	    value: function ohcReservationForbidden() {
 	      var _this5 = this;
 
+	      //TODO: phonenumber
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -55903,23 +55922,39 @@
 	        ),
 	        _react2.default.createElement(
 	          'p',
-	          null,
-	          'Voit varata ajan internetin kautta vain yksityiskäyntinä. Varaa työterveyskäynti soittamalla numeroon 09 7750 7755'
+	          { className: 'reservation-forbidden' },
+	          'Voit varata ajan internetin kautta vain yksityiskäyntinä. Varaa työterveyskäynti soittamalla numeroon ',
+	          _react2.default.createElement(
+	            'a',
+	            { href: 'tel:09 7750 7755' },
+	            '09 7750 7755'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this5.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Palaa ajanvaraukseen'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this5.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Palaa ajanvaraukseen'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this5.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56035,9 +56070,10 @@
 	    value: function renderClientCreationError() {
 	      var _this7 = this;
 
+	      //TODO: does this need more?
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -56045,14 +56081,25 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'button',
-	            { onClick: function onClick(event) {
-	                return _this7.resetState(event);
-	              } },
-	            'Palaa ajanvaraukseen'
+	            'div',
+	            { className: 'submit-buttons-centered' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn-red', onClick: function onClick(event) {
+	                  return _this7.resetState(event);
+	                } },
+	              'Palaa ajanvaraukseen'
+	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this7.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56063,7 +56110,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -56071,14 +56118,25 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'button',
-	            { onClick: function onClick(event) {
-	                return _this8.resetState(event);
-	              } },
-	            'Palaa ajanvaraukseen'
+	            'div',
+	            { className: 'submit-buttons-centered' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'btn-red', onClick: function onClick(event) {
+	                  return _this8.resetState(event);
+	                } },
+	              'Palaa ajanvaraukseen'
+	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this8.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56141,7 +56199,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup-form' },
 	        _react2.default.createElement(
 	          'form',
 	          { onSubmit: function onSubmit(event) {
@@ -56152,38 +56210,49 @@
 	            null,
 	            'Syötä varauskoodi peruaksesi varaus'
 	          ),
-	          _react2.default.createElement('input', { type: 'text', name: 'code', placeholder: 'Varauskoodi' }),
+	          _react2.default.createElement('input', { className: 'input-reservation-code', type: 'text', name: 'code', placeholder: 'Varauskoodi' }),
 	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('input', { type: 'text', name: 'ssn', placeholder: 'Henkilötunnus' }),
+	          _react2.default.createElement('input', { className: 'input-reservation-ssn', type: 'text', name: 'ssn', placeholder: 'Henkilötunnus' }),
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
 	            'p',
-	            null,
+	            { className: 'reservation-input-info' },
 	            'Löydät varauskoodin sähköpostistasi varausvahvistuksesta.'
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'submit-buttons-centered' },
+	            { className: 'popup-control-box' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
-	                  return _this9.resetState(event);
-	                } },
+	              'div',
+	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
-	                'button',
-	                null,
-	                'Peruuta'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { href: '' },
+	                'a',
+	                { href: '', onClick: function onClick(event) {
+	                    return _this9.resetState(event);
+	                  } },
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'btn-white' },
+	                  'Peruuta'
+	                )
+	              ),
 	              _react2.default.createElement(
-	                'button',
-	                null,
-	                'Jatka'
+	                'a',
+	                { href: '' },
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'btn-red' },
+	                  'Jatka'
+	                )
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', onClick: function onClick(event) {
+	                return _this9.resetState(event);
+	              } },
+	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
 	        )
 	      );
@@ -56195,28 +56264,39 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'h4',
+	          { className: 'popup-error-not-found' },
 	          'Varaustunnuksella ',
 	          this.state.reservation_code,
 	          ' ei löytynyt varausta.'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this10.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Palaa ajanvaraukseen'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this10.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Palaa ajanvaraukseen'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this10.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56226,17 +56306,18 @@
 	      var _this11 = this;
 
 	      var reservation = this.props.reservation;
+
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
 	          'Varauksen tiedot'
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'popup-reservation-info' },
 	          _react2.default.createElement(
 	            'span',
 	            null,
@@ -56271,15 +56352,20 @@
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'popup-unit-info' },
+	          _react2.default.createElement(
+	            'a',
+	            { className: 'popup-svg-phone', href: reservation.unitLinkUrl },
+	            _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
+	          ),
 	          _react2.default.createElement(
 	            'span',
-	            null,
+	            { className: 'popup-unit-name' },
 	            _react2.default.createElement(
 	              'a',
 	              { href: reservation.unitLinkUrl },
-	              'TODO: yksikön nimi'
+	              reservation.unitName
 	            )
 	          ),
 	          _react2.default.createElement('br', null),
@@ -56296,13 +56382,13 @@
 	            ' ',
 	            reservation.unitCity
 	          ),
-	          _react2.default.createElement('br', null)
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Varauskoodi: ',
-	          this.state.reservation_code
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Varauskoodi: ',
+	            this.state.reservation_code
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'p',
@@ -56311,29 +56397,40 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this11.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Palaa ajanvaraukseen'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this11.cancelReservation(event);
-	              } },
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this11.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-white' },
+	                'Palaa ajanvaraukseen'
+	              )
+	            ),
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Peruuta varaus'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this11.cancelReservation(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red btn-red-mobile-margin' },
+	                'Peruuta varaus'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this11.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56342,23 +56439,24 @@
 	    value: function renderCancelReservationOk() {
 	      var _this12 = this;
 
+	      //TODO: change this back to old
 	      var reservation = this.props.reservation;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
 	          'Varaus peruttu'
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'span',
+	          { className: 'cancellation-statement' },
 	          'Peruutit seuraavan varauksen.'
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'popup-reservation-info' },
 	          _react2.default.createElement(
 	            'span',
 	            null,
@@ -56393,15 +56491,20 @@
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'popup-unit-info' },
+	          _react2.default.createElement(
+	            'a',
+	            { className: 'popup-svg-phone', href: reservation.unitLinkUrl },
+	            _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
+	          ),
 	          _react2.default.createElement(
 	            'span',
-	            null,
+	            { className: 'popup-unit-name' },
 	            _react2.default.createElement(
 	              'a',
 	              { href: reservation.unitLinkUrl },
-	              'TODO: yksikön nimi'
+	              reservation.unitName
 	            )
 	          ),
 	          _react2.default.createElement('br', null),
@@ -56418,42 +56521,53 @@
 	            ' ',
 	            reservation.unitCity
 	          ),
-	          _react2.default.createElement('br', null)
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Varauskoodi: ',
+	            this.state.reservation_code
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'p',
-	          null,
-	          'Varauskoodi: ',
-	          this.state.reservation_code
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
+	          { className: 'popup-cancellation-ok-margin' },
 	          'Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: 'http://diacor.fi' },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Poistu ajanvarauksesta'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this12.resetState(event);
-	              } },
+	              'a',
+	              { href: 'http://diacor.fi' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-white' },
+	                'Poistu ajanvarauksesta'
+	              )
+	            ),
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Varaa uusi aika'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this12.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Varaa uusi aika'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this12.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
@@ -56464,7 +56578,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog' },
+	        { className: 'dialog client-popup' },
 	        _react2.default.createElement(
 	          'h4',
 	          null,
@@ -56472,25 +56586,35 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this13.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              null,
-	              'Palaa ajanvaraukseen'
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this13.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Palaa ajanvaraukseen'
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this13.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
 	  }, {
 	    key: 'renderDialog',
 	    value: function renderDialog() {
-	      //console.log("Popup - renderDialog : isopen : " + this.props.dialogisopen);
 	      switch (this.props.dialogview) {
 	        case _types.DLG_VIEW_REGISTER_CHECK_SSN:
 	          return this.renderAskSnn();
@@ -56499,7 +56623,7 @@
 	        case _types.DLG_VIEW_REGISTER_OHC_NOT_FOUND:
 	          return this.ohcClientNotFound();
 	        case _types.DLG_VIEW_REGISTER_OHC_FORBIDDEN:
-	          return ohcReservationForbidden();
+	          return this.ohcReservationForbidden();
 	        case _types.DLG_VIEW_REGISTER_CREATE_CLIENT:
 	          return this.renderAskClientInfoForm(); //renderAskClientInfoForm || renderAskClientInfo
 	        case _types.DLG_VIEW_REGISTER_ERROR:
@@ -56515,8 +56639,10 @@
 	        case _types.DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND:
 	          return this.renderCancelReservationNotFound();
 	        case _types.DLG_VIEW_CANCEL_RESERVATION_CONFIRM:
+	          //TODO: this is big class
 	          return this.renderCancelReservationConfirm();
 	        case _types.DLG_VIEW_CANCEL_RESERVATION_OK:
+	          //TODO: this is big class
 	          return this.renderCancelReservationOk();
 	        case _types.DLG_VIEW_CANCEL_RESERVATION_ERROR:
 	          return this.renderCancelReservationError();
@@ -56533,7 +56659,7 @@
 	          isOpen: this.props.dialogisopen,
 	          onRequestClose: this.resetState.bind(this),
 	          shouldCloseOnOverlayClick: false,
-	          className: 'modal-class',
+	          className: 'modal-class-big',
 	          overlayClassName: 'overlay-class'
 	        },
 	        this.renderDialog()
@@ -58544,6 +58670,10 @@
 
 	var _reactDom = __webpack_require__(35);
 
+	var _svg_definitions = __webpack_require__(432);
+
+	var _svg_definitions2 = _interopRequireDefault(_svg_definitions);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -58610,28 +58740,39 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'popup-control-box' },
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '', onClick: function onClick(event) {
+	              return _this3.resetState(event);
+	            } },
+	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
+	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'submit-buttons-centered' },
+	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '', onClick: function onClick(event) {
-	                return _this3.props.resetState(event);
-	              } },
+	            'div',
+	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn-white' },
-	              'Peruuta'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { href: '' },
+	              'a',
+	              { href: '', onClick: function onClick(event) {
+	                  return _this3.props.resetState(event);
+	                } },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-white' },
+	                'Peruuta'
+	              )
+	            ),
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'btn-red' },
-	              'Jatka'
+	              'a',
+	              { href: '' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn-red' },
+	                'Jatka'
+	              )
 	            )
 	          )
 	        )
@@ -62085,113 +62226,64 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SvgDefinitions = function (_Component) {
-	    _inherits(SvgDefinitions, _Component);
+	var SvgIcon = function (_Component) {
+	    _inherits(SvgIcon, _Component);
 
-	    function SvgDefinitions(props) {
-	        _classCallCheck(this, SvgDefinitions);
+	    function SvgIcon(props) {
+	        _classCallCheck(this, SvgIcon);
 
-	        return _possibleConstructorReturn(this, (SvgDefinitions.__proto__ || Object.getPrototypeOf(SvgDefinitions)).call(this, props));
+	        return _possibleConstructorReturn(this, (SvgIcon.__proto__ || Object.getPrototypeOf(SvgIcon)).call(this, props));
 	    }
 
-	    _createClass(SvgDefinitions, [{
+	    _createClass(SvgIcon, [{
 	        key: 'renderSvg',
 	        value: function renderSvg() {
 	            switch (this.props.Icon) {
-	                case 'doctor':
-	                    return this.doctor();
+	                case 'close':
+	                    return this.close();
+	                case 'phone':
+	                    return this.phone();
 	                default:
 	                    return null;
 	            }
 	        }
 	    }, {
-	        key: 'doctor',
-	        value: function doctor() {
+	        key: 'close',
+	        value: function close() {
 	            return _react2.default.createElement(
 	                'svg',
-	                { className: this.props.className, width: '113px', height: '132px', viewBox: '0 0 113 132' },
-	                _react2.default.createElement(
-	                    'filter',
-	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-1' },
-	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '10 0', 'in': 'SourceGraphic' })
-	                ),
-	                _react2.default.createElement('path', { d: 'M0.756410256,49.9466304 C0.756410256,43.8273883 5.598243,37.7648503 11.5838164,36.5040214 C11.5838164,36.5040214 17.867274,34.7948718 23.1611433,34.7948718 C28.1944985,34.7948718 33.9749085,36.4363961 33.9749085,36.4363961 C39.9447893,37.7786504 44.7843339,43.8403469 44.7843339,49.9466304 L44.7843339,116.487179 L0.756410256,116.487179 L0.756410256,49.9466304 Z', id: 'path-2' }),
-	                _react2.default.createElement(
-	                    'filter',
-	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-3' },
-	                    _react2.default.createElement('feOffset', { dx: '0', dy: '0', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
-	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2.5', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
-	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.619791667   0 0 0 0 0.619791667   0 0 0 0 0.619791667  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
-	                ),
-	                _react2.default.createElement('rect', { id: 'path-4', x: '8.32051282', y: '116.487179', width: '9.54451492', height: '10.0670901' }),
-	                _react2.default.createElement(
-	                    'filter',
-	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-5' },
-	                    _react2.default.createElement('feOffset', { dx: '0', dy: '1', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
-	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
-	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.53651148   0 0 0 0 0.53651148   0 0 0 0 0.53651148  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
-	                ),
-	                _react2.default.createElement('rect', { id: 'path-6', x: '26.474359', y: '116.538579', width: '9.54451492', height: '10.0670901' }),
-	                _react2.default.createElement(
-	                    'filter',
-	                    { x: '-50%', y: '-50%', width: '200%', height: '200%', filterUnits: 'objectBoundingBox', id: 'filter-7' },
-	                    _react2.default.createElement('feOffset', { dx: '0', dy: '1', 'in': 'SourceAlpha', result: 'shadowOffsetOuter1' }),
-	                    _react2.default.createElement('feGaussianBlur', { stdDeviation: '2', 'in': 'shadowOffsetOuter1', result: 'shadowBlurOuter1' }),
-	                    _react2.default.createElement('feColorMatrix', { values: '0 0 0 0 0.53651148   0 0 0 0 0.53651148   0 0 0 0 0.53651148  0 0 0 0.5 0', type: 'matrix', 'in': 'shadowBlurOuter1' })
-	                ),
+	                { className: this.props.className, width: '17px', height: '17px', viewBox: '0 0 17 17' },
 	                _react2.default.createElement(
 	                    'g',
-	                    { id: 'Ajanvaraus-Desktop', stroke: 'none', 'stroke-width': '1', fill: 'none', 'fill-rule': 'evenodd' },
+	                    { id: 'Symbols', stroke: 'none', strokeWidth: '1', fill: 'none', fillRule: 'evenodd' },
 	                    _react2.default.createElement(
 	                        'g',
-	                        { id: 'TT---Dialogi---Työterveysasiakkaan---kirjaudu-Desktop', transform: 'translate(-431.000000, -116.000000)' },
+	                        { id: 'Mobile/Dialogs/Header', transform: 'translate(-338.000000, -20.000000)', fill: '#F10C29' },
 	                        _react2.default.createElement(
 	                            'g',
-	                            { id: 'Group-15', transform: 'translate(458.000000, 116.000000)' },
-	                            _react2.default.createElement('path', { d: 'M22.8448698,131.489755 C24.9836723,131.571949 27.2114017,131.615385 29.5,131.615385 C45.7924001,131.615385 59,129.414118 59,126.698718 C59,123.983318 45.7924001,121.782051 29.5,121.782051 C13.2075999,121.782051 0,123.983318 0,126.698718 C0,129.032685 9.75765996,130.986815 22.8448698,131.489755 Z', id: 'Oval-3', fill: '#D8D8D8', opacity: '0.261660448', filter: 'url(#filter-1)' }),
-	                            _react2.default.createElement(
-	                                'g',
-	                                { id: 'Group-14', transform: 'translate(6.051282, 0.000000)' },
-	                                _react2.default.createElement('ellipse', { id: 'Oval-100', fill: '#52312B', cx: '8.77479598', cy: '22.3363562', rx: '8.77479598', ry: '9.12330042' }),
-	                                _react2.default.createElement(
-	                                    'g',
-	                                    { id: 'Rectangle-46' },
-	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-3)' }),
-	                                    _react2.default.createElement('use', { fill: '#FFFFFF', 'fill-rule': 'evenodd' })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'g',
-	                                    { id: 'Rectangle-48-+-Rectangle-48-Copy', transform: 'translate(16.318042, 40.897554)' },
-	                                    _react2.default.createElement('rect', { id: 'Rectangle-48', fill: '#F10C29', x: '0', y: '0', width: '13.5470534', height: '75.5896259' }),
-	                                    _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy', fill: '#EABF91', points: '0 0 13.5470534 0 13.5470534 12.1546084 6.83199708 21.3874922 0 12.1546084' })
-	                                ),
-	                                _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy-2', fill: '#F10C29', points: '33.559746 35.549412 33.559746 45.9310987 23.0915684 41.8732362' }),
-	                                _react2.default.createElement('polygon', { id: 'Rectangle-48-Copy-3', fill: '#F10C29', transform: 'translate(16.625929, 40.740255) scale(-1, 1) translate(-16.625929, -40.740255) ', points: '21.860018 35.549412 21.860018 45.9310987 11.3918404 41.8732362' }),
-	                                _react2.default.createElement('ellipse', { id: 'Oval-100-Copy', fill: '#52312B', cx: '36.7925656', cy: '22.3363562', rx: '8.77479598', ry: '9.12330042' }),
-	                                _react2.default.createElement('path', { d: 'M8.94334124,15.4190288 C8.60556618,7.77206878 14.5323518,1.57298283 22.1910755,1.57298283 L23.3762905,1.57298283 C31.0305872,1.57298283 36.9617441,7.77332974 36.6240248,15.4190288 L36.0407243,28.6244905 C35.7029492,36.2714505 29.2260911,42.4705365 21.5628182,42.4705365 L24.0045478,42.4705365 C16.3463961,42.4705365 9.8643611,36.2701895 9.52664174,28.6244905 L8.94334124,15.4190288 Z', id: 'Rectangle-40', fill: '#EABF91' }),
-	                                _react2.default.createElement('path', { d: 'M36.6383358,20.3643029 L36.9186815,14.1482719 C37.2712751,6.33030931 31.2138518,0 23.3894596,0 L22.1779065,0 C14.3489889,0 8.29627537,6.33439711 8.64868457,14.1482719 L8.97985389,21.4912006 C14.137483,18.7834163 21.2734998,7.57240762 28.6247631,9.25285316 C36.2754428,11.0017431 34.8805832,22.0217596 34.8805832,22.0217596 L36.6383358,20.3643029 Z', id: 'Rectangle-40-Copy-3', fill: '#52312B' }),
-	                                _react2.default.createElement('path', { d: 'M33.6847749,20.7886878 C34.2709146,19.0649736 36.1250758,18.1484361 37.8269954,18.7418351 L37.8269954,18.7418351 C39.528541,19.3351037 40.4332917,21.2118143 39.8466164,22.9371035 L38.668806,26.4007972 C38.0826663,28.1245113 36.2285051,29.0410489 34.5265854,28.4476498 L34.5265854,28.4476498 C32.8250399,27.8543812 31.9202892,25.9776707 32.5069645,24.2523815 L33.6847749,20.7886878 L33.6847749,20.7886878 Z', id: 'Rectangle-40-Copy', fill: '#EABF91' }),
-	                                _react2.default.createElement('path', { d: 'M12.4983618,20.7886878 C11.9122221,19.0649736 10.0580609,18.1484361 8.35614127,18.7418351 L8.35614127,18.7418351 C6.65459574,19.3351037 5.74984505,21.2118143 6.33652036,22.9371035 L7.51433075,26.4007972 C8.10047046,28.1245113 9.95463165,29.0410489 11.6565513,28.4476498 L11.6565513,28.4476498 C13.3580968,27.8543812 14.2628475,25.9776707 13.6761722,24.2523815 L12.4983618,20.7886878 L12.4983618,20.7886878 Z', id: 'Rectangle-40-Copy-2', fill: '#EABF91' }),
-	                                _react2.default.createElement('path', { d: 'M23.3994559,37.4369914 C26.6302466,37.4369914 29.2493199,34.7608475 29.2493199,31.4596566 C26.3195598,31.8667682 21.4402378,31.4596567 17.549592,31.4596566 C17.549592,34.7608475 20.1686653,37.4369914 23.3994559,37.4369914 Z', id: 'Oval-102', fill: '#FFFFFF' }),
-	                                _react2.default.createElement('ellipse', { id: 'Oval-103', fill: '#000000', cx: '27.8638258', cy: '19.3476888', rx: '1.3854941', ry: '1.41568455' }),
-	                                _react2.default.createElement('ellipse', { id: 'Oval-103-Copy', fill: '#000000', cx: '17.3956482', cy: '19.3476888', rx: '1.3854941', ry: '1.41568455' }),
-	                                _react2.default.createElement('rect', { id: 'Rectangle-52', fill: '#F10C29', x: '35.4070715', y: '74.5593862', width: '9.54451492', height: '3.46056223' }),
-	                                _react2.default.createElement('rect', { id: 'Rectangle-52-Copy', fill: '#F10C29', x: '0.615775156', y: '74.5593862', width: '9.54451492', height: '3.46056223' }),
-	                                _react2.default.createElement('rect', { id: 'Rectangle-53', fill: '#EABF91', x: '0.615775156', y: '78.0199485', width: '9.54451492', height: '10.0670901' }),
-	                                _react2.default.createElement(
-	                                    'g',
-	                                    { id: 'Rectangle-53' },
-	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-5)' }),
-	                                    _react2.default.createElement('use', { fill: '#EABF91', 'fill-rule': 'evenodd' })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'g',
-	                                    { id: 'Rectangle-53-Copy-2' },
-	                                    _react2.default.createElement('use', { fill: 'black', 'fill-opacity': '1', filter: 'url(#filter-7)' }),
-	                                    _react2.default.createElement('use', { fill: '#EABF91', 'fill-rule': 'evenodd' })
-	                                ),
-	                                _react2.default.createElement('rect', { id: 'Rectangle-53-Copy', fill: '#EABF91', x: '35.4070715', y: '78.0199485', width: '9.54451492', height: '10.0670901' })
-	                            )
+	                            { id: 'Shape' },
+	                            _react2.default.createElement('polygon', { points: '355 21.7 353.3 20 346.5 26.8 339.7 20 338 21.7 344.8 28.5 338 35.3 339.7 37 346.5 30.2 353.3 37 355 35.3 348.2 28.5' })
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'phone',
+	        value: function phone() {
+	            return _react2.default.createElement(
+	                'svg',
+	                { width: '10px', height: '17px', viewBox: '0 0 10 17' },
+	                _react2.default.createElement(
+	                    'g',
+	                    { id: 'Ajanvaraus-Desktop', stroke: 'none', strokeWidth: '1', fill: 'none', fillRule: 'evenodd' },
+	                    _react2.default.createElement(
+	                        'g',
+	                        { id: 'AV---Dialogi---Etävastaanotto-varauksen-tiedot---Desktop', transform: 'translate(-60.000000, -229.000000)', fill: '#F10C29' },
+	                        _react2.default.createElement(
+	                            'g',
+	                            { id: 'Group-19', transform: 'translate(60.000000, 229.000000)' },
+	                            _react2.default.createElement('path', { d: 'M8.33666667,0 L1.66333333,0 C0.745,0 0,0.7599 0,1.6966 L0,15.30255 C0,16.2401 0.745,17 1.66333333,17 L8.33583333,17 C9.255,17 10,16.2401 10,15.3034 L10,1.6966 C10,0.7599 9.255,0 8.33666667,0 L8.33666667,0 Z M5,16.15 C4.425,16.15 3.95833333,15.77005 3.95833333,15.3 C3.95833333,14.82995 4.425,14.45 5,14.45 C5.575,14.45 6.04166667,14.82995 6.04166667,15.3 C6.04166667,15.77005 5.575,16.15 5,16.15 L5,16.15 Z M8.33333333,13.6 L1.66666667,13.6 L1.66666667,1.7 L8.33333333,1.7 L8.33333333,13.6 L8.33333333,13.6 Z', id: 'Shape-Copy' })
 	                        )
 	                    )
 	                )
@@ -62202,18 +62294,18 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'svg-icon' },
 	                this.renderSvg()
 	            );
 	        }
 	    }]);
 
-	    return SvgDefinitions;
+	    return SvgIcon;
 	}(_react.Component);
 
 	;
 
-	exports.default = SvgDefinitions;
+	exports.default = SvgIcon;
 
 /***/ },
 /* 433 */
@@ -63071,8 +63163,6 @@
 	      if (action.payload.response && action.payload.response.status == 200) {
 	        new_state.appstate = _types.APP_STATE_ORDER_REMINDER_OK;
 	      } else {
-	        new_state.appstate = _types.APP_STATE_ORDER_REMINDER_OK;
-	        return new_state;
 	        if (action.payload.response && action.payload.response.status == 400) {
 	          new_state.appstate = _types.APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
 	        } else if (action.payload.response && action.payload.response.status == 404) {

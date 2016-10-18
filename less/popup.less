@@ -153,33 +153,62 @@
 
     .reservation-input-info {
         margin-left: 0;
+
+        @media @respond-below-mobile {
+            margin-bottom: 208px;
+        }
     }
 
     .popup-control-box {
         height: 80px;
         border-top: 1px solid #dbdbdb;
 
-    .submit-buttons-centered {
-          //TODO: Change this
-          margin-top: 20px;
+        .submit-buttons-centered {
+              //TODO: Change this
+              margin-top: 20px;
+        }
     }
-  }
 
-  @media @respond-below-mobile {
+    @media @respond-below-mobile {
 
-      h4, p, .popup-form-input {
+        h4, p, .popup-form-input {
           margin-left: @popup-margin-left-mobile;
-      }
+        }
 
-      .popup-form-input {
+        .popup-control-box {
+            height: auto;
+
+            .btn-red {
+                margin-bottom: 20px;
+            }
+
+            .btn-red-mobile-margin {
+                margin-top: 10px;
+            }
+        }
+
+        .popup-form-input {
           margin-bottom: 59px;
-      }
+        }
 
-      .reservation-forbidden {
+        .reservation-forbidden {
           margin-right: 30px;
-          margin-bottom: 296px;
-      }
-  }
+          margin-bottom: 298px;
+        }
+
+        .popup-error-creation {
+          margin-bottom: 398px;
+        }
+
+        .popup-error-prereservation {
+          margin-bottom: 378px;
+        }
+
+        .popup-error-not-found {
+          margin-bottom: 378px;
+          width: 15em;
+        }
+    }
 }
 
 .modal-class-big {
@@ -224,6 +253,17 @@
             }
         }
     }
+
+    @media @respond-below-mobile {
+
+        p {
+            margin-bottom: 67px;
+        }
+
+        .popup-reservation-info {
+            margin-left: @popup-margin-left-mobile;
+        }
+    }
 }
 
 .modal-class {
@@ -260,4 +300,8 @@
     right: 0;
     bottom: 0;
     z-index: 1000;
+
+    @media @respond-below-mobile {
+        position: fixed;
+    }
 }

@@ -231,7 +231,7 @@ class Popup extends Component {
       //TODO: does this need more?
     return (
       <div className="dialog client-popup">
-        <h4>Jotakin meni pieleen...</h4>
+        <h4 className="popup-error-creation">Jotakin meni pieleen...</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
@@ -247,7 +247,7 @@ class Popup extends Component {
   renderPreReservationError() {
     return (
       <div className="dialog client-popup">
-        <h4>Jotakin meni pieleen esivarauksen teossa...</h4>
+        <h4 className="popup-error-prereservation">Jotakin meni pieleen esivarauksen teossa...</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
@@ -287,7 +287,7 @@ class Popup extends Component {
   renderCancelReservationNotFound() {
     return (
       <div className="dialog client-popup">
-        <h4>Varaustunnuksella {this.state.reservation_code} ei löytynyt varausta.</h4>
+        <h4 className="popup-error-not-found">Varaustunnuksella {this.state.reservation_code} ei löytynyt varausta.</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
@@ -326,7 +326,7 @@ class Popup extends Component {
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">Palaa ajanvaraukseen</button></a>
-              <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red">Peruuta varaus</button></a>
+              <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red btn-red-mobile-margin">Peruuta varaus</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -395,7 +395,7 @@ class Popup extends Component {
         return this.renderAskSnn();
       case DLG_VIEW_REGISTER_OHC_CHECK_SSN:
         //return this.renderAskSnnOhc();
-        return this.renderClientCreationError();
+        return this.renderCancelReservationConfirm();
       case DLG_VIEW_REGISTER_OHC_NOT_FOUND:
         return this.ohcClientNotFound();
       case DLG_VIEW_REGISTER_OHC_FORBIDDEN:
@@ -429,7 +429,7 @@ class Popup extends Component {
             isOpen={this.props.dialogisopen}
             onRequestClose={this.resetState.bind(this)}
             shouldCloseOnOverlayClick={false}
-            className='modal-class'
+            className='modal-class-big'
             overlayClassName="overlay-class"
             >
             { this.renderDialog() }

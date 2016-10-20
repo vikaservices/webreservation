@@ -20,12 +20,12 @@ class SectionResourceSelection extends Component {
   }
 
   handleEmployerChange(event) {
-    console.log("handleEmployerChange: " + event.target.value);
+    console.log("SectionResourceSelection: handleEmployerChange: " + event.target.value);
   }
 
   handleResourceSelection(event, resourceId, resourceName) {
     event.preventDefault();
-    console.log("handleResourceSelection: " + resourceId);
+    console.log("SectionResourceSelection handleResourceSelection: " + resourceId);
     let filters = this.props.filters;
     filters.resource_filter = resourceId;
     filters.terms_search = resourceName;
@@ -51,7 +51,7 @@ class SectionResourceSelection extends Component {
             <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
                              selected_employer={this.props.selected_employer}
                              onChange={this.handleEmployerChange.bind(this)} />
-            <a href="#" className="link font-size-14 pull-right" onClick={(e) => this.toggleVisibility(e)}>
+            <a href="#" className="link font-size-14 pull-right" onClick={(event) => this.toggleVisibility(event)}>
               { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
             </a>
           </div>

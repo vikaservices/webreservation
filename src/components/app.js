@@ -38,7 +38,7 @@ class App extends Component {
         if( employerId ) {
           filters.employer_id_filter = employerId;
           filters.terms_search = this.props.selected_employer.name;
-          console.log("App: this.props.selected_employer.employerName = " + this.props.selected_employer.employerName)
+          console.log("App: componentDidMount: this.props.selected_employer.employerName = " + this.props.selected_employer.employerName)
 
           if( resourceId ) {
             // If resource is given -> do more specific search with resource
@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    console.log("componentDidUpdate");
+    //console.log("App: componentDidUpdate");
     if( (this.props.appstate == APP_STATE_CLIENT_IDENTIFIED) &&
         (this.props.pendingreservation == true) ) {
       console.log("Have pending reservation");
@@ -82,7 +82,7 @@ class App extends Component {
   }
 
   // Callback from timeslot
-  makeReservation(resourceId, unitId, start, duration,
+  makeReservation(resourceId, unitId, start, duration, online,
                   imageUrl=null, resourceName=null, title=null, unitName=null, event=null) {
     if( event != null ) {
       event.preventDefault();
@@ -92,7 +92,7 @@ class App extends Component {
     console.log("selectedtate: " + formatDate(this.props.date_filter));
     let start_str = (start.length == 4) ? ("0" + start) : start;
     var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
-    this.props.saveSelectedTimeslot( resourceId, unitId, starttime, duration, imageUrl, resourceName, title, unitName, start );
+    this.props.saveSelectedTimeslot( resourceId, unitId, starttime, duration, online, imageUrl, resourceName, title, unitName, start );
     if ( this.props.appstate == APP_STATE_INITIAL ) {
       this.props.loginClient( true );
     }

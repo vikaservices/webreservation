@@ -129,13 +129,9 @@ export default function(state = INITIAL_STATE, action) {
     case CHECK_CLIENT_SSN:
       console.log("reducer_app: CHECK_CLIENT_SSN");
       new_state = reducerClient( state, action );
-      // TODO: error handling
-      if( new_state.client_id == -1 ) {
-        // client doesn't exist
-        new_state.dialogisopen = true;
-        new_state.dialogview = DLG_VIEW_REGISTER_CREATE_CLIENT;
-      } else if( new_state.client_id > 0 ) {
-        // client identified
+
+      if( new_state.reservationstatus === 0 ) {
+        // ok, client identified
         new_state.dialogisopen = false;
         new_state.dialogview = DLG_VIEW_NONE;
         new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
@@ -152,40 +148,71 @@ export default function(state = INITIAL_STATE, action) {
           new_state.resource_section_active = 'active';
         }
       }
+      else if( new_state.reservationstatus === 404 ) {
+        // client doesn't exist, reason:
+        // NOT_FOUND (client doesn't exist)
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_CREATE_CLIENT;
+      }
+      else if( new_state.reservationstatus === 999 ) {
+        // reservation forbidden for this client
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_FORBIDDEN;
+      }
+      else {
+        // some unknown error
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+      }
       console.log(new_state);
       return new_state;
 
     case CHECK_OHC_CLIENT_SSN:
       console.log("reducer_app: CHECK_OHC_CLIENT_SSN");
       new_state = reducerClient( state, action );
-      if( new_state.is_ohc_client ) {
-        // ok, this is ohc client
-        new_state.dialogisopen = false;
-        new_state.dielogview = DLG_VIEW_NONE;
-        new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
-        new_state.resource_section_active = 'active';
-        new_state.timesearch_section_active = 'active';
-        new_state.confirmation_section_active = 'inactive';
-        // set selected employer according to mainEmployer
-        new_state.employers.map((employer) => {
-          // TODO: error handling ?
-          if( employer.mainEmployer ) {
-            new_state.selected_employer = employer;
-            new_state.filters.employer_id_filter = employer.id;
-            new_state.filters.terms_search = employer.name + " työterveystiimi";
-            new_state.filters.do_time_search = true;
-          }
-        });
 
-      } else if(false) {
-        // web reservation for this ohc client is forbidden
-        new_state.dialogisopen = true;
-        new_state.dialogview = DLG_VIEW_REGISTER_OHC_FORBIDDEN;
-
-      } else {
-        // failed, not ohc client or client doesnt't exist
+      if( new_state.reservationstatus === 0 ) {
+        // ok, client identified
+        if( new_state.is_ohc_client ) {
+          // ok, this is ohc client
+          new_state.dialogisopen = false;
+          new_state.dielogview = DLG_VIEW_NONE;
+          new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
+          new_state.resource_section_active = 'active';
+          new_state.timesearch_section_active = 'active';
+          new_state.confirmation_section_active = 'inactive';
+          // set selected employer according to mainEmployer
+          new_state.employers.map((employer) => {
+            // TODO: error handling ?
+            if( employer.mainEmployer ) {
+              new_state.selected_employer = employer;
+              new_state.filters.employer_id_filter = employer.id;
+              new_state.filters.terms_search = employer.name + " työterveystiimi";
+              new_state.filters.do_time_search = true;
+            }
+          });
+        }
+        else {
+          // failed, not ohc client
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_REGISTER_OHC_NOT_FOUND;
+        }
+      }
+      else if( new_state.reservationstatus === 404 ) {
+        // client doesn't exist, reason:
+        // NOT_FOUND (client doesn't exist)
         new_state.dialogisopen = true;
         new_state.dialogview = DLG_VIEW_REGISTER_OHC_NOT_FOUND;
+      }
+      else if( new_state.reservationstatus === 999 ) {
+        // reservation forbidden for this client, reason:
+        // TODO
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_OHC_FORBIDDEN;
+      } else {
+        // some unknown error
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
       }
       //console.log(new_state);
       return new_state;
@@ -194,11 +221,7 @@ export default function(state = INITIAL_STATE, action) {
       console.log("reducer_app: CREATE_CLIENT");
       new_state = reducerClient( state, action );
       // TODO: error handling
-      if( new_state.client_id == -2 ) {
-        // client creation failed
-        new_state.dialogisopen = true;
-        new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
-      } else if( new_state.client_id > 0 ) {
+      if( new_state.reservationstatus === 0 ) {
         // client creation ok
         new_state.dialogisopen = false;
         new_state.dialogview = DLG_VIEW_NONE;
@@ -206,11 +229,24 @@ export default function(state = INITIAL_STATE, action) {
         new_state.timesearch_section_active = 'inactive';
         new_state.confirmation_section_active = 'active';
       }
+      else if( new_state.reservationstatus === 400 ) {
+        // client creation failed, due to reason:
+        // INVALID_INPUT
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+      }
+      else {
+        // some unknown error
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+      }
+      console.log("state:");
       console.log(new_state);
       return new_state;
 
       case MAKE_PRE_RESERVATION:
         console.log("reducer_app: MAKE_PRE_RESERVATION");
+        console.log("action:");
         console.log(action);
         new_state = reducerReservation(state, action);
         if( new_state.reservationstatus == 0 ) {
@@ -218,7 +254,8 @@ export default function(state = INITIAL_STATE, action) {
           console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation ok");
           if( new_state.is_ohc_client ) {
             new_state.resource_section_active = 'inactive';
-          } else {
+          }
+          else {
             new_state.resource_section_active = 'hidden';
           }
           new_state.timesearch_section_active = 'inactive';
@@ -227,20 +264,29 @@ export default function(state = INITIAL_STATE, action) {
           new_state.dialogisopen = false;
           new_state.dialogview = DLG_VIEW_NONE;
           new_state.pendingreservation = false;
-        } else {
-          // prereservation failed
+        }
+        else if( new_state.reservationstatus === 400 ) {
+          // prereservation failed, due to reasons:
+          // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+        }
+        else {
+          // some unknown error
           console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
         }
+        console.log("state:")
         console.log(new_state);
         return new_state;
 
       case CONFIRM_RESERVATION:
-        console.log("CONFIRM_RESERVATION");
+        console.log("reducer_app: CONFIRM_RESERVATION");
+        console.log("action:");
         console.log(action);
         new_state = reducerReservation(state, action);
-        if( new_state.reservationstatus == 0 ) {
+        if( new_state.reservationstatus === 0 ) {
           // confirming reservation ok
           console.log("CONFIRM_RESERVATION : confirm ok");
           new_state.appstate = APP_STATE_CONFIRMATION_OK;
@@ -251,70 +297,56 @@ export default function(state = INITIAL_STATE, action) {
           new_state.confirmation_section_active = 'hidden';
           new_state.reservation_summary_section_active = 'active';
           new_state.headertitle = "Kiitos varauksesta!";
-        } else {
-          // confirming reservation failed
+        }
+        else if( new_state.reservationstatus === 400 || new_state.reservationstatus === 404){
+          // confirming reservation failed, due to reasons:
+          // status 400: BAD_REQUEST, WEB_RESERVATION_IN_PAST, WEB_RESERVATION_OVERLAP
+          // status 404: WEB_RESERVATION_NOT_FOUND
           console.log("CONFIRM_RESERVATION : confirm failed");
           new_state.appstate = APP_STATE_CONFIRMATION_FAILED;
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CONFIRMATION_ERROR;
         }
+        else {
+          // some unknown error
+          console.log("CONFIRM_RESERVATION : confirm failed, unknown reason");
+          new_state.appstate = APP_STATE_CONFIRMATION_FAILED;
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_CONFIRMATION_ERROR;
+        }
+        console.log("state:")
         console.log(new_state);
         return new_state;
 
       case GET_RESERVATION:
-        console.log("GET_RESERVATION");
+        console.log("reducer_app: GET_RESERVATION");
+        console.log("action:")
         console.log(action);
-        new_state = {...state};
-        if( !action.payload ){
-          new_state.dialogisopen = true;
-          new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_ERROR;
-          return new_state;
-        }
-        if( !action.payload.data ) {
-          if( action.payload.response && action.payload.response.status == 404 ) {
+        new_state = reducerReservation(state, action);
+        if( new_state.reservationstatus === 0 ) {
+          console.log("GET_RESERVATION : getting reservation ok");
+          if( !action.meta.standalone ) {
+            // when canceling via webapp, open dialog
+            // when canceling via email link, don't open
             new_state.dialogisopen = true;
-            new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
-            new_state.reservationstatus = action.payload.response.status;
-            return new_state;
+            new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
           }
         }
-        if( !action.meta.standalone ) {
+        else if( new_state.reservationstatus === 404 ) {
           new_state.dialogisopen = true;
-          new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
+          new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
         }
-        new_state.reservation = action.payload.data.reservation;
-        new_state.reservation_code = action.meta.reservation_code;
-        new_state.hetu = action.meta.hetu;
-        return new_state;
-
-      case SAVE_SELECTED_TIMESLOT:
-        console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
-        return {...state, selectedtimeslot: action.selectedtimeslot, pendingreservation: true};
-
-      case SAVE_CLIENT_INFO:
-        return {...state, client: action.client};
-
-      case RESET:
-        new_state = {...state};
-        if( new_state.appstate != APP_STATE_INITIAL ) {
-          new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
+        else {
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_ERROR;
         }
-        if( new_state.is_ohc_client ) {
-          new_state.resource_section_active = 'active';
-        }
-        new_state.timesearch_section_active = 'active';
-        new_state.confirmation_section_active = 'inactive';
-        new_state.reservation_summary_section_active = 'hidden';
-        new_state.dialogisopen = false;
-        new_state.dialogview = DLG_VIEW_NONE;
-        new_state.headertitle = 'Ajanvaraus';
+        console.log("state:");
+        console.log(new_state);
         return new_state;
 
       case CANCEL_RESERVATION:
         new_state = {...state};
-
         console.log(action);
-
         if( action.payload ) {
           if( action.payload.status == 204 ) {
             // delete ok
@@ -343,6 +375,30 @@ export default function(state = INITIAL_STATE, action) {
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION;
         }
+        return new_state;
+
+      case SAVE_SELECTED_TIMESLOT:
+        console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
+        return {...state, selectedtimeslot: action.selectedtimeslot, pendingreservation: true};
+
+      case SAVE_CLIENT_INFO:
+        console.log("reducer_app: SAVE_CLIENT_INFO");
+        return {...state, client: action.client};
+
+      case RESET:
+        new_state = {...state};
+        if( new_state.appstate != APP_STATE_INITIAL ) {
+          new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
+        }
+        if( new_state.is_ohc_client ) {
+          new_state.resource_section_active = 'active';
+        }
+        new_state.timesearch_section_active = 'active';
+        new_state.confirmation_section_active = 'inactive';
+        new_state.reservation_summary_section_active = 'hidden';
+        new_state.dialogisopen = false;
+        new_state.dialogview = DLG_VIEW_NONE;
+        new_state.headertitle = 'Ajanvaraus';
         return new_state;
 
       case SET_TIME_OF_DAY_FILTER:

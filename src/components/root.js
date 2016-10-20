@@ -6,10 +6,10 @@ class Root extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount: Root");
-    console.log(this.props);
+    //console.log("componentDidMount: Root");
+    //console.log(this.props);
     if( this.props.location.query.cancelreservation ) {
-      console.log("cancelreservation");
+      console.log("Root: componentDidMount: cancelreservation");
       this.context.router.push('cancelreservation?id=' + this.props.location.query.cancelreservation);
       return;
     }

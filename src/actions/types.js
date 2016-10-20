@@ -40,6 +40,7 @@ export const APP_STATE_ORDER_REMINDER_FAILED = 'app_state_order_reminder_failed'
 // DIALOGS
 export const DLG_VIEW_NONE = 'dlg_view_none';
 export const DLG_VIEW_REGISTER_CHECK_SSN = 'dlg_view_register_check_ssn';
+export const DLG_VIEW_REGISTER_FORBIDDEN = 'dlg_view_register_forbidden'; 
 export const DLG_VIEW_REGISTER_OHC_CHECK_SSN = 'dlg_view_register_ohc_check_ssn';
 export const DLG_VIEW_REGISTER_OHC_NOT_FOUND = 'dlg_view_register_ohc_not_found';
 export const DLG_VIEW_REGISTER_OHC_FORBIDDEN = 'dlg_view_register_ohc_forbidden';

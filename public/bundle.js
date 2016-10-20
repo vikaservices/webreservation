@@ -29670,7 +29670,7 @@
 	          if (employerId) {
 	            filters.employer_id_filter = employerId;
 	            filters.terms_search = _this2.props.selected_employer.name;
-	            console.log("App: this.props.selected_employer.employerName = " + _this2.props.selected_employer.employerName);
+	            console.log("App: componentDidMount: this.props.selected_employer.employerName = " + _this2.props.selected_employer.employerName);
 
 	            if (resourceId) {
 	              // If resource is given -> do more specific search with resource
@@ -29693,7 +29693,7 @@
 	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
-	      console.log("componentDidUpdate");
+	      //console.log("App: componentDidUpdate");
 	      if (this.props.appstate == _types.APP_STATE_CLIENT_IDENTIFIED && this.props.pendingreservation == true) {
 	        console.log("Have pending reservation");
 	        var slot = this.props.selectedtimeslot;
@@ -29717,12 +29717,12 @@
 
 	  }, {
 	    key: 'makeReservation',
-	    value: function makeReservation(resourceId, unitId, start, duration) {
-	      var imageUrl = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
-	      var resourceName = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
-	      var title = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
-	      var unitName = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
-	      var event = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
+	    value: function makeReservation(resourceId, unitId, start, duration, online) {
+	      var imageUrl = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+	      var resourceName = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
+	      var title = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
+	      var unitName = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
+	      var event = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
 
 	      if (event != null) {
 	        event.preventDefault();
@@ -29732,7 +29732,7 @@
 	      console.log("selectedtate: " + formatDate(this.props.date_filter));
 	      var start_str = start.length == 4 ? "0" + start : start;
 	      var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
-	      this.props.saveSelectedTimeslot(resourceId, unitId, starttime, duration, imageUrl, resourceName, title, unitName, start);
+	      this.props.saveSelectedTimeslot(resourceId, unitId, starttime, duration, online, imageUrl, resourceName, title, unitName, start);
 	      if (this.props.appstate == _types.APP_STATE_INITIAL) {
 	        this.props.loginClient(true);
 	      }
@@ -29906,13 +29906,13 @@
 	  }, {
 	    key: 'handleEmployerChange',
 	    value: function handleEmployerChange(event) {
-	      console.log("handleEmployerChange: " + event.target.value);
+	      console.log("SectionResourceSelection: handleEmployerChange: " + event.target.value);
 	    }
 	  }, {
 	    key: 'handleResourceSelection',
 	    value: function handleResourceSelection(event, resourceId, resourceName) {
 	      event.preventDefault();
-	      console.log("handleResourceSelection: " + resourceId);
+	      console.log("SectionResourceSelection handleResourceSelection: " + resourceId);
 	      var filters = this.props.filters;
 	      filters.resource_filter = resourceId;
 	      filters.terms_search = resourceName;
@@ -29951,8 +29951,8 @@
 	              onChange: this.handleEmployerChange.bind(this) }),
 	            _react2.default.createElement(
 	              'a',
-	              { href: '#', className: 'link font-size-14 pull-right', onClick: function onClick(e) {
-	                  return _this2.toggleVisibility(e);
+	              { href: '#', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
+	                  return _this2.toggleVisibility(event);
 	                } },
 	              active == 'active' ? show_team ? "Piilota" : "Näytä" : ""
 	            )
@@ -30029,16 +30029,14 @@
 
 	//import Config from 'Config';
 
-	var UIServerUrl = "http://vob.fi:4000/";
-	//let UIServerUrl = "http://localhost:3000/";
-
+	//let UIServerUrl = "http://vob.fi:4000/";
+	var UIServerUrl = "http://localhost:3000/";
 	//import { UIServerUrl } from '../../utils/conf';
 	function termsSearch() {
 	  var terms = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
 
-	  console.log("termsSearch: " + terms);
-	  //console.log("UIServerUrl : " + UIServerUrl);
+	  console.log("Action: termsSearch: " + terms);
 
 	  if (!terms) {
 	    return {
@@ -30047,10 +30045,6 @@
 	    };
 	  }
 
-	  // TODO: encode url paramters
-	  //let terms_enc = encodeURIComponent(terms);
-	  //console.log("terms: " + terms);
-	  //console.log("terms_enc: " + terms_enc);
 	  var request = _axios2.default.get(UIServerUrl + 'terms?prefix=' + terms);
 
 	  return {
@@ -30063,14 +30057,7 @@
 	  var units = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 
 
-	  console.log("unitsSearch");
-
-	  // if( !units ) {
-	  //   return {
-	  //     type: UNITS_SEARCH,
-	  //     payload: null
-	  //   };
-	  // }
+	  console.log("Action: unitsSearch");
 
 	  var request = _axios2.default.get(UIServerUrl + 'units?prefix=' + units);
 
@@ -30092,8 +30079,6 @@
 	  var client = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
 
 
-	  console.log("timeslotsSearch");
-
 	  var search_str = 'timeslots?date=' + date;
 	  search_str += resource ? '&resource=' + resource : '';
 	  search_str += speciality ? '&speciality=' + speciality : '';
@@ -30104,7 +30089,7 @@
 	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
-	  console.log('search_str: ' + search_str);
+	  console.log("Action: timeslotsSearch" + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
 
@@ -30126,8 +30111,6 @@
 	  var client = arguments.length <= 10 || arguments[10] === undefined ? null : arguments[10];
 
 
-	  console.log("freedaysSearch");
-
 	  if (resource == null && speciality == null && groups == null && unit == null && lang == null && gender == null && city == null && employer == null && client == null) {
 	    return {
 	      type: _types.FREEDAYS_SEARCH,
@@ -30145,11 +30128,10 @@
 	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
-	  console.log('search_str = ' + search_str);
+
+	  console.log("Action: freedaysSearch" + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
-	  //const request = { data : {freedays: ["2016-09-16", "2016-09-17", "2016-09-20", "2016-09-23", "2016-09-24"]} };
-	  console.log(request);
 
 	  return {
 	    type: _types.FREEDAYS_SEARCH,
@@ -30160,6 +30142,8 @@
 	function loginClient() {
 	  var pending_reservation = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
+
+	  console.log("Action: loginClient");
 	  return {
 	    type: _types.LOGIN_CLIENT,
 	    pendingreservation: pending_reservation
@@ -30167,16 +30151,17 @@
 	}
 
 	function loginOhcClient() {
+
+	  console.log("Action: loginOhcClient");
 	  return {
 	    type: _types.LOGIN_OHC_CLIENT
 	  };
 	}
 
 	function checkClientSSN(ssn) {
-	  console.log("checkSSN");
 
 	  var search_str = 'clients?method=GET&hetu=' + ssn;
-	  console.log("search_str = " + search_str);
+	  console.log("Action: checkClientSSN: " + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
 	  return {
@@ -30186,10 +30171,10 @@
 	}
 
 	function checkOhcClientSSN(ssn) {
-	  console.log("checkSSN");
 
 	  var search_str = 'clients?method=GET&hetu=' + ssn;
-	  console.log("search_str = " + search_str);
+
+	  console.log("Action: checkOhcClientSSN: " + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
 	  return {
@@ -30199,11 +30184,10 @@
 	}
 
 	function createClient(ssn, first_name, last_name, address, postcode, city, phone) {
-	  console.log("createClient");
 
 	  var request_str = 'clients?method=PUT&hetu=' + ssn + '&firstName=' + first_name + '&lastName=' + last_name;
 	  request_str += '&address=' + address + '&postcode=' + postcode + '&city=' + city + '&phone=' + phone;
-	  console.log(request_str);
+	  console.log("Action: createClient: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
 
@@ -30219,7 +30203,7 @@
 	  };
 	}
 
-	function saveSelectedTimeslot(resourceId, unitId, start, duration, imageUrl, resourceName, title, unitName, starttimehours) {
+	function saveSelectedTimeslot(resourceId, unitId, start, duration, online, imageUrl, resourceName, title, unitName, starttimehours) {
 	  var timeslot = {
 	    title: title,
 	    unitId: unitId,
@@ -30229,7 +30213,8 @@
 	    start: start,
 	    duration: duration,
 	    imageUrl: imageUrl,
-	    startTimeHours: starttimehours
+	    startTimeHours: starttimehours,
+	    online: online
 	  };
 
 	  return {
@@ -30241,13 +30226,12 @@
 	function makePreReservation(clientId, resourceId, unitId, start, duration) {
 	  var employerId = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
 
-	  console.log("makePreReservation");
 
 	  var request_str = 'reservations?method=PUT&clientId=' + clientId + '&resourceId=' + resourceId;
 	  request_str += '&unitId=' + unitId + '&start=' + start + '&duration=' + duration;
 	  request_str += employerId != null ? '&employerId=' + employerId : '';
 
-	  console.log("makePreReservation: " + request_str);
+	  console.log("Action: makePreReservation: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
 
@@ -30261,16 +30245,13 @@
 	  var emailConfirmationTo = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
 
 
-	  console.log("confirmReservation");
-
 	  var request_str = 'reservations?method=POST&reservationId=' + reservationId + '&clientId=' + clientId;
 	  request_str += '&notes=' + notes + '&visitType=' + visitType;
 	  request_str += '&smsNotificationTo=' + smsNotificationTo + '&emailConfirmationTo=' + emailConfirmationTo;
 
-	  console.log(request_str);
+	  console.log("Action: confirmReservation: " + request_str);
 
 	  var request = (0, _axios2.default)('' + UIServerUrl + request_str);
-	  //const request = "";
 
 	  return {
 	    type: _types.CONFIRM_RESERVATION,
@@ -30283,7 +30264,7 @@
 
 	  var request_str = 'reservations?hetu=' + ssn + '&reservationCode=' + code;
 
-	  console.log("getReservation: " + request_str);
+	  console.log("Action: getReservation: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
 
@@ -30303,11 +30284,10 @@
 	  if (code) {
 	    var request_str = 'reservations?method=DELETE&reservationCode=' + code;
 	    request_str += hetu ? '&hetu=' + hetu : '';
-	    console.log("cancelReservation: request_str = " + request_str);
+	    console.log("Action: cancelReservation: request_str = " + request_str);
 
 	    var request = _axios2.default.get('' + UIServerUrl + request_str);
-
-	    console.log(request);
+	    //console.log(request);
 
 	    return {
 	      type: _types.CANCEL_RESERVATION,
@@ -30361,10 +30341,10 @@
 
 	function orderReminder(reservationId, clientId, reminderId, value) {
 	  var request_str = 'reservations?method=POST&reminders=1&reservationId=' + reservationId + '&clientId=' + clientId + '&reminderId=1234';
-	  console.log("orderReminder: request_str: " + request_str);
+	  console.log("Action: orderReminder: request_str: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
-	  console.log(request);
+	  //console.log(request)
 
 	  return {
 	    type: _types.ORDER_REMINDER,
@@ -30423,6 +30403,7 @@
 	// DIALOGS
 	var DLG_VIEW_NONE = exports.DLG_VIEW_NONE = 'dlg_view_none';
 	var DLG_VIEW_REGISTER_CHECK_SSN = exports.DLG_VIEW_REGISTER_CHECK_SSN = 'dlg_view_register_check_ssn';
+	var DLG_VIEW_REGISTER_FORBIDDEN = exports.DLG_VIEW_REGISTER_FORBIDDEN = 'dlg_view_register_forbidden';
 	var DLG_VIEW_REGISTER_OHC_CHECK_SSN = exports.DLG_VIEW_REGISTER_OHC_CHECK_SSN = 'dlg_view_register_ohc_check_ssn';
 	var DLG_VIEW_REGISTER_OHC_NOT_FOUND = exports.DLG_VIEW_REGISTER_OHC_NOT_FOUND = 'dlg_view_register_ohc_not_found';
 	var DLG_VIEW_REGISTER_OHC_FORBIDDEN = exports.DLG_VIEW_REGISTER_OHC_FORBIDDEN = 'dlg_view_register_ohc_forbidden';
@@ -32184,12 +32165,12 @@
 	      //console.log("FilterMain: componentWillReceiveProps");
 
 	      if (nextProps.filters.do_terms_search == true) {
-	        console.log("do_terms_search");
+	        //console.log("do_terms_search");
 	        if (nextProps.filters.terms_search.length >= 3) {
-	          console.log("do_terms_search: 1");
+	          console.log("FilterMain: componentWillReceiveProps: do_terms_search");
 	          this.props.termsSearch(nextProps.filters.terms_search);
 	        } else {
-	          console.log("do_terms_search: 2");
+	          console.log("FilterMain: componentWillReceiveProps: do_terms_search: clear value");
 	          this.props.termsSearch();
 	        }
 	        var filters = nextProps.filters;
@@ -32198,7 +32179,7 @@
 	      }
 
 	      if (nextProps.filters.do_units_filtering == true) {
-	        console.log("do_units_search");
+	        console.log("FilterMain: componentWillReceiveProps: do_units_search");
 	        this.filterUnitsList(nextProps.filters.units_search);
 	        var _filters = nextProps.filters;
 	        _filters.do_units_filtering = false;
@@ -32206,8 +32187,8 @@
 	      }
 
 	      if (nextProps.filters.do_time_search == true) {
-	        console.log("do_time_search");
-	        console.log(nextProps);
+	        console.log("FilterMain: componentWillReceiveProps: do_time_search");
+	        //console.log(nextProps);
 	        this.doTimeslotsSearch(nextProps);
 	        this.doFreedaysSearch(nextProps);
 	        this.props.termsSearch();
@@ -32332,17 +32313,13 @@
 	        filters.employer_id_filter = null;
 	        filters.do_terms_search = true;
 	        filters.do_time_search = true;
-	        //this.setState( {do_terms_search: true, do_time_search: true}, () => {
 	        this.props.setFilter(filters);
-	        //});
 	      } else if (input == 'units') {
 	        var _filters3 = this.props.filters;
 	        _filters3.units_search = '';
 	        _filters3.unit_filter = null;
 	        _filters3.do_time_search = true;
-	        //this.setState( {do_time_search: true}, () => {
 	        this.props.setFilter(_filters3);
-	        //});
 	      }
 	    }
 
@@ -32355,9 +32332,7 @@
 	      var filters = this.props.filters;
 	      filters.terms_search = terms_search;
 	      filters.do_terms_search = true;
-	      // this.setState( {do_terms_search: true}, () => {
 	      this.props.setFilter(filters);
-	      // });
 	    }
 
 	    // Called when user selects value from main search results
@@ -32366,7 +32341,7 @@
 	    key: 'onClickHandlerTerms',
 	    value: function onClickHandlerTerms(id, type, name, event) {
 	      event.preventDefault();
-	      console.log("onClickHandlerSearch: type: " + type + " name: " + name);
+	      console.log("FilterMain: onClickHandlerSearch: type: " + type + " name: " + name);
 	      var filters = this.props.filters;
 	      filters.terms_search = name;
 	      switch (type) {
@@ -32382,9 +32357,7 @@
 	        default:
 	      }
 	      filters.do_time_search = true;
-	      //this.setState( {do_time_search: true}, () =>{
 	      this.props.setFilter(filters);
-	      //});
 	    }
 	  }, {
 	    key: 'filterUnitsList',
@@ -32417,7 +32390,7 @@
 	    key: 'onClickHandlerUnits',
 	    value: function onClickHandlerUnits(id, type, name, event) {
 	      event.preventDefault();
-	      console.log("onClickHandlerUnits: " + name);
+	      console.log("FilterMain: onClickHandlerUnits: " + name);
 	      var filters = this.props.filters;
 	      filters.units_search = name;
 	      filters.unit_filter = id;
@@ -32437,8 +32410,8 @@
 	    value: function onMonthChange(month, year) {
 	      var _this4 = this;
 
-	      console.log("FilterMain: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
-	      console.log("FilterMain: new month = " + month + " year = " + year);
+	      console.log("FilterMain: onMonthChange: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
+	      console.log("FilterMain: onMonthChange: new month = " + month + " year = " + year);
 
 	      // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
 	      // for jaascript Date-object
@@ -54849,7 +54822,7 @@
 	      _react2.default.createElement(
 	        "a",
 	        { className: "link font-size-13", href: "", onClick: function onClick(event) {
-	            return props.reservationHandler(props.slot.resourceId, props.slot.unitId, props.slot.time, props.slot.duration, props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName, event);
+	            return props.reservationHandler(props.slot.resourceId, props.slot.unitId, props.slot.time, props.slot.duration, props.slot.online, props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName, event);
 	          } },
 	        "Varaa"
 	      )
@@ -62788,7 +62761,7 @@
 
 	  switch (action.type) {
 	    case _types.TERMS_SEARCH:
-	      console.log("reducer: TERMS_SEARCH");
+	      console.log("reducer_terms: TERMS_SEARCH");
 	      if (!action.payload) {
 	        return _extends({}, state, { terms_list: [] });
 	      }
@@ -62824,7 +62797,7 @@
 
 	  switch (action.type) {
 	    case _types.UNITS_SEARCH:
-	      console.log("reducer: UNITS_SEARCH");
+	      console.log("reducer_units: UNITS_SEARCH");
 	      if (!action.payload) {
 	        return _extends({}, state, { units_list: [] });
 	      }
@@ -62921,13 +62894,9 @@
 	    case _types.CHECK_CLIENT_SSN:
 	      console.log("reducer_app: CHECK_CLIENT_SSN");
 	      new_state = (0, _reducer_client2.default)(state, action);
-	      // TODO: error handling
-	      if (new_state.client_id == -1) {
-	        // client doesn't exist
-	        new_state.dialogisopen = true;
-	        new_state.dialogview = _types.DLG_VIEW_REGISTER_CREATE_CLIENT;
-	      } else if (new_state.client_id > 0) {
-	        // client identified
+
+	      if (new_state.reservationstatus === 0) {
+	        // ok, client identified
 	        new_state.dialogisopen = false;
 	        new_state.dialogview = _types.DLG_VIEW_NONE;
 	        new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
@@ -62943,6 +62912,19 @@
 	        if (new_state.is_ohc_client) {
 	          new_state.resource_section_active = 'active';
 	        }
+	      } else if (new_state.reservationstatus === 404) {
+	        // client doesn't exist, reason:
+	        // NOT_FOUND (client doesn't exist)
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_CREATE_CLIENT;
+	      } else if (new_state.reservationstatus === 999) {
+	        // reservation forbidden for this client
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = DLG_VIEW_REGISTER_FORBIDDEN;
+	      } else {
+	        // some unknown error
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
 	      }
 	      console.log(new_state);
 	      return new_state;
@@ -62950,32 +62932,46 @@
 	    case _types.CHECK_OHC_CLIENT_SSN:
 	      console.log("reducer_app: CHECK_OHC_CLIENT_SSN");
 	      new_state = (0, _reducer_client2.default)(state, action);
-	      if (new_state.is_ohc_client) {
-	        // ok, this is ohc client
-	        new_state.dialogisopen = false;
-	        new_state.dielogview = _types.DLG_VIEW_NONE;
-	        new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
-	        new_state.resource_section_active = 'active';
-	        new_state.timesearch_section_active = 'active';
-	        new_state.confirmation_section_active = 'inactive';
-	        // set selected employer according to mainEmployer
-	        new_state.employers.map(function (employer) {
-	          // TODO: error handling ?
-	          if (employer.mainEmployer) {
-	            new_state.selected_employer = employer;
-	            new_state.filters.employer_id_filter = employer.id;
-	            new_state.filters.terms_search = employer.name + " työterveystiimi";
-	            new_state.filters.do_time_search = true;
-	          }
-	        });
-	      } else if (false) {
-	        // web reservation for this ohc client is forbidden
+
+	      if (new_state.reservationstatus === 0) {
+	        // ok, client identified
+	        if (new_state.is_ohc_client) {
+	          // ok, this is ohc client
+	          new_state.dialogisopen = false;
+	          new_state.dielogview = _types.DLG_VIEW_NONE;
+	          new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
+	          new_state.resource_section_active = 'active';
+	          new_state.timesearch_section_active = 'active';
+	          new_state.confirmation_section_active = 'inactive';
+	          // set selected employer according to mainEmployer
+	          new_state.employers.map(function (employer) {
+	            // TODO: error handling ?
+	            if (employer.mainEmployer) {
+	              new_state.selected_employer = employer;
+	              new_state.filters.employer_id_filter = employer.id;
+	              new_state.filters.terms_search = employer.name + " työterveystiimi";
+	              new_state.filters.do_time_search = true;
+	            }
+	          });
+	        } else {
+	          // failed, not ohc client
+	          new_state.dialogisopen = true;
+	          new_state.dialogview = _types.DLG_VIEW_REGISTER_OHC_NOT_FOUND;
+	        }
+	      } else if (new_state.reservationstatus === 404) {
+	        // client doesn't exist, reason:
+	        // NOT_FOUND (client doesn't exist)
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_OHC_NOT_FOUND;
+	      } else if (new_state.reservationstatus === 999) {
+	        // reservation forbidden for this client, reason:
+	        // TODO
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = DLG_VIEW_REGISTER_OHC_FORBIDDEN;
 	      } else {
-	        // failed, not ohc client or client doesnt't exist
+	        // some unknown error
 	        new_state.dialogisopen = true;
-	        new_state.dialogview = _types.DLG_VIEW_REGISTER_OHC_NOT_FOUND;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
 	      }
 	      //console.log(new_state);
 	      return new_state;
@@ -62984,23 +62980,30 @@
 	      console.log("reducer_app: CREATE_CLIENT");
 	      new_state = (0, _reducer_client2.default)(state, action);
 	      // TODO: error handling
-	      if (new_state.client_id == -2) {
-	        // client creation failed
-	        new_state.dialogisopen = true;
-	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
-	      } else if (new_state.client_id > 0) {
+	      if (new_state.reservationstatus === 0) {
 	        // client creation ok
 	        new_state.dialogisopen = false;
 	        new_state.dialogview = _types.DLG_VIEW_NONE;
 	        new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
 	        new_state.timesearch_section_active = 'inactive';
 	        new_state.confirmation_section_active = 'active';
+	      } else if (new_state.reservationstatus === 400) {
+	        // client creation failed, due to reason:
+	        // INVALID_INPUT
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
+	      } else {
+	        // some unknown error
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
 	      }
+	      console.log("state:");
 	      console.log(new_state);
 	      return new_state;
 
 	    case _types.MAKE_PRE_RESERVATION:
 	      console.log("reducer_app: MAKE_PRE_RESERVATION");
+	      console.log("action:");
 	      console.log(action);
 	      new_state = (0, _reducer_reservation2.default)(state, action);
 	      if (new_state.reservationstatus == 0) {
@@ -63017,20 +63020,27 @@
 	        new_state.dialogisopen = false;
 	        new_state.dialogview = _types.DLG_VIEW_NONE;
 	        new_state.pendingreservation = false;
+	      } else if (new_state.reservationstatus === 400) {
+	        // prereservation failed, due to reasons:
+	        // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
 	      } else {
-	        // prereservation failed
+	        // some unknown error
 	        console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_PRERESERVATION_ERROR;
 	      }
+	      console.log("state:");
 	      console.log(new_state);
 	      return new_state;
 
 	    case _types.CONFIRM_RESERVATION:
-	      console.log("CONFIRM_RESERVATION");
+	      console.log("reducer_app: CONFIRM_RESERVATION");
+	      console.log("action:");
 	      console.log(action);
 	      new_state = (0, _reducer_reservation2.default)(state, action);
-	      if (new_state.reservationstatus == 0) {
+	      if (new_state.reservationstatus === 0) {
 	        // confirming reservation ok
 	        console.log("CONFIRM_RESERVATION : confirm ok");
 	        new_state.appstate = _types.APP_STATE_CONFIRMATION_OK;
@@ -63041,70 +63051,52 @@
 	        new_state.confirmation_section_active = 'hidden';
 	        new_state.reservation_summary_section_active = 'active';
 	        new_state.headertitle = "Kiitos varauksesta!";
-	      } else {
-	        // confirming reservation failed
+	      } else if (new_state.reservationstatus === 400 || new_state.reservationstatus === 404) {
+	        // confirming reservation failed, due to reasons:
+	        // status 400: BAD_REQUEST, WEB_RESERVATION_IN_PAST, WEB_RESERVATION_OVERLAP
+	        // status 404: WEB_RESERVATION_NOT_FOUND
 	        console.log("CONFIRM_RESERVATION : confirm failed");
 	        new_state.appstate = _types.APP_STATE_CONFIRMATION_FAILED;
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_CONFIRMATION_ERROR;
+	      } else {
+	        // some unknown error
+	        console.log("CONFIRM_RESERVATION : confirm failed, unknown reason");
+	        new_state.appstate = _types.APP_STATE_CONFIRMATION_FAILED;
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_CONFIRMATION_ERROR;
 	      }
+	      console.log("state:");
 	      console.log(new_state);
 	      return new_state;
 
 	    case _types.GET_RESERVATION:
-	      console.log("GET_RESERVATION");
+	      console.log("reducer_app: GET_RESERVATION");
+	      console.log("action:");
 	      console.log(action);
-	      new_state = _extends({}, state);
-	      if (!action.payload) {
+	      new_state = (0, _reducer_reservation2.default)(state, action);
+	      if (new_state.reservationstatus === 0) {
+	        console.log("GET_RESERVATION : getting reservation ok");
+	        if (!action.meta.standalone) {
+	          // when canceling via webapp, open dialog
+	          // when canceling via email link, don't open
+	          new_state.dialogisopen = true;
+	          new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
+	        }
+	      } else if (new_state.reservationstatus === 404) {
+	        new_state.dialogisopen = true;
+	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
+	      } else {
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_ERROR;
-	        return new_state;
 	      }
-	      if (!action.payload.data) {
-	        if (action.payload.response && action.payload.response.status == 404) {
-	          new_state.dialogisopen = true;
-	          new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
-	          new_state.reservationstatus = action.payload.response.status;
-	          return new_state;
-	        }
-	      }
-	      if (!action.meta.standalone) {
-	        new_state.dialogisopen = true;
-	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_CONFIRM;
-	      }
-	      new_state.reservation = action.payload.data.reservation;
-	      new_state.reservation_code = action.meta.reservation_code;
-	      new_state.hetu = action.meta.hetu;
-	      return new_state;
-
-	    case _types.SAVE_SELECTED_TIMESLOT:
-	      console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
-	      return _extends({}, state, { selectedtimeslot: action.selectedtimeslot, pendingreservation: true });
-
-	    case _types.SAVE_CLIENT_INFO:
-	      return _extends({}, state, { client: action.client });
-
-	    case _types.RESET:
-	      new_state = _extends({}, state);
-	      if (new_state.appstate != _types.APP_STATE_INITIAL) {
-	        new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
-	      }
-	      if (new_state.is_ohc_client) {
-	        new_state.resource_section_active = 'active';
-	      }
-	      new_state.timesearch_section_active = 'active';
-	      new_state.confirmation_section_active = 'inactive';
-	      new_state.reservation_summary_section_active = 'hidden';
-	      new_state.dialogisopen = false;
-	      new_state.dialogview = _types.DLG_VIEW_NONE;
-	      new_state.headertitle = 'Ajanvaraus';
+	      console.log("state:");
+	      console.log(new_state);
 	      return new_state;
 
 	    case _types.CANCEL_RESERVATION:
 	      new_state = _extends({}, state);
-
 	      console.log(action);
-
 	      if (action.payload) {
 	        if (action.payload.status == 204) {
 	          // delete ok
@@ -63130,6 +63122,30 @@
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION;
 	      }
+	      return new_state;
+
+	    case _types.SAVE_SELECTED_TIMESLOT:
+	      console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
+	      return _extends({}, state, { selectedtimeslot: action.selectedtimeslot, pendingreservation: true });
+
+	    case _types.SAVE_CLIENT_INFO:
+	      console.log("reducer_app: SAVE_CLIENT_INFO");
+	      return _extends({}, state, { client: action.client });
+
+	    case _types.RESET:
+	      new_state = _extends({}, state);
+	      if (new_state.appstate != _types.APP_STATE_INITIAL) {
+	        new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
+	      }
+	      if (new_state.is_ohc_client) {
+	        new_state.resource_section_active = 'active';
+	      }
+	      new_state.timesearch_section_active = 'active';
+	      new_state.confirmation_section_active = 'inactive';
+	      new_state.reservation_summary_section_active = 'hidden';
+	      new_state.dialogisopen = false;
+	      new_state.dialogview = _types.DLG_VIEW_NONE;
+	      new_state.headertitle = 'Ajanvaraus';
 	      return new_state;
 
 	    case _types.SET_TIME_OF_DAY_FILTER:
@@ -63324,33 +63340,42 @@
 	    case _types.CHECK_OHC_CLIENT_SSN:
 	      console.log(action);
 	      var new_state = _extends({}, state);
+	      // error handling
 	      if (!action.payload.data) {
 	        if (action.payload.response) {
-	          console.log("CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: got error status: " + action.payload.response.status);
-	          if (action.payload.response.status == 404) {
-	            // client doesn't exist
-	            new_state.client_id = -1;
-	          } else {
-	            // some other error
-	            console.log("CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: some other error");
-	          }
+	          console.log("reducer_client: CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: error status: " + action.payload.response.status);
+	          new_state.reservationstatus = action.payload.response.status;
+	        } else {
+	          new_state.reservationstatus = -1;
 	        }
-	      } else {
-	        new_state.client_id = action.payload.data.client.id;
-	        new_state.employers = action.payload.data.client.employers;
-	        new_state.is_ohc_client = action.payload.data.client.employers.length ? true : false;
+	        new_state.client_id = 0;
+	        return new_state;
 	      }
+	      // ok
+	      new_state.client_id = action.payload.data.client.id;
+	      new_state.employers = action.payload.data.client.employers;
+	      new_state.is_ohc_client = action.payload.data.client.employers.length ? true : false;
+	      new_state.reservationstatus = 0;
 	      return new_state;
 
 	    case _types.CREATE_CLIENT:
 	      console.log(action);
+	      var new_stata = _extends({}, state);
+	      // error handling
 	      if (!action.payload.data) {
 	        if (action.payload.response) {
-	          console.log("CREATE_CLIENT: got status: " + action.payload.response.status);
+	          console.log("reducer_client: CREATE_CLIENT: error status: " + action.payload.response.status);
+	          new_state.reservationstatus = action.payload.response.status;
+	        } else {
+	          new_state.reservationstatus = -1;
 	        }
-	        return _extends({}, state, { client_id: -2 });
+	        new_state.client_id = 0;
+	        return new_state;
 	      }
-	      return _extends({}, state, { client_id: action.payload.data.client.id });
+	      // ok
+	      new_state.client_id = action.payload.data.client.id;
+	      new_state.reservationstatus = 0;
+	      return new_state;
 
 	    default:
 	      return state;
@@ -63375,30 +63400,70 @@
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	  var action = arguments[1];
 
+	  var new_state = void 0;
+
 	  switch (action.type) {
 	    case _types.MAKE_PRE_RESERVATION:
-	      console.log("MAKE_PRE_RESERVATION");
+	      console.log("reducer_client: MAKE_PRE_RESERVATION");
+	      new_state = _extends({}, state);
+	      // error handling
 	      if (!action.payload.data) {
 	        if (action.payload.response) {
-	          console.log("MAKE_PRE_RESERVATION: got status: " + action.payload.response.status);
-	          return _extends({}, state, { reservationstatus: action.payload.response.status });
+	          console.log("reducer_client: MAKE_PRE_RESERVATION: error status: " + action.payload.response.status);
+	          new_state.reservationstatus = action.payload.response.status;
+	        } else {
+	          new_state.reservationstatus = -1;
 	        }
-	        // TODO:
-	        console.log("MAKE_PRE_RESERVATION: some error");
+	        return new_state;
 	      }
-	      return _extends({}, state, { reservationstatus: 0, prereservation: action.payload.data.reservation });
+	      // ok
+	      new_state.prereservation = action.payload.data.reservation;
+	      new_state.reservationstatus = 0;
+	      return new_state;
 
 	    case _types.CONFIRM_RESERVATION:
-	      console.log("CONFIRM_RESERVATION");
+	      console.log("reducer_client: CONFIRM_RESERVATION");
+	      new_state = _extends({}, state);
+	      // error handling
 	      if (!action.payload.data) {
 	        if (action.payload.response) {
-	          console.log("CONFIRM_RESERVATION: got status: " + action.payload.response.status);
-	          return _extends({}, state, { reservationstatus: action.payload.response.status });
+	          console.log("reducer_client: CONFIRM_RESERVATION: error status: " + action.payload.response.status);
+	          new_state.reservationstatus = action.payload.response.status;
+	        } else {
+	          new_state.reservationstatus = -1;
 	        }
-	        // TODO:
-	        console.log("CONFIRM_RESERVATION: some error");
+	        return new_state;
 	      }
-	      return _extends({}, state, { reservationstatus: 0, reservation_code: action.payload.data.reservation.reservationCode });
+	      // ok
+	      new_state.reservation_code = action.payload.data.reservation.reservationCode;
+	      new_state.reservationstatus = 0;
+	      return new_state;
+
+	    case _types.GET_RESERVATION:
+	      console.log("reducer_client: GET_RESERVATION");
+	      new_state = _extends({}, state);
+	      // error handling
+	      if (!action.payload.data) {
+	        if (action.payload.response) {
+	          console.log("reducer_client: CONFIRM_RESERVATION: error status: " + action.payload.response.status);
+	          new_state.reservationstatus = action.payload.response.status;
+	        } else {
+	          new_state.reservationstatus = -1;
+	        }
+	        return new_state;
+	      }
+	      // ok
+	      new_state.reservation = action.payload.data.reservation;
+	      new_state.reservation_code = action.meta.reservation_code;
+	      new_state.hetu = action.meta.hetu;
+	      return new_state;
+
+	    case _types.CANCEL_RESERVATION:
+	      console.log("reducer_client: GET_RESERVATION");
+
+	      // TODO: move response handling form reducer_app here
+
+	      return new_state;
 
 	    default:
 	      return state;
@@ -63411,7 +63476,7 @@
 /* 443 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -63441,21 +63506,21 @@
 	  }
 
 	  _createClass(Root, [{
-	    key: "componentDidMount",
+	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      console.log("componentDidMount: Root");
-	      console.log(this.props);
+	      //console.log("componentDidMount: Root");
+	      //console.log(this.props);
 	      if (this.props.location.query.cancelreservation) {
-	        console.log("cancelreservation");
+	        console.log("Root: componentDidMount: cancelreservation");
 	        this.context.router.push('cancelreservation?id=' + this.props.location.query.cancelreservation);
 	        return;
 	      }
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
+	        'div',
 	        null,
 	        this.props.children
 	      );

@@ -23,13 +23,12 @@ import { TERMS_SEARCH,
 import axios from 'axios';
 //import Config from 'Config';
 
-let UIServerUrl = "http://vob.fi:4000/";
-//let UIServerUrl = "http://localhost:3000/";
+//let UIServerUrl = "http://vob.fi:4000/";
+let UIServerUrl = "http://localhost:3000/";
 
 export function termsSearch(terms=null) {
 
-  console.log( "termsSearch: " + terms );
-  //console.log("UIServerUrl : " + UIServerUrl);
+  console.log( "Action: termsSearch: " + terms );
 
   if( !terms ) {
     return {
@@ -38,10 +37,6 @@ export function termsSearch(terms=null) {
     };
   }
 
-  // TODO: encode url paramters
-  //let terms_enc = encodeURIComponent(terms);
-  //console.log("terms: " + terms);
-  //console.log("terms_enc: " + terms_enc);
   const request = axios.get(`${UIServerUrl}terms?prefix=${terms}`);
 
   return {
@@ -53,14 +48,7 @@ export function termsSearch(terms=null) {
 
 export function unitsSearch(units = '') {
 
-  console.log( "unitsSearch" );
-
-  // if( !units ) {
-  //   return {
-  //     type: UNITS_SEARCH,
-  //     payload: null
-  //   };
-  // }
+  console.log( "Action: unitsSearch" );
 
   const request = axios.get(`${UIServerUrl}units?prefix=${units}`);
 
@@ -74,8 +62,6 @@ export function unitsSearch(units = '') {
 export function timeslotsSearch(date, resource=null, speciality=null, groups=null, unit=null,
                                 lang=null, gender=null, city=null, employer=null, client=null) {
 
-  console.log( "timeslotsSearch" );
-
   let search_str = `timeslots?date=${date}`;
   search_str += resource    ? `&resource=${resource}`     : '';
   search_str += speciality  ? `&speciality=${speciality}` : '';
@@ -86,7 +72,7 @@ export function timeslotsSearch(date, resource=null, speciality=null, groups=nul
   //search_str += city        ? `&city=${city}`             : '';
   search_str += employer    ? `&employer=${employer}`     : '';
   search_str += employer && client ? `&client=${client}`  : '';
-  console.log('search_str: ' + search_str);
+  console.log("Action: timeslotsSearch" + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
 
@@ -99,8 +85,6 @@ export function timeslotsSearch(date, resource=null, speciality=null, groups=nul
 
 export function freedaysSearch(from, to, resource=null, speciality=null, groups=null, unit=null,
                                lang=null, gender=null, city=null, employer=null, client=null) {
-
-  console.log( "freedaysSearch" );
 
   if( resource == null && speciality == null && groups == null && unit == null &&
       lang == null && gender == null && city == null && employer == null && client == null) {
@@ -120,11 +104,10 @@ export function freedaysSearch(from, to, resource=null, speciality=null, groups=
   //search_str += city        ? `&city=${city}`             : '';
   search_str += employer      ? `&employer=${employer}`     : '';
   search_str += employer && client ? `&client=${client}`    : '';
-  console.log('search_str = ' + search_str);
+
+  console.log("Action: freedaysSearch" + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
-  //const request = { data : {freedays: ["2016-09-16", "2016-09-17", "2016-09-20", "2016-09-23", "2016-09-24"]} };
-  console.log(request);
 
   return {
     type: FREEDAYS_SEARCH,
@@ -133,6 +116,8 @@ export function freedaysSearch(from, to, resource=null, speciality=null, groups=
 }
 
 export function loginClient( pending_reservation = false ) {
+
+  console.log("Action: loginClient")
   return {
     type: LOGIN_CLIENT,
     pendingreservation: pending_reservation
@@ -140,16 +125,17 @@ export function loginClient( pending_reservation = false ) {
 }
 
 export function loginOhcClient() {
+
+  console.log("Action: loginOhcClient");
   return {
     type: LOGIN_OHC_CLIENT
   };
 }
 
 export function checkClientSSN( ssn ) {
-  console.log("checkSSN");
 
   let search_str = `clients?method=GET&hetu=${ssn}`;
-  console.log("search_str = " + search_str);
+  console.log("Action: checkClientSSN: " + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
   return {
@@ -159,10 +145,10 @@ export function checkClientSSN( ssn ) {
 }
 
 export function checkOhcClientSSN( ssn ) {
-  console.log("checkSSN");
 
   let search_str = `clients?method=GET&hetu=${ssn}`;
-  console.log("search_str = " + search_str);
+
+  console.log("Action: checkOhcClientSSN: " + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
   return {
@@ -172,11 +158,10 @@ export function checkOhcClientSSN( ssn ) {
 }
 
 export function createClient( ssn, first_name, last_name, address, postcode, city, phone) {
-  console.log("createClient");
 
   let request_str = `clients?method=PUT&hetu=${ssn}&firstName=${first_name}&lastName=${last_name}`;
   request_str += `&address=${address}&postcode=${postcode}&city=${city}&phone=${phone}`;
-  console.log(request_str);
+  console.log("Action: createClient: " + request_str);
 
   const request = axios.get(`${UIServerUrl}${request_str}`);
 
@@ -192,7 +177,7 @@ export function closeDialog() {
   };
 }
 
-export function saveSelectedTimeslot( resourceId, unitId, start, duration,
+export function saveSelectedTimeslot( resourceId, unitId, start, duration, online,
                                       imageUrl, resourceName, title, unitName, starttimehours ) {
   const timeslot = {
     title: title,
@@ -203,7 +188,8 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration,
     start: start,
     duration: duration,
     imageUrl: imageUrl,
-    startTimeHours: starttimehours
+    startTimeHours: starttimehours,
+    online: online
   };
 
   return {
@@ -213,13 +199,12 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration,
 }
 
 export function makePreReservation(clientId, resourceId, unitId, start, duration, employerId=null) {
-  console.log("makePreReservation");
 
   let request_str = `reservations?method=PUT&clientId=${clientId}&resourceId=${resourceId}`;
   request_str += `&unitId=${unitId}&start=${start}&duration=${duration}`;
   request_str += employerId != null ? `&employerId=${employerId}` : '';
 
-  console.log("makePreReservation: " + request_str)
+  console.log("Action: makePreReservation: " + request_str)
 
   const request = axios.get(`${UIServerUrl}${request_str}`);
 
@@ -232,16 +217,13 @@ export function makePreReservation(clientId, resourceId, unitId, start, duration
 export function confirmReservation(reservationId, clientId, notes, visitType,
                                    smsNotificationTo, emailConfirmationTo=null) {
 
-  console.log("confirmReservation");
-
   let request_str = `reservations?method=POST&reservationId=${reservationId}&clientId=${clientId}`;
   request_str += `&notes=${notes}&visitType=${visitType}`;
   request_str += `&smsNotificationTo=${smsNotificationTo}&emailConfirmationTo=${emailConfirmationTo}`;
 
-  console.log(request_str);
+  console.log("Action: confirmReservation: " + request_str);
 
   const request = axios(`${UIServerUrl}${request_str}`);
-  //const request = "";
 
   return {
     type: CONFIRM_RESERVATION,
@@ -253,7 +235,7 @@ export function confirmReservation(reservationId, clientId, notes, visitType,
 export function getReservation(code, ssn, standalone=null) {
   let request_str = `reservations?hetu=${ssn}&reservationCode=${code}`;
 
-  console.log("getReservation: " + request_str);
+  console.log("Action: getReservation: " + request_str);
 
   const request = axios.get(`${UIServerUrl}${request_str}`);
 
@@ -271,11 +253,10 @@ export function cancelReservation( code = null, hetu = null ) {
   if( code ) {
     let request_str = `reservations?method=DELETE&reservationCode=${code}`;
     request_str += hetu ? `&hetu=${hetu}` : '';
-    console.log("cancelReservation: request_str = " + request_str);
+    console.log("Action: cancelReservation: request_str = " + request_str);
 
     const request = axios.get(`${UIServerUrl}${request_str}`);
-
-    console.log(request);
+    //console.log(request);
 
     return {
       type: CANCEL_RESERVATION,
@@ -330,10 +311,10 @@ export function setFilter(filters) {
 
 export function orderReminder(reservationId, clientId, reminderId, value) {
   let request_str = `reservations?method=POST&reminders=1&reservationId=${reservationId}&clientId=${clientId}&reminderId=1234`;
-  console.log("orderReminder: request_str: " + request_str);
+  console.log("Action: orderReminder: request_str: " + request_str);
 
   let request = axios.get(`${UIServerUrl}${request_str}`);
-  console.log(request)
+  //console.log(request)
 
   return {
     type: ORDER_REMINDER,

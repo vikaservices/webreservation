@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case UNITS_SEARCH:
-      console.log("reducer: UNITS_SEARCH");
+      console.log("reducer_units: UNITS_SEARCH");
       if( !action.payload ) {
         return {...state, units_list: []}
       }

@@ -13,33 +13,44 @@ export default function(state = {}, action) {
     case CHECK_OHC_CLIENT_SSN:
       console.log(action);
       let new_state = {...state};
+      // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {
-          console.log("CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: got error status: " + action.payload.response.status);
-          if( action.payload.response.status == 404 ) {
-            // client doesn't exist
-            new_state.client_id = -1;
-          } else {
-            // some other error
-            console.log("CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: some other error");
-          }
+          console.log("reducer_client: CHECK_CLIENT_SSN/CHECK_OHC_CLIENT_SSN: error status: " + action.payload.response.status);
+          new_state.reservationstatus = action.payload.response.status;
         }
-      } else {
-        new_state.client_id = action.payload.data.client.id;
-        new_state.employers = action.payload.data.client.employers;
-        new_state.is_ohc_client = action.payload.data.client.employers.length ? true : false;
+        else {
+          new_state.reservationstatus = -1;
+        }
+        new_state.client_id = 0;
+        return new_state;
       }
+      // ok
+      new_state.client_id = action.payload.data.client.id;
+      new_state.employers = action.payload.data.client.employers;
+      new_state.is_ohc_client = action.payload.data.client.employers.length ? true : false;
+      new_state.reservationstatus = 0;
       return new_state;
 
     case CREATE_CLIENT:
       console.log(action);
+      let new_stata = {...state};
+      // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {
-          console.log("CREATE_CLIENT: got status: " + action.payload.response.status);
+          console.log("reducer_client: CREATE_CLIENT: error status: " + action.payload.response.status);
+          new_state.reservationstatus = action.payload.response.status;
         }
-        return {...state, client_id: -2};
+        else {
+          new_state.reservationstatus = -1;
+        }
+        new_state.client_id = 0;
+        return new_state;
       }
-      return {...state, client_id: action.payload.data.client.id};
+      // ok
+      new_state.client_id = action.payload.data.client.id;
+      new_state.reservationstatus = 0;
+      return new_state;
 
     default:
       return state;

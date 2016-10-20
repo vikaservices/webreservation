@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case TERMS_SEARCH:
-      console.log("reducer: TERMS_SEARCH");
+      console.log("reducer_terms: TERMS_SEARCH");
       if( !action.payload ) {
         return {...state, terms_list: []}
       }

@@ -33,12 +33,12 @@ class FilterMain extends Component {
     //console.log("FilterMain: componentWillReceiveProps");
 
     if( nextProps.filters.do_terms_search == true ) {
-      console.log("do_terms_search");
+      //console.log("do_terms_search");
       if( nextProps.filters.terms_search.length >= 3 ) {
-        console.log("do_terms_search: 1");
+        console.log("FilterMain: componentWillReceiveProps: do_terms_search");
         this.props.termsSearch(nextProps.filters.terms_search);
       } else {
-        console.log("do_terms_search: 2");
+        console.log("FilterMain: componentWillReceiveProps: do_terms_search: clear value");
         this.props.termsSearch();
       }
       let filters = nextProps.filters;
@@ -47,7 +47,7 @@ class FilterMain extends Component {
     }
 
     if( nextProps.filters.do_units_filtering == true ) {
-      console.log("do_units_search");
+      console.log("FilterMain: componentWillReceiveProps: do_units_search");
       this.filterUnitsList(nextProps.filters.units_search);
       let filters = nextProps.filters;
       filters.do_units_filtering = false;
@@ -55,8 +55,8 @@ class FilterMain extends Component {
     }
 
     if( nextProps.filters.do_time_search == true ) {
-      console.log("do_time_search");
-      console.log(nextProps);
+      console.log("FilterMain: componentWillReceiveProps: do_time_search");
+      //console.log(nextProps);
       this.doTimeslotsSearch(nextProps);
       this.doFreedaysSearch(nextProps);
       this.props.termsSearch();
@@ -155,18 +155,14 @@ class FilterMain extends Component {
       filters.employer_id_filter = null;
       filters.do_terms_search = true;
       filters.do_time_search = true;
-      //this.setState( {do_terms_search: true, do_time_search: true}, () => {
-        this.props.setFilter( filters );
-      //});
+      this.props.setFilter( filters );
 
     } else if( input == 'units' ) {
       let filters = this.props.filters;
       filters.units_search = '';
       filters.unit_filter = null;
       filters.do_time_search = true;
-      //this.setState( {do_time_search: true}, () => {
-        this.props.setFilter( filters );
-      //});
+      this.props.setFilter( filters );
     }
   }
 
@@ -176,15 +172,13 @@ class FilterMain extends Component {
     let filters = this.props.filters;
     filters.terms_search = terms_search;
     filters.do_terms_search = true;
-    // this.setState( {do_terms_search: true}, () => {
-       this.props.setFilter( filters );
-    // });
+    this.props.setFilter( filters );
   }
 
   // Called when user selects value from main search results
   onClickHandlerTerms(id, type, name, event) {
     event.preventDefault();
-    console.log("onClickHandlerSearch: type: " + type + " name: " + name);
+    console.log("FilterMain: onClickHandlerSearch: type: " + type + " name: " + name);
     let filters = this.props.filters;
     filters.terms_search = name;
     switch(type) {
@@ -200,9 +194,7 @@ class FilterMain extends Component {
       default:
     }
     filters.do_time_search = true;
-    //this.setState( {do_time_search: true}, () =>{
-      this.props.setFilter( filters );
-    //});
+    this.props.setFilter( filters );
   }
 
   filterUnitsList( filter ) {
@@ -228,7 +220,7 @@ class FilterMain extends Component {
   // Called when user selects value from units search results
   onClickHandlerUnits(id, type, name, event) {
     event.preventDefault();
-    console.log("onClickHandlerUnits: " + name);
+    console.log("FilterMain: onClickHandlerUnits: " + name);
     let filters = this.props.filters;
     filters.units_search = name;
     filters.unit_filter = id;
@@ -244,8 +236,8 @@ class FilterMain extends Component {
   }
 
   onMonthChange( month, year ) {
-    console.log("FilterMain: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
-    console.log("FilterMain: new month = " + month + " year = " + year);
+    console.log("FilterMain: onMonthChange: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
+    console.log("FilterMain: onMonthChange: new month = " + month + " year = " + year);
 
     // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
     // for jaascript Date-object

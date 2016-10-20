@@ -6,6 +6,7 @@ import FilterCalendar from './filter_calendar';
 import _ from 'lodash';
 import SearchResultList from './search_result_list';
 import FilterExtra from './filter_extra';
+import text from './common/translate';
 
 class FilterMain extends Component {
 
@@ -90,7 +91,7 @@ class FilterMain extends Component {
         <div id="terms-search">
           <input
             value={filters.terms_search}
-            placeholder="Nimi tai palvelu"
+            placeholder={text('diacor_input_placeholder_name_or_service')}
             data-name="terms"
             onChange={(event) => this.onInputChangeTerms(event.target.value)}
             onFocus={(event) => this.onFocus(event)}
@@ -112,7 +113,7 @@ class FilterMain extends Component {
         <div id="units-search">
           <input
             value={filters.units_search}
-            placeholder="Toimipiste"
+            placeholder={text('diacor_input_placeholder_office')}
             data-name="units"
             onChange={(event) => this.onInputChangeUnit(event.target.value)}
             onFocus={(event) => this.onFocus(event)}
@@ -139,7 +140,7 @@ class FilterMain extends Component {
                      show={this.state.extra_filters_visible} />
 
         <div className="turku-link">
-          <a href="https://wrui01.securasp.fi/LA2094_Eloni/">DIACOR TURUN AJANVARAUS &gt;</a>
+          <a href="https://wrui01.securasp.fi/LA2094_Eloni/">{text('diacor_filter_main_reservation_turku_link')} &gt;</a>
         </div>
 
         <div id="calendar-filter">

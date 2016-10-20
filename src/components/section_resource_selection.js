@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import OhcTeamList from './ohc_team_list';
 import OhcEmployerList from './ohc_employer_list';
+import text from './common/translate';
 
 class SectionResourceSelection extends Component {
 
@@ -47,7 +48,7 @@ class SectionResourceSelection extends Component {
 
         <div className="col-xs-12">
           <div className="header-row">
-            <h4 className="section-title pull-left">TYÖTERVEYSTIIMISI</h4>
+            <h4 className="section-title pull-left">{text('diacor_section_resource_header')}</h4>
             <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
                              selected_employer={this.props.selected_employer}
                              onChange={this.handleEmployerChange.bind(this)} />
@@ -59,7 +60,7 @@ class SectionResourceSelection extends Component {
             <hr />
             <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
                          onClick={this.handleResourceSelection.bind(this)} />
-            <p>Varmista, että palvelu kuuluu yrityksesi työterveys-sopimukseen.</p>
+            <p>{text('diacor_section_resource_content')}</p>
           </div>
         </div>
 

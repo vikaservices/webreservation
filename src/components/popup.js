@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import NewClientForm from './new_client_form';
 import SvgIcon from './common/svg_definitions';
+import text from './common/translate';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
@@ -74,14 +75,14 @@ class Popup extends Component {
   renderAskSnn() {
     return (
       <div className="client-popup">
-        <h4>Hei, kuka on tulossa vastaanotolle</h4>
+        <h4>{text('diacor_popup_ask_ssn_header')}</h4>
         <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input autoFocus className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <input autoFocus className="popup-form-input" placeholder={text('diacor_input_placeholder_ssn')} type="text" name="ssn" /><br />
           <img className='img-private-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <button className="btn-white" onClick={(event) => this.resetState(event)}>Peruuta</button>
-              <button className="btn-red">Jatka</button>
+              <button className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
+              <button className="btn-red">{text('diacor_popup_button_accept')}</button>
             </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -95,14 +96,14 @@ class Popup extends Component {
   renderAskSnnOhc() {
     return (
       <div className="client-popup">
-        <h4>Hei työterveysasiakas, aloita ajan varaaminen tästä.</h4>
+        <h4>{text('diacor_popup_ask_ssnohc_header')}</h4>
         <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input autoFocus className="popup-form-input" placeholder="Henkilötunnus" type="text" name="ssn" /><br />
+          <input autoFocus className="popup-form-input" placeholder={text('diacor_input_placeholder_ssn')} type="text" name="ssn" /><br />
           <img className='img-occupational-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
-                <button className="btn-white" onClick={(event) => this.resetState(event)}>Peruuta</button>
-                <button className="btn-red">Jatka</button>
+                <button className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
+                <button className="btn-red">{text('diacor_popup_button_accept')}</button>
               </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -116,14 +117,11 @@ class Popup extends Component {
   ohcClientNotFound() {
     return (
       <div className="dialog client-popup">
-        <h4>Hups, jotain meni pieleen.</h4>
-        <p>
-          Henkilötiedoillasi ei löytynyt työterveysasiakkuutta. Tarkista
-          työterveyssopimuksen voimassaolo työnantajaltasi.
-        </p>
+        <h4>{text('diacor_popup_ohc_notfound_header')}</h4>
+        <p>{text('diacor_popup_ohc_notfound_content')}</p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -134,74 +132,20 @@ class Popup extends Component {
   }
 
   ohcReservationForbidden() {
-      //TODO: phonenumber
     return (
       <div className="dialog client-popup">
-        <h4>Ajanvarausta ei voitu tehdä.</h4>
-        <p className="reservation-forbidden">
-          Voit varata ajan internetin kautta vain yksityiskäyntinä. Varaa
-          työterveyskäynti soittamalla numeroon <a href="tel:09 7750 7755">09 7750 7755</a>
+        <h4>{text('diacor_popup_ohc_forbidden_header')}.</h4>
+        <p className="reservation-forbidden">{text('diacor_popup_ohc_forbidden_content')}
+            <a href={'tel:'+ text('diacor_popup_ohc_forbidden_link')}>{text('diacor_popup_ohc_forbidden_link')}</a>
         </p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
-      </div>
-    );
-  }
-
-  renderAskClientInfo() {
-    return (
-      <div className="dialog">
-        <form onSubmit={(event) => this.createClient($('input[name="ssn"]').val(),
-                                                     $('input[name="first_name"]').val(),
-                                                     $('input[name="last_name"]').val(),
-                                                     $('input[name="address"]').val(),
-                                                     $('input[name="postcode"]').val(),
-                                                     $('input[name="city"]').val(),
-                                                     $('input[name="phone"]').val(), event)}>
-          <h4>Hei, kuka on tulossa vastaanotolle</h4>
-          <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus />
-          <div>
-            <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <input placeholder="Etunimi" type="text" name="first_name" />
-                    </td>
-                    <td>
-                      <input placeholder="Sukunimi" type="text" name="last_name" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <input placeholder="Katuosoite" type="text" name="address" />
-                    </td>
-                    <td>
-                      <input placeholder="Postinumero" type="text" name="postcode" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <input placeholder="Postitoimipaikka" type="text" name="city" />
-                    </td>
-                    <td>
-                      <input placeholder="Puhelinnumero" type="text" name="phone" />
-                    </td>
-                  </tr>
-                  </tbody>
-              </table>
-          </div>
-          <div className="submit-buttons-centered">
-            <button onClick={(event) => this.resetState(event)}>Peruuta</button>
-            <button>Jatka</button>
-          </div>
-        </form>
       </div>
     );
   }
@@ -219,10 +163,10 @@ class Popup extends Component {
       //TODO: does this need more?
     return (
       <div className="dialog client-popup">
-        <h4>Jotakin meni pieleen...</h4>
+        <h4>{text('diacor_popup_creation_error_header')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -235,10 +179,10 @@ class Popup extends Component {
   renderPreReservationError() {
     return (
       <div className="dialog client-popup">
-        <h4>Jotakin meni pieleen esivarauksen teossa...</h4>
+        <h4>{text('diacor_popup_prereservation_error_header')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <button className="btn-red" onClick={(event) => this.resetState(event)}>Palaa ajanvaraukseen</button>
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -254,14 +198,14 @@ class Popup extends Component {
         <form onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
-          <h4>Syötä varauskoodi peruaksesi varaus</h4>
-          <input autoFocus className="input-reservation-code" type="text" name="code" placeholder="Varauskoodi" /><br />
-          <input className="input-reservation-ssn" type="text" name="ssn" placeholder="Henkilötunnus" /><br />
-          <p className="reservation-input-info">Löydät varauskoodin sähköpostistasi varausvahvistuksesta.</p>
+          <h4>{text('diacor_popup_cancel_reservation_header')}</h4>
+          <input autoFocus className="input-reservation-code" type="text" name="code" placeholder={text('diacor_input_placeholder_reservation_code')} /><br />
+          <input className="input-reservation-ssn" type="text" name="ssn" placeholder={text('diacor_input_placeholder_ssn')} /><br />
+          <p className="reservation-input-info">{text('Löydät varauskoodin sähköpostistasi varausvahvistuksesta.')}</p>
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
-                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">Peruuta</button></a>
-                <a href=""><button className="btn-red">Jatka</button></a>
+                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
+                <a href=""><button className="btn-red">{text('diacor_popup_button_accept')}</button></a>
               </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -273,12 +217,13 @@ class Popup extends Component {
   }
 
   renderCancelReservationNotFound() {
+      var header = text('diacor_popup_cancel_notfound_headerone') + this.state.reservation_code + text('diacor_popup_cancel_notfound_headertwo');
     return (
       <div className="dialog client-popup">
-        <h4 className="popup-error-not-found">Varaustunnuksella {this.state.reservation_code} ei löytynyt varausta.</h4>
+        <h4 className="popup-error-not-found">{header}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -293,7 +238,7 @@ class Popup extends Component {
 
     return (
       <div className="dialog client-popup">
-        <h4>Varauksen tiedot</h4>
+        <h4>{text('diacor_popup_ask_cancel_reservation_confirm_header')}</h4>
         <div className='popup-reservation-info'>
           <span>{reservation.product}</span><br />
           <span>{reservation.resourceName}</span><br />
@@ -310,11 +255,11 @@ class Popup extends Component {
           <span>{reservation.unitPostCode} {reservation.unitCity}</span><br />
           <span>Varauskoodi: {this.state.reservation_code}</span>
         </div>
-        <p>Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
+        <p>{text('diacor_popup_ask_cancel_reservation_confirm_content')}</p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">Palaa ajanvaraukseen</button></a>
-              <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red btn-red-mobile-margin">Peruuta varaus</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white"></button></a>
+              <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red btn-red-mobile-margin">{text('diacor_popup_button_cancel_appointment')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -329,8 +274,8 @@ class Popup extends Component {
     let reservation = this.props.reservation;
     return (
       <div className="dialog client-popup">
-        <h4>Varaus peruttu</h4>
-        <span className="cancellation-statement">Peruutit seuraavan varauksen.</span>
+        <h4>{text('diacor_popup_cancel_reservation_ok_header')}</h4>
+        <span className="cancellation-statement">{text('diacor_popup_cancel_reservation_ok_content1')}</span>
         <div className='popup-reservation-info'>
             <span>{reservation.product}</span><br />
             <span>{reservation.resourceName}</span><br />
@@ -345,13 +290,13 @@ class Popup extends Component {
             <span className="popup-unit-name"><a href={reservation.unitLinkUrl}>TODO: yksikön nimi</a></span><br />
             <span>{reservation.unitAddress}</span><br />
             <span>{reservation.unitPostCode} {reservation.unitCity}</span><br />
-            <span>Varauskoodi: {this.state.reservation_code}</span>
+            <span>{ text('diacor_popup_cancel_reservation_ok_content2') + this.state.reservation_code}</span>
         </div>
-        <p className="popup-cancellation-ok-margin">Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
+        <p className="popup-cancellation-ok-margin">{text('diacor_popup_cancel_reservation_ok_content3')}</p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="http://diacor.fi"><button className="btn-white">Poistu ajanvarauksesta</button></a>
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Varaa uusi aika</button></a>
+              <a href="http://diacor.fi"><button className="btn-white">{text('diacor_popup_button_leave_scheduling')}</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_new_reservation')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -364,10 +309,10 @@ class Popup extends Component {
   renderCancelReservationError() {
     return (
       <div className="dialog client-popup">
-        <h4>Jotakin meni pieleen varauksen peruuttamisessa...</h4>
+        <h4>{text('diacor_popup_cancel_reservation_error_header')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">Palaa ajanvaraukseen</button></a>
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -388,7 +333,7 @@ class Popup extends Component {
       case DLG_VIEW_REGISTER_OHC_FORBIDDEN:
         return this.ohcReservationForbidden();
       case DLG_VIEW_REGISTER_CREATE_CLIENT:
-        return this.renderAskClientInfoForm(); //renderAskClientInfoForm || renderAskClientInfo
+        return this.renderAskClientInfoForm();
       case DLG_VIEW_REGISTER_ERROR:
         return this.renderClientCreationError();
       case DLG_VIEW_PRERESERVATION_ERROR:

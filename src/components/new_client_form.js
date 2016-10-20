@@ -76,7 +76,7 @@ class NewClientForm extends Component {
                       <td className={`${phone.touched && phone.error ? 'danger' : ''}`}>
                         <input ref="phoneNumber" placeholder="Puhelinnumero" type="text" className="form-control" {...phone} />
                         {phone.touched && phone.invalid ? <span>{phone.error}</span> : ''}
-                        {this.phoneValidation(this.refs.phoneNumber.value) === false ? <span>Number format not correct</span> : ''}
+                        {/*this.phoneValidation(this.refs.phoneNumber.value) === false ? <span>Number format not correct</span> : ''*/}
                       </td>
                     </tr>
                   </tbody>

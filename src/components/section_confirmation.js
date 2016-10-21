@@ -122,7 +122,7 @@ class SectionConfirmation extends Component {
                        onChange={this.onPayerChange.bind(this)}
                        checked={this.state.payer === "OCCUPATIONAL"}
                        name="visitType"
-                       value="OCCUPATIONAL" />{text('diacor_section_confirmation_content_ohc')} + {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
+                       value="OCCUPATIONAL" />{text('diacor_section_confirmation_content_ohc')} {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
                 </span>
                 <input type="radio"
                        onChange={this.onPayerChange.bind(this)}

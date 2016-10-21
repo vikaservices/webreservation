@@ -5,6 +5,7 @@ import { CHECK_CLIENT_SSN,
 
 
 export default function(state = {}, action) {
+  let new_state = {...state};
   switch(action.type) {
     // handle both cases same way, upper lever reducer_app will check from
     // is_ohc_client field whether client is Occupation Health Care client
@@ -12,7 +13,6 @@ export default function(state = {}, action) {
     case CHECK_CLIENT_SSN:
     case CHECK_OHC_CLIENT_SSN:
       console.log(action);
-      let new_state = {...state};
       // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {
@@ -34,7 +34,6 @@ export default function(state = {}, action) {
 
     case CREATE_CLIENT:
       console.log(action);
-      let new_stata = {...state};
       // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {

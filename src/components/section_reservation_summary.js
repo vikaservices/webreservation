@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { APP_STATE_ORDER_REMINDER_OK } from '../actions/types';
+import text from './common/translate';
 
 class SectionReservationSummary extends Component {
 
@@ -68,13 +69,12 @@ class SectionReservationSummary extends Component {
       <div className="section-summary row">
         <div className="col-xs-12">
           <div className="header-row">
-            <h4 className="section-title pull-left">VARAUKSEN TIEDOT</h4>
+            <h4 className="section-title pull-left">{text('diacor_section_summary_header')}</h4>
           </div>
 
           <div className="block row">
             <p>
-            Hienoa! Varaus on vastaanotettu ja olemme lähettäneet sähköpostivarmistuksen
-            osoitteeseesi! Varauksesi tunnus on <span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : ""}</span>
+            {text('diacor_section_summary_content')}<span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : ""}</span>
             </p>
             <div className="inline-box">
               <div className="col-xs-12 col-sm-6">
@@ -84,7 +84,7 @@ class SectionReservationSummary extends Component {
                 <div className="padding-left-20">
                   <span>{reservation.resourceName ? reservation.resourceName : ""}</span><br />
                   <span>{reservation.title ? reservation.title : ""}</span><br />
-                  <span>Diacor {reservation.unitName ? reservation.unitName : " "}</span>
+                  <span>{text('diacor_company_name') + reservation.unitName ? reservation.unitName : " "}</span>
                 </div>
               </div>
               <div className="col-xs-12 col-sm-6">
@@ -95,7 +95,7 @@ class SectionReservationSummary extends Component {
                   <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', new Date(this.props.selecteddate)) : ""}</span><br />
                   <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
                   <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
-                  <span><a href="#" onClick={() => this.addCalendarEntry()}>Lisää kalenteriin</a></span>
+                  <span><a href="#" onClick={() => this.addCalendarEntry()}>{text('diacor_section_summary_add_calendar')}</a></span>
                 </div>
               </div>
             </div>
@@ -122,26 +122,26 @@ class SectionReservationSummary extends Component {
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminder === "30 min" ? true : false}
                              name="sms_reminder"
-                             value="30 min" />30 min ennen<br />
+                             value="30 min" />{text('diacor_section_summary_reminder_30min')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminder === "60 min" ? true : false}
                              name="sms_reminder"
-                             value="60 min" />60 min ennen<br />
+                             value="60 min" />{text('diacor_section_summary_reminder_60min')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminder === "2 h" ? true : false}
                              name="sms_reminder"
-                             value="2 h" />2h  ennen<br />
+                             value="2 h" />{text('diacor_section_summary_reminder_2h')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminder === "24 h" ? true : false}
                              name="sms_reminder"
-                             value="24 h" />24h ennen
+                             value="24 h" />{text('diacor_section_summary_reminder_24h')}
                   </div>
                 </div>
                 <div className="submit-buttons-centered">
-                  <button className="btn-red">TILAA MUISTUTUS</button>
+                  <button className="btn-red">{text('diacor_section_summary_reminder_order')}</button>
                 </div>
               </form>
             </div>
@@ -149,20 +149,19 @@ class SectionReservationSummary extends Component {
           <div className="block-separator row">
             <img src="public/img/block-separator.png" />
           </div>
-
           <div className={this.props.prereservation.online ? "row block" : "hide"}>
-            <h4 className="section-title">MITEN KÄYTÄN DIACOR ONLINE-PALVELUA?</h4>
+            <h4 className="section-title">{text('diacor_section_summary_reminder_question2')}</h4>
             <div className="inline-box">
               <div>
                 <img src="public/img/diacorplus-logo.png" />
               </div>
               <div className="padding-left-40">
                 <ol type="A">
-                  <li>Lataa <a href="" target="_blank">Diacor Plus</a>-sovellus</li>
-                  <li>Varmista, että sinulla on puhelin mukana ja että siinä on akkua riittävästi.</li>
-                  <li>Saat notifikaation kun lääkäri on valmis ottamaan sinut vastaan.</li>
-                  <li>Avaa notifikaation ja DiacorPlus sovellus avataan.</li>
-                  <li>Sinut ohjataan suoraan vastaanotolle.</li>
+                  <li>{text('diacor_section_summary_download')}<a href="" target="_blank">{text('diacor_section_summary_plus')}</a>{text('diacor_section_summary_app')}</li>
+                  <li>{text('diacor_section_summary_sure')}</li>
+                  <li>{text('diacor_section_summary_notification')}</li>
+                  <li>{text('diacor_section_summary_open')}</li>
+                  <li>{text('diacor_section_summary_redirect')}</li>
                 </ol>
               </div>
             </div>
@@ -172,8 +171,8 @@ class SectionReservationSummary extends Component {
           </div>
 
           <div className="row block">
-            <h4 className="section-title">ARVOASIAKKUUS</h4>
-            <p>Mitäs tähän?</p>
+            <h4 className="section-title">{text('diacor_section_summary_valued_customer')}</h4>
+            <p>{text('diacor_section_summary_what')}</p>
           </div>
           <div className="block-separator row">
             <img src="public/img/block-separator.png" />
@@ -181,8 +180,8 @@ class SectionReservationSummary extends Component {
 
           <div className="row block">
             <div className="submit-buttons-centered">
-              <a href="/"><button className="btn-white">TEE UUSI VARAUS</button></a>
-              <a href="http://diacor.fi"><button className="btn-red">POISTU AJANVARAUKSESTA</button></a>
+              <a href="/"><button className="btn-white">{text('diacor_section_summary_button_new')}</button></a>
+              <a href="http://diacor.fi"><button className="btn-red">{text('diacor_section_summary_button_leave')}</button></a>
             </div>
           </div>
 

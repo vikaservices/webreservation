@@ -5,6 +5,7 @@ import FilterExtra from './filter_extra';
 import FilterCalendar from './filter_calendar';
 import TimeslotList from './timeslot_list';
 import * as actions  from '../actions/index';
+import text from './common/translate';
 
 class SectionTimeSearch extends Component {
 
@@ -37,7 +38,7 @@ class SectionTimeSearch extends Component {
         <div className="section-time-search-inactive row">
           <div className="col-xs-12">
             <div className="header-row">
-              <h4 className="section-title pull-left">AJAN VALINTA</h4>
+              <h4 className="section-title pull-left">{text('diacor_section_timesearch_header')}</h4>
               <div className="reservation-summary">
                 <span>
                   {formatDate2("fi", this.props.date_filter)}&nbsp;
@@ -46,7 +47,7 @@ class SectionTimeSearch extends Component {
                   {this.props.selectedtimeslot.unitName}
                 </span>
               </div>
-              <a href="" className="link font-size-14 pull-right" onClick={(event) => this.backToTimeSelection(event)}>Muuta valintaa</a>
+              <a href="" className="link font-size-14 pull-right" onClick={(event) => this.backToTimeSelection(event)}>{text('diacor_section_timesearch_link')}</a>
             </div>
           </div>
         </div>
@@ -57,7 +58,7 @@ class SectionTimeSearch extends Component {
       <div className="section-time-search row">
         <div className="col-xs-12">
           <div className="header-row">
-            <h4 className="section-title pull-left">AJAN VALINTA</h4>
+            <h4 className="section-title pull-left">{text('diacor_section_timesearch_header')}</h4>
           </div>
           <hr />
           <FilterMain {...this.props} />

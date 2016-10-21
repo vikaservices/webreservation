@@ -1,4 +1,5 @@
 import React from 'react';
+import text from './common/translate';
 
 const TimeSlotListItem = (props) => {
   return (
@@ -20,7 +21,7 @@ const TimeSlotListItem = (props) => {
         <a className="link font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
                                                                     props.slot.time, props.slot.duration, props.slot.online,
                                                                     props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName,
-                                                                    event)}>Varaa</a>
+                                                                    event)}>{text('diacor_timeslot_link')}</a>
       </div>
     </li>
   );

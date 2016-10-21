@@ -1,4 +1,5 @@
 import React from 'react';
+import text from './common/translate';
 
 const SearchResultListItem = ({item, onClick}) => {
   return (
@@ -8,7 +9,7 @@ const SearchResultListItem = ({item, onClick}) => {
       </div>
       <p>{item.resourceName}</p>
       <p>{item.title}</p>
-      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId, item.resourceName)}>Valitse</a>
+      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId, item.resourceName)}>{text('diacor_ohc_team_list_choose_link')}</a>
     </li>
   );
 }

@@ -5,6 +5,7 @@ import * as actions from '../actions/index';
 import NewClientForm from './new_client_form';
 import SvgIcon from './common/svg_definitions';
 import text from './common/translate';
+import { getFormValues } from 'redux-form';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
@@ -37,6 +38,7 @@ class Popup extends Component {
   checkClientSSN( ssn, event ) {
     event.preventDefault();
     console.log("Popup : checkSSN : ssn = " + ssn);
+    this.setState( {hetu : ssn} );
     if( event.target.name == "regularLoginForm" ) {
       this.props.checkClientSSN(ssn);
     }
@@ -45,10 +47,12 @@ class Popup extends Component {
     }
   }
 
-  createClient( ssn, first_name, last_name, address, postcode, city, phone, event ) {
+  //createClient( ssn, first_name, last_name, address, postcode, city, phone ) {
+  createClient( event ) {
     event.preventDefault();
-    console.log("Popup: createClient: first_name=" + first_name + " last_name=" + last_name +
-    " address=" + address +  " postcode=", postcode + " city=" + city + " phone=" + phone);
+    console.log("Popup: createClient: first_name=" + this.props.values.first_name + " last_name=" + this.props.values.last_name +
+    " address=" + this.props.values.address +  " postcode=", this.props.values.postcode + " city=" + this.props.values.city + " phone=" + this.props.values.phone);
+    const {ssn, first_name, last_name, address, postcode, city, phone} = this.props.values;
     this.props.saveClientInfo(ssn, first_name, last_name, address, postcode, city, phone);
     this.props.createClient(ssn, first_name, last_name, address, postcode, city, phone);
   }
@@ -156,11 +160,65 @@ class Popup extends Component {
     );
   }
 
+  // renderAskClientInfo() {
+  //   return (
+  //     <div className="dialog">
+  //       <form onSubmit={(event) => this.createClient($('input[name="ssn"]').val(),
+  //                                                    $('input[name="first_name"]').val(),
+  //                                                    $('input[name="last_name"]').val(),
+  //                                                    $('input[name="address"]').val(),
+  //                                                    $('input[name="postcode"]').val(),
+  //                                                    $('input[name="city"]').val(),
+  //                                                    $('input[name="phone"]').val(), event)}>
+  //         <h4>Hei, kuka on tulossa vastaanotolle</h4>
+  //         <input placeholder="Henkilötunnus" type="text" name="ssn" autofocus />
+  //         <div>
+  //           <h4>Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:</h4>
+  //             <table>
+  //               <tbody>
+  //                 <tr>
+  //                   <td>
+  //                     <input placeholder="Etunimi" type="text" name="first_name" />
+  //                   </td>
+  //                   <td>
+  //                     <input placeholder="Sukunimi" type="text" name="last_name" />
+  //                   </td>
+  //                 </tr>
+  //                 <tr>
+  //                   <td>
+  //                     <input placeholder="Katuosoite" type="text" name="address" />
+  //                   </td>
+  //                   <td>
+  //                     <input placeholder="Postinumero" type="text" name="postcode" />
+  //                   </td>
+  //                 </tr>
+  //                 <tr>
+  //                   <td>
+  //                     <input placeholder="Postitoimipaikka" type="text" name="city" />
+  //                   </td>
+  //                   <td>
+  //                     <input placeholder="Puhelinnumero" type="text" name="phone" />
+  //                   </td>
+  //                 </tr>
+  //                 </tbody>
+  //             </table>
+  //         </div>
+  //         <div className="submit-buttons-centered">
+  //           <button onClick={(event) => this.resetState(event)}>Peruuta</button>
+  //           <button>Jatka</button>
+  //         </div>
+  //       </form>
+  //     </div>
+  //   );
+  // }
+
   renderAskClientInfoForm() {
     console.log("renderAskClientInfoForm");
     return (
       <div className="dialog">
-        <NewClientForm popUp={true} resetState={this.resetState.bind(this)}/>
+        <NewClientForm popUp={true} resetState={this.resetState.bind(this)}
+                                    handleSubmit={this.createClient.bind(this)}
+                                    initialValues={{ssn: this.state.hetu}} />
       </div>
     );
   }
@@ -411,7 +469,8 @@ function mapStateToProps(state) {
   return {
     dialogisopen: state.app.dialogisopen,
     dialogview: state.app.dialogview,
-    reservation: state.app.reservation
+    reservation: state.app.reservation,
+    values: getFormValues('newClient')(state)
   };
 }
 

@@ -4,12 +4,11 @@ import { MAKE_PRE_RESERVATION,
          CANCEL_RESERVATION } from '../actions/types';
 
 export default function(state = {}, action) {
-  let new_state;
+  let new_state = {...state};
 
   switch( action.type ) {
     case MAKE_PRE_RESERVATION:
       console.log("reducer_client: MAKE_PRE_RESERVATION");
-      new_state = {...state};
       // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {
@@ -28,7 +27,6 @@ export default function(state = {}, action) {
 
     case CONFIRM_RESERVATION:
       console.log("reducer_client: CONFIRM_RESERVATION");
-      new_state = {...state};
       // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {
@@ -47,7 +45,6 @@ export default function(state = {}, action) {
 
     case GET_RESERVATION:
       console.log("reducer_client: GET_RESERVATION");
-      new_state = {...state};
       // error handling
       if( !action.payload.data ) {
         if( action.payload.response ) {

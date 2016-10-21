@@ -110,8 +110,8 @@ class SectionReservationSummary extends Component {
               <p>Tilaus tallennettu. Saat muistutuksen tekstiviestinä {this.state.reminder} ennen vastaanottoaikaa.</p>
             </div>
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "hide" : ""}>
-              <h4 className="section-title">HALUATKO MUISTUTUKSEN?</h4>
-              <p>Valitse milloin haluat muistutuksen tekstiviestillä.</p>
+              <h4 className="section-title">{text('diacor_section_summary_reminder_question')}</h4>
+              <p>{text('diacor_section_summary_reminder_choise')}</p>
               <form onSubmit={(event) => this.onSubmitReminder(this.state.reminder, event)}>
                 <div className="inline-box">
                   <div>

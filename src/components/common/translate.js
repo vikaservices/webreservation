@@ -10,6 +10,13 @@ _.extend(FIN, {
     diacor_error_required: 'Pakollinen kenttä',
 });
 
+_.extend(FIN, {
+    diacor_time_min: 'min',
+    diacor_header_reservation: 'Ajanvaraus',
+    diacor_header_summary: 'Kiitos varauksesta!',
+    diacor_header_cancel: 'Varauksen peruuttaminen'
+});
+
 //BUTTONS FIN
 _.extend(FIN, {
     diacor_popup_button_cancel: 'Peruuta',
@@ -53,9 +60,9 @@ _.extend(FIN, {
     diacor_filter_extra_city_Vantaa: 'Vantaa',
     diacor_filter_extra_show: 'Näytä lisävalinnat ',
     diacor_filter_main_reservation_turku_link: 'DIACOR TURUN AJANVARAUS',
-    diacor_filter_time_morning: 'AAMU',
-    diacor_filter_time_day: 'PÄIVÄ',
-    diacor_filter_time_evening: 'ILTA'
+    diacor_filter_time_morning: 'Aamu',
+    diacor_filter_time_day: 'Päivä',
+    diacor_filter_time_evening: 'Ilta'
 });
 
 //TEXTS FIN
@@ -84,7 +91,7 @@ _.extend(FIN, {
      diacor_popup_new_client_header_two: 'Uusi asiakas, tervetuloa! Lisää vielä seuraavat tiedot:',
      diacor_ohc_team_list_choose_link: 'Valitse',
      diacor_section_confirmation_header: 'VARAUKSEN VAHVISTAMINEN',
-     diacor_section_confirmation_content: 'Tarkista tiedot ennen varauksen vahvistamista. Esteen sattuessa peruuta aikasi viimeistään edellisenä päivänä ennen sovittua ajankohtaa. Peruuttamattomasta tai samaman päivänä perutusta varauksesta perimme maksun.',
+     diacor_section_confirmation_content: 'Tarkista tiedot ennen varauksen vahvistamista.',
      diacor_section_confirmation_content_time: 'VARATTAVA AIKA',
      diacor_section_confirmation_content_reason: 'KÄYNNIN SYY',
      diacor_section_confirmation_content_payer: 'MAKSAJA',
@@ -95,7 +102,7 @@ _.extend(FIN, {
      diacor_section_confirmation_content_contactInfo2: 'Yhteystiedot',
      diacor_section_confirmation_content_plus: 'Ymmärrän, että online vastaanotto onnistuu vain DiacorPlus sovelluksen avulle',
      diacor_section_confirmation_content_terms: 'Peruutusehdot',
-     diacor_section_confirmation_content_notification: 'Varauksen voi peruuttaa ilmaiseksi 4 tuntia ennen aikaa. Tämän jälkeen täytyy maksaa täysi hinta vaikka ei pääsisi paikalle.',
+     diacor_section_confirmation_content_notification: 'Varauksen voi peruuttaa ilmaiseksi 4 tuntia ennen aikaa. Esteen sattuessa peruuta aikasi viimeistään edellisenä päivänä ennen sovittua ajankohtaa. Peruuttamattomasta tai samana päivänä perutusta varauksesta perimme maksun.',
      diacor_section_header1: 'Työterveysasiakkaan ajanvaraus',
      diacor_section_header2: 'Omat varaukset',
      diacor_section_summary_header: 'VARAUKSEN TIEDOT',
@@ -123,7 +130,8 @@ _.extend(FIN, {
      diacor_section_resource_content: 'Varmista, että palvelu kuuluu yrityksesi työterveys-sopimukseen.',
      diacor_section_timesearch_header: 'AJAN VALINTA',
      diacor_section_timesearch_link: 'Muuta valintaa',
-     diacor_timeslot_link: 'VARAA',
+     diacor_timeslot_link: 'Varaa',
+     diacor_timeslot_diacorplus: 'DiacorPlus Etävastaanotto',
      diacor_timeslot_list_header: 'Vapaat ajat ',
      diacor_timeslot_list_content: 'Ei aikoja tälle päivälle',
  });

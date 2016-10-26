@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import { APP_STATE_CONFIRMATION_OK, APP_STATE_CONFIRMATION_FAILED } from '../actions/types';
 import text from './common/translate';
+import SvgIcon from './common/svg_definitions';
+import { APP_STATE_CONFIRMATION_OK } from '../actions/types';
 
 class SectionConfirmation extends Component {
   constructor(props) {
@@ -70,7 +71,9 @@ class SectionConfirmation extends Component {
       );
     }
 
+    let slot = this.props.selectedtimeslot;
     return (
+
       <div className="section-confirmation row">
         <div className="col-xs-12">
           <div className="header-row">
@@ -79,16 +82,27 @@ class SectionConfirmation extends Component {
           <p>{text('diacor_section_confirmation_content')}</p>
           <div className="confirmation-block">
             <div className="confirmation-logo">
-              <img src={this.props.selectedtimeslot.imageUrl ? this.props.selectedtimeslot.imageUrl : ""} />
+              <img src={slot.imageUrl ? slot.imageUrl : ""} />
             </div>
             <div className="confirmation-content">
               <h5>{text('diacor_section_confirmation_content_time')}</h5>
-              <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.resourceName : ""}</span><br />
-              <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.title : ""}</span><br />
+              <span>{slot ? slot.resourceName : ""}</span><br />
+              <span>{this.props.selectedtimeslot ? slot.title : ""}</span><br />
               <span>{formatDate2('fi', new Date(this.props.date_filter))}</span><br />
-              <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.startTimeHours : ""} </span>
-              <span>{this.props.selectedtimeslot ? "(" + this.props.selectedtimeslot.duration + " min)" : ""}</span><br />
-              <span>{this.props.selectedtimeslot ? this.props.selectedtimeslot.unitName : ""}</span>
+              <span>{slot ? slot.startTimeHours : ""} </span>
+              <span>{slot ? "(" + slot.duration + " min)" : ""}</span><br />
+              {slot.online ?
+              <div className="unit-info">
+                <a className="popup-svg-phone" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>
+                  <SvgIcon className="" Icon='phone' />
+                </a>
+                <span className="unit-name vertical-align-middle">
+                  <a className="link" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>{slot.unitName ? slot.unitName : ''}</a>
+                </span><br />
+              </div>
+              :
+              <span>{slot.unitName ? slot.unitName : ''}</span>
+              }
             </div>
           </div>
 
@@ -116,7 +130,7 @@ class SectionConfirmation extends Component {
                        onChange={this.onPayerChange.bind(this)}
                        checked={this.state.payer === "PRIVATE"}
                        name="visitType"
-                       value="PRIVATE" />{text('diacor_section_confirmation_content_private')}<br />
+                       value="PRIVATE" />{text('diacor_section_confirmation_content_private')} <br />
                 <span className={this.props.is_ohc_client ? "" : "hide" }>
                 <input type="radio"
                        onChange={this.onPayerChange.bind(this)}
@@ -129,13 +143,6 @@ class SectionConfirmation extends Component {
                        checked={this.state.payer === "OTHER"}
                        name="visitType"
                        value="OTHER" />{text('diacor_section_confirmation_content_other_payer')}
-                <h5>{text('diacor_section_confirmation_content_payer')}</h5>
-                <input type="radio" name="visitType" value="PRIVATE" selected="selected" />{text('diacor_section_confirmation_content_private')}<br />
-                <span className={this.props.is_ohc_client ? "" : "hide" }>
-                <input type="radio" name="visitType" value="OCCUPATIONAL" />{text('diacor_section_confirmation_content_ohc') +
-                       this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
-                </span>
-                <input type="radio" name="visitType" value="OTHER" />{text('diacor_section_confirmation_content_other_payer')}
               </div>
             </div>
             <div className="confirmation-block">

@@ -8,6 +8,7 @@ import SectionReservationSummary from './section_reservation_summary';
 import Popup from './popup';
 import * as actions from '../actions/index';
 import Modal from 'react-modal';
+import text from './common/translate';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
@@ -15,11 +16,7 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_CANCEL_RESERVATION,
          MAKE_RESERVATION,
          APP_STATE_INITIAL,
-         APP_STATE_CLIENT_IDENTIFIED,
-         APP_STATE_WAIT_PRE_RESERVATION,
-         APP_STATE_PRE_RESERVATION_OK,
-         APP_STATE_WAIT_CONFIRMATION,
-         APP_STATE_CONFIRMATION_OK
+         APP_STATE_CLIENT_IDENTIFIED
        } from '../actions/types';
 
 class App extends Component {
@@ -27,12 +24,27 @@ class App extends Component {
   componentDidMount() {
     console.log("App: componentDidMount");
 
-    const hetu = this.props.location.query.hetu;
-    const employerId = this.props.location.query.employerId;
-    const resourceId = this.props.location.query.resourceId;
-    const resourceName = this.props.location.query.resourceName;
+    const query = this.props.location.query;
+    if( !query ) {
+      console.log("App: no query params");
+      return;
+    }
+
+    // TODO: parameter decoding ?
+    const hetu            = query.hetu;
+    const employerId      = query.employerId;
+    const resourceId      = query.resourceId;
+    const resourceName    = query.resourceName;
+    let FirstName = query.clientFirstName  ? query.clientFirstName : null;
+    let LastName  = query.clientLastName   ? query.clientLastName  : null;
+    let Address   = query.clientAddress    ? query.clientAddress   : null;
+    let Postcode  = query.clientPostcode   ? query.clientPostcode  : null;
+    let City      = query.clientCity       ? query.clientCity      : null;
+    let Phone     = query.clientPhone      ? query.clientPhone     : null;
 
     if( hetu ) {
+      this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
+
       this.props.checkClientSSN(hetu).then(() => {
         let filters = this.props.filters;
         if( employerId ) {
@@ -92,6 +104,9 @@ class App extends Component {
     console.log("selectedtate: " + formatDate(this.props.date_filter));
     let start_str = (start.length == 4) ? ("0" + start) : start;
     var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
+    // for unitName save either actual unitName or "DiacorPlus", depending on
+    // value of online-flag
+    unitName = online ? text('diacor_timeslot_diacorplus') : unitName;
     this.props.saveSelectedTimeslot( resourceId, unitId, starttime, duration, online, imageUrl, resourceName, title, unitName, start );
     if ( this.props.appstate == APP_STATE_INITIAL ) {
       this.props.loginClient( true );

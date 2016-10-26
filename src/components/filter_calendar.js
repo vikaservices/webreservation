@@ -75,7 +75,8 @@ class FilterCalendar extends Component {
       selected_day = this.props.selected_day;
     }
 
-    let date = new Date();
+    let mindate = new Date();
+    mindate.setDate(mindate.getDate() - 1);
 
     let navleft = "";
 
@@ -96,7 +97,7 @@ class FilterCalendar extends Component {
                   selectedDayStyle={ selectedStyle }
                   onMonthUpdate={ this.onMonthChange.bind(this) }
                   valueLink={this.linkState}
-                  
+                  min={mindate}
                   />
         </div>
       </div>

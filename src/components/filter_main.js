@@ -20,13 +20,22 @@ class FilterMain extends Component {
       unit_list_visible: false,
       // filtered unit list
       units_list_filtered: [],
+      // target list for up/down arrow keys navigation ("terms-search-hints" or "units-search-hints")
+      keypress_nav_target:  null,
+      //
+      terms_list_index: -1,
+      //
+      units_list_index: -1
     };
   }
 
   componentDidMount() {
     // Prefetch all units
     setTimeout(() => {
-      this.props.unitsSearch();
+      this.props.unitsSearch().then(() => {
+        this.filterUnitsList();
+      });
+      
     }, 500);
   }
 
@@ -48,8 +57,9 @@ class FilterMain extends Component {
     }
 
     if( nextProps.filters.do_units_filtering == true ) {
-      console.log("FilterMain: componentWillReceiveProps: do_units_search");
+      console.log("FilterMain: componentWillReceiveProps: do_units_filtering");
       this.filterUnitsList(nextProps.filters.units_search);
+      this.setState( {units_list_index: -1} );
       let filters = nextProps.filters;
       filters.do_units_filtering = false;
       this.props.setFilter( filters );
@@ -83,14 +93,17 @@ class FilterMain extends Component {
           <input
             value={filters.terms_search}
             placeholder={text('diacor_input_placeholder_name_or_service')}
+            tabIndex="1"
             data-name="terms"
             onChange={(event) => this.onInputChangeTerms(event.target.value)}
             onFocus={(event) => this.onFocus(event)}
-            onBlur={(event) => this.onBlur(event)} />
+            onBlur={(event) => this.onBlur(event)}
+            onKeyDown={(event) => this.onKeyDown(event)} />
 
           <SearchResultList items_list={this.props.terms_list}
                             onClickHandler={this.onClickHandlerTerms.bind(this)}
                             list_id="terms-search-hints"
+                            index={this.state.terms_list_index}
                             is_active={this.props.terms_list.length==0 ? false : true} />
 
           <div id="terms-search-quicklinks" className="hide">
@@ -105,16 +118,18 @@ class FilterMain extends Component {
           <input
             value={filters.units_search}
             placeholder={text('diacor_input_placeholder_office')}
+            tabIndex="2"
             data-name="units"
             onChange={(event) => this.onInputChangeUnit(event.target.value)}
             onFocus={(event) => this.onFocus(event)}
-            onBlur={(event) => this.onBlur(event)} />
+            onBlur={(event) => this.onBlur(event)}
+            onKeyDown={(event) => this.onKeyDown(event)} />
 
           {this.state.unit_list_visible ?
-          <SearchResultList items_list={this.state.units_list_filtered.length > 0 || filters.units_search.length > 0
-                                        ? this.state.units_list_filtered : this.props.units_list }
+          <SearchResultList items_list={this.state.units_list_filtered}
                             onClickHandler={this.onClickHandlerUnits.bind(this)}
                             list_id="units-search-hints"
+                            index={this.state.units_list_index}
                             is_active={this.state.unit_list_visible} />
           : ''}
 
@@ -144,6 +159,73 @@ class FilterMain extends Component {
     );
   }
 
+  onKeyDown(event) {
+    console.log("onKeyPress: " + event.keyCode);
+    let target = event.target.dataset.name;
+    if( event.keyCode == 38 ) { // up arrow
+      if( target == "terms") {
+        if( this.state.terms_list_index > 0 ) {
+          this.setState( {terms_list_index: this.state.terms_list_index - 1}, () => {
+            console.log("terms: current index: " + this.state.terms_list_index);
+          });
+        }
+      }
+      else {
+        if( this.state.units_list_index > 0 ) {
+          this.setState( {units_list_index: this.state.units_list_index - 1}, () => {
+            console.log("units: current index: " + this.state.units_list_index);
+          });
+        }
+      }
+    }
+    if( event.keyCode == 40 ) { // down arrow
+      if( target == "terms" ) {
+        if( this.state.terms_list_index < this.props.terms_list.length ) {
+          this.setState( {terms_list_index: this.state.terms_list_index + 1}, () => {
+            console.log("terms: current index: " + this.state.terms_list_index );
+          });
+        }
+      }
+      else {
+        if( this.state.units_list_index < this.props.units_list.length ) {
+          this.setState( {units_list_index: this.state.units_list_index + 1}, () => {
+            console.log("units: current index: " + this.state.units_list_index );
+          });
+        }
+      }
+    }
+    if( event.keyCode == 13 ) { // enter
+      if( target == "terms" ) {
+        console.log("terms: current index: " + this.state.terms_list_index);
+        console.log("terms: item.name: " + this.props.terms_list[this.state.terms_list_index].name);
+        this.onClickHandlerTerms(this.props.terms_list[this.state.terms_list_index].id,
+                                 this.props.terms_list[this.state.terms_list_index].type,
+                                 this.props.terms_list[this.state.terms_list_index].name);
+        this.setState( {terms_list_index: -1} );
+      }
+      else {
+        console.log("units: current index: " + this.state.units_list_index);
+        console.log("units: item.name: " + this.props.units_list[this.state.units_list_index].name);
+
+        let selected_list = this.state.units_list_filtered;
+
+        this.onClickHandlerUnits(selected_list[this.state.units_list_index].id,
+                                 selected_list[this.state.units_list_index].type,
+                                 selected_list[this.state.units_list_index].name);
+        this.setState( {units_list_index: -1, unit_list_visible: false} );
+      }
+    }
+    if( event.keyCode == 27 ) { // ESQ
+      if( target == "terms") {
+
+      }
+      else {
+        this.setState( {unit_list_visible: false} );
+      }
+    }
+  }
+
+
   // Erases value from units or main search field depending on event target
   clearInput(input, event) {
     event.preventDefault();
@@ -162,6 +244,7 @@ class FilterMain extends Component {
       let filters = this.props.filters;
       filters.units_search = '';
       filters.unit_filter = null;
+      filters.do_units_filtering = true;
       filters.do_time_search = true;
       this.props.setFilter( filters );
     }
@@ -177,8 +260,8 @@ class FilterMain extends Component {
   }
 
   // Called when user selects value from main search results
-  onClickHandlerTerms(id, type, name, event) {
-    event.preventDefault();
+  onClickHandlerTerms(id, type, name, event=null) {
+    event ? event.preventDefault() : null;
     console.log("FilterMain: onClickHandlerSearch: type: " + type + " name: " + name);
     let filters = this.props.filters;
     filters.terms_search = name;
@@ -198,7 +281,11 @@ class FilterMain extends Component {
     this.props.setFilter( filters );
   }
 
-  filterUnitsList( filter ) {
+  filterUnitsList( filter = '') {
+    if( filter == '' ) {
+      this.setState( {units_list_filtered: this.props.units_list} );
+      return;
+    }
     let units_list_filtered = [];
     if( this.props.units_list.length > 0 ) {
       this.props.units_list.map((item) => {
@@ -206,8 +293,8 @@ class FilterMain extends Component {
           units_list_filtered.push(item);
         }
       });
+      this.setState( {units_list_filtered: units_list_filtered} );
     }
-    this.setState( {units_list_filtered: units_list_filtered} );
   }
 
   // Called every time user types in units search field
@@ -216,11 +303,12 @@ class FilterMain extends Component {
     filters.units_search = units_search;
     filters.do_units_filtering = true;
     this.props.setFilter( filters );
+    this.setState( {unit_list_visible: true} );
   }
 
   // Called when user selects value from units search results
-  onClickHandlerUnits(id, type, name, event) {
-    event.preventDefault();
+  onClickHandlerUnits(id, type, name, event=null) {
+    event ? event.preventDefault() : null;
     console.log("FilterMain: onClickHandlerUnits: " + name);
     let filters = this.props.filters;
     filters.units_search = name;
@@ -256,7 +344,7 @@ class FilterMain extends Component {
   }
 
   onBlur(event) {
-    //console.log( event.target.dataset.name + " off focus")
+    console.log( event.target.dataset.name + " off focus")
     if(  event.target.dataset.name == "units" ) {
       setTimeout((event) => {
         this.setState( {unit_list_visible: false} );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import SectionHeader from './section_header';
+import text from './common/translate'
 
 class CancelReservation extends Component {
 
@@ -140,7 +141,7 @@ class CancelReservation extends Component {
   render() {
     return (
       <div className="col-xs-12">
-        <SectionHeader title="Varauksen peruuttaminen" hide_links={true}/>
+        <SectionHeader title={text('diacor_header_cancel')} hide_links={true}/>
         <div className="cancel-reservation">
           {this.renderContent()}
         </div>

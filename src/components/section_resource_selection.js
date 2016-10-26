@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import OhcTeamList from './ohc_team_list';
 import OhcEmployerList from './ohc_employer_list';
+import DropdownMenu from './dropdown_menu';
 import text from './common/translate';
 
 class SectionResourceSelection extends Component {
@@ -11,8 +12,20 @@ class SectionResourceSelection extends Component {
     super(props);
 
     this.state = {
-      show_team: true
+      show_team: false,
+      employers: [] // [{id: employer.id, value: employer.name},...]
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Make {id : value} pair array form employers
+    if(nextProps.employers) {
+      let emps = [];
+      nextProps.employers.map((item) => {
+          emps.push({id: item.id, value: item.name});
+      });
+      this.setState( {employers: emps, show_team: true} );
+    }
   }
 
   toggleVisibility(e) {
@@ -20,8 +33,10 @@ class SectionResourceSelection extends Component {
     this.setState( {show_team: !this.state.show_team} );
   }
 
-  handleEmployerChange(event) {
-    console.log("SectionResourceSelection: handleEmployerChange: " + event.target.value);
+  handleEmployerChange(id, event) {
+    event.preventDefault();
+    console.log("SectionResourceSelection: handleEmployerChange: " + id);
+    this.props.setSelectedEmployer(id);
   }
 
   handleResourceSelection(event, resourceId, resourceName) {
@@ -49,9 +64,11 @@ class SectionResourceSelection extends Component {
         <div className="col-xs-12">
           <div className="header-row">
             <h4 className="section-title pull-left">{text('diacor_section_resource_header')}</h4>
-            <OhcEmployerList employers={this.props.employers != undefined ? this.props.employers : []}
-                             selected_employer={this.props.selected_employer}
-                             onChange={this.handleEmployerChange.bind(this)} />
+            <div className="ohc-employer-list">
+              <DropdownMenu items={this.state.employers}
+                            selected={this.props.selected_employer.name}
+                            onChange={this.handleEmployerChange.bind(this)} />
+            </div>
             <a href="#" className="link font-size-14 pull-right" onClick={(event) => this.toggleVisibility(event)}>
               { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
             </a>

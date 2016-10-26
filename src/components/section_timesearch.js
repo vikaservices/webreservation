@@ -18,7 +18,7 @@ class SectionTimeSearch extends Component {
   // Go back to time selection
   backToTimeSelection(e) {
     e.preventDefault();
-    this.props.resetState();
+    this.props.resetState( true );
   }
 
   changeTimeOfDay(event) {

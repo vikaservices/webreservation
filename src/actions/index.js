@@ -17,7 +17,8 @@ import { TERMS_SEARCH,
          CANCEL_RESERVATION,
          SET_TIME_OF_DAY_FILTER,
          SET_FILTERS,
-         ORDER_REMINDER
+         ORDER_REMINDER,
+         SET_SELECTED_EMPLOYER
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -270,18 +271,17 @@ export function cancelReservation( code = null, hetu = null ) {
   }
 }
 
-export function saveClientInfo(ssn, first_name, last_name, address, postcode, city, phone) {
+export function saveClientInfo(ssn = null, first_name = null, last_name = null,
+                               address = null, postcode = null, city = null, phone = null) {
   const client = {
-    user: {
-       user_ssn: ssn,
-       first_name: first_name,
-       last_name: last_name,
-       address: address,
-       postcode: postcode,
-       city: city,
-       phone: phone,
-       email: ''
-    }
+     ssn: ssn,
+     first_name: first_name,
+     last_name: last_name,
+     address: address,
+     postcode: postcode,
+     city: city,
+     phone: phone,
+     email: ''
   };
   return {
     type: SAVE_CLIENT_INFO,
@@ -289,9 +289,10 @@ export function saveClientInfo(ssn, first_name, last_name, address, postcode, ci
   }
 }
 
-export function resetState() {
+export function resetState( reload=false ) {
   return {
-    type: RESET
+    type: RESET,
+    reload: reload
   }
 }
 
@@ -309,8 +310,8 @@ export function setFilter(filters) {
   }
 }
 
-export function orderReminder(reservationId, clientId, reminderId, value) {
-  let request_str = `reservations?method=POST&reminders=1&reservationId=${reservationId}&clientId=${clientId}&reminderId=1234`;
+export function orderReminder(reservationId, clientId, reminderId) {
+  let request_str = `reservations?method=POST&reminders=1&reservationId=${reservationId}&clientId=${clientId}&reminderId=${reminderId}`;
   console.log("Action: orderReminder: request_str: " + request_str);
 
   let request = axios.get(`${UIServerUrl}${request_str}`);
@@ -319,5 +320,12 @@ export function orderReminder(reservationId, clientId, reminderId, value) {
   return {
     type: ORDER_REMINDER,
     payload: request
+  }
+}
+
+export function setSelectedEmployer(id) {
+  return {
+    type: SET_SELECTED_EMPLOYER,
+    id: id
   }
 }

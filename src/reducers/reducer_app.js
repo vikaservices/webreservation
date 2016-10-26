@@ -23,17 +23,13 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_CANCEL_RESERVATION_ERROR,
          APP_STATE_INITIAL,
          APP_STATE_CLIENT_IDENTIFIED,
-         APP_STATE_WAIT_PRE_RESERVATION,
-         APP_STATE_PRE_RESERVATION_OK,
-         APP_STATE_WAIT_CONFIRMATION,
          APP_STATE_CONFIRMATION_OK,
-         APP_STATE_CONFIRMATION_FAILED,
          APP_STATE_ORDER_REMINDER_OK,
-         APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT,
          APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION,
          APP_STATE_ORDER_REMINDER_FAILED,
          SET_SELECTED_DATE,
          SET_FILTERS,
+         SET_SELECTED_EMPLOYER,
          SAVE_SELECTED_TIMESLOT,
          CHANGE_TIME_SELECTION,
          SAVE_CLIENT_INFO,
@@ -49,6 +45,7 @@ import { TIMESLOTS_SEARCH,
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
 import reducerReservation from './reducer_reservation';
+import text from '../components/common/translate';
 
 let d = new Date();
 let month = d.getMonth();
@@ -76,7 +73,7 @@ let INITIAL_STATE = {
                       reservation_summary_section_active: 'hidden',
                       selectedtimeslot: {},
                       pendingreservation: false,
-                      headertitle: 'Ajanvaraus',
+                      headertitle: text('diacor_header_reservation'),
                       timeofdayfilter: '',
                       reservationstatus: 0,
                       reservation_code: null,
@@ -87,7 +84,7 @@ let INITIAL_STATE = {
                         units_search: '',
                         resource_filter: null,
                         speciality_filter: null,
-                        group_filter: null,
+                        group_filter: 72,
                         unit_filter: null,
                         lang_filter: null,
                         gender_filter: null,
@@ -260,7 +257,6 @@ export default function(state = INITIAL_STATE, action) {
           }
           new_state.timesearch_section_active = 'inactive';
           new_state.confirmation_section_active = 'active';
-          new_state.appstate = APP_STATE_PRE_RESERVATION_OK;
           new_state.dialogisopen = false;
           new_state.dialogview = DLG_VIEW_NONE;
           new_state.pendingreservation = false;
@@ -270,6 +266,7 @@ export default function(state = INITIAL_STATE, action) {
           // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+          new_state.pendingreservation = false;
         }
         else {
           // some unknown error
@@ -296,21 +293,19 @@ export default function(state = INITIAL_STATE, action) {
           new_state.timesearch_section_active = 'hidden';
           new_state.confirmation_section_active = 'hidden';
           new_state.reservation_summary_section_active = 'active';
-          new_state.headertitle = "Kiitos varauksesta!";
+          new_state.headertitle = text('diacor_header_summary');
         }
         else if( new_state.reservationstatus === 400 || new_state.reservationstatus === 404){
           // confirming reservation failed, due to reasons:
           // status 400: BAD_REQUEST, WEB_RESERVATION_IN_PAST, WEB_RESERVATION_OVERLAP
           // status 404: WEB_RESERVATION_NOT_FOUND
           console.log("CONFIRM_RESERVATION : confirm failed");
-          new_state.appstate = APP_STATE_CONFIRMATION_FAILED;
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CONFIRMATION_ERROR;
         }
         else {
           // some unknown error
           console.log("CONFIRM_RESERVATION : confirm failed, unknown reason");
-          new_state.appstate = APP_STATE_CONFIRMATION_FAILED;
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CONFIRMATION_ERROR;
         }
@@ -383,12 +378,18 @@ export default function(state = INITIAL_STATE, action) {
 
       case SAVE_CLIENT_INFO:
         console.log("reducer_app: SAVE_CLIENT_INFO");
+        console.log(action.client);
         return {...state, client: action.client};
 
       case RESET:
         new_state = {...state};
         if( new_state.appstate != APP_STATE_INITIAL ) {
           new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
+          if( action.reload ) {
+            new_state.filters.do_time_search = true;
+          }
+          // TODO: should clear whole state? In this case we have might have
+          // selected timeslot and also possibly pre-reservation
         }
         if( new_state.is_ohc_client ) {
           new_state.resource_section_active = 'active';
@@ -402,6 +403,7 @@ export default function(state = INITIAL_STATE, action) {
         return new_state;
 
       case SET_TIME_OF_DAY_FILTER:
+        console.log("reducer_app: SET_TIME_OF_DAY_FILTER");
         let filter;
         switch(action.timeofdayfilter) {
           case 'morning':
@@ -419,17 +421,32 @@ export default function(state = INITIAL_STATE, action) {
         return {...state, timeofdayfilter: filter};
 
       case SET_FILTERS:
-        console.log("SET_FILTERS");
+        console.log("reducer_app: SET_FILTERS");
         new_state = {...state};
         new_state.filters = action.filters;
         console.log(new_state);
         return new_state;
 
-      case ORDER_REMINDER:
-        console.log("ORDER_REMINDER");
+      case SET_SELECTED_EMPLOYER:
+        console.log("reducer_app: SET_SELECTED_EMPLOYER");
         new_state = {...state};
+        new_state.employers.map((employer) => {
+          // TODO: error handling ?
+          if( employer.id == action.id ) {
+            new_state.selected_employer = employer;
+            new_state.filters.employer_id_filter = employer.id;
+            new_state.filters.terms_search = employer.name + " työterveystiimi";
+            new_state.filters.do_time_search = true;
+          }
+        });
+        return new_state;
 
-        if( action.payload.response && action.payload.response.status == 200 ) {
+      case ORDER_REMINDER:
+        console.log("reducer_app: ORDER_REMINDER");
+        new_state = {...state};
+        console.log(action);
+
+        if( action.payload.status && action.payload.status == 200 ) {
           new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
         } else {
           if( action.payload.response && action.payload.response.status == 400 ) {

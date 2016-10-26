@@ -11,6 +11,7 @@ export const CHECK_CLIENT_SSN = 'check_client_ssn';
 export const CHECK_OHC_CLIENT_SSN = 'check_ohc_client_ssn';
 export const CREATE_CLIENT = 'create_client';
 export const SAVE_CLIENT_INFO = 'save_client_info';
+export const SET_SELECTED_EMPLOYER = 'set_selected_employer';
 // -----
 export const MAKE_PRE_RESERVATION = 'make_pre_reservation';
 export const CONFIRM_RESERVATION = 'confirm_reservation';
@@ -27,11 +28,7 @@ export const DIALOG_CLOSE = 'dialog_close';
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';
 export const APP_STATE_CLIENT_IDENTIFIED = 'app_state_client_identified';
-export const APP_STATE_WAIT_PRE_RESERVATION = 'app_state_wait_preservation';
-export const APP_STATE_PRE_RESERVATION_OK = 'app_state_pre_reservation_ok';
-export const APP_STATE_WAIT_CONFIRMATION = 'app_state_wait_cinfirmation';
 export const APP_STATE_CONFIRMATION_OK = 'app_state_confirmation_ok';
-export const APP_STATE_CONFIRMATION_FAILED = 'app_state_confirmation_failed';
 export const APP_STATE_ORDER_REMINDER_OK = 'app_state_order_reminder_ok';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT = 'app_state_order_reminder_failed_no_client';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION = 'app_state_order_reminder_failed_no_reservation';
@@ -40,7 +37,7 @@ export const APP_STATE_ORDER_REMINDER_FAILED = 'app_state_order_reminder_failed'
 // DIALOGS
 export const DLG_VIEW_NONE = 'dlg_view_none';
 export const DLG_VIEW_REGISTER_CHECK_SSN = 'dlg_view_register_check_ssn';
-export const DLG_VIEW_REGISTER_FORBIDDEN = 'dlg_view_register_forbidden'; 
+export const DLG_VIEW_REGISTER_FORBIDDEN = 'dlg_view_register_forbidden';
 export const DLG_VIEW_REGISTER_OHC_CHECK_SSN = 'dlg_view_register_ohc_check_ssn';
 export const DLG_VIEW_REGISTER_OHC_NOT_FOUND = 'dlg_view_register_ohc_not_found';
 export const DLG_VIEW_REGISTER_OHC_FORBIDDEN = 'dlg_view_register_ohc_forbidden';

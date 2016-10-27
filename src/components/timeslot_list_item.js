@@ -11,11 +11,13 @@ const TimeSlotListItem = (props) => {
       </div>
       <div className="slot-inline slot-align-middle">
         <span className="slot-image slot-align-middle">
-          <img src={props.slot.imageUrl} />
+          <a href="" onClick={(event) => props.doctorinfoHandler(event, props.slot.resourceId)}><img src={props.slot.imageUrl}/></a>
         </span>
       </div>
       <div className="slot-inline slot-align-middle">
-        <span className="slot-resource">{props.slot.resourceName}</span><br />
+        <span className="slot-resource">
+          <a href="" onClick={(event) => props.doctorinfoHandler(event, props.slot.resourceId)}>{props.slot.resourceName}</a>
+        </span><br />
         <span className="slot-title">{props.slot.title}</span><br />
         <span className="slot-unit">{props.slot.online ? text('diacor_timeslot_diacorplus') : props.slot.unitName}</span>
       </div>

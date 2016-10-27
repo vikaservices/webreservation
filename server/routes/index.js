@@ -84,12 +84,19 @@ router.get('/', function(req, res, next) {
 
 router.get('/terms', function(req, res, next) {
   var apiRequest = dmobReservationUrl + 'terms?prefix=' + encodeURIComponent(req.query.prefix);
+  apiRequest += 'lang=' + req.query.lang;
   wrapUnirest( apiRequest, req, res, next );
 });
 
 
 router.get('/units', function(req, res, next) {
   var apiRequest = dmobReservationUrl + 'units?prefix=' + encodeURIComponent(req.query.prefix);
+  apiRequest += 'lang=' + req.query.lang;
+  wrapUnirest( apiRequest, req, res, next );
+});
+
+router.get('/fixedgroups', function(req, res, next) {
+  var apiRequest = dmobReservationUrl + 'fixedgroups?lang=' + req.query.lang;
   wrapUnirest( apiRequest, req, res, next );
 });
 
@@ -174,6 +181,17 @@ router.get('/clients', function(req, res, next) {
     return 0;
   }
 });
+
+router.get('/professionals/:id', function(req, res, next) {
+  if( !req.params.id ) {
+    res.sendStatus(400);
+    return 0;
+  }
+  var apiRequest = dmobReservationUrl + 'professionals/' + req.params.id + "?lang=" + req.query.lang;
+  wrapUnirest( apiRequest, req, res, next );
+});
+
+
 
 router.get('/reservations', function(req, res, next) {
 

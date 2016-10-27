@@ -19,7 +19,11 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND,
          DLG_VIEW_CANCEL_RESERVATION_CONFIRM,
          DLG_VIEW_CANCEL_RESERVATION_OK,
-         DLG_VIEW_CANCEL_RESERVATION_ERROR
+         DLG_VIEW_CANCEL_RESERVATION_ERROR,
+         DLG_VIEW_DOCTOR_INFO,
+         DLG_VIEW_DOCTOR_INFO_NOT_FOUND,
+         DLG_VIEW_GENERIC_FAILURE
+
        } from '../actions/types';
 
 
@@ -37,7 +41,7 @@ class Popup extends Component {
 
   checkClientSSN( ssn, event ) {
     event.preventDefault();
-    console.log("Popup : checkSSN : ssn = " + ssn);
+    //console.log("Popup : checkSSN : ssn = " + ssn);
     this.props.saveClientInfo(ssn);
     if( event.target.name == "regularLoginForm" ) {
       this.props.checkClientSSN(ssn);
@@ -58,7 +62,7 @@ class Popup extends Component {
 
   getReservation(code, ssn, event) {
     event.preventDefault();
-    console.log("Popup: getReservation");
+    //console.log("Popup: getReservation");
     this.setState( {reservation_code: code, ssn: ssn} );
     this.props.getReservation(code, ssn);
   }
@@ -71,7 +75,7 @@ class Popup extends Component {
 
   resetState(event) {
     event.preventDefault();
-    console.log("Popup: resetState");
+    //console.log("Popup: resetState");
     this.props.resetState();
   }
 
@@ -254,7 +258,7 @@ class Popup extends Component {
   }
 
   renderCancelReservationNotFound() {
-      var header = text('diacor_popup_cancel_notfound_headerone') + this.state.reservation_code + text('diacor_popup_cancel_notfound_headertwo');
+    var header = text('diacor_popup_cancel_notfound_headerone') + this.state.reservation_code + text('diacor_popup_cancel_notfound_headertwo');
     return (
       <div className="dialog client-popup">
         <h4 className="popup-error-not-found">{header}</h4>
@@ -361,6 +365,116 @@ class Popup extends Component {
     );
   }
 
+  helperRenderArray( array ) {
+    return array.map((item, index) => {
+      return (
+        <span key={`${index}${item}`}>{item}, </span>
+      );
+    });
+  }
+
+  // wrap in a-element
+  // [{id: id, name: name, linkUrl: url},{id: id, name: name, linkUrl: url},...]
+  helperRenderArrayOfObjects( array ) {
+    return array.map((item, index) => {
+      return (
+        <a href={item.linkUrl} className="link" key={`${index}${item.linkUrl}`}>{item.name}, </a>
+      );
+    });
+  }
+
+  helperRenderPrices( obj ) {
+    return Object.keys(obj).map((key, index) => {
+      return (
+        <span key={`${index}${key}${obj[key]}`}>{key} min, {obj[key]} e<br /></span>
+      );
+    });
+
+  }
+
+  renderDoctorInfo() {
+    let info = this.props.doctorinfo;
+    return (
+      <div className="dialog client-popup">
+        <div className="doctor-info-container">
+          <div className="doctor-info">
+            <h4>{info.resourceName}</h4>
+            <div className='doctor-info-person'>
+            <img src={info.imageUrl} />
+              <h3>{info.resourceName}</h3>
+              <p>{this.helperRenderArray(info.titles)}</p>
+              <h3>{text('diacor_popup_doctor_info_skills')}</h3>
+              <p className="italics">{info.speciality}</p>
+            </div>
+
+            <div className="">
+              <h3>{text('diacor_popup_doctor_info_services')}</h3>
+              <p className="italics">{this.helperRenderArrayOfObjects(info.services)}</p>
+            </div>
+
+            <div className="">
+              <h3>{text('diacor_popup_doctor_info_locations')}</h3>
+              <p className="italics">{this.helperRenderArrayOfObjects(info.units)}</p>
+            </div>
+
+            <div className="">
+              <h3>{text('diacor_popup_doctor_info_languages')}</h3>
+              <p className="italics">{this.helperRenderArray(info.languages)}</p>
+            </div>
+
+            <div className="">
+              <h3>{text('diacor_popup_doctor_info_prices1')}</h3>
+              <p className="italics">
+                <span>{text('diacor_popup_doctor_info_prices2')}</span><br />
+                {this.helperRenderPrices(info.prices)}
+              </p>
+            </div>
+          </div>
+          <div className="popup-control-box">
+              <div className="submit-buttons-centered">
+                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_close')}</button></a>
+              </div>
+          </div>
+        </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
+      </div>
+    );
+  }
+
+  renderDoctorInfoNotFoundError() {
+    return (
+      <div className="dialog client-popup">
+        <h4>{text('diacor_popup_doctor_info_not_found')}</h4>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+            </div>
+        </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
+      </div>
+    );
+  }
+
+  renderGenericFailure() {
+    return (
+      <div className="dialog client-popup">
+        <h4>{text('diacor_popup_generic_failure')}</h4>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+            </div>
+        </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
+      </div>
+    );
+  }
+
   renderDialog() {
     switch( this.props.dialogview ) {
       case DLG_VIEW_REGISTER_CHECK_SSN:
@@ -393,23 +507,29 @@ class Popup extends Component {
         return this.renderCancelReservationOk();
       case DLG_VIEW_CANCEL_RESERVATION_ERROR:
         return this.renderCancelReservationError();
+      case DLG_VIEW_DOCTOR_INFO:
+        return this.renderDoctorInfo();
+      case DLG_VIEW_DOCTOR_INFO_NOT_FOUND:
+        return this.renderDoctorInfoNotFoundError();
+      case DLG_VIEW_GENERIC_FAILURE:
+        return this.renderGenericFailure();
       default:
         return null;
       }
   }
 
   render() {
-        return (
-          <Modal
-            isOpen={this.props.dialogisopen}
-            onRequestClose={this.resetState.bind(this)}
-            shouldCloseOnOverlayClick={false}
-            className='modal-class-big'
-            overlayClassName="overlay-class"
-            >
-            { this.renderDialog() }
-          </Modal>
-        );
+    return (
+      <Modal
+        isOpen={this.props.dialogisopen}
+        onRequestClose={this.resetState.bind(this)}
+        shouldCloseOnOverlayClick={false}
+        className='modal-class-big'
+        overlayClassName="overlay-class"
+        >
+        { this.renderDialog() }
+      </Modal>
+    );
   }
 };
 
@@ -420,7 +540,8 @@ function mapStateToProps(state) {
     dialogview: state.app.dialogview,
     reservation: state.app.reservation,
     values: getFormValues('newClient')(state),
-    client: state.app.client
+    client: state.app.client,
+    doctorinfo: state.app.doctorinfo
   };
 }
 

@@ -10,7 +10,7 @@ class NewClientForm extends Component {
   renderPopupButtons() {
     return (
       <div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={(event) => this.props.resetState(event)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
         <div className="popup-control-box">

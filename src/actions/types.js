@@ -12,6 +12,7 @@ export const CHECK_OHC_CLIENT_SSN = 'check_ohc_client_ssn';
 export const CREATE_CLIENT = 'create_client';
 export const SAVE_CLIENT_INFO = 'save_client_info';
 export const SET_SELECTED_EMPLOYER = 'set_selected_employer';
+export const GET_DOCTOR_INFO = 'get_doctor_info';
 // -----
 export const MAKE_PRE_RESERVATION = 'make_pre_reservation';
 export const CONFIRM_RESERVATION = 'confirm_reservation';
@@ -51,6 +52,9 @@ export const DLG_VIEW_CANCEL_RESERVATION_CONFIRM = 'dlg_view_cancel_reservation_
 export const DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND = 'dlg_view_cancel_reservation_not_found';
 export const DLG_VIEW_CANCEL_RESERVATION_OK = 'dlg_view_cancel_reservation_ok';
 export const DLG_VIEW_CANCEL_RESERVATION_ERROR = 'dlg_view_cancel_reservation_error';
+export const DLG_VIEW_DOCTOR_INFO = 'dlg_view_doctor_info';
+export const DLG_VIEW_DOCTOR_INFO_NOT_FOUND = 'dlg_view_doctor_info_not_found';
+export const DLG_VIEW_GENERIC_FAILURE = 'dlg_view_generic_failure';
 
 // TIME OF DAY FILTER CUTOFFS
 export const TOD_MORNING = '7';

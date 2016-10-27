@@ -103,7 +103,7 @@
 
 .client-popup {
 
-    h4, p, .popup-form-input {
+    h3, h4, p, .popup-form-input {
         margin-left: 55px;
     }
 
@@ -162,6 +162,88 @@
             margin-bottom: 208px;
         }
     }
+
+    .doctor-info-container {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      margin: 0 50px;
+
+      @media @respond-below-mobile {
+        position: absolute;
+        bottom: 0;
+        top: 0;
+        height: auto;
+        width: 100%;
+        margin: 0 0;
+      }
+
+      .popup-control-box {
+        position: absolute;
+        height: 80px;
+        bottom: 0;
+        width: 100%;
+      }
+    }
+
+    .doctor-info {
+      position: absolute;
+      top: 72px;
+      bottom: 80px;
+      overflow-y: scroll;
+      width: 100%;
+
+      h3 {
+        margin-top: 10px;
+        margin-bottom: 3px;
+        margin-left: 0;
+      }
+      h3 {
+      }
+      h4 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        margin-left: 0;
+
+      }
+      p {
+        margin: 0 0 20px 0;
+        padding-right: 0;
+        line-height: 1;
+      }
+
+      @media @respond-below-mobile {
+        h4, h3, p {
+          margin-left: 30px;
+          margin-right: 30px;
+        }
+      }
+
+      .doctor-info-person {
+        background-color: @gray-ligth;
+        padding: 10px 7px 20px 11px;
+        margin-bottom: 24px;
+
+        @media @respond-below-mobile {
+          padding-left: 0;
+          padding-right: 0;
+          h3,p {
+            margin-left: 30px;
+            margin-right: 30px;
+          }
+          img {
+            padding-right: 7px;
+          }
+        }
+
+        img {
+          width: 105px;
+          float: right;
+          font-size: 16px;
+        }
+      }
+    }
+
 
     .popup-control-box {
         height: 80px;
@@ -285,6 +367,7 @@
     position: absolute;
     display: inline-block;
     width: 648.3px;
+    max-height: 500px;
     top: 19.7em;
     right: 0;
     left: 0;
@@ -297,6 +380,7 @@
 
     @media @respond-below-tablet {
         width: auto;
+        max-height: 100%;
     }
 
     @media @respond-below-mobile {

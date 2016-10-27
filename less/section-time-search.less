@@ -93,16 +93,16 @@
   width: 100%;
   padding: 5px 0 5px 10px;
   display: block;
-  color: #333;
+  color: @gray-black;
   text-decoration: none;
 }
 
 .search-hints ul li a:hover {
-  background-color: #eee;
+  background-color: @gray-ligth;
 }
 
 .search-hints-selected {
-  background-color: #eee;
+  background-color: @gray-ligth;
 }
 
 
@@ -296,6 +296,11 @@
 .slot-resource {
   display: inline-block;
   height: 14px;
+}
+
+.slot-resource a:link,
+.slot-resource a:visited,
+.slot-resource a:hover, {
   font-family: ArialMT;
   font-size: 12px;
   font-weight: bold;
@@ -303,6 +308,7 @@
   font-stretch: normal;
   vertical-align: top;
   color: @gray-dark;
+  text-decoration: none;
 }
 
 .slot-title {

@@ -21,6 +21,9 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND,
          DLG_VIEW_CANCEL_RESERVATION_OK,
          DLG_VIEW_CANCEL_RESERVATION_ERROR,
+         DLG_VIEW_DOCTOR_INFO,
+         DLG_VIEW_DOCTOR_INFO_NOT_FOUND,
+         DLG_VIEW_GENERIC_FAILURE,
          APP_STATE_INITIAL,
          APP_STATE_CLIENT_IDENTIFIED,
          APP_STATE_CONFIRMATION_OK,
@@ -40,7 +43,8 @@ import { TIMESLOTS_SEARCH,
          TOD_DAY,
          TOD_AFTERNOON,
          ORDER_REMINDER,
-         DIALOG_CLOSE
+         DIALOG_CLOSE,
+         GET_DOCTOR_INFO
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -466,6 +470,27 @@ export default function(state = INITIAL_STATE, action) {
         new_state = {...state};
         new_state.dialogisopen = false;
         new_state.dialogview = DLG_VIEW_NONE;
+        return new_state;
+
+      case GET_DOCTOR_INFO:
+        console.log("reducer_app: GET_DOCTOR_INFO");
+        new_state = {...state};
+        console.log(action);
+
+        if( action.payload.status && action.payload.status == 200 ) {
+          new_state.doctorinfo = action.payload.data.professional;
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_DOCTOR_INFO;
+        }
+        else if( action.payload.response && action.payload.response.status == 404 ) {
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_DOCTOR_INFO_NOT_FOUND;
+        } else {
+          new_state.dialogisopen = true;
+          new_state.dialogview = DLG_VIEW_GENERIC_FAILURE;
+        }
+
+        console.log(new_state);
         return new_state;
 
       default:

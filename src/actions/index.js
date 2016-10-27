@@ -18,7 +18,8 @@ import { TERMS_SEARCH,
          SET_TIME_OF_DAY_FILTER,
          SET_FILTERS,
          ORDER_REMINDER,
-         SET_SELECTED_EMPLOYER
+         SET_SELECTED_EMPLOYER,
+         GET_DOCTOR_INFO
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -327,5 +328,16 @@ export function setSelectedEmployer(id) {
   return {
     type: SET_SELECTED_EMPLOYER,
     id: id
+  }
+}
+
+export function showDoctorInfo(id, lang = null) {
+  let request_str = `professionals/${id}?lang=${lang}`;
+
+  let request = axios.get(`${UIServerUrl}${request_str}`);
+
+  return {
+    type: GET_DOCTOR_INFO,
+    payload: request
   }
 }

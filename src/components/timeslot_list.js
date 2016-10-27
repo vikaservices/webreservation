@@ -10,6 +10,7 @@ const TimeslotList = (props) => {
       <TimeSlotListItem
         slot={slot}
         reservationHandler={props.reservationHandler}
+        doctorinfoHandler={props.doctorinfoHandler}
         filter={props.timeofdayfilter}
         key={`${slot.time}${slot.duration}${slot.resourceName}${slot.unitName}${slot.online}`}/>
     );

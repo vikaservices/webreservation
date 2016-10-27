@@ -13,6 +13,12 @@ body {
   background-image: url("/public/img/website-background.png");
 }
 
+body {
+  @media @respond-below-mobile {
+    overflow: hidden;
+  }
+}
+
 hr {
   color: @gray-ligth;
   margin-top: 0 !important;
@@ -36,6 +42,15 @@ h4 {
 
 h5 {
   font-size: 17px !important;
+  color: @gray-black !important;
+}
+
+h3 {
+  font-family: @font-gotham-bootstrap;
+  font-weight: bold !important;
+  font-style: normal !important;
+  font-stretch: normal !important;
+  font-size: 16px !important;
   color: @gray-black !important;
 }
 

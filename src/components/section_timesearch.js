@@ -22,8 +22,14 @@ class SectionTimeSearch extends Component {
   }
 
   changeTimeOfDay(event) {
-    console.log("changeTimeOfDay");
+    console.log("SectionTimeSearch: changeTimeOfDay");
     this.props.setTimeOfDayFilter(event.target.value);
+  }
+
+  doctorinfoHandler(event, resourceId) {
+    event.preventDefault();
+    console.log("SectionTimeSearch: doctorinfoHandler: id: " + resourceId);
+    this.props.showDoctorInfo(resourceId);
   }
 
   render() {
@@ -64,6 +70,7 @@ class SectionTimeSearch extends Component {
           <FilterMain {...this.props} />
           <TimeslotList {...this.props}
                         reservationHandler={this.props.reservationHandler}
+                        doctorinfoHandler={this.doctorinfoHandler.bind(this)}
                         changeTimeOfDay={this.changeTimeOfDay.bind(this)} />
         </div>
       </div>

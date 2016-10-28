@@ -44,7 +44,8 @@ import { TIMESLOTS_SEARCH,
          TOD_AFTERNOON,
          ORDER_REMINDER,
          DIALOG_CLOSE,
-         GET_DOCTOR_INFO
+         GET_DOCTOR_INFO,
+         GET_FIXEDGROUPS
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -67,6 +68,7 @@ let INITIAL_STATE = {
                       employers: [],
                       is_ohc_client: false,
                       client: {},
+                      fixedgroups: null,
                       selected_employer: {},
                       dialogisopen: false,
                       dialogview: DLG_VIEW_NONE,
@@ -491,6 +493,19 @@ export default function(state = INITIAL_STATE, action) {
         }
 
         console.log(new_state);
+        return new_state;
+
+      case GET_FIXEDGROUPS:
+        console.log("reducer_app: GET_FIXEDGROUPS");
+        new_state = {...state};
+        //console.log(action);
+        if( action.payload.status && action.payload.status == 200 ) {
+          new_state.fixedgroups = action.payload.data.fixedGroups;
+        }
+        else {
+          console.log("GET_FIXEDGROUPS: failed with status: " +  action.payload.status);
+        }
+        //console.log(new_state);
         return new_state;
 
       default:

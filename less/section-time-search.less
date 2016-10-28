@@ -107,10 +107,59 @@
 
 
 /***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
-#extra-filters {
+.extra-filters {
   margin-bottom: 5px;
 }
 
+.extra-filters-content {
+  padding-top: 10px;
+  background-color: #e8e8e8;
+}
+
+.filter-group{
+  padding-bottom: 10px;
+}
+
+.extra-filters span input[type="radio"] {
+  display: none;
+}
+
+.extra-filters span input[type="radio"] + label {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: 1px solid @red-ribbon;
+  border-radius: 14px;
+  color: @red-ribbon;
+
+  font-family: @font-arialmt;
+  font-size: 15px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.extra-filters span input[type="radio"] + label:hover  {
+  opacity: 0.2;
+}
+
+.extra-filters span input[type="radio"]:checked + label {
+  background-color: @red-ribbon;
+  color: @white
+}
+
+.extra-filters-label {
+  margin: 0 0 10px 10px;
+  font-family: @font-arialmt;
+  font-size: 17px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: @gray-dark;
+}
 
 
 /***** SECTION : TIME SEARCH : FILTERS : CALENDAR   *****/
@@ -164,7 +213,7 @@
     float: none;
     width: 100%;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid @gray-white;
   }
   .filter-time-of-day label {
     margin: 0 !important;
@@ -191,7 +240,7 @@
 }
 
 .filter-time-of-day form input[type="radio"]:checked + label {
-  border-bottom-color: red;
+  border-bottom-color: @red-ribbon;
 }
 
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/

@@ -19,7 +19,8 @@ import { TERMS_SEARCH,
          SET_FILTERS,
          ORDER_REMINDER,
          SET_SELECTED_EMPLOYER,
-         GET_DOCTOR_INFO
+         GET_DOCTOR_INFO,
+         GET_FIXEDGROUPS
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -61,19 +62,28 @@ export function unitsSearch(units = '') {
 }
 
 
-export function timeslotsSearch(date, resource=null, speciality=null, groups=null, unit=null,
-                                lang=null, gender=null, city=null, employer=null, client=null) {
+export function timeslotsSearch(date, resource=null, speciality=null, group=null,
+                                unit=null, language=null, gender=null, city=null,
+                                employer=null, client=null, lang=null) {
 
   let search_str = `timeslots?date=${date}`;
   search_str += resource    ? `&resource=${resource}`     : '';
   search_str += speciality  ? `&speciality=${speciality}` : '';
-  search_str += groups      ? `&groups=${groups}`         : '';
+  let s = "";
+  if( group || language || gender || city ) {
+    s += group ?  `${group},`: '';
+    s += language ? `${language},` : '';
+    s += gender ? `${gender},` : '';
+    s += city ? `${city},` : '';
+  }
+  if(s.length) {
+    s = s.substr(0, s.length-1);
+    search_str += `&groups=${s}`;
+  }
   search_str += unit        ? `&unit=${unit}`             : '';
-  //search_str += lang        ? `&lang=${lang}`             : '';
-  //search_str += gender      ? `&gender=${gender}`         : '';
-  //search_str += city        ? `&city=${city}`             : '';
   search_str += employer    ? `&employer=${employer}`     : '';
   search_str += employer && client ? `&client=${client}`  : '';
+  search_str += lang        ? `&lang=${lang}`             : '';
   console.log("Action: timeslotsSearch" + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
@@ -333,11 +343,23 @@ export function setSelectedEmployer(id) {
 
 export function showDoctorInfo(id, lang = null) {
   let request_str = `professionals/${id}?lang=${lang}`;
+  console.log("Action: showDoctorInfo: request_str: " + request_str);
 
   let request = axios.get(`${UIServerUrl}${request_str}`);
 
   return {
     type: GET_DOCTOR_INFO,
+    payload: request
+  }
+}
+
+export function getFixedgroups( lang = null ) {
+  let request_str = `fixedgroups?lang=${lang}`;
+  console.log("Action: getFixedgroups: request_str: " + request_str);
+  let request = axios.get(`${UIServerUrl}${request_str}`);
+
+  return {
+    type: GET_FIXEDGROUPS,
     payload: request
   }
 }

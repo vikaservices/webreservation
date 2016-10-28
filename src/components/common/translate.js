@@ -51,15 +51,13 @@ _.extend(FIN, {
 //FILTERS FIN
 _.extend(FIN, {
     diacor_filter_extra_hide: 'Piilota lisävalinnat ',
-    diacor_filter_extra_country_fin: 'Suomi',
-    diacor_filter_extra_country_swe: 'Ruotsi',
-    diacor_filter_extra_country_rus: 'Venäjä',
-    diacor_filter_extra_gender_male: 'Mies',
-    diacor_filter_extra_gender_female: 'Nainen',
     diacor_filter_extra_city_Espoo: 'Espoo',
     diacor_filter_extra_city_Helsinki: 'Helsinki',
     diacor_filter_extra_city_Vantaa: 'Vantaa',
     diacor_filter_extra_show: 'Näytä lisävalinnat ',
+    diacor_filter_extra_label_gender: 'Sukupuoli',
+    diacor_filter_extra_label_city: 'Kaupunki',
+    diacor_filter_extra_label_language: 'Kieli',
     diacor_filter_main_reservation_turku_link: 'DIACOR TURUN AJANVARAUS',
     diacor_filter_time_morning: 'Aamu',
     diacor_filter_time_day: 'Päivä',

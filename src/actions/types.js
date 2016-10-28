@@ -13,6 +13,7 @@ export const CREATE_CLIENT = 'create_client';
 export const SAVE_CLIENT_INFO = 'save_client_info';
 export const SET_SELECTED_EMPLOYER = 'set_selected_employer';
 export const GET_DOCTOR_INFO = 'get_doctor_info';
+export const GET_FIXEDGROUPS = 'get_fixedgroups';
 // -----
 export const MAKE_PRE_RESERVATION = 'make_pre_reservation';
 export const CONFIRM_RESERVATION = 'confirm_reservation';

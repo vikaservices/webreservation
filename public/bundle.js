@@ -29937,15 +29937,13 @@
 	//FILTERS FIN
 	_lodash2.default.extend(FIN, {
 	    diacor_filter_extra_hide: 'Piilota lisävalinnat ',
-	    diacor_filter_extra_country_fin: 'Suomi',
-	    diacor_filter_extra_country_swe: 'Ruotsi',
-	    diacor_filter_extra_country_rus: 'Venäjä',
-	    diacor_filter_extra_gender_male: 'Mies',
-	    diacor_filter_extra_gender_female: 'Nainen',
 	    diacor_filter_extra_city_Espoo: 'Espoo',
 	    diacor_filter_extra_city_Helsinki: 'Helsinki',
 	    diacor_filter_extra_city_Vantaa: 'Vantaa',
 	    diacor_filter_extra_show: 'Näytä lisävalinnat ',
+	    diacor_filter_extra_label_gender: 'Sukupuoli',
+	    diacor_filter_extra_label_city: 'Kaupunki',
+	    diacor_filter_extra_label_language: 'Kieli',
 	    diacor_filter_main_reservation_turku_link: 'DIACOR TURUN AJANVARAUS',
 	    diacor_filter_time_morning: 'Aamu',
 	    diacor_filter_time_day: 'Päivä',
@@ -42614,6 +42612,7 @@
 	exports.orderReminder = orderReminder;
 	exports.setSelectedEmployer = setSelectedEmployer;
 	exports.showDoctorInfo = showDoctorInfo;
+	exports.getFixedgroups = getFixedgroups;
 
 	var _types = __webpack_require__(278);
 
@@ -42666,25 +42665,34 @@
 	function timeslotsSearch(date) {
 	  var resource = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 	  var speciality = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-	  var groups = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+	  var group = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 	  var unit = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
-	  var lang = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+	  var language = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
 	  var gender = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 	  var city = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
 	  var employer = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
 	  var client = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
+	  var lang = arguments.length <= 10 || arguments[10] === undefined ? null : arguments[10];
 
 
 	  var search_str = 'timeslots?date=' + date;
 	  search_str += resource ? '&resource=' + resource : '';
 	  search_str += speciality ? '&speciality=' + speciality : '';
-	  search_str += groups ? '&groups=' + groups : '';
+	  var s = "";
+	  if (group || language || gender || city) {
+	    s += group ? group + ',' : '';
+	    s += language ? language + ',' : '';
+	    s += gender ? gender + ',' : '';
+	    s += city ? city + ',' : '';
+	  }
+	  if (s.length) {
+	    s = s.substr(0, s.length - 1);
+	    search_str += '&groups=' + s;
+	  }
 	  search_str += unit ? '&unit=' + unit : '';
-	  //search_str += lang        ? `&lang=${lang}`             : '';
-	  //search_str += gender      ? `&gender=${gender}`         : '';
-	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
+	  search_str += lang ? '&lang=' + lang : '';
 	  console.log("Action: timeslotsSearch" + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -42968,11 +42976,25 @@
 	  var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 	  var request_str = 'professionals/' + id + '?lang=' + lang;
+	  console.log("Action: showDoctorInfo: request_str: " + request_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + request_str);
 
 	  return {
 	    type: _types.GET_DOCTOR_INFO,
+	    payload: request
+	  };
+	}
+
+	function getFixedgroups() {
+	  var lang = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+	  var request_str = 'fixedgroups?lang=' + lang;
+	  console.log("Action: getFixedgroups: request_str: " + request_str);
+	  var request = _axios2.default.get('' + UIServerUrl + request_str);
+
+	  return {
+	    type: _types.GET_FIXEDGROUPS,
 	    payload: request
 	  };
 	}
@@ -43001,6 +43023,7 @@
 	var SAVE_CLIENT_INFO = exports.SAVE_CLIENT_INFO = 'save_client_info';
 	var SET_SELECTED_EMPLOYER = exports.SET_SELECTED_EMPLOYER = 'set_selected_employer';
 	var GET_DOCTOR_INFO = exports.GET_DOCTOR_INFO = 'get_doctor_info';
+	var GET_FIXEDGROUPS = exports.GET_FIXEDGROUPS = 'get_fixedgroups';
 	// -----
 	var MAKE_PRE_RESERVATION = exports.MAKE_PRE_RESERVATION = 'make_pre_reservation';
 	var CONFIRM_RESERVATION = exports.CONFIRM_RESERVATION = 'confirm_reservation';
@@ -44662,7 +44685,7 @@
 	    value: function componentWillMount() {
 	      var today = new Date().toISOString().substr(0, 10);
 	      // Initially search timeslots for today for general practioner (speciality = 2)
-	      this.props.timeslotsSearch(today, null, null, 72);
+	      this.props.timeslotsSearch(today, null, null, [72]);
 	    }
 
 	    // Go back to time selection
@@ -44862,8 +44885,10 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      // Prefetch all units
+	      // Prefetch all units and fixed groups for extra filters (genders & languages)
 	      setTimeout(function () {
+	        _this2.props.getFixedgroups();
+
 	        _this2.props.unitsSearch().then(function () {
 	          _this2.filterUnitsList();
 	        });
@@ -44998,6 +45023,12 @@
 	        ),
 	        _react2.default.createElement(_filter_extra2.default, { onChange: this.onChange.bind(this),
 	          onClick: this.onToggleExtraFilters.bind(this),
+	          languages: this.props.fixedgroups ? this.props.fixedgroups.language : [],
+	          genders: this.props.fixedgroups ? this.props.fixedgroups.gender : [],
+	          cities: cities,
+	          gender_selected: filters.gender_filter,
+	          city_selected: filters.city_filter,
+	          lang_selected: filters.lang_filter,
 	          show: this.state.extra_filters_visible }),
 	        _react2.default.createElement(
 	          'div',
@@ -45249,16 +45280,32 @@
 
 	  }, {
 	    key: 'onChange',
-	    value: function onChange(event, name, value) {
+	    value: function onChange(event) {
+	      console.log("onChange: name = " + event.target.name + " / value = " + event.target.value + " / checked = " + event.target.checked);
 	      var filters = this.props.filters;
-	      if (event.target.name == "lang_filter") {
-	        filters.lang_filter = event.target.value;
-	      }
+
 	      if (event.target.name == "gender_filter") {
-	        filters.gender_filter = event.target.value;
+	        if (event.target.value == filters.gender_filter) {
+	          filters.gender_filter = null;
+	        } else {
+	          filters.gender_filter = event.target.value;
+	        }
 	      }
+
 	      if (event.target.name == "city_filter") {
-	        filters.city_filter = event.target.value;
+	        if (event.target.value == filters.city_filter) {
+	          filters.city_filter = null;
+	        } else {
+	          filters.city_filter = event.target.value;
+	        }
+	      }
+
+	      if (event.target.name == "lang_filter") {
+	        if (event.target.value == filters.lang_filter) {
+	          filters.lang_filter = null;
+	        } else {
+	          filters.lang_filter = event.target.value;
+	        }
 	      }
 	      filters.do_time_search = true;
 
@@ -45301,13 +45348,32 @@
 	  return FilterMain;
 	}(_react.Component);
 
+	var cities = [{
+	  "id": 99,
+	  "type": "city",
+	  "name": "espoo"
+	}, {
+	  "id": 100,
+	  "type": "city",
+	  "name": "helsinki"
+	}, {
+	  "id": 101,
+	  "type": "city",
+	  "name": "vantaa"
+	}, {
+	  "id": 102,
+	  "type": "city",
+	  "name": "kirkkonummi"
+	}];
+
 	function mapStateToProps(state) {
 	  return {
 	    terms_list: state.terms.terms_list,
 	    units_list: state.units.units_list,
 	    freedays_list: state.freedays.freedays_list,
 	    filters: state.app.filters,
-	    client_id: state.app.client_id
+	    client_id: state.app.client_id,
+	    fixedgroups: state.app.fixedgroups
 	  };
 	}
 
@@ -55039,74 +55105,119 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var FilterExtra = function FilterExtra(props) {
+	var FilterExtra = function FilterExtra(_ref) {
+	  var _onChange = _ref.onChange;
+	  var _onClick = _ref.onClick;
+	  var languages = _ref.languages;
+	  var cities = _ref.cities;
+	  var genders = _ref.genders;
+	  var gender_selected = _ref.gender_selected;
+	  var city_selected = _ref.city_selected;
+	  var lang_selected = _ref.lang_selected;
+	  var show = _ref.show;
+
+
+	  var gens = genders.map(function (gen) {
+	    return _react2.default.createElement(
+	      'span',
+	      { key: 'gender_' + gen.id },
+	      _react2.default.createElement('input', { type: 'radio', name: 'gender_filter', id: 'gender_' + gen.id, value: gen.id, checked: gender_selected == gen.id ? "checked" : '' }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: 'gender_' + gen.id },
+	        gen.name
+	      )
+	    );
+	  });
+
+	  var citys = cities.map(function (city) {
+	    return _react2.default.createElement(
+	      'span',
+	      { className: '', key: 'city_' + city.id },
+	      _react2.default.createElement('input', { type: 'radio', name: 'city_filter', id: 'city_' + city.id, value: city.id, checked: city_selected == city.id ? "checked" : '' }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: 'city_' + city.id },
+	        city.name
+	      )
+	    );
+	  });
+
+	  var langs = languages.map(function (lang) {
+	    return _react2.default.createElement(
+	      'span',
+	      { className: '', key: 'lang_' + lang.id },
+	      _react2.default.createElement('input', { type: 'radio', name: 'lang_filter', id: 'lang_' + lang.id, value: lang.id, checked: lang_selected == lang.id ? "checked" : '' }),
+	      _react2.default.createElement(
+	        'label',
+	        { htmlFor: 'lang_' + lang.id },
+	        lang.name
+	      )
+	    );
+	  });
 
 	  return _react2.default.createElement(
 	    'div',
-	    { id: 'extra-filters' },
+	    { className: 'extra-filters' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: props.show ? "" : "hide" },
+	      { className: show ? "" : "hide" },
 	      _react2.default.createElement(
 	        'a',
 	        { href: '', className: 'link font-size-11', onClick: function onClick(event) {
-	            return props.onClick(event);
+	            return _onClick(event);
 	          } },
 	        (0, _translate2.default)('diacor_filter_extra_hide'),
 	        '-'
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { id: 'lang-filter' },
-	        _react2.default.createElement('input', { type: 'radio', name: 'lang_filter', value: 'fi', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_country_fin'),
-	        _react2.default.createElement('input', { type: 'radio', name: 'lang_filter', value: 'sw', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_country_swe'),
-	        _react2.default.createElement('input', { type: 'radio', name: 'lang_filter', value: 'ru', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_country_rus')
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { id: 'gender-filter' },
-	        _react2.default.createElement('input', { type: 'radio', name: 'gender_filter', value: 'male', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_gender_male'),
-	        _react2.default.createElement('input', { type: 'radio', name: 'gender_filter', value: 'female', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_gender_female')
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { id: 'city-filter' },
-	        _react2.default.createElement('input', { type: 'radio', name: 'city_filter', value: 'espoo', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_city_Espoo'),
-	        _react2.default.createElement('input', { type: 'radio', name: 'city_filter', value: 'helsinki', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_city_Helsinki'),
-	        _react2.default.createElement('input', { type: 'radio', name: 'city_filter', value: 'vantaa', onChange: function onChange(event) {
-	            return props.onChange(event);
-	          } }),
-	        (0, _translate2.default)('diacor_filter_extra_city_Vantaa')
+	        { className: 'extra-filters-content' },
+	        _react2.default.createElement(
+	          'form',
+	          { onChange: function onChange(event) {
+	              return _onChange(event);
+	            } },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'filter-group' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'extra-filters-label' },
+	              (0, _translate2.default)('diacor_filter_extra_label_gender')
+	            ),
+	            gens
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'filter-group' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'extra-filters-label' },
+	              (0, _translate2.default)('diacor_filter_extra_label_city')
+	            ),
+	            citys
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'filter-group' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'extra-filters-label' },
+	              (0, _translate2.default)('diacor_filter_extra_label_language')
+	            ),
+	            langs
+	          )
+	        )
 	      )
 	    ),
 	    _react2.default.createElement(
 	      'div',
-	      { className: !props.show ? "" : "hide" },
+	      { className: !show ? "" : "hide" },
 	      _react2.default.createElement(
 	        'a',
 	        { href: '', className: 'link font-size-11', onClick: function onClick(event) {
-	            return props.onClick(event);
+	            return _onClick(event);
 	          } },
 	        (0, _translate2.default)('diacor_filter_extra_show'),
 	        '+'
@@ -69994,6 +70105,18 @@
 	      console.log(new_state);
 	      return new_state;
 
+	    case _types.GET_FIXEDGROUPS:
+	      console.log("reducer_app: GET_FIXEDGROUPS");
+	      new_state = _extends({}, state);
+	      //console.log(action);
+	      if (action.payload.status && action.payload.status == 200) {
+	        new_state.fixedgroups = action.payload.data.fixedGroups;
+	      } else {
+	        console.log("GET_FIXEDGROUPS: failed with status: " + action.payload.status);
+	      }
+	      //console.log(new_state);
+	      return new_state;
+
 	    default:
 	      return state;
 	  }
@@ -70035,6 +70158,7 @@
 	  employers: [],
 	  is_ohc_client: false,
 	  client: {},
+	  fixedgroups: null,
 	  selected_employer: {},
 	  dialogisopen: false,
 	  dialogview: _types.DLG_VIEW_NONE,

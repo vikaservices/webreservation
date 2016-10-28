@@ -25,17 +25,19 @@ class FilterMain extends Component {
       //
       terms_list_index: -1,
       //
-      units_list_index: -1
+      units_list_index: -1,
     };
   }
 
   componentDidMount() {
-    // Prefetch all units
+    // Prefetch all units and fixed groups for extra filters (genders & languages)
     setTimeout(() => {
+      this.props.getFixedgroups();
+
       this.props.unitsSearch().then(() => {
         this.filterUnitsList();
       });
-      
+
     }, 500);
   }
 
@@ -143,6 +145,12 @@ class FilterMain extends Component {
 
         <FilterExtra onChange={this.onChange.bind(this)}
                      onClick={this.onToggleExtraFilters.bind(this)}
+                     languages={this.props.fixedgroups ? this.props.fixedgroups.language : []}
+                     genders={this.props.fixedgroups ? this.props.fixedgroups.gender : []}
+                     cities={cities}
+                     gender_selected={filters.gender_filter}
+                     city_selected={filters.city_filter}
+                     lang_selected={filters.lang_filter}
                      show={this.state.extra_filters_visible} />
 
         <div className="turku-link">
@@ -359,16 +367,32 @@ class FilterMain extends Component {
   }
 
   // Handle extra filter changes
-  onChange(event, name, value) {
+  onChange(event) {
+    console.log("onChange: name = " + event.target.name + " / value = " + event.target.value + " / checked = " + event.target.checked);
     let filters = this.props.filters;
-    if( event.target.name == "lang_filter" ) {
-      filters.lang_filter = event.target.value;
-    }
+
     if( event.target.name == "gender_filter" ) {
-      filters.gender_filter = event.target.value;
+      if( event.target.value == filters.gender_filter ) {
+        filters.gender_filter = null;
+      } else {
+        filters.gender_filter = event.target.value;
+      }
     }
+
     if( event.target.name == "city_filter" ) {
-      filters.city_filter = event.target.value;
+      if( event.target.value == filters.city_filter ) {
+        filters.city_filter = null;
+      } else {
+        filters.city_filter = event.target.value;
+      }
+    }
+
+    if( event.target.name == "lang_filter" ) {
+      if( event.target.value == filters.lang_filter ) {
+        filters.lang_filter = null;
+      } else {
+        filters.lang_filter = event.target.value;
+      }
     }
     filters.do_time_search = true;
 
@@ -432,6 +456,28 @@ class FilterMain extends Component {
   }
 }
 
+const cities = [
+  {
+    "id": 99,
+    "type": "city",
+    "name": "espoo"
+  },
+  {
+    "id": 100,
+    "type": "city",
+    "name": "helsinki"
+  },
+  {
+    "id": 101,
+    "type": "city",
+    "name": "vantaa"
+  },
+  {
+    "id": 102,
+    "type": "city",
+    "name": "kirkkonummi"
+  }
+];
 
 function mapStateToProps(state) {
   return {
@@ -439,7 +485,8 @@ function mapStateToProps(state) {
     units_list: state.units.units_list,
     freedays_list: state.freedays.freedays_list,
     filters: state.app.filters,
-    client_id: state.app.client_id
+    client_id: state.app.client_id,
+    fixedgroups: state.app.fixedgroups
   };
 }
 

@@ -84,14 +84,14 @@ router.get('/', function(req, res, next) {
 
 router.get('/terms', function(req, res, next) {
   var apiRequest = dmobReservationUrl + 'terms?prefix=' + encodeURIComponent(req.query.prefix);
-  apiRequest += 'lang=' + req.query.lang;
+  apiRequest += '&lang=' + req.query.lang;
   wrapUnirest( apiRequest, req, res, next );
 });
 
 
 router.get('/units', function(req, res, next) {
   var apiRequest = dmobReservationUrl + 'units?prefix=' + encodeURIComponent(req.query.prefix);
-  apiRequest += 'lang=' + req.query.lang;
+  apiRequest += '&lang=' + req.query.lang;
   wrapUnirest( apiRequest, req, res, next );
 });
 

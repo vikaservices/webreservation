@@ -20,12 +20,22 @@ class FilterCalendar extends Component {
 
   renderDay(day) {
     // green circle for free days
+    var box = {
+      position: 'absolute',
+      top: '3px',
+      left: '0',
+      width: '39px',
+      height: '25px',
+      textAlign: 'center'
+    };
     var s = {
       backgroundColor: 'rgba(176, 226, 168, 0.64)',
       width: '25px',
       height: '25px',
       display: 'inline-block',
-      borderRadius: '12px'
+      borderRadius: '12px',
+      lineHeight: '25px',
+      verticalAlign: 'middle'
     };
 
     var d = day.toLocaleDateString();
@@ -42,7 +52,7 @@ class FilterCalendar extends Component {
       ) {
       return day.getDate();
     } else {
-      return <span style={s}>{day.getDate()}</span>;
+      return <span style={box}><span style={s}>{day.getDate()}</span></span>;
     }
   }
 
@@ -75,6 +85,12 @@ class FilterCalendar extends Component {
       selected_day = this.props.selected_day;
     }
 
+    let current_month = new Date().getMonth();
+
+    console.log("selecter_day = " + selected_day);
+    console.log("current_month = " + current_month);
+    console.log("selected_month = " + selected_day.getMonth());
+
     let mindate = new Date();
     mindate.setDate(mindate.getDate() - 1);
 
@@ -98,6 +114,11 @@ class FilterCalendar extends Component {
                   onMonthUpdate={ this.onMonthChange.bind(this) }
                   valueLink={this.linkState}
                   min={mindate}
+                  prevMonthNavStyle={(current_month != selected_day.getMonth()) ? {border: 0} : {display: 'none'}}
+                  nextMonthNavStyle={{border: 0}}
+                  navBarStyle={{border: 0}}
+                  weekHeaderStyle={{border: 0}}
+                  dayStyle={{border: 0}}
                   />
         </div>
       </div>

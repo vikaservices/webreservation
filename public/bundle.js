@@ -45236,16 +45236,18 @@
 	  }, {
 	    key: 'onMonthChange',
 	    value: function onMonthChange(month, year) {
-	      var _this5 = this;
-
 	      console.log("FilterMain: onMonthChange: current month = " + this.props.date_filter_month + " year = " + this.props.date_filter_year);
 	      console.log("FilterMain: onMonthChange: new month = " + month + " year = " + year);
 
 	      // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
 	      // for jaascript Date-object
-	      this.setState({ date_filter_month: month - 1, date_filter_year: year }, function () {
-	        _this5.doFreedaysSearch();
-	      });
+	      var filters = this.props.filters;
+	      filters.date_filter_month = month - 1;
+	      filters.date_filter_year = year;
+	      var first_of_month = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+	      filters.date_filter = first_of_month.toISOString();
+	      filters.do_time_search = true;
+	      this.props.setFilter(filters);
 	    }
 	  }, {
 	    key: 'onFocus',
@@ -45259,12 +45261,12 @@
 	  }, {
 	    key: 'onBlur',
 	    value: function onBlur(event) {
-	      var _this6 = this;
+	      var _this5 = this;
 
 	      console.log(event.target.dataset.name + " off focus");
 	      if (event.target.dataset.name == "units") {
 	        setTimeout(function (event) {
-	          _this6.setState({ unit_list_visible: false });
+	          _this5.setState({ unit_list_visible: false });
 	        }, 200);
 	      }
 	      // TODO: hide quick select buttons ?
@@ -45441,12 +45443,22 @@
 	    key: 'renderDay',
 	    value: function renderDay(day) {
 	      // green circle for free days
+	      var box = {
+	        position: 'absolute',
+	        top: '3px',
+	        left: '0',
+	        width: '39px',
+	        height: '25px',
+	        textAlign: 'center'
+	      };
 	      var s = {
 	        backgroundColor: 'rgba(176, 226, 168, 0.64)',
 	        width: '25px',
 	        height: '25px',
 	        display: 'inline-block',
-	        borderRadius: '12px'
+	        borderRadius: '12px',
+	        lineHeight: '25px',
+	        verticalAlign: 'middle'
 	      };
 
 	      var d = day.toLocaleDateString();
@@ -45462,8 +45474,12 @@
 	      } else {
 	        return _react2.default.createElement(
 	          'span',
-	          { style: s },
-	          day.getDate()
+	          { style: box },
+	          _react2.default.createElement(
+	            'span',
+	            { style: s },
+	            day.getDate()
+	          )
 	        );
 	      }
 	    }
@@ -45495,6 +45511,12 @@
 	      } else {
 	        selected_day = this.props.selected_day;
 	      }
+
+	      var current_month = new Date().getMonth();
+
+	      console.log("selecter_day = " + selected_day);
+	      console.log("current_month = " + current_month);
+	      console.log("selected_month = " + selected_day.getMonth());
 
 	      var mindate = new Date();
 	      mindate.setDate(mindate.getDate() - 1);
@@ -45542,7 +45564,12 @@
 	            selectedDayStyle: selectedStyle,
 	            onMonthUpdate: this.onMonthChange.bind(this),
 	            valueLink: this.linkState,
-	            min: mindate
+	            min: mindate,
+	            prevMonthNavStyle: current_month != selected_day.getMonth() ? { border: 0 } : { display: 'none' },
+	            nextMonthNavStyle: { border: 0 },
+	            navBarStyle: { border: 0 },
+	            weekHeaderStyle: { border: 0 },
+	            dayStyle: { border: 0 }
 	          })
 	        )
 	      );
@@ -54139,6 +54166,13 @@
 	var i18nConfig = {
 
 	  localeData: {
+	    fi: {
+	      monthNames: ['TAMMIKUU', 'HELMIKUU', 'MAALISKUU', 'HUHTIKUU', 'TOUKOKUU', 'KESÄKUU', 'HEINÄKUU', 'ELOKUU', 'SYYSKUU', 'LOKAKUU', 'MARRASKUU', 'JOULUKUU'],
+	      dayNamesMin: ['SU', 'MA', 'TI', 'KE', 'TO', 'PE', 'LA'],
+	      firstDay: 1,
+	      weekEnd: 0,
+	      isRTL: false
+	    },
 	    nl: {
 	      monthNames: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
 	      dayNamesMin: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
@@ -54179,6 +54213,7 @@
 	};
 
 	exports.default = i18nConfig;
+
 
 /***/ },
 /* 349 */

@@ -338,9 +338,13 @@ class FilterMain extends Component {
 
     // Calendar's onMonthUpdate gives the months in range 1-12, adjust range to 0-11
     // for jaascript Date-object
-    this.setState( {date_filter_month: month-1, date_filter_year: year}, () => {
-      this.doFreedaysSearch();
-    });
+    let filters = this.props.filters;
+    filters.date_filter_month = month - 1;
+    filters.date_filter_year = year;
+    let first_of_month = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+    filters.date_filter = first_of_month.toISOString();
+    filters.do_time_search = true;
+    this.props.setFilter( filters );
   }
 
   onFocus(event) {

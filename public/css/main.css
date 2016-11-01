@@ -834,7 +834,7 @@ h3 {
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
 @media (max-width: 767px) {
   .timeslot-list {
-    padding-left: 0;
+    padding-left: 0 !important;
     border-top: 2px solid #F10C29;
   }
   .timeslot-list-header {

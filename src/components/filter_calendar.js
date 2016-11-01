@@ -21,6 +21,7 @@ class FilterCalendar extends Component {
       // error
       console.log("error");
     }
+    this.linkState.requestChange(selected);
     this.props.onDayChange(selected);
   }
 
@@ -83,7 +84,7 @@ class FilterCalendar extends Component {
       position: 'absolute',
       top: '-3px',
       left: '0',
-      width: '45px',
+      width: '46px',
       height: '38px',
       textAlign: 'center'
     }
@@ -165,9 +166,9 @@ class FilterCalendar extends Component {
                   nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
                   navBarStyle={{border: 0}}
                   weekHeaderStyle={{boxShadow: 0}}
-                  dayStyle={{border: 0, width: '45px', height: '45px', fontSize: '16px', display: 'inline-block', lineHeigh: '45px', verticalAlign: 'middle'}}
-                  dayLabelStyle={{width: '45px', height: '45px', opacity: '0.75'}}
-                  style={{width: '311px', display: 'inline-block'}}
+                  dayStyle={{border: 0, width: '46px', height: '46px', fontSize: '16px', display: 'inline-block', lineHeigh: '46px', verticalAlign: 'middle'}}
+                  dayLabelStyle={{width: '46px', height: '46px', opacity: '0.75'}}
+                  style={{width: '318px', display: 'inline-block'}}
                   />
         </div>
         <div className="calendar-datepicker-desktop">

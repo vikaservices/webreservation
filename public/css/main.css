@@ -47,6 +47,9 @@ h3 {
   color: #333333 !important;
 }
 .list-group-item {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
   /* width < 768px */
   /* width 768px - 992px */
   /* width >= 992px */
@@ -483,18 +486,47 @@ h3 {
   text-align: center;
   margin-left: 10px;
   vertical-align: top;
-  border: 0px solid red;
+}
+.ohc-team-list li p,
+.ohc-team-list li a {
+  margin: 0;
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
 }
 .ohc-team-list li img {
   max-width: 50px;
   max-height: 50px;
 }
-.ohc-team-list li p {
-  margin-bottom: 0;
+.ohc-team-list li .ohc-name {
+  font-weight: bold;
+  color: #4a4a4a;
+}
+.ohc-team-list li .ohc-title {
+  opacity: 0.4;
+  color: #4a4a4a;
+}
+.ohc-team-list li .ohc-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #F10C29;
 }
 .btn-white-dropdown {
   border: none;
   background-color: #fff;
+  color: #a4a4a4;
+}
+.ohc-disclaimer {
+  font-family: ArialMT;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
   color: #a4a4a4;
 }
 /********** SECTION : TIME SEARCH : HEADER    *************/
@@ -507,6 +539,18 @@ h3 {
   font-stretch: normal;
   text-align: center;
   color: #4a4a4a;
+}
+/******** SECTION : TIME SEARCH : FILTER MAIN BOX *********/
+.filter-main {
+  padding-right: 30px !important;
+  border-right: 2px solid #ccc;
+  /* width < 768px */
+}
+@media (max-width: 767px) {
+  .filter-main {
+    padding-right: 0 !important;
+    border: 0;
+  }
 }
 /********   SECTION : TIME SEARCH : FILTERS     ***********/
 .input-reset {
@@ -790,6 +834,7 @@ h3 {
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
 @media (max-width: 767px) {
   .timeslot-list {
+    padding-left: 0;
     border-top: 2px solid #F10C29;
   }
   .timeslot-list-header {
@@ -797,6 +842,18 @@ h3 {
     display: block;
     width: 100%;
     text-align: center;
+  }
+}
+/* width 768px - 992px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .timeslot-list {
+    padding-left: 30px !important;
+  }
+}
+/* width >= 992px */
+@media (min-width: 992px) {
+  .timeslot-list {
+    padding-left: 30px !important;
   }
 }
 .timeslot-list-header {
@@ -1018,6 +1075,12 @@ h3 {
   padding: 0 !important;
   margin: 0 !important;
 }
+.nopadding-right {
+  padding-right: 0 !important;
+}
+.nopadding-left {
+  padding-left: 0 !important;
+}
 .section-container {
   padding: 0 16px;
 }
@@ -1044,16 +1107,16 @@ h3 {
   font-style: italic;
 }
 .header-row {
+  text-align: center;
   /* width < 768px */
   /* width 768px - 992px */
   /* width >= 992px */
 }
 .header-row h4 {
   display: inline-block;
-  height: 18px;
   font-family: Helvetica;
-  font-size: 18px;
   color: #333333;
+  margin: 0;
 }
 @media (max-width: 767px) {
   .header-row {
@@ -1061,6 +1124,7 @@ h3 {
     line-height: 50px;
   }
   .header-row h4 {
+    line-height: 50px;
     padding-left: 20px;
     font-size: 18px;
   }
@@ -1072,6 +1136,8 @@ h3 {
   }
   .header-row h4 {
     font-size: 16px;
+    margin-top: 21px;
+    margin-bottom: 14px;
   }
 }
 @media (min-width: 992px) {
@@ -1081,16 +1147,9 @@ h3 {
   }
   .header-row h4 {
     font-size: 16px;
+    margin-top: 21px;
+    margin-bottom: 14px;
   }
-}
-.section-title {
-  display: inline-block;
-  height: 19px;
-  font-family: Helvetica;
-  font-size: 18px;
-  color: #333333;
-  margin-top: 21px;
-  margin-bottom: 14px;
 }
 .block {
   background-color: #fff;

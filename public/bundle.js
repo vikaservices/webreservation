@@ -29801,9 +29801,15 @@
 	        this.props.checkClientSSN(hetu).then(function () {
 	          var filters = _this2.props.filters;
 	          if (employerId) {
+
+	            if (employerId != _this2.props.selected_employer.if) {
+	              // TODO: need to change employer here
+	              //this.props.setSelectedEmployer(employerId);
+	            }
+
 	            filters.employer_id_filter = employerId;
-	            filters.terms_search = _this2.props.selected_employer.name;
-	            console.log("App: componentDidMount: this.props.selected_employer.employerName = " + _this2.props.selected_employer.employerName);
+	            filters.terms_search = _this2.props.selected_employer.name + (0, _translate2.default)('diacor_ohc_search');
+	            console.log("App: componentDidMount: this.props.selected_employer.employerName = " + _this2.props.selected_employer.name);
 
 	            if (resourceId) {
 	              // If resource is given -> do more specific search with resource
@@ -29815,7 +29821,12 @@
 	                filters.terms_search = resourceName;
 	              }
 	            }
-
+	            filters.do_time_search = true;
+	          } else if (_this2.props.is_ohc_client) {
+	            // Did not get employer, but if this is ohc client give him
+	            // ohc team as default anyway
+	            filters.employer_id_filter = _this2.props.selected_employer.id;
+	            filters.terms_search = _this2.props.selected_employer.name + (0, _translate2.default)('diacor_ohc_search');
 	            filters.do_time_search = true;
 	          }
 
@@ -29909,7 +29920,8 @@
 	    date_filter: new Date(state.app.filters.date_filter),
 	    headertitle: state.app.headertitle,
 	    filters: state.app.filters,
-	    selected_employer: state.app.selected_employer
+	    selected_employer: state.app.selected_employer,
+	    is_ohc_client: state.app.is_ohc_client
 	  };
 	}
 
@@ -30100,7 +30112,8 @@
 	    diacor_header_cancel: 'Varauksen peruuttaminen',
 	    diacor_header_lang_fi: 'FI',
 	    diacor_header_lang_se: 'SE',
-	    diacor_header_lang_en: 'EN'
+	    diacor_header_lang_en: 'EN',
+	    diacor_ohc_search: ' työterveystiimi'
 	});
 
 	//BUTTONS FIN
@@ -42733,7 +42746,7 @@
 	            { className: 'header-row' },
 	            _react2.default.createElement(
 	              'h4',
-	              { className: 'section-title pull-left' },
+	              { className: 'pull-left' },
 	              (0, _translate2.default)('diacor_section_resource_header')
 	            ),
 	            _react2.default.createElement(
@@ -42759,7 +42772,7 @@
 	              onClick: this.handleResourceSelection.bind(this) }),
 	            _react2.default.createElement(
 	              'p',
-	              null,
+	              { className: 'ohc-disclaimer' },
 	              (0, _translate2.default)('diacor_section_resource_content')
 	            )
 	          )
@@ -44697,17 +44710,17 @@
 	    ),
 	    _react2.default.createElement(
 	      'p',
-	      null,
+	      { className: 'ohc-name' },
 	      item.resourceName
 	    ),
 	    _react2.default.createElement(
 	      'p',
-	      null,
+	      { className: 'ohc-title' },
 	      item.title
 	    ),
 	    _react2.default.createElement(
 	      'a',
-	      { href: '', className: 'link', onClick: function onClick(event) {
+	      { href: '', className: 'ohc-link', onClick: function onClick(event) {
 	          return _onClick(event, item.resourceId, item.resourceName);
 	        } },
 	      (0, _translate2.default)('diacor_ohc_team_list_choose_link')
@@ -44974,7 +44987,7 @@
 	            { className: 'header-row col-xs-12 nopadding' },
 	            _react2.default.createElement(
 	              'h4',
-	              null,
+	              { className: 'pull-left' },
 	              (0, _translate2.default)('diacor_section_timesearch_header')
 	            )
 	          ),
@@ -45153,7 +45166,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'filter-main col-xs-12 col-sm-6 nopadding' },
+	        { className: 'filter-main col-xs-12 col-sm-6 nopadding-left' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'search-box' },
@@ -45627,10 +45640,26 @@
 	    return _this;
 	  }
 
-	  // Pass changed selected day back to parent
-
-
 	  _createClass(FilterCalendar, [{
+	    key: 'dayChange',
+	    value: function dayChange(dir, event) {
+	      event.preventDefault();
+	      console.log("dayChange");
+	      var selected = this.props.selected_day;
+	      if (dir === "next") {
+	        selected.setDate(selected.getDate() + 1);
+	      } else if (dir === "prev") {
+	        selected.setDate(selected.getDate() - 1);
+	      } else {
+	        // error
+	        console.log("error");
+	      }
+	      this.props.onDayChange(selected);
+	    }
+
+	    // Pass changed selected day back to parent
+
+	  }, {
 	    key: 'onDayChange',
 	    value: function onDayChange() {
 	      //console.log("belleOnUpdate called: " + this.linkState.value );
@@ -45745,9 +45774,9 @@
 
 	      var current_month = new Date().getMonth();
 
-	      console.log("selecter_day = " + selected_day);
-	      console.log("current_month = " + current_month);
-	      console.log("selected_month = " + selected_day.getMonth());
+	      //console.log("selecter_day = " + selected_day);
+	      //console.log("current_month = " + current_month);
+	      //console.log("selected_month = " + selected_day.getMonth());
 
 	      var mindate = new Date();
 	      mindate.setDate(mindate.getDate() - 1);
@@ -45762,7 +45791,9 @@
 	          { className: 'calendar-day-selector' },
 	          _react2.default.createElement(
 	            'a',
-	            { href: '', className: 'pull-left' },
+	            { href: '', onClick: function onClick(event) {
+	                return _this2.dayChange("prev", event);
+	              }, className: 'pull-left' },
 	            _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-left' })
 	          ),
 	          _react2.default.createElement(
@@ -45780,7 +45811,9 @@
 	          ),
 	          _react2.default.createElement(
 	            'a',
-	            { href: '', className: 'pull-right' },
+	            { href: '', onClick: function onClick(event) {
+	                return _this2.dayChange("next", event);
+	              }, className: 'pull-right' },
 	            _react2.default.createElement('span', { className: 'glyphicon glyphicon-menu-right' })
 	          )
 	        ),
@@ -55556,7 +55589,7 @@
 
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'timeslot-list col-xs-12 col-sm-6 nopadding' },
+	    { className: 'timeslot-list col-xs-12 col-sm-6 nopadding-right' },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'row nopadding' },
@@ -70105,7 +70138,7 @@
 	            if (employer.mainEmployer) {
 	              new_state.selected_employer = employer;
 	              new_state.filters.employer_id_filter = employer.id;
-	              new_state.filters.terms_search = employer.name + " työterveystiimi";
+	              new_state.filters.terms_search = employer.name + (0, _translate2.default)('diacor_ohc_search');
 	              new_state.filters.do_time_search = true;
 	            }
 	          });
@@ -70341,7 +70374,7 @@
 	        if (employer.id == action.id) {
 	          new_state.selected_employer = employer;
 	          new_state.filters.employer_id_filter = employer.id;
-	          new_state.filters.terms_search = employer.name + " työterveystiimi";
+	          new_state.filters.terms_search = employer.name + (0, _translate2.default)('diacor_ohc_search');
 	          new_state.filters.do_time_search = true;
 	        }
 	      });

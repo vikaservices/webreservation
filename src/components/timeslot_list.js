@@ -17,7 +17,7 @@ const TimeslotList = (props) => {
   });
 
   return (
-    <div className="timeslot-list col-xs-12 col-sm-6 nopadding">
+    <div className="timeslot-list col-xs-12 col-sm-6 nopadding-right">
       <div className="row nopadding">
         <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)}</h4>
         <FilterTimeOfDay {...props}/>

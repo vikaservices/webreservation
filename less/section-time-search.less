@@ -12,6 +12,17 @@
   color: @gray-dark;
 }
 
+/******** SECTION : TIME SEARCH : FILTER MAIN BOX *********/
+.filter-main {
+  padding-right: 30px !important;
+  border-right: 2px solid @gray-white;
+
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    padding-right: 0 !important;
+    border: 0;
+  }
+}
 
 /********   SECTION : TIME SEARCH : FILTERS     ***********/
 
@@ -340,6 +351,7 @@
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
 @media (max-width: @screen-xs-max) {
   .timeslot-list {
+    padding-left: 0;
     border-top: 2px solid @red-ribbon;
   }
   .timeslot-list-header {
@@ -347,6 +359,20 @@
     display: block;
     width: 100%;
     text-align: center;
+  }
+}
+
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .timeslot-list {
+    padding-left: 30px !important;
+  }
+}
+
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+  .timeslot-list {
+    padding-left: 30px !important;
   }
 }
 

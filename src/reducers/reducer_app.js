@@ -190,7 +190,7 @@ export default function(state = INITIAL_STATE, action) {
             if( employer.mainEmployer ) {
               new_state.selected_employer = employer;
               new_state.filters.employer_id_filter = employer.id;
-              new_state.filters.terms_search = employer.name + " työterveystiimi";
+              new_state.filters.terms_search = employer.name + text('diacor_ohc_search');
               new_state.filters.do_time_search = true;
             }
           });
@@ -441,7 +441,7 @@ export default function(state = INITIAL_STATE, action) {
           if( employer.id == action.id ) {
             new_state.selected_employer = employer;
             new_state.filters.employer_id_filter = employer.id;
-            new_state.filters.terms_search = employer.name + " työterveystiimi";
+            new_state.filters.terms_search = employer.name + text('diacor_ohc_search');
             new_state.filters.do_time_search = true;
           }
         });

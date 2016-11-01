@@ -48,9 +48,15 @@ class App extends Component {
       this.props.checkClientSSN(hetu).then(() => {
         let filters = this.props.filters;
         if( employerId ) {
+
+          if( employerId != this.props.selected_employer.if ) {
+            // TODO: need to change employer here
+            //this.props.setSelectedEmployer(employerId);
+          }
+
           filters.employer_id_filter = employerId;
-          filters.terms_search = this.props.selected_employer.name;
-          console.log("App: componentDidMount: this.props.selected_employer.employerName = " + this.props.selected_employer.employerName)
+          filters.terms_search = this.props.selected_employer.name + text('diacor_ohc_search');
+          console.log("App: componentDidMount: this.props.selected_employer.employerName = " + this.props.selected_employer.name)
 
           if( resourceId ) {
             // If resource is given -> do more specific search with resource
@@ -62,7 +68,13 @@ class App extends Component {
               filters.terms_search = resourceName;
             }
           }
-
+          filters.do_time_search = true;
+        }
+        else if( this.props.is_ohc_client ) {
+          // Did not get employer, but if this is ohc client give him
+          // ohc team as default anyway
+          filters.employer_id_filter = this.props.selected_employer.id;
+          filters.terms_search = this.props.selected_employer.name + text('diacor_ohc_search');
           filters.do_time_search = true;
         }
 
@@ -142,7 +154,8 @@ function mapStateToProps(state) {
     date_filter: new Date(state.app.filters.date_filter),
     headertitle: state.app.headertitle,
     filters: state.app.filters,
-    selected_employer: state.app.selected_employer
+    selected_employer: state.app.selected_employer,
+    is_ohc_client: state.app.is_ohc_client
   };
 }
 

@@ -18,6 +18,7 @@ _.extend(FIN, {
     diacor_header_lang_fi: 'FI',
     diacor_header_lang_se: 'SE',
     diacor_header_lang_en: 'EN',
+    diacor_ohc_search: ' työterveystiimi',
 });
 
 //BUTTONS FIN
@@ -48,7 +49,7 @@ _.extend(FIN, {
     diacor_input_placeholder_office: 'Toimipiste',
     diacor_input_placeholder_reason: 'Kirjoita syy käynnillesi...',
     diacor_input_placeholder_email: 'Sähköpostiosoite',
-    diacor_input_placeholder_cell: 'Matkapuhelinnumero'
+    diacor_input_placeholder_cell: 'Matkapuhelinnumero',
 });
 
 //FILTERS FIN

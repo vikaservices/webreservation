@@ -90,7 +90,7 @@ class FilterMain extends Component {
     const date_filter_obj = new Date(filters.date_filter);
 
     return (
-      <div className="filter-main col-xs-12 col-sm-6 nopadding">
+      <div className="filter-main col-xs-12 col-sm-6 nopadding-left">
         <div className="search-box">
           <input
             value={filters.terms_search}

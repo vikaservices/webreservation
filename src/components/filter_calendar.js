@@ -7,6 +7,23 @@ class FilterCalendar extends Component {
     super(props);
   }
 
+  dayChange(dir, event) {
+    event.preventDefault();
+    console.log("dayChange");
+    let selected = this.props.selected_day;
+    if( dir === "next" ) {
+      selected.setDate(selected.getDate() + 1);
+    }
+    else if( dir === "prev" ) {
+      selected.setDate(selected.getDate() - 1);
+    }
+    else {
+      // error
+      console.log("error");
+    }
+    this.props.onDayChange(selected);
+  }
+
   // Pass changed selected day back to parent
   onDayChange() {
     //console.log("belleOnUpdate called: " + this.linkState.value );
@@ -113,9 +130,9 @@ class FilterCalendar extends Component {
 
     let current_month = new Date().getMonth();
 
-    console.log("selecter_day = " + selected_day);
-    console.log("current_month = " + current_month);
-    console.log("selected_month = " + selected_day.getMonth());
+    //console.log("selecter_day = " + selected_day);
+    //console.log("current_month = " + current_month);
+    //console.log("selected_month = " + selected_day.getMonth());
 
     let mindate = new Date();
     mindate.setDate(mindate.getDate() - 1);
@@ -125,12 +142,12 @@ class FilterCalendar extends Component {
     return (
       <div>
         <div className="calendar-day-selector">
-          <a href="" className="pull-left"><span className="glyphicon glyphicon-menu-left" /></a>
+          <a href="" onClick={(event) => this.dayChange("prev", event)} className="pull-left"><span className="glyphicon glyphicon-menu-left" /></a>
           <a href="" onClick={(event) => this.toggleCalendar(event)}>
             <span>{formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
             <span className="glyphicon glyphicon-calendar"/>
           </a>
-          <a href="" className="pull-right"><span className="glyphicon glyphicon-menu-right" /></a>
+          <a href="" onClick={(event) => this.dayChange("next", event)} className="pull-right"><span className="glyphicon glyphicon-menu-right" /></a>
         </div>
         <div className="calendar-datepicker-mobile">
           <DatePicker

@@ -7,9 +7,9 @@ const SearchResultListItem = ({item, onClick}) => {
       <div className="img-box-round-50">
         <img src={item.imageUrl} />
       </div>
-      <p>{item.resourceName}</p>
-      <p>{item.title}</p>
-      <a href="" className="link" onClick={(event) => onClick(event, item.resourceId, item.resourceName)}>{text('diacor_ohc_team_list_choose_link')}</a>
+      <p className="ohc-name">{item.resourceName}</p>
+      <p className="ohc-title">{item.title}</p>
+      <a href="" className="ohc-link" onClick={(event) => onClick(event, item.resourceId, item.resourceName)}>{text('diacor_ohc_team_list_choose_link')}</a>
     </li>
   );
 }

@@ -63,7 +63,7 @@ class SectionResourceSelection extends Component {
 
         <div className="col-xs-12">
           <div className="header-row">
-            <h4 className="section-title pull-left">{text('diacor_section_resource_header')}</h4>
+            <h4 className="pull-left">{text('diacor_section_resource_header')}</h4>
             <div className="ohc-employer-list">
               <DropdownMenu items={this.state.employers}
                             selected={this.props.selected_employer.name}
@@ -77,7 +77,7 @@ class SectionResourceSelection extends Component {
             <hr />
             <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
                          onClick={this.handleResourceSelection.bind(this)} />
-            <p>{text('diacor_section_resource_content')}</p>
+            <p className="ohc-disclaimer">{text('diacor_section_resource_content')}</p>
           </div>
         </div>
 

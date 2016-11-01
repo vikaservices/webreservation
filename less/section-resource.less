@@ -7,7 +7,6 @@
   font-family: ArialMT;
 }
 
-
 .ohc-team-list {
   border: 0px solid black;
   margin-bottom: 20px;
@@ -25,16 +24,35 @@
   text-align: center;
   margin-left: 10px;
   vertical-align: top;
-  border: 0px solid red;
-}
 
-.ohc-team-list li img {
-  max-width: 50px;
-  max-height: 50px;
-}
+  p, a {
+    margin: 0;
+    font-family: @font-arialmt;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+  }
 
-.ohc-team-list li p {
-  margin-bottom: 0;
+  img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .ohc-name {
+    font-weight: bold;
+    color: @gray-dark;
+  }
+  .ohc-title {
+    opacity: 0.4;
+    color: @gray-dark;
+  }
+  .ohc-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: @red-ribbon;
+  }
 }
 
 .btn-white-dropdown {
@@ -42,4 +60,14 @@
     border: none;
     background-color: @white;
     color: @gray-very-light;
+}
+
+.ohc-disclaimer {
+  font-family: @font-arialmt;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
+  color: @gray-very-light;
 }

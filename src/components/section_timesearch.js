@@ -64,7 +64,7 @@ class SectionTimeSearch extends Component {
       <div className="section-time-search row">
         <div className="">
           <div className="header-row col-xs-12 nopadding">
-            <h4>{text('diacor_section_timesearch_header')}</h4>
+            <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
           </div>
           <hr />
           <FilterMain {...this.props} />

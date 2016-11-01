@@ -1,16 +1,83 @@
 @import "variables.less";
-/**********  SECTIONS  *************/
 
-.section-header {
-  margin-top: 50px;
-  margin-bottom: 10px;
+/* Application container */
+.app {
+  width: 100%;
+  height: 100%;
 }
 
+@media (max-width: @screen-xs-max) {
+  .app {
+    margin: 0;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .app {
+    width: auto;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .app {
+    max-width: 910px;
+    margin: 0 auto;
+  }
+}
+
+/**********  SECTIONS  *************/
+
+/*********************************/
+/***      SECTION HEADER       ***/
+/*********************************/
+.section-header {
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+
+  @media (max-width: @screen-xs-max) {
+
+  }
+
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    width: auto;
+    height: 103px;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  @media (min-width: @screen-md-min) {
+  }
+}
+
+/****************************************/
+/***    SECTION RESOURCE SELECTION    ***/
+/****************************************/
 .section-resource-selection {
   background-color: @white;
   margin-bottom: 10px;
 }
 
+/* width < 768px */
+@media (max-width: @screen-xs-max) {
+  border-bottom: 2px solid @red-ribbon;
+}
+
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+
+}
+
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+
+}
+
+/*********************************/
+/***    SECTION TIME SEARCH    ***/
+/*********************************/
 .section-time-search {
   height: 100%;
   overflow: hidden;
@@ -18,17 +85,41 @@
   margin-bottom: 10px;
 }
 
-@media (min-width: 769px) {
+/* width < 768px */
+@media (max-width: @screen-xs-max) {
   .section-time-search {
-    max-height: 568px;
+    height: 100%;
+    overflow: hidden;
+    background-color: @white;
+    padding: 0;
+    margin-bottom: 10px;
   }
 }
 
-@media (max-width: 768px) {
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
   .section-time-search {
-    max-height: 100%;
+    height: 100%;
+    max-height: 568px;
+    overflow: hidden;
+    background-color: @white;
+    padding: 0 23px;
+    margin-bottom: 10px;
   }
 }
+
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+  .section-time-search {
+    height: 100%;
+    max-height: 568px;
+    overflow: hidden;
+    background-color: @white;
+    padding: 0 30px;
+    margin-bottom: 10px;
+  }
+}
+
 
 .section-time-search-inactive,
 .section-resource-selection-inactive {
@@ -36,6 +127,9 @@
   margin-bottom: 10px;
 }
 
+/*********************************/
+/***    SECTION CONFIRMATION   ***/
+/*********************************/
 .section-confirmation {
   background-color: @white;
   margin-bottom: 50px;
@@ -47,6 +141,9 @@
   margin-bottom: 50px;
 }
 
+/*********************************/
+/***      SECTION SUMMARY      ***/
+/*********************************/
 .section-summary {
   background-color: @white;
   margin-bottom: 50px;

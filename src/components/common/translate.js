@@ -14,7 +14,10 @@ _.extend(FIN, {
     diacor_time_min: 'min',
     diacor_header_reservation: 'Ajanvaraus',
     diacor_header_summary: 'Kiitos varauksesta!',
-    diacor_header_cancel: 'Varauksen peruuttaminen'
+    diacor_header_cancel: 'Varauksen peruuttaminen',
+    diacor_header_lang_fi: 'FI',
+    diacor_header_lang_se: 'SE',
+    diacor_header_lang_en: 'EN',
 });
 
 //BUTTONS FIN
@@ -55,6 +58,7 @@ _.extend(FIN, {
     diacor_filter_extra_city_Helsinki: 'Helsinki',
     diacor_filter_extra_city_Vantaa: 'Vantaa',
     diacor_filter_extra_show: 'Näytä lisävalinnat ',
+    diacor_filter_extra_label: 'Lisävalinnat',
     diacor_filter_extra_label_gender: 'Sukupuoli',
     diacor_filter_extra_label_city: 'Kaupunki',
     diacor_filter_extra_label_language: 'Kieli',
@@ -110,7 +114,8 @@ _.extend(FIN, {
      diacor_section_confirmation_content_plus: 'Ymmärrän, että online vastaanotto onnistuu vain DiacorPlus sovelluksen avulle',
      diacor_section_confirmation_content_terms: 'Peruutusehdot',
      diacor_section_confirmation_content_notification: 'Varauksen voi peruuttaa ilmaiseksi 4 tuntia ennen aikaa. Esteen sattuessa peruuta aikasi viimeistään edellisenä päivänä ennen sovittua ajankohtaa. Peruuttamattomasta tai samana päivänä perutusta varauksesta perimme maksun.',
-     diacor_section_header1: 'Työterveysasiakkaan ajanvaraus',
+     diacor_section_header1_desktop: 'Työterveysasiakkaan ajanvaraus',
+     diacor_section_header1_mobile: 'Työterveysasiakkaat',
      diacor_section_header2: 'Omat varaukset',
      diacor_section_summary_header: 'VARAUKSEN TIEDOT',
      diacor_section_summary_content: 'Hienoa! Varaus on vastaanotettu ja olemme lähettäneet sähköpostivarmistuksen osoitteeseesi! Varauksesi tunnus on ',

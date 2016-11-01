@@ -17,12 +17,12 @@ const TimeslotList = (props) => {
   });
 
   return (
-    <div className="timeslot-list col-xs-12 col-sm-6">
-      <div className="row">
+    <div className="timeslot-list col-xs-12 col-sm-6 nopadding">
+      <div className="row nopadding">
         <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)}</h4>
         <FilterTimeOfDay {...props}/>
       </div>
-      <div className="list-container row">
+      <div className="list-container row nopadding">
         <ul className="list-group">
           {!props.timeslots_list || props.timeslots_list.length == 0 ?
             <p>{text('diacor_timeslot_list_content')}</p> :

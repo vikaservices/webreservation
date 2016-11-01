@@ -5,6 +5,15 @@
     display: none;
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.section-container {
+  padding: 0 16px;
+}
+
 .link:link, .link:visited, .link:hover {
     height: 15px;
     font-family: @font-helveticaneue;
@@ -31,10 +40,43 @@
 }
 
 .header-row {
+  h4 {
+    display: inline-block;
+    height: 18px;
+    font-family: @font-helvetica;
+    font-size: 18px;
+    color: @gray-black;
+  }
+
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    height: 50px;
+    line-height: 50px;
+
+    h4 {
+      padding-left: 20px;
+      font-size: 18px;
+    }
+  }
+
+  /* width 768px - 992px */
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     height: 62px;
-    text-align: center;
     line-height: 62px;
-    vertical-align: center;
+    h4 {
+      font-size: 16px;
+    }
+  }
+
+  /* width >= 992px */
+  @media (min-width: @screen-md-min) {
+    height: 62px;
+    line-height: 62px;
+    h4 {
+      font-size: 16px;
+    }
+  }
+
 }
 
 .section-title {
@@ -157,4 +199,8 @@ ol {
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+textarea:focus, input:focus {
+  outline: none;
 }

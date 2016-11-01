@@ -18,25 +18,7 @@ class FilterCalendar extends Component {
     this.props.onMonthChange(month, year);
   }
 
-  renderDay(day) {
-    // green circle for free days
-    var box = {
-      position: 'absolute',
-      top: '3px',
-      left: '0',
-      width: '39px',
-      height: '25px',
-      textAlign: 'center'
-    };
-    var s = {
-      backgroundColor: 'rgba(176, 226, 168, 0.64)',
-      width: '25px',
-      height: '25px',
-      display: 'inline-block',
-      borderRadius: '12px',
-      lineHeight: '25px',
-      verticalAlign: 'middle'
-    };
+  renderDay(day, box, disc) {
 
     var d = day.toLocaleDateString();
     var day_str = day.getFullYear();
@@ -52,15 +34,59 @@ class FilterCalendar extends Component {
       ) {
       return day.getDate();
     } else {
-      return <span style={box}><span style={s}>{day.getDate()}</span></span>;
+      return <span style={box}><span style={disc}>{day.getDate()}</span></span>;
     }
+  }
+
+  renderDayDesk(day) {
+    // green circle for free days
+    var box = {
+      position: 'absolute',
+      top: '3px',
+      left: '0',
+      width: '39px',
+      height: '25px',
+      textAlign: 'center'
+    }
+    var disc = {
+      backgroundColor: 'rgba(176, 226, 168, 0.64)',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      width: '25px',
+      height: '25px',
+      borderRadius: '12px',
+      lineHeight: '25px'
+    };
+    return this.renderDay(day, box, disc);
+  }
+
+  renderDayMob(day) {
+    // green circle for free days
+    var box = {
+      position: 'absolute',
+      top: '-3px',
+      left: '0',
+      width: '45px',
+      height: '38px',
+      textAlign: 'center'
+    }
+    var disc = {
+      backgroundColor: 'rgba(176, 226, 168, 0.64)',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      width: '38px',
+      height: '38px',
+      borderRadius: '19px',
+      lineHeight: '38px'
+    };
+    return this.renderDay(day, box, disc);
   }
 
   toggleCalendar(event) {
     event.preventDefault();
     console.log("toggleCalendar");
-    let display = $('.calendar-datepicker').css('display');
-     $('.calendar-datepicker').css('display', (display == 'none' ? 'inline' : 'none'));
+    let display = $('.calendar-datepicker-mobile').css('display');
+     $('.calendar-datepicker-mobile').css('display', (display == 'none' ? 'block' : 'none'));
   }
 
   // DatePicker component supports only depraceted valueLink for
@@ -100,24 +126,49 @@ class FilterCalendar extends Component {
       <div>
         <div className="calendar-day-selector">
           <a href="" className="pull-left"><span className="glyphicon glyphicon-menu-left" /></a>
-          <span>{formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
-          <a href="" onClick={(event) => this.toggleCalendar(event)}><span className="glyphicon glyphicon-calendar"/></a>
+          <a href="" onClick={(event) => this.toggleCalendar(event)}>
+            <span>{formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
+            <span className="glyphicon glyphicon-calendar"/>
+          </a>
           <a href="" className="pull-right"><span className="glyphicon glyphicon-menu-right" /></a>
         </div>
-        <div className="calendar-datepicker">
+        <div className="calendar-datepicker-mobile">
           <DatePicker
                   locale='fi'
                   value={selected_day}
-                  renderDay={ this.renderDay.bind(this) }
+                  renderDay={ this.renderDayMob.bind(this) }
                   onUpdate={ this.onDayChange.bind(this) }
                   selectedDayStyle={ selectedStyle }
                   onMonthUpdate={ this.onMonthChange.bind(this) }
                   valueLink={this.linkState}
                   min={mindate}
-                  prevMonthNavStyle={(current_month != selected_day.getMonth()) ? {border: 0} : {display: 'none'}}
-                  nextMonthNavStyle={{border: 0}}
+                  prevMonthNavStyle={(current_month != selected_day.getMonth()) ?
+                                      {borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0} :
+                                      {display: 'none'}}
+                  nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
                   navBarStyle={{border: 0}}
-                  weekHeaderStyle={{border: 0}}
+                  weekHeaderStyle={{boxShadow: 0}}
+                  dayStyle={{border: 0, width: '45px', height: '45px', fontSize: '16px', display: 'inline-block', lineHeigh: '45px', verticalAlign: 'middle'}}
+                  dayLabelStyle={{width: '45px', height: '45px', opacity: '0.75'}}
+                  style={{width: '311px', display: 'inline-block'}}
+                  />
+        </div>
+        <div className="calendar-datepicker-desktop">
+          <DatePicker
+                  locale='fi'
+                  value={selected_day}
+                  renderDay={ this.renderDayDesk.bind(this) }
+                  onUpdate={ this.onDayChange.bind(this) }
+                  selectedDayStyle={ selectedStyle }
+                  onMonthUpdate={ this.onMonthChange.bind(this) }
+                  valueLink={this.linkState}
+                  min={mindate}
+                  prevMonthNavStyle={(current_month != selected_day.getMonth()) ?
+                                      {borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0} :
+                                      {display: 'none'}}
+                  nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
+                  navBarStyle={{border: 0}}
+                  weekHeaderStyle={{boxShadow: 0}}
                   dayStyle={{border: 0}}
                   />
         </div>

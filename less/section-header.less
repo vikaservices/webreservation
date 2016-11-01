@@ -1,27 +1,289 @@
 @import "variables.less";
 /******  SECTION : HEADER ********/
-.section-header-title {
-  font-family: @font-gotham;
-  font-size: 40px;
-  text-align: center;
-  color: @white;
-}
 
-.section-header-links {
-  width: 100%;
-  max-width: 940px;
-  margin: 0 auto;
-  line-height: 1.5;
-}
+/* width < 768px */
+@media (max-width: @screen-xs-max) {
+  .logo-bar {
+    background-color: @white;
+    line-height: 50px;
+    .diacor-logo {
+      display: inline-block;
+      margin-left: 16px;
+      line-height: 16px;
+      width: 100px;
+      height: 16px;
+      vertical-align: middle;
+      background-image: url('/public/img/header-diacor-logo-mob.png');
+    }
+    .title {
+      display: none;
+    }
+    .lang-selection {
+      display: none;
+      margin-top: 10px;
+      .current-lang {
+        display: none;
+      }
+      ul {
+        padding: 0;
+        li {
+          display: inline-block;
+          list-style-type: none;
+          margin-left: 10px;
+          a:link, a:visited, a:hover {
+            font-family: ArialMT;
+            font-size: 14px;
+            color: @white;
+          }
+        }
+      }
+    }
+  }
 
-.section-header-links span img {
-  margin-right: 5px;
-  vertical-align: center;
-}
+  .title-bar {
+    line-height: 50px;
+    padding: 0 16px;
+    display: block;
+    color: @white;
+    background-color: @red-ribbon;
+    .title {
+      display: inline-block;
+      line-height: 22px;
+      vertical-align: middle;
+      font-family: @font-gotham;
+      font-size: 22px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+    }
+    .header-turku-link {
+      margin: 0;
+      padding: 0;
+    }
+  }
 
-.section-header-links span a {
-  font-family: ArialMT;
-  vertical-align: center;
-  font-size: 18px;
-  color: @white;
-}
+  .links-bar {
+    line-height: 50px;
+    padding: 0 16px;
+    color: @white;
+    background-color: @red-ribbon;
+
+    .logo-login-ohc {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 11px;
+      height: 14px;
+      background-image: url('/public/img/header-login-ohc-tab.png');
+    }
+
+    .ohc_login_desktop {
+      display: none;
+    }
+    .ohc_login_mobile {
+      display: inline-block;
+    }
+
+    .logo-reservation {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 14px;
+      height: 14px;
+      background-image: url('/public/img/header-reservations-tab.png');
+    }
+
+    span a {
+
+      font-family: ArialMT;
+      vertical-align: middle;
+      font-size: 18px;
+      color: @white;
+    }
+  }
+
+  .header-link {
+    a:link, a:visited, a:hover {
+      line-height: 48px;
+      vertical-align: middle;
+      font-family: ArialMT;
+      font-size: 16px;
+      color: @white;
+    }
+  }
+}  /* END: media: width < 768px */
+
+
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .logo-bar {
+    position: relative;
+    .diacor-logo {
+      position: absolute;
+      left: 24px;
+      top: 28px;
+      display: inline;
+      line-height: 34px;
+      width: 161px;
+      height: 26px;
+      vertical-align: middle;
+      background-image: url('/public/img/header-diacor-logo-tab.png');
+    }
+    .title {
+      font-family: @font-gotham;
+      font-size: 35px;
+      line-height: 26px;
+      padding-top: 40px;
+      text-align: center;
+      color: @white;
+    }
+    .lang-selection {
+      margin-top: 10px;
+      .current-lang {
+        display: none;
+      }
+      ul {
+        padding: 0;
+        li {
+          display: inline-block;
+          list-style-type: none;
+          margin-left: 10px;
+          a:link, a:visited, a:hover {
+            font-family: ArialMT;
+            font-size: 14px;
+            color: @white;
+          }
+        }
+      }
+    }
+  }
+  .title-bar {
+    display: none;
+  }
+  .links-bar {
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    line-height: 28px;
+    margin-top: 15px;
+    margin-bottom: 7px;
+
+    .logo-login-ohc {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 11px;
+      height: 14px;
+      background-image: url('/public/img/header-login-ohc-tab.png');
+    }
+
+    .ohc_login_desktop {
+      display: inline-block;
+    }
+    .ohc_login_mobile {
+      display: none;
+    }
+
+    .logo-reservation {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 14px;
+      height: 14px;
+      background-image: url('/public/img/header-reservations-tab.png');
+    }
+
+    span a {
+      font-family: ArialMT;
+      vertical-align: center;
+      font-size: 16px;
+      color: @white;
+    }
+  }
+} /* END: media: width 768px - 991px */
+
+
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+  .logo-bar {
+    .diacor-logo {
+      display: inline-block;
+      margin-top: 50px;
+      margin-left: -120px;
+      line-height: 34px;
+      width: 212px;
+      height: 34px;
+      vertical-align: middle;
+      background-image: url('/public/img/header-diacor-logo.png');
+    }
+    .title {
+      font-family: @font-gotham;
+      font-size: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: @white;
+    }
+    .lang-selection {
+      margin-top: 10px;
+      .current-lang {
+        display: none;
+      }
+      ul {
+        padding: 0;
+        li {
+          display: inline-block;
+          list-style-type: none;
+          margin-left: 10px;
+          a:link, a:visited, a:hover {
+            font-family: ArialMT;
+            font-size: 14px;
+            color: @white;
+          }
+        }
+      }
+    }
+  }
+  .title-bar {
+    display: none;
+  }
+  .links-bar {
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    line-height: 20px;
+    margin-top: 6px;
+    margin-bottom: 9px;
+
+    .logo-login-ohc {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 14px;
+      height: 19px;
+      background-image: url('/public/img/header-login-ohc.png');
+    }
+
+    .ohc_login_desktop {
+      display: inline-block;
+    }
+    .ohc_login_mobile {
+      display: none;
+    }
+
+    .logo-reservation {
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background-image: url('/public/img/header-reservations.png');
+    }
+
+    span a {
+      font-family: ArialMT;
+      vertical-align: middle;
+      font-size: 18px;
+      color: @white;
+    }
+  }
+} /* END: media: width >= 992px */

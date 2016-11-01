@@ -90,8 +90,8 @@ class FilterMain extends Component {
     const date_filter_obj = new Date(filters.date_filter);
 
     return (
-      <div className="filter-main col-xs-12 col-sm-6">
-        <div id="terms-search">
+      <div className="filter-main col-xs-12 col-sm-6 nopadding">
+        <div className="search-box">
           <input
             value={filters.terms_search}
             placeholder={text('diacor_input_placeholder_name_or_service')}
@@ -116,7 +116,7 @@ class FilterMain extends Component {
               onClick={(event) => this.clearInput('terms', event)} href=""></a>
         </div>
 
-        <div id="units-search">
+        <div className="search-box">
           <input
             value={filters.units_search}
             placeholder={text('diacor_input_placeholder_office')}

@@ -4,7 +4,7 @@ import text from './common/translate';
 const TimeSlotListItem = (props) => {
   return (
     <li className={parseInt(props.slot.time.substr(0,(props.slot.time.indexOf(":")+1))) < parseInt(props.filter)
-      ? "hide" : "list-group-item row" }>
+      ? "hide" : "list-group-item" }>
       <div className="slot-inline slot-align-middle">
         <span className="slot-time">{props.slot.time}</span><br />
         <span className="slot-duration">{props.slot.duration} min</span>

@@ -46,35 +46,121 @@ h3 {
   font-size: 16px !important;
   color: #333333 !important;
 }
+.list-group-item {
+  /* width < 768px */
+  /* width 768px - 992px */
+  /* width >= 992px */
+}
+@media (max-width: 767px) {
+  .list-group-item {
+    padding: 10px 20px !important;
+    line-height: 50px !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .list-group-item {
+    padding: 6px 0 !important;
+    line-height: 50px !important;
+  }
+}
+@media (min-width: 992px) {
+  .list-group-item {
+    padding: 6px 0 !important;
+    line-height: 50px !important;
+  }
+}
+/* Application container */
 .app {
   width: 100%;
   height: 100%;
-  max-width: 910px;
-  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .app {
+    margin: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .app {
+    width: auto;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+}
+@media (min-width: 992px) {
+  .app {
+    max-width: 910px;
+    margin: 0 auto;
+  }
 }
 /**********  SECTIONS  *************/
+/*********************************/
+/***      SECTION HEADER       ***/
+/*********************************/
 .section-header {
-  margin-top: 50px;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  .section-header {
+    width: auto;
+    height: 103px;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+}
+/****************************************/
+/***    SECTION RESOURCE SELECTION    ***/
+/****************************************/
 .section-resource-selection {
   background-color: #fff;
   margin-bottom: 10px;
 }
+/* width < 768px */
+@media (max-width: 767px) {
+  border-bottom: 2px solid #F10C29;
+}
+/* width 768px - 992px */
+/* width >= 992px */
+/*********************************/
+/***    SECTION TIME SEARCH    ***/
+/*********************************/
 .section-time-search {
   height: 100%;
   overflow: hidden;
   background-color: #fff;
   margin-bottom: 10px;
 }
-@media (min-width: 769px) {
+/* width < 768px */
+@media (max-width: 767px) {
   .section-time-search {
-    max-height: 568px;
+    height: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 0;
+    margin-bottom: 10px;
   }
 }
-@media (max-width: 768px) {
+/* width 768px - 992px */
+@media (min-width: 768px) and (max-width: 991px) {
   .section-time-search {
-    max-height: 100%;
+    height: 100%;
+    max-height: 568px;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 0 23px;
+    margin-bottom: 10px;
+  }
+}
+/* width >= 992px */
+@media (min-width: 992px) {
+  .section-time-search {
+    height: 100%;
+    max-height: 568px;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 0 30px;
+    margin-bottom: 10px;
   }
 }
 .section-time-search-inactive,
@@ -82,6 +168,9 @@ h3 {
   background-color: #fff;
   margin-bottom: 10px;
 }
+/*********************************/
+/***    SECTION CONFIRMATION   ***/
+/*********************************/
 .section-confirmation {
   background-color: #fff;
   margin-bottom: 50px;
@@ -91,33 +180,287 @@ h3 {
   opacity: 0.5;
   margin-bottom: 50px;
 }
+/*********************************/
+/***      SECTION SUMMARY      ***/
+/*********************************/
 .section-summary {
   background-color: #fff;
   margin-bottom: 50px;
 }
 /******  SECTION : HEADER ********/
-.section-header-title {
-  font-family: Gotham-Book, ArialMT;
-  font-size: 40px;
-  text-align: center;
-  color: #fff;
+/* width < 768px */
+@media (max-width: 767px) {
+  .logo-bar {
+    background-color: #fff;
+    line-height: 50px;
+  }
+  .logo-bar .diacor-logo {
+    display: inline-block;
+    margin-left: 16px;
+    line-height: 16px;
+    width: 100px;
+    height: 16px;
+    vertical-align: middle;
+    background-image: url('/public/img/header-diacor-logo-mob.png');
+  }
+  .logo-bar .title {
+    display: none;
+  }
+  .logo-bar .lang-selection {
+    display: none;
+    margin-top: 10px;
+  }
+  .logo-bar .lang-selection .current-lang {
+    display: none;
+  }
+  .logo-bar .lang-selection ul {
+    padding: 0;
+  }
+  .logo-bar .lang-selection ul li {
+    display: inline-block;
+    list-style-type: none;
+    margin-left: 10px;
+  }
+  .logo-bar .lang-selection ul li a:link,
+  .logo-bar .lang-selection ul li a:visited,
+  .logo-bar .lang-selection ul li a:hover {
+    font-family: ArialMT;
+    font-size: 14px;
+    color: #fff;
+  }
+  .title-bar {
+    line-height: 50px;
+    padding: 0 16px;
+    display: block;
+    color: #fff;
+    background-color: #F10C29;
+  }
+  .title-bar .title {
+    display: inline-block;
+    line-height: 22px;
+    vertical-align: middle;
+    font-family: Gotham-Book, ArialMT;
+    font-size: 22px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  .title-bar .header-turku-link {
+    margin: 0;
+    padding: 0;
+  }
+  .links-bar {
+    line-height: 50px;
+    padding: 0 16px;
+    color: #fff;
+    background-color: #F10C29;
+  }
+  .links-bar .logo-login-ohc {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 11px;
+    height: 14px;
+    background-image: url('/public/img/header-login-ohc-tab.png');
+  }
+  .links-bar .ohc_login_desktop {
+    display: none;
+  }
+  .links-bar .ohc_login_mobile {
+    display: inline-block;
+  }
+  .links-bar .logo-reservation {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    background-image: url('/public/img/header-reservations-tab.png');
+  }
+  .links-bar span a {
+    font-family: ArialMT;
+    vertical-align: middle;
+    font-size: 18px;
+    color: #fff;
+  }
+  .header-link a:link,
+  .header-link a:visited,
+  .header-link a:hover {
+    line-height: 48px;
+    vertical-align: middle;
+    font-family: ArialMT;
+    font-size: 16px;
+    color: #fff;
+  }
 }
-.section-header-links {
-  width: 100%;
-  max-width: 940px;
-  margin: 0 auto;
-  line-height: 1.5;
+/* END: media: width < 768px */
+/* width 768px - 992px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .logo-bar {
+    position: relative;
+  }
+  .logo-bar .diacor-logo {
+    position: absolute;
+    left: 24px;
+    top: 28px;
+    display: inline;
+    line-height: 34px;
+    width: 161px;
+    height: 26px;
+    vertical-align: middle;
+    background-image: url('/public/img/header-diacor-logo-tab.png');
+  }
+  .logo-bar .title {
+    font-family: Gotham-Book, ArialMT;
+    font-size: 35px;
+    line-height: 26px;
+    padding-top: 40px;
+    text-align: center;
+    color: #fff;
+  }
+  .logo-bar .lang-selection {
+    margin-top: 10px;
+  }
+  .logo-bar .lang-selection .current-lang {
+    display: none;
+  }
+  .logo-bar .lang-selection ul {
+    padding: 0;
+  }
+  .logo-bar .lang-selection ul li {
+    display: inline-block;
+    list-style-type: none;
+    margin-left: 10px;
+  }
+  .logo-bar .lang-selection ul li a:link,
+  .logo-bar .lang-selection ul li a:visited,
+  .logo-bar .lang-selection ul li a:hover {
+    font-family: ArialMT;
+    font-size: 14px;
+    color: #fff;
+  }
+  .title-bar {
+    display: none;
+  }
+  .links-bar {
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    line-height: 28px;
+    margin-top: 15px;
+    margin-bottom: 7px;
+  }
+  .links-bar .logo-login-ohc {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 11px;
+    height: 14px;
+    background-image: url('/public/img/header-login-ohc-tab.png');
+  }
+  .links-bar .ohc_login_desktop {
+    display: inline-block;
+  }
+  .links-bar .ohc_login_mobile {
+    display: none;
+  }
+  .links-bar .logo-reservation {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
+    background-image: url('/public/img/header-reservations-tab.png');
+  }
+  .links-bar span a {
+    font-family: ArialMT;
+    vertical-align: center;
+    font-size: 16px;
+    color: #fff;
+  }
 }
-.section-header-links span img {
-  margin-right: 5px;
-  vertical-align: center;
+/* END: media: width 768px - 991px */
+/* width >= 992px */
+@media (min-width: 992px) {
+  .logo-bar .diacor-logo {
+    display: inline-block;
+    margin-top: 50px;
+    margin-left: -120px;
+    line-height: 34px;
+    width: 212px;
+    height: 34px;
+    vertical-align: middle;
+    background-image: url('/public/img/header-diacor-logo.png');
+  }
+  .logo-bar .title {
+    font-family: Gotham-Book, ArialMT;
+    font-size: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+  }
+  .logo-bar .lang-selection {
+    margin-top: 10px;
+  }
+  .logo-bar .lang-selection .current-lang {
+    display: none;
+  }
+  .logo-bar .lang-selection ul {
+    padding: 0;
+  }
+  .logo-bar .lang-selection ul li {
+    display: inline-block;
+    list-style-type: none;
+    margin-left: 10px;
+  }
+  .logo-bar .lang-selection ul li a:link,
+  .logo-bar .lang-selection ul li a:visited,
+  .logo-bar .lang-selection ul li a:hover {
+    font-family: ArialMT;
+    font-size: 14px;
+    color: #fff;
+  }
+  .title-bar {
+    display: none;
+  }
+  .links-bar {
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    line-height: 20px;
+    margin-top: 6px;
+    margin-bottom: 9px;
+  }
+  .links-bar .logo-login-ohc {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 14px;
+    height: 19px;
+    background-image: url('/public/img/header-login-ohc.png');
+  }
+  .links-bar .ohc_login_desktop {
+    display: inline-block;
+  }
+  .links-bar .ohc_login_mobile {
+    display: none;
+  }
+  .links-bar .logo-reservation {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background-image: url('/public/img/header-reservations.png');
+  }
+  .links-bar span a {
+    font-family: ArialMT;
+    vertical-align: middle;
+    font-size: 18px;
+    color: #fff;
+  }
 }
-.section-header-links span a {
-  font-family: ArialMT;
-  vertical-align: center;
-  font-size: 18px;
-  color: #fff;
-}
+/* END: media: width >= 992px */
 /********* SECTION : RESOURCE SELECTION    ****************/
 .ohc-employer-list {
   display: inline-block;
@@ -174,6 +517,12 @@ h3 {
   height: 12px;
   opacity: 1;
 }
+@media (max-width: 767px) {
+  .input-reset {
+    top: 19px;
+    right: 20px;
+  }
+}
 .input-reset:hover {
   opacity: 0.5;
 }
@@ -186,6 +535,12 @@ h3 {
   width: 2px;
   background-color: #F10C29;
 }
+@media (max-width: 767px) {
+  .input-reset:before,
+  .input-reset:after {
+    background-color: #a4a4a4;
+  }
+}
 .input-reset:before {
   transform: rotate(45deg);
 }
@@ -193,24 +548,43 @@ h3 {
   transform: rotate(-45deg);
 }
 /*******  SECTION : TIME SEARCH : FILTERS : TERMS SEARCH ****/
-#terms-search {
-  position: relative;
-  margin-bottom: 10px;
+/* width < 768px */
+@media (max-width: 767px) {
+  .search-box {
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    height: 50px;
+    padding-left: 20px;
+    border: 0;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 17px;
+  }
 }
-#terms-search input {
-  width: 100%;
-  height: 39px;
-  padding-left: 11px;
+/* width 768px - 992px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .search-box {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .search-box input {
+    width: 100%;
+    height: 39px;
+    padding-left: 11px;
+  }
 }
-/**** SECTION : TIME SEARCH : FILTERS : UNITS SEARCH  ****/
-#units-search {
-  position: relative;
-  margin-bottom: 10px;
-}
-#units-search input {
-  width: 100%;
-  height: 39px;
-  padding-left: 11px;
+/* width >= 992px */
+@media (min-width: 992px) {
+  .search-box {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .search-box input {
+    width: 100%;
+    height: 39px;
+    padding-left: 11px;
+  }
 }
 /*** SECTION : TIME SEARCH : TERMS & UNITS SEARCH RESULT DROPDOWNS ***/
 .search-hints {
@@ -247,9 +621,29 @@ h3 {
   background-color: #eee;
 }
 /***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
-.extra-filters {
-  margin-bottom: 5px;
+/* width < 768px */
+@media (max-width: 767px) {
+  .extra-filters {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .extra-filters .extra-filters-input {
+    line-height: 50px;
+  }
+  .extra-filters .extra-filters-input .extra-filters-label {
+    line-height: 16px;
+    vertical-align: middle;
+    padding-left: 20px;
+    margin: 0;
+    font-family: ArialMT;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    color: #a4a4a4;
+  }
 }
+/* width 768px - 992px */
+/* width >= 992px */
 .extra-filters-content {
   padding-top: 10px;
   background-color: #e8e8e8;
@@ -297,34 +691,56 @@ h3 {
   width: 100%;
   max-width: 1000px;
 }
-.calendar-atepicker * {
-  border-color: white !important;
-}
-@media (max-width: 768px) {
-  .calendar-datepicker {
+@media (max-width: 767px) {
+  .calendar-datepicker-desktop {
     display: none;
-    margin: 0 auto;
-    width: 257px;
+  }
+  .calendar-datepicker-mobile {
+    display: none;
+    width: 100%;
+    text-align: center;
+  }
+  .calendar-day-selector {
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    font-family: ArialMT;
+    font-size: 17px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  .calendar-day-selector a:link,
+  .calendar-day-selector a:visited {
+    text-decoration: none;
+    color: #333333;
+  }
+  .calendar-day-selector a:hover {
+    text-decoration: none;
+    opacity: 0.5;
+  }
+  .calendar-day-selector a {
+    line-height: 50px;
+    display: inline-block;
+  }
+  .calendar-day-selector a:first-child,
+  .calendar-day-selector a:last-child {
+    width: 50px;
+  }
+  .calendar-day-selector .glyphicon-calendar {
+    opacity: 0.5 !important;
   }
 }
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .calendar-day-selector {
     display: none;
   }
-}
-.calendar-day-selector {
-  width: 100%;
-  border: 0px solid black;
-  text-align: center;
-  padding-top: 10px;
-}
-.calendar-day-selector a span {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-}
-.glyphicon-calendar {
-  opacity: 0.5 !important;
+  .calendar-datepicker-mobile {
+    display: none !important;
+  }
+  .calendar-datepicker-desktop {
+    display: block;
+  }
 }
 /****** SECTION : TIME SEARCH : FILTER : TIME OF DAY *****/
 .filter-time-of-day {
@@ -332,7 +748,7 @@ h3 {
   float: right;
   line-height: 16px;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .filter-time-of-day {
     display: block;
     float: none;
@@ -342,10 +758,18 @@ h3 {
   }
   .filter-time-of-day label {
     margin: 0 !important;
-    height: 30px;
+    line-height: 40px;
     width: 33%;
-    vertical-align: center;
+    vertical-align: middle;
     border: 0 !important;
+    font-size: 18px;
+  }
+  .filter-time-of-day form input[type="radio"] + label:hover {
+    background-color: #ccc;
+  }
+  .filter-time-of-day form input[type="radio"]:checked + label {
+    opacity: 0.83;
+    background-color: #f4f4f4;
   }
 }
 .filter-time-of-day form input[type="radio"] {
@@ -364,9 +788,9 @@ h3 {
   border-bottom-color: #F10C29;
 }
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .timeslot-list {
-    border-top: 2px solid #f10c29;
+    border-top: 2px solid #F10C29;
   }
   .timeslot-list-header {
     margin-top: 15px !important;
@@ -394,11 +818,6 @@ h3 {
     overflow-y: auto;
     height: 400px;
   }
-}
-.list-group-item {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  line-height: 50px !important;
 }
 .slot-inline {
   display: inline-block;
@@ -492,6 +911,12 @@ h3 {
 /***************************/
 .turku-link {
   margin-bottom: 20px;
+  /* width < 768px */
+}
+@media (max-width: 767px) {
+  .turku-link {
+    display: none;
+  }
 }
 .turku-link a:link,
 .turku-link a:visited,
@@ -589,6 +1014,13 @@ h3 {
 .hide {
   display: none;
 }
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.section-container {
+  padding: 0 16px;
+}
 .link:link,
 .link:visited,
 .link:hover {
@@ -612,10 +1044,44 @@ h3 {
   font-style: italic;
 }
 .header-row {
-  height: 62px;
-  text-align: center;
-  line-height: 62px;
-  vertical-align: center;
+  /* width < 768px */
+  /* width 768px - 992px */
+  /* width >= 992px */
+}
+.header-row h4 {
+  display: inline-block;
+  height: 18px;
+  font-family: Helvetica;
+  font-size: 18px;
+  color: #333333;
+}
+@media (max-width: 767px) {
+  .header-row {
+    height: 50px;
+    line-height: 50px;
+  }
+  .header-row h4 {
+    padding-left: 20px;
+    font-size: 18px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .header-row {
+    height: 62px;
+    line-height: 62px;
+  }
+  .header-row h4 {
+    font-size: 16px;
+  }
+}
+@media (min-width: 992px) {
+  .header-row {
+    height: 62px;
+    line-height: 62px;
+  }
+  .header-row h4 {
+    font-size: 16px;
+  }
 }
 .section-title {
   display: inline-block;
@@ -716,6 +1182,10 @@ ol {
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+textarea:focus,
+input:focus {
+  outline: none;
 }
 .popup-close {
   position: absolute;

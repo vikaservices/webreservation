@@ -34,6 +34,11 @@ const FilterExtra = ({onChange, onClick, languages, cities, genders,
 
   return (
     <div className="extra-filters">
+      <div className="extra-filters-input">
+        <span className="extra-filters-label" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_label')}</span>
+        <span className="" />
+      </div>
+
       <div className={show ? "" : "hide"}>
         <a href="" className="link font-size-11" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_hide')}-</a>
         <div className="extra-filters-content">
@@ -56,9 +61,6 @@ const FilterExtra = ({onChange, onClick, languages, cities, genders,
           </form>
 
         </div>
-      </div>
-      <div className={!show ? "" : "hide"}>
-        <a href="" className="link font-size-11" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_show')}+</a>
       </div>
     </div>
   );

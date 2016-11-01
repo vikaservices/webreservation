@@ -1,4 +1,5 @@
 @import "variables.less";
+
 /********** SECTION : TIME SEARCH : HEADER    *************/
 .reservation-summary {
   display: inline-block;
@@ -21,6 +22,10 @@
   width: 12px;
   height: 12px;
   opacity: 1;
+  @media (max-width: @screen-xs-max) {
+    top: 19px;
+    right: 20px;
+  }
 }
 .input-reset:hover {
   opacity: 0.5;
@@ -32,6 +37,9 @@
   height: 13px;
   width: 2px;
   background-color: @red-ribbon;
+  @media (max-width: @screen-xs-max) {
+    background-color: @gray-very-light;
+  }
 }
 .input-reset:before {
   transform: rotate(45deg);
@@ -42,28 +50,51 @@
 
 
 /*******  SECTION : TIME SEARCH : FILTERS : TERMS SEARCH ****/
-#terms-search {
-  position: relative;
-  margin-bottom: 10px;
+
+/* width < 768px */
+@media (max-width: @screen-xs-max) {
+  .search-box {
+    position: relative;
+
+    input {
+      width: 100%;
+      height: 50px;
+      padding-left: 20px;
+      border: 0;
+      border-bottom: 1px solid @gray-light-2;
+      font-size: 17px;
+    }
+  }
 }
 
-#terms-search input {
-  width: 100%;
-  height: 39px;
-  padding-left: 11px
-}
-
-/**** SECTION : TIME SEARCH : FILTERS : UNITS SEARCH  ****/
-#units-search {
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .search-box {
     position: relative;
     margin-bottom: 10px;
+
+    input {
+      width: 100%;
+      height: 39px;
+      padding-left: 11px
+    }
+  }
 }
 
-#units-search input {
-  width: 100%;
-  height: 39px;
-  padding-left: 11px;
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+  .search-box {
+    position: relative;
+    margin-bottom: 10px;
+
+    input {
+      width: 100%;
+      height: 39px;
+      padding-left: 11px
+    }
+  }
 }
+
 
 /*** SECTION : TIME SEARCH : TERMS & UNITS SEARCH RESULT DROPDOWNS ***/
 .search-hints {
@@ -107,8 +138,39 @@
 
 
 /***** SECTION : TIME SEARCH : FILTERS : EXTRA FILTER   *****/
-.extra-filters {
-  margin-bottom: 5px;
+
+/* width < 768px */
+@media (max-width: @screen-xs-max) {
+  .extra-filters {
+    border-bottom: 1px solid @gray-light-2;
+
+    .extra-filters-input {
+      line-height: 50px;
+
+      .extra-filters-label {
+        line-height: 16px;
+        vertical-align: middle;
+        padding-left: 20px;
+        margin: 0;
+        font-family: @font-arialmt;
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        color: @gray-very-light;
+      }
+    }
+  }
+}
+
+/* width 768px - 992px */
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+
+}
+
+/* width >= 992px */
+@media (min-width: @screen-md-min) {
+
 }
 
 .extra-filters-content {
@@ -168,40 +230,60 @@
   max-width: 1000px;
 }
 
-.calendar-atepicker * {
-  border-color: white !important;
-}
-
-@media (max-width: 768px) {
-  .calendar-datepicker {
+@media (max-width: @screen-xs-max) {
+  .calendar-datepicker-desktop {
     display: none;
-    margin: 0 auto;
-    width: 257px;
+  }
+
+  .calendar-datepicker-mobile {
+    display: none;
+    width: 100%;
+    text-align: center;
+  }
+  .calendar-day-selector {
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    font-family: ArialMT;
+    font-size: 17px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+
+    a:link, a:visited {
+      text-decoration: none;
+      color: @gray-black;
+    }
+
+    a:hover {
+      text-decoration: none;
+      opacity: 0.5;
+    }
+
+    a {
+      line-height: 50px;
+      display: inline-block;
+    }
+    a:first-child, a:last-child {
+      width: 50px;
+    }
+
+    .glyphicon-calendar {
+      opacity: 0.5 !important;
+    }
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: @screen-sm-min) {
   .calendar-day-selector {
     display: none;
   }
-
-}
-
-.calendar-day-selector {
-  width: 100%;
-  border: 0px solid black;
-  text-align: center;
-  padding-top: 10px;
-}
-
-.calendar-day-selector a span {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-}
-
-.glyphicon-calendar {
-  opacity: 0.5 !important;
+  .calendar-datepicker-mobile {
+      display: none !important;
+  }
+  .calendar-datepicker-desktop {
+    display: block;
+  }
 }
 
 /****** SECTION : TIME SEARCH : FILTER : TIME OF DAY *****/
@@ -211,7 +293,7 @@
   line-height: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: @screen-xs-max) {
   .filter-time-of-day {
     display: block;
     float: none;
@@ -221,10 +303,18 @@
   }
   .filter-time-of-day label {
     margin: 0 !important;
-    height: 30px;
+    line-height: 40px;
     width: 33%;
-    vertical-align: center;
+    vertical-align: middle;
     border: 0 !important;
+    font-size: 18px;
+  }
+  .filter-time-of-day form input[type="radio"] + label:hover  {
+    background-color: #ccc;
+  }
+  .filter-time-of-day form input[type="radio"]:checked + label {
+    opacity: 0.83;
+    background-color: @white2;
   }
 }
 
@@ -248,9 +338,9 @@
 }
 
 /*******  SECTION : TIME SEARCH : TIME SLOT LIST  ********/
-@media (max-width: 768px) {
+@media (max-width: @screen-xs-max) {
   .timeslot-list {
-    border-top: 2px solid #f10c29;
+    border-top: 2px solid @red-ribbon;
   }
   .timeslot-list-header {
     margin-top: 15px !important;
@@ -281,12 +371,6 @@
     overflow-y: auto;
     height: 400px;
   }
-}
-
-.list-group-item {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  line-height: 50px !important;
 }
 
 .slot-inline {
@@ -392,6 +476,11 @@
 /***************************/
 .turku-link {
   margin-bottom: 20px;
+
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    display: none;
+  }
 }
 
 .turku-link a:link, .turku-link a:visited, .turku-link a:hover {

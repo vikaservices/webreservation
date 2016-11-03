@@ -109,7 +109,7 @@ _.extend(FIN, {
      diacor_section_confirmation_content_payer: 'MAKSAJA',
      diacor_section_confirmation_content_ohc: 'Työterveyskäynti, ',
      diacor_section_confirmation_content_private: 'Yksityiskäynti',
-     diacor_section_confirmation_content_other_payer: 'Muu maksaja (vakuutusyhtiö tai maksusitoumus)',
+     diacor_section_confirmation_content_other_payer: 'Muu maksaja (palveluseteli tai työantajan vakuutusyhtiö)',
      diacor_section_confirmation_content_contactInfo1: 'YHTEYSTIETOSI',
      diacor_section_confirmation_content_contactInfo2: 'Yhteystiedot',
      diacor_section_confirmation_content_plus: 'Ymmärrän, että online vastaanotto onnistuu vain DiacorPlus sovelluksen avulle',

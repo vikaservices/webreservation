@@ -30204,7 +30204,7 @@
 	    diacor_section_confirmation_content_payer: 'MAKSAJA',
 	    diacor_section_confirmation_content_ohc: 'Työterveyskäynti, ',
 	    diacor_section_confirmation_content_private: 'Yksityiskäynti',
-	    diacor_section_confirmation_content_other_payer: 'Muu maksaja (vakuutusyhtiö tai maksusitoumus)',
+	    diacor_section_confirmation_content_other_payer: 'Muu maksaja (palveluseteli tai työantajan vakuutusyhtiö)',
 	    diacor_section_confirmation_content_contactInfo1: 'YHTEYSTIETOSI',
 	    diacor_section_confirmation_content_contactInfo2: 'Yhteystiedot',
 	    diacor_section_confirmation_content_plus: 'Ymmärrän, että online vastaanotto onnistuu vain DiacorPlus sovelluksen avulle',
@@ -42740,7 +42740,7 @@
 	        { className: active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row" },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-12' },
+	          { className: 'col-xs-12 nopadding' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'header-row' },
@@ -42766,8 +42766,18 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
+	            { className: 'header-row ohc-employer-selection' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'ohc-employer-list-mobile' },
+	              _react2.default.createElement(_dropdown_menu2.default, { items: this.state.employers,
+	                selected: this.props.selected_employer.name,
+	                onChange: this.handleEmployerChange.bind(this) })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
 	            { className: active == 'active' && show_team ? "" : "hide" },
-	            _react2.default.createElement('hr', null),
 	            _react2.default.createElement(_ohc_team_list2.default, { team: this.props.ohc_team != undefined ? this.props.ohc_team : [],
 	              onClick: this.handleResourceSelection.bind(this) }),
 	            _react2.default.createElement(
@@ -44705,25 +44715,33 @@
 	    null,
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'img-box-round-50' },
-	      _react2.default.createElement('img', { src: item.imageUrl })
+	      { className: 'ohc-image' },
+	      _react2.default.createElement('img', { src: item.imageUrl ? item.imageUrl : '/public/img/placeholder-person-image.png' })
 	    ),
 	    _react2.default.createElement(
-	      'p',
-	      { className: 'ohc-name' },
-	      item.resourceName
+	      'div',
+	      { className: 'ohc-resource-info' },
+	      _react2.default.createElement(
+	        'p',
+	        { className: 'ohc-name' },
+	        item.resourceName
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        { className: 'ohc-title' },
+	        item.title
+	      )
 	    ),
 	    _react2.default.createElement(
-	      'p',
-	      { className: 'ohc-title' },
-	      item.title
-	    ),
-	    _react2.default.createElement(
-	      'a',
-	      { href: '', className: 'ohc-link', onClick: function onClick(event) {
-	          return _onClick(event, item.resourceId, item.resourceName);
-	        } },
-	      (0, _translate2.default)('diacor_ohc_team_list_choose_link')
+	      'span',
+	      { className: 'ohc-link' },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '', onClick: function onClick(event) {
+	            return _onClick(event, item.resourceId, item.resourceName);
+	          } },
+	        (0, _translate2.default)('diacor_ohc_team_list_choose_link')
+	      )
 	    )
 	  );
 	};

@@ -9,8 +9,30 @@ html, body {
 }
 
 body {
-	background-color: @gray-ligth !important;
-  background-image: url("/public/img/website-background.png");
+	background-color: @white !important;
+
+  /* width < 1200px */
+  @media (max-width: 1200px) {
+    background-image: url("/public/img/website-background-desktop.jpg");
+  }
+
+  /* width > 1200 */
+  @media (min-width: 1201px) {
+    background-image: url("/public/img/website-background-desktop-hd.jpg");
+  }
+
+  /* width < 600px and portrait */
+  @media (min-device-width: 481px) and
+         (max-device-width: 800px) and
+         (orientation: portrait) {
+    background-image: url("/public/img/website-background-desktop-portrait.jpg");
+  }
+
+  /* width < 600px and portrait */
+  @media (max-device-width: 800px) and
+         (orientation: portrait) {
+    /* no backgrounf image */
+  }
 }
 
 body {

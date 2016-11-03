@@ -61,7 +61,7 @@ class SectionResourceSelection extends Component {
     return (
       <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
 
-        <div className="col-xs-12">
+        <div className="col-xs-12 nopadding">
           <div className="header-row">
             <h4 className="pull-left">{text('diacor_section_resource_header')}</h4>
             <div className="ohc-employer-list">
@@ -73,8 +73,16 @@ class SectionResourceSelection extends Component {
               { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
             </a>
           </div>
+
+          <div className="header-row ohc-employer-selection">
+            <div className="ohc-employer-list-mobile">
+              <DropdownMenu items={this.state.employers}
+                            selected={this.props.selected_employer.name}
+                            onChange={this.handleEmployerChange.bind(this)} />
+            </div>
+          </div>
+
           <div className={ active == 'active' && show_team ? "" : "hide" }>
-            <hr />
             <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
                          onClick={this.handleResourceSelection.bind(this)} />
             <p className="ohc-disclaimer">{text('diacor_section_resource_content')}</p>

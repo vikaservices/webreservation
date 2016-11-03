@@ -174,9 +174,13 @@ ol {
     display: inline-block;
     width: 50px;
     height: 50px;
+    text-align: center;
+    overflow: hidden;
     border: 1px solid @gray-white;
     border-radius: 25px;
-    overflow: hidden;
+    img {
+      max-width: 50px;
+    }
 }
 
 .svg-icon {
@@ -206,6 +210,6 @@ ol {
   transform: translateY(-50%);
 }
 
-textarea:focus, input:focus {
-  outline: none;
+textarea:focus, input:focus, a:focus {
+  outline: none !important;
 }

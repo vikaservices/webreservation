@@ -57,23 +57,26 @@
 /****************************************/
 .section-resource-selection {
   background-color: @white;
-  margin-bottom: 10px;
+
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    margin-bottom: 0;
+    border-bottom: 2px solid @red-ribbon;
+  }
+
+  /* width 768px - 992px */
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    padding: 0 23px;
+    margin-bottom: 10px;
+  }
+
+  /* width >= 992px */
+  @media (min-width: @screen-md-min) {
+    padding: 0 30px;
+    margin-bottom: 10px;
+  }
 }
 
-/* width < 768px */
-@media (max-width: @screen-xs-max) {
-  border-bottom: 2px solid @red-ribbon;
-}
-
-/* width 768px - 992px */
-@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-
-}
-
-/* width >= 992px */
-@media (min-width: @screen-md-min) {
-
-}
 
 /*********************************/
 /***    SECTION TIME SEARCH    ***/
@@ -89,10 +92,7 @@
 @media (max-width: @screen-xs-max) {
   .section-time-search {
     height: 100%;
-    overflow: hidden;
-    background-color: @white;
     padding: 0;
-    margin-bottom: 10px;
   }
 }
 
@@ -101,10 +101,7 @@
   .section-time-search {
     height: 100%;
     max-height: 568px;
-    overflow: hidden;
-    background-color: @white;
     padding: 0 23px;
-    margin-bottom: 10px;
   }
 }
 
@@ -113,10 +110,7 @@
   .section-time-search {
     height: 100%;
     max-height: 568px;
-    overflow: hidden;
-    background-color: @white;
     padding: 0 30px;
-    margin-bottom: 10px;
   }
 }
 

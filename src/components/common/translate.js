@@ -73,6 +73,9 @@ _.extend(FIN, {
  _.extend(FIN, {
      diacor_popup_ask_ssn_header: 'Hei, kuka on tulossa vastaanotolle?',
      diacor_popup_ask_ssnohc_header: 'Hei työterveysasiakas, aloita ajan varaaminen tästä.',
+     diacor_popup_forbidden_header: 'Ajanvarausta ei voitu tehdä.',
+     diacor_popup_forbidden_content: 'Ajan varaaminen internetin kautta on estetty. Voit varata ajan soittamalla numeroon ',
+     diacor_popup_forbidden_link: '09 7750 7755',
      diacor_popup_ohc_notfound_header: 'Hups, jotain meni pieleen.',
      diacor_popup_ohc_notfound_content: 'Henkilötiedoillasi ei löytynyt työterveysasiakkuutta. Tarkista työterveyssopimuksen voimassaolo työnantajaltasi.',
      diacor_popup_ohc_forbidden_header: 'Ajanvarausta ei voitu tehdä.',

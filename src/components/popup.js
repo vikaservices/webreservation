@@ -7,6 +7,7 @@ import SvgIcon from './common/svg_definitions';
 import text from './common/translate';
 import { getFormValues } from 'redux-form';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
+         DLG_VIEW_REGISTER_FORBIDDEN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
          DLG_VIEW_REGISTER_OHC_FORBIDDEN,
@@ -102,6 +103,25 @@ class Popup extends Component {
             <SvgIcon className="popup-close" Icon='close' />
           </a>
         </form>
+      </div>
+    );
+  }
+
+  reservationForbidden() {
+    return (
+      <div className="dialog client-popup">
+        <h4>{text('diacor_popup_forbidden_header')}.</h4>
+        <p className="reservation-forbidden">{text('diacor_popup_forbidden_content')}
+            <a href={'tel:'+ text('diacor_popup_forbidden_link')}>{text('diacor_popup_forbidden_link')}</a>
+        </p>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+            </div>
+        </div>
+        <a href="" onClick={(event) => this.resetState(event)}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
       </div>
     );
   }
@@ -481,6 +501,8 @@ class Popup extends Component {
         return this.renderAskSnn();
       case DLG_VIEW_REGISTER_OHC_CHECK_SSN:
         return this.renderAskSnnOhc();
+      case DLG_VIEW_REGISTER_FORBIDDEN:
+        return this.reservationForbidden();
       case DLG_VIEW_REGISTER_OHC_NOT_FOUND:
         return this.ohcClientNotFound();
       case DLG_VIEW_REGISTER_OHC_FORBIDDEN:

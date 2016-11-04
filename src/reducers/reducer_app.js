@@ -11,8 +11,10 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
          DLG_VIEW_REGISTER_OHC_NOT_FOUND,
+         DLG_VIEW_REGISTER_OHC_FORBIDDEN,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
+         DLG_VIEW_REGISTER_FORBIDDEN,
          DLG_VIEW_PRERESERVATION_ERROR,
          DLG_VIEW_CONFIRMATION_ERROR,
          DLG_VIEW_ORDER_REMINDER_ERROR,
@@ -157,7 +159,7 @@ export default function(state = INITIAL_STATE, action) {
         new_state.dialogisopen = true;
         new_state.dialogview = DLG_VIEW_REGISTER_CREATE_CLIENT;
       }
-      else if( new_state.reservationstatus === 999 ) {
+      else if( new_state.reservationstatus === 403 ) {
         // reservation forbidden for this client
         new_state.dialogisopen = true;
         new_state.dialogview = DLG_VIEW_REGISTER_FORBIDDEN;
@@ -207,9 +209,8 @@ export default function(state = INITIAL_STATE, action) {
         new_state.dialogisopen = true;
         new_state.dialogview = DLG_VIEW_REGISTER_OHC_NOT_FOUND;
       }
-      else if( new_state.reservationstatus === 999 ) {
+      else if( new_state.reservationstatus === 403 ) {
         // reservation forbidden for this client, reason:
-        // TODO
         new_state.dialogisopen = true;
         new_state.dialogview = DLG_VIEW_REGISTER_OHC_FORBIDDEN;
       } else {

@@ -63,10 +63,9 @@ class SectionTimeSearch extends Component {
     return (
       <div className="section-time-search row">
         <div className="">
-          <div className="header-row col-xs-12 nopadding">
+          <div className="header-row">
             <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
           </div>
-          <hr />
           <FilterMain {...this.props} />
           <TimeslotList {...this.props}
                         reservationHandler={this.props.reservationHandler}

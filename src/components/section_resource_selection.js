@@ -25,6 +25,12 @@ class SectionResourceSelection extends Component {
           emps.push({id: item.id, value: item.name});
       });
       this.setState( {employers: emps, show_team: true} );
+      // if( $(".hide-team-on-mobile").css('display') === 'none' ) {
+      //   console.log("SectionResourceSelection: componentWillReceiveProps: hide team")
+      // } else {
+      //   console.log("SectionResourceSelection: componentWillReceiveProps: show team")
+      //   this.setState( {employers: emps, show_team: true} );
+      // }
     }
   }
 
@@ -74,7 +80,7 @@ class SectionResourceSelection extends Component {
             </a>
           </div>
 
-          <div className="header-row ohc-employer-selection">
+          <div className={ active == 'active' && show_team ? "header-row ohc-employer-selection" : "hide" }>
             <div className="ohc-employer-list-mobile">
               <DropdownMenu items={this.state.employers}
                             selected={this.props.selected_employer.name}

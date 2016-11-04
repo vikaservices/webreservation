@@ -493,6 +493,16 @@ h3 {
 }
 /* END: media: width >= 992px */
 /********* SECTION : RESOURCE SELECTION    ****************/
+@media (max-width: 767px) {
+  .hide-team-on-mobile {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .hide-team-on-mobile {
+    display: block;
+  }
+}
 /* width < 768px */
 @media (max-width: 767px) {
   .ohc-employer-list {
@@ -516,7 +526,6 @@ h3 {
     color: #a4a4a4;
   }
   .ohc-team-list {
-    border: 0px solid black;
     margin-bottom: 20px;
     text-align: left;
     /* ul */
@@ -578,7 +587,8 @@ h3 {
     float: right;
     line-height: 50px;
   }
-  .ohc-team-list ul li .ohc-link a {
+  .ohc-team-list ul li .ohc-link a:link,
+  .ohc-team-list ul li .ohc-link a:visited {
     font-size: 15px;
     background-color: #F10C29;
     color: #fff;
@@ -588,7 +598,7 @@ h3 {
     border-radius: 14px;
     text-decoration: none;
   }
-  .ohc-team-list ul li .ohc-link:hover {
+  .ohc-team-list ul li .ohc-link a:hover {
     opacity: 0.5;
   }
   /* .ohc-team-list */
@@ -601,6 +611,9 @@ h3 {
 @media (min-width: 768px) {
   .ohc-employer-selection {
     display: none;
+  }
+  .show_team {
+    display: block;
   }
   .ohc-employer-list {
     display: inline-block;
@@ -620,7 +633,7 @@ h3 {
     color: #a4a4a4;
   }
   .ohc-team-list {
-    border: 0px solid black;
+    display: block;
     margin-bottom: 20px;
     text-align: left;
     /* ul */
@@ -632,6 +645,7 @@ h3 {
   .ohc-team-list ul li {
     display: inline-block;
     width: 120px;
+    height: 130px;
     list-style-type: none;
     text-align: center;
     margin-left: 10px;
@@ -667,7 +681,7 @@ h3 {
     opacity: 0.4;
     color: #4a4a4a;
   }
-  .ohc-team-list ul li .ohc-link {
+  .ohc-team-list ul li .ohc-link a {
     display: inline-block;
     margin-top: 10px;
     font-size: 13px;
@@ -1227,6 +1241,9 @@ h3 {
 .hide {
   display: none;
 }
+.show {
+  display: block;
+}
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
@@ -1278,10 +1295,10 @@ h3 {
   .header-row {
     height: 50px;
     line-height: 50px;
+    padding: 0 20px;
   }
   .header-row h4 {
     line-height: 50px;
-    padding-left: 20px;
     font-size: 18px;
   }
 }

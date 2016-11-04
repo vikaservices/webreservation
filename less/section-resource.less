@@ -1,5 +1,16 @@
 @import "variables.less";
 /********* SECTION : RESOURCE SELECTION    ****************/
+
+.hide-team-on-mobile {
+  @media (max-width: @screen-xs-max) {
+    display: none;
+  }
+  @media (min-width: @screen-sm-min)  {
+    display: block;
+  }
+}
+
+
 /* width < 768px */
 @media (max-width: @screen-xs-max) {
 
@@ -27,7 +38,6 @@
   }
 
   .ohc-team-list {
-    border: 0px solid black;
     margin-bottom: 20px;
     text-align: left;
 
@@ -87,7 +97,7 @@
           display: inline-block;
           float: right;
           line-height: 50px;
-          a {
+          a:link, a:visited {
             font-size: 15px;
             background-color: @red-ribbon;
             color: @white;
@@ -97,9 +107,9 @@
             border-radius: 14px;
             text-decoration: none;
           }
-        }
-        .ohc-link:hover {
-          opacity: 0.5;
+          a:hover {
+            opacity: 0.5;
+          }
         }
       } /* li */
     } /* ul */
@@ -115,6 +125,10 @@
 
   .ohc-employer-selection {
     display: none;
+  }
+
+  .show_team {
+    display: block;
   }
 
   .ohc-employer-list {
@@ -137,7 +151,7 @@
   }
 
   .ohc-team-list {
-    border: 0px solid black;
+    display: block;
     margin-bottom: 20px;
     text-align: left;
 
@@ -147,6 +161,7 @@
       li {
         display: inline-block;
         width: 120px;
+        height: 130px;
         list-style-type: none;
         text-align: center;
         margin-left: 10px;
@@ -182,7 +197,7 @@
           opacity: 0.4;
           color: @gray-dark;
         }
-        .ohc-link {
+        .ohc-link a {
           display: inline-block;
           margin-top: 10px;
           font-size: 13px;

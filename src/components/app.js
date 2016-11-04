@@ -43,6 +43,15 @@ class App extends Component {
     let Phone     = query.clientPhone      ? query.clientPhone     : null;
 
     if( hetu ) {
+
+      if( employerId ) {
+        // 1st: native_entry_flag(true => hides diacor-logo from header)
+        // 2nd: is_ohc_client(true => hides link row from header)
+        this.props.setPageHeaderOptions( true, true );
+      } else {
+        this.props.setPageHeaderOptions( true, false );
+      }
+
       this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
 
       this.props.checkClientSSN(hetu).then(() => {
@@ -81,7 +90,6 @@ class App extends Component {
 
         this.props.setFilter( filters );
       });
-      this.props.setNativeEntryFlag( true );
     }
   }
 

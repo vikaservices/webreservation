@@ -512,7 +512,7 @@ export default function(state = INITIAL_STATE, action) {
         return new_state;
 
       case SET_APP_ENTRY_FLAG:
-        return {...state, native_entry_flag: action.native_entry_flag};
+        return {...state, native_entry_flag: action.native_entry_flag, is_ohc_client: action.is_ohc_client};
 
       default:
         return state;

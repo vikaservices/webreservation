@@ -29796,6 +29796,15 @@
 	      var Phone = query.clientPhone ? query.clientPhone : null;
 
 	      if (hetu) {
+
+	        if (employerId) {
+	          // 1st: native_entry_flag(true => hides diacor-logo from header)
+	          // 2nd: is_ohc_client(true => hides link row from header)
+	          this.props.setPageHeaderOptions(true, true);
+	        } else {
+	          this.props.setPageHeaderOptions(true, false);
+	        }
+
 	        this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
 
 	        this.props.checkClientSSN(hetu).then(function () {
@@ -29833,7 +29842,6 @@
 
 	          _this2.props.setFilter(filters);
 	        });
-	        this.props.setNativeEntryFlag(true);
 	      }
 	    }
 	  }, {
@@ -42856,7 +42864,7 @@
 	exports.setSelectedEmployer = setSelectedEmployer;
 	exports.showDoctorInfo = showDoctorInfo;
 	exports.getFixedgroups = getFixedgroups;
-	exports.setNativeEntryFlag = setNativeEntryFlag;
+	exports.setPageHeaderOptions = setPageHeaderOptions;
 
 	var _types = __webpack_require__(278);
 
@@ -43243,10 +43251,11 @@
 	  };
 	}
 
-	function setNativeEntryFlag(flag) {
+	function setPageHeaderOptions(native_entry_flag, is_ohc_client) {
 	  return {
 	    type: _types.SET_APP_ENTRY_FLAG,
-	    native_entry_flag: flag
+	    native_entry_flag: native_entry_flag,
+	    is_ohc_client: is_ohc_client
 	  };
 	}
 
@@ -70538,7 +70547,7 @@
 	      return new_state;
 
 	    case _types.SET_APP_ENTRY_FLAG:
-	      return _extends({}, state, { native_entry_flag: action.native_entry_flag });
+	      return _extends({}, state, { native_entry_flag: action.native_entry_flag, is_ohc_client: action.is_ohc_client });
 
 	    default:
 	      return state;

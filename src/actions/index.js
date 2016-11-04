@@ -365,9 +365,10 @@ export function getFixedgroups( lang = null ) {
   }
 }
 
-export function setNativeEntryFlag( flag ) {
+export function setPageHeaderOptions( native_entry_flag, is_ohc_client ) {
   return {
     type: SET_APP_ENTRY_FLAG,
-    native_entry_flag: flag
+    native_entry_flag: native_entry_flag,
+    is_ohc_client: is_ohc_client
   }
 }

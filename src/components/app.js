@@ -129,7 +129,9 @@ class App extends Component {
 
     return (
       <div className="col-xs-12 overlay-bg-color">
-        <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)} title={this.props.headertitle}/>
+        <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)}
+                       title={this.props.headertitle}
+                       is_ohc_client={this.props.is_ohc_client} />
         <div className="app">
           <SectionResourceSelection />
           <SectionTimeSearch {...this.props}

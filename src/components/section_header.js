@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import text from './common/translate';
 
-const SectionHeader = (props) => {
+const SectionHeader = ({clickHandler, title, is_ohc_client}) => {
 
   return (
     <div className="row">
@@ -17,30 +17,35 @@ const SectionHeader = (props) => {
           </ul>
         </div>
         <span className="diacor-logo" />
-        <div className="title">{props.title}</div>
+        <div className="title">{title}</div>
       </div>
 
       <div className="title-bar">
-        <span className="title">{props.title}</span>
+        <span className="title">{title}</span>
         <span className="header-link pull-right">
-          <span />
-          <a href="https://wrui01.securasp.fi/LA2094_Eloni/" className="header-turku-link">Turun ajanvaraus &gt;</a>
+          <span className={is_ohc_client ? "header-link pull-right" : "hide" }>
+            <span className="logo-reservation" />
+            <a href="" data-target="cancel_reservation" onClick={(event) => clickHandler(event)}>{text('diacor_section_header2')}</a>
+          </span>
+          <span className={is_ohc_client ? "hide" : "header-link pull-right" }>
+            <a href="https://wrui01.securasp.fi/LA2094_Eloni/">Turun ajanvaraus &gt;</a>
+          </span>
         </span>
       </div>
 
-      <div className="links-bar">
-        <span className={props.hide_links ? "hide" : "header-link"}>
+      <div className={is_ohc_client ? "hide" : "links-bar"}>
+        <span className="header-link">
           <span className="logo-login-ohc" />
-          <a className="ohc_login_desktop" href="" data-target="ohc_login" onClick={(event) => props.clickHandler(event)}>
+          <a className="ohc_login_desktop" href="" data-target="ohc_login" onClick={(event) => clickHandler(event)}>
             {text('diacor_section_header1_desktop')}
           </a>
-          <a className="ohc_login_mobile" href="" data-target="ohc_login" onClick={(event) => props.clickHandler(event)}>
+          <a className="ohc_login_mobile" href="" data-target="ohc_login" onClick={(event) => clickHandler(event)}>
             {text('diacor_section_header1_mobile')}
           </a>
         </span>
-        <span className={props.hide_links ? "hide" : "header-link pull-right"}>
+        <span className="header-link pull-right">
           <span className="logo-reservation" />
-          <a href="" data-target="cancel_reservation" onClick={(event) => props.clickHandler(event)}>{text('diacor_section_header2')}</a>
+          <a href="" data-target="cancel_reservation" onClick={(event) => clickHandler(event)}>{text('diacor_section_header2')}</a>
         </span>
       </div>
 
@@ -50,20 +55,3 @@ const SectionHeader = (props) => {
 }
 
 export default SectionHeader;
-
-// return (
-//   <div className="section-header row">
-//     <div><img src="/public/img/header-diacor-logo.png" /></div>
-//     <div className="section-header-title">{props.title}</div>
-//     <div className="section-header-links">
-//       <span className={props.hide_links ? "hide" : ""}>
-//         <img src="/public/img/header-login-ohc.png" />
-//         <a href="" data-target="ohc_login" onClick={(event) => props.clickHandler(event)}>{text('diacor_section_header1')}</a>
-//       </span>
-//       <span className={props.hide_links ? "hide" : "pull-right"}>
-//         <img src="/public/img/header-reservations.png" />
-//         <a href="" data-target="cancel_reservation" onClick={(event) => props.clickHandler(event)}>{text('diacor_section_header2')}</a>
-//       </span>
-//     </div>
-//   </div>
-// );

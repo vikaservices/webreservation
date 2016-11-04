@@ -29891,7 +29891,9 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'col-xs-12 overlay-bg-color' },
-	        _react2.default.createElement(_section_header2.default, { clickHandler: this.onClickHeaderLink.bind(this), title: this.props.headertitle }),
+	        _react2.default.createElement(_section_header2.default, { clickHandler: this.onClickHeaderLink.bind(this),
+	          title: this.props.headertitle,
+	          is_ohc_client: this.props.is_ohc_client }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'app' },
@@ -29947,7 +29949,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SectionHeader = function SectionHeader(props) {
+	var SectionHeader = function SectionHeader(_ref) {
+	  var clickHandler = _ref.clickHandler;
+	  var title = _ref.title;
+	  var is_ohc_client = _ref.is_ohc_client;
+
 
 	  return _react2.default.createElement(
 	    'div',
@@ -29998,7 +30004,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'title' },
-	          props.title
+	          title
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -30007,49 +30013,64 @@
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'title' },
-	          props.title
+	          title
 	        ),
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'header-link pull-right' },
-	          _react2.default.createElement('span', null),
 	          _react2.default.createElement(
-	            'a',
-	            { href: 'https://wrui01.securasp.fi/LA2094_Eloni/', className: 'header-turku-link' },
-	            'Turun ajanvaraus >'
+	            'span',
+	            { className: is_ohc_client ? "header-link pull-right" : "hide" },
+	            _react2.default.createElement('span', { className: 'logo-reservation' }),
+	            _react2.default.createElement(
+	              'a',
+	              { href: '', 'data-target': 'cancel_reservation', onClick: function onClick(event) {
+	                  return clickHandler(event);
+	                } },
+	              (0, _translate2.default)('diacor_section_header2')
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: is_ohc_client ? "hide" : "header-link pull-right" },
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://wrui01.securasp.fi/LA2094_Eloni/' },
+	              'Turun ajanvaraus >'
+	            )
 	          )
 	        )
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'links-bar' },
+	        { className: is_ohc_client ? "hide" : "links-bar" },
 	        _react2.default.createElement(
 	          'span',
-	          { className: props.hide_links ? "hide" : "header-link" },
+	          { className: 'header-link' },
 	          _react2.default.createElement('span', { className: 'logo-login-ohc' }),
 	          _react2.default.createElement(
 	            'a',
 	            { className: 'ohc_login_desktop', href: '', 'data-target': 'ohc_login', onClick: function onClick(event) {
-	                return props.clickHandler(event);
+	                return clickHandler(event);
 	              } },
 	            (0, _translate2.default)('diacor_section_header1_desktop')
 	          ),
 	          _react2.default.createElement(
 	            'a',
 	            { className: 'ohc_login_mobile', href: '', 'data-target': 'ohc_login', onClick: function onClick(event) {
-	                return props.clickHandler(event);
+	                return clickHandler(event);
 	              } },
 	            (0, _translate2.default)('diacor_section_header1_mobile')
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'span',
-	          { className: props.hide_links ? "hide" : "header-link pull-right" },
+	          { className: 'header-link pull-right' },
 	          _react2.default.createElement('span', { className: 'logo-reservation' }),
 	          _react2.default.createElement(
 	            'a',
 	            { href: '', 'data-target': 'cancel_reservation', onClick: function onClick(event) {
-	                return props.clickHandler(event);
+	                return clickHandler(event);
 	              } },
 	            (0, _translate2.default)('diacor_section_header2')
 	          )
@@ -30060,23 +30081,6 @@
 	};
 
 	exports.default = SectionHeader;
-
-	// return (
-	//   <div className="section-header row">
-	//     <div><img src="/public/img/header-diacor-logo.png" /></div>
-	//     <div className="section-header-title">{props.title}</div>
-	//     <div className="section-header-links">
-	//       <span className={props.hide_links ? "hide" : ""}>
-	//         <img src="/public/img/header-login-ohc.png" />
-	//         <a href="" data-target="ohc_login" onClick={(event) => props.clickHandler(event)}>{text('diacor_section_header1')}</a>
-	//       </span>
-	//       <span className={props.hide_links ? "hide" : "pull-right"}>
-	//         <img src="/public/img/header-reservations.png" />
-	//         <a href="" data-target="cancel_reservation" onClick={(event) => props.clickHandler(event)}>{text('diacor_section_header2')}</a>
-	//       </span>
-	//     </div>
-	//   </div>
-	// );
 
 /***/ },
 /* 274 */

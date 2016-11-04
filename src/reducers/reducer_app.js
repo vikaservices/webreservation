@@ -47,7 +47,8 @@ import { TIMESLOTS_SEARCH,
          ORDER_REMINDER,
          DIALOG_CLOSE,
          GET_DOCTOR_INFO,
-         GET_FIXEDGROUPS
+         GET_FIXEDGROUPS,
+         SET_APP_ENTRY_FLAG
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -87,6 +88,7 @@ let INITIAL_STATE = {
                       reservation_code: null,
                       prereservation: {},
                       reservation: {},
+                      native_entry_flag: false,
                       filters: {
                         terms_search: '',
                         units_search: '',
@@ -508,6 +510,9 @@ export default function(state = INITIAL_STATE, action) {
         }
         //console.log(new_state);
         return new_state;
+
+      case SET_APP_ENTRY_FLAG:
+        return {...state, native_entry_flag: action.native_entry_flag};
 
       default:
         return state;

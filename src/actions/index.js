@@ -20,7 +20,8 @@ import { TERMS_SEARCH,
          ORDER_REMINDER,
          SET_SELECTED_EMPLOYER,
          GET_DOCTOR_INFO,
-         GET_FIXEDGROUPS
+         GET_FIXEDGROUPS,
+         SET_APP_ENTRY_FLAG
         } from './types';
 //import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
@@ -361,5 +362,12 @@ export function getFixedgroups( lang = null ) {
   return {
     type: GET_FIXEDGROUPS,
     payload: request
+  }
+}
+
+export function setNativeEntryFlag( flag ) {
+  return {
+    type: SET_APP_ENTRY_FLAG,
+    native_entry_flag: flag
   }
 }

@@ -49,8 +49,9 @@ class App extends Component {
         let filters = this.props.filters;
         if( employerId ) {
 
-          if( employerId != this.props.selected_employer.if ) {
-            // TODO: need to change employer here
+          if( employerId != this.props.selected_employer ) {
+            // TODO: need to change employer here, necause client checking will
+            // select mainEmployer by default
             //this.props.setSelectedEmployer(employerId);
           }
 
@@ -80,6 +81,7 @@ class App extends Component {
 
         this.props.setFilter( filters );
       });
+      this.props.setNativeEntryFlag( true );
     }
   }
 
@@ -131,7 +133,8 @@ class App extends Component {
       <div className="col-xs-12 overlay-bg-color">
         <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)}
                        title={this.props.headertitle}
-                       is_ohc_client={this.props.is_ohc_client} />
+                       is_ohc_client={this.props.is_ohc_client}
+                       native_entry_flag={this.props.native_entry_flag} />
         <div className="app">
           <SectionResourceSelection />
           <SectionTimeSearch {...this.props}
@@ -157,7 +160,8 @@ function mapStateToProps(state) {
     headertitle: state.app.headertitle,
     filters: state.app.filters,
     selected_employer: state.app.selected_employer,
-    is_ohc_client: state.app.is_ohc_client
+    is_ohc_client: state.app.is_ohc_client,
+    native_entry_flag: state.app.native_entry_flag
   };
 }
 

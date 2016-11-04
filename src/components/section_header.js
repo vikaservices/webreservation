@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import text from './common/translate';
 
-const SectionHeader = ({clickHandler, title, is_ohc_client}) => {
+const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag}) => {
 
   return (
     <div className="row">
     <div className="section-header">
 
-      <div className="logo-bar">
+      <div className={native_entry_flag ? "hide" : "logo-bar"}>
       <div className="lang-selection pull-right">
           <span className="current-lang"></span>
           <ul>

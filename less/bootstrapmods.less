@@ -12,7 +12,7 @@ body {
 	background-color: @white !important;
 
   /* width < 1200px */
-  @media (max-width: 1200px) {
+  @media (min-width: 481px) and (max-width: 1200px) {
     background-image: url("/public/img/website-background-desktop.jpg");
   }
 
@@ -29,8 +29,7 @@ body {
   }
 
   /* width < 600px and portrait */
-  @media (max-device-width: 800px) and
-         (orientation: portrait) {
+  @media (max-width: 480px) {
     /* no backgrounf image */
   }
 }

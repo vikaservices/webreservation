@@ -29802,8 +29802,9 @@
 	          var filters = _this2.props.filters;
 	          if (employerId) {
 
-	            if (employerId != _this2.props.selected_employer.if) {
-	              // TODO: need to change employer here
+	            if (employerId != _this2.props.selected_employer) {
+	              // TODO: need to change employer here, necause client checking will
+	              // select mainEmployer by default
 	              //this.props.setSelectedEmployer(employerId);
 	            }
 
@@ -29832,6 +29833,7 @@
 
 	          _this2.props.setFilter(filters);
 	        });
+	        this.props.setNativeEntryFlag(true);
 	      }
 	    }
 	  }, {
@@ -29893,7 +29895,8 @@
 	        { className: 'col-xs-12 overlay-bg-color' },
 	        _react2.default.createElement(_section_header2.default, { clickHandler: this.onClickHeaderLink.bind(this),
 	          title: this.props.headertitle,
-	          is_ohc_client: this.props.is_ohc_client }),
+	          is_ohc_client: this.props.is_ohc_client,
+	          native_entry_flag: this.props.native_entry_flag }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'app' },
@@ -29923,7 +29926,8 @@
 	    headertitle: state.app.headertitle,
 	    filters: state.app.filters,
 	    selected_employer: state.app.selected_employer,
-	    is_ohc_client: state.app.is_ohc_client
+	    is_ohc_client: state.app.is_ohc_client,
+	    native_entry_flag: state.app.native_entry_flag
 	  };
 	}
 
@@ -29953,6 +29957,7 @@
 	  var clickHandler = _ref.clickHandler;
 	  var title = _ref.title;
 	  var is_ohc_client = _ref.is_ohc_client;
+	  var native_entry_flag = _ref.native_entry_flag;
 
 
 	  return _react2.default.createElement(
@@ -29963,7 +29968,7 @@
 	      { className: 'section-header' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'logo-bar' },
+	        { className: native_entry_flag ? "hide" : "logo-bar" },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'lang-selection pull-right' },
@@ -42851,6 +42856,7 @@
 	exports.setSelectedEmployer = setSelectedEmployer;
 	exports.showDoctorInfo = showDoctorInfo;
 	exports.getFixedgroups = getFixedgroups;
+	exports.setNativeEntryFlag = setNativeEntryFlag;
 
 	var _types = __webpack_require__(278);
 
@@ -43237,6 +43243,13 @@
 	  };
 	}
 
+	function setNativeEntryFlag(flag) {
+	  return {
+	    type: _types.SET_APP_ENTRY_FLAG,
+	    native_entry_flag: flag
+	  };
+	}
+
 /***/ },
 /* 278 */
 /***/ function(module, exports) {
@@ -43274,6 +43287,7 @@
 	var SET_TIME_OF_DAY_FILTER = exports.SET_TIME_OF_DAY_FILTER = 'set_time_of_day_filter';
 	var SET_FILTERS = exports.SET_FILTERS = 'set_filters';
 	var DIALOG_CLOSE = exports.DIALOG_CLOSE = 'dialog_close';
+	var SET_APP_ENTRY_FLAG = exports.SET_APP_ENTRY_FLAG = 'set_app_entry_flag';
 
 	// APP STATE
 	var APP_STATE_INITIAL = exports.APP_STATE_INITIAL = 'app_state_initial';
@@ -70523,6 +70537,9 @@
 	      //console.log(new_state);
 	      return new_state;
 
+	    case _types.SET_APP_ENTRY_FLAG:
+	      return _extends({}, state, { native_entry_flag: action.native_entry_flag });
+
 	    default:
 	      return state;
 	  }
@@ -70581,6 +70598,7 @@
 	  reservation_code: null,
 	  prereservation: {},
 	  reservation: {},
+	  native_entry_flag: false,
 	  filters: {
 	    terms_search: '',
 	    units_search: '',

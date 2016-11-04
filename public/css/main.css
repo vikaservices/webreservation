@@ -14,7 +14,7 @@ body {
   /* width < 600px and portrait */
   /* width < 600px and portrait */
 }
-@media (max-width: 1200px) {
+@media (min-width: 481px) and (max-width: 1200px) {
   body {
     background-image: url("/public/img/website-background-desktop.jpg");
   }
@@ -29,7 +29,7 @@ body {
     background-image: url("/public/img/website-background-desktop-portrait.jpg");
   }
 }
-@media (max-device-width: 800px) and (orientation: portrait) {
+@media (max-width: 480px) {
   body {
     /* no backgrounf image */
   }

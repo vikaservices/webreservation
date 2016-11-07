@@ -200,7 +200,7 @@ router.get('/reservations', function(req, res, next) {
 
   if( req.query.method == "PUT" ) {
     if( !req.query.clientId || !req.query.resourceId || !req.query.unitId || 
-        !req.query.start || !req.query.duration || !req.query.method ) {
+        !req.query.start || !req.query.duration || !req.query.online || !req.query.method ) {
       res.sendStatus(400);
       return 0;
     }
@@ -211,7 +211,9 @@ router.get('/reservations', function(req, res, next) {
     var unitId = req.query.unitId;
     var start = req.query.start;
     var duration = req.query.duration;
-    payload = `{"clientId":${clientId}, "resourceId":${resourceId}, "unitId":${unitId}, "start":"${start}", "duration":${duration}`;
+    var online = req.query.online;
+    payload = `{"clientId":${clientId}, "resourceId":${resourceId}, "unitId":${unitId}, `;
+    payload += `"start":"${start}", "duration":${duration}, "online": ${online}`;
     payload += req.query.employerId ? ` ,"employerId":${req.query.employerId}}` : "}";
   }
 

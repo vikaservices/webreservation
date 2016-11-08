@@ -82,14 +82,14 @@ class SectionConfirmation extends Component {
           </div>
           <p>{text('diacor_section_confirmation_content')}</p>
 
-          <div className="confirmation-block row">
-            <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding-right">
+          <div className="confirmation-block row nopadding">
+            <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
 
               <div className="confirmation-logo logo-border">
                 <img src={slot.imageUrl ? slot.imageUrl : '/public/img/placeholder-person-image.png'} />
               </div>
               <div className="confirmation-content">
-                <h5>{text('diacor_section_confirmation_content_time')}</h5>
+                <h5 className="hide-mobile">{text('diacor_section_confirmation_content_time')}</h5>
                 <span>{slot ? slot.resourceName : ""}</span><br />
                 <span>{this.props.selectedtimeslot ? slot.title : ""}</span><br />
                 <span>{formatDate2('fi', new Date(this.props.date_filter))}</span><br />
@@ -109,9 +109,12 @@ class SectionConfirmation extends Component {
                 }
               </div>
             </div>
-            <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left">
+            <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
               <div className="confirmation-note">
-                <p>Huom! Toimenpideajat varataan soittamalla ajanvarauksen numeroon 09 1234 5678</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet ornare dui.</p>
+              </div>
+              <div className="confirmation-note">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet ornare dui.</p>
               </div>
             </div>
           </div>
@@ -121,8 +124,8 @@ class SectionConfirmation extends Component {
                                                               $('input[name="smsNotificationTo"]').val(),
                                                               $('input[name="emailConfirmationTo"]').val(),
                                                               event)} >
-            <div className="confirmation-block row">
-              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding-right">
+            <div className="confirmation-block row nopadding">
+              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
                 <div className="confirmation-logo hide-mobile">
                   <img src="public/img/confirmation-reason.png" />
                 </div>
@@ -131,70 +134,99 @@ class SectionConfirmation extends Component {
                   <textarea placeholder={text('diacor_input_placeholder_reason')} name="notes" />
                 </div>
               </div>
-              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left">
+              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
               </div>
             </div>
 
-            <div className="confirmation-block row">
-              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding-right">
+            <div className="confirmation-block row nopadding">
+              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
                 <div className="confirmation-logo hide-mobile">
                   <img src="public/img/confirmation-payer.png" />
                 </div>
                 <div className="confirmation-content">
                   <h5>{text('diacor_section_confirmation_content_payer')}</h5>
-                  <input type="radio"
-                         onChange={this.onPayerChange.bind(this)}
-                         checked={this.state.payer === "PRIVATE"}
-                         name="visitType"
-                         value="PRIVATE" />{text('diacor_section_confirmation_content_private')} <br />
-                  <span className={this.props.is_ohc_client ? "" : "hide" }>
-                  <input type="radio"
-                         onChange={this.onPayerChange.bind(this)}
-                         checked={this.state.payer === "OCCUPATIONAL"}
-                         name="visitType"
-                         value="OCCUPATIONAL" />{text('diacor_section_confirmation_content_ohc')} {this.props.selected_employer ? this.props.selected_employer.name : ""}<br />
-                  </span>
-                  <input type="radio"
-                         onChange={this.onPayerChange.bind(this)}
-                         checked={this.state.payer === "OTHER"}
-                         name="visitType"
-                         value="OTHER" />{text('diacor_section_confirmation_content_other_payer')}
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td style={{verticalAlign: 'top'}}>
+                          <input type="radio"
+                                 onChange={this.onPayerChange.bind(this)}
+                                 checked={this.state.payer === "PRIVATE"}
+                                 name="visitType"
+                                 value="PRIVATE" />
+                        </td>
+                        <td>
+                          <label>{text('diacor_section_confirmation_content_private')}</label>
+                        </td>
+                      </tr>
+                      <tr className={this.props.is_ohc_client ? "" : "hide" }>
+                        <td style={{verticalAlign: 'top'}}>
+                          <input type="radio"
+                                 onChange={this.onPayerChange.bind(this)}
+                                 checked={this.state.payer === "OCCUPATIONAL"}
+                                 name="visitType"
+                                 value="OCCUPATIONAL" />
+                        </td>
+                        <td>
+                          <label>{text('diacor_section_confirmation_content_ohc')} {this.props.selected_employer ? this.props.selected_employer.name : ""}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={{verticalAlign: 'top'}}>
+                          <input type="radio"
+                                 onChange={this.onPayerChange.bind(this)}
+                                 checked={this.state.payer === "OTHER"}
+                                 name="visitType"
+                                 value="OTHER" />
+                        </td>
+                        <td>
+                          <label>{text('diacor_section_confirmation_content_other_payer')}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left">
+              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
                 <div className="confirmation-note">
                   <p>Varmista, että palvelu on yrityksesi työterveyspalvelujen piirissä.</p>
                 </div>
               </div>
             </div>
 
-            <div className="confirmation-block row">
-              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding-right">
+            <div style={{borderBottom: 0}} className="confirmation-block row nopadding">
+              <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
                 <div className="confirmation-logo hide-mobile">
                   <img src="public/img/confirmation-contact.png" />
                 </div>
                 <div className="confirmation-content">
                   <h5>{text('diacor_section_confirmation_content_contactInfo1')}</h5>
-                  <span>{text('diacor_section_confirmation_content_contactInfo2')}</span><br />
                   <input type="text" name="emailConfirmationTo" placeholder={text('diacor_input_placeholder_email')} /><br />
                   <input type="text" name="smsNotificationTo" placeholder={text('diacor_input_placeholder_cell')} />
                 </div>
               </div>
-              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left">
-                <div className="confirmation-note">
+              <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
+                <div className="confirmation-note hide-mobile">
                   <p>Tarvitsemme s-postiosoitteesi vahvistusta varten.</p>
+                </div>
+                <div className="confirmation-note hide-mobile">
+                  <p>Matkapuhelinnumero tarvitaan yksityisasiakkaalle.</p>
                 </div>
               </div>
             </div>
 
-            <div className="confirmation-block confirmation-diacor-plus row">
-              <div className="confirmation-content col-xs-12">
-                <input type="checkbox" name="diacor_plus" />
-                <span>{text('diacor_section_confirmation_content_plus')}</span>
-              </div>
+            <div className={true ? "" : "hide"}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td style={{verticalAlign: 'top'}}><input type="checkbox" name="diacor_plus" /></td>
+                    <td><label>{text('diacor_section_confirmation_content_plus')}</label></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div className="confirmation-block confirmation-submit">
+            <div className="confirmation-submit">
               <div className="submit-buttons-centered">
                 <button className="btn-white" onClick={(event) => this.handleCancel(event)}>{text('diacor_popup_button_cancel')}</button>
                 <button className="btn-red">{text('diacor_popup_button_confirm')}</button>

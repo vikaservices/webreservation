@@ -25,12 +25,6 @@ class SectionResourceSelection extends Component {
           emps.push({id: item.id, value: item.name});
       });
       this.setState( {employers: emps, show_team: true} );
-      // if( $(".hide-team-on-mobile").css('display') === 'none' ) {
-      //   console.log("SectionResourceSelection: componentWillReceiveProps: hide team")
-      // } else {
-      //   console.log("SectionResourceSelection: componentWillReceiveProps: show team")
-      //   this.setState( {employers: emps, show_team: true} );
-      // }
     }
   }
 
@@ -65,36 +59,41 @@ class SectionResourceSelection extends Component {
     }
 
     return (
-      <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
+      <div>
+        <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
 
-        <div className="col-xs-12 nopadding">
-          <div className="header-row">
-            <h4 className="pull-left">{text('diacor_section_resource_header')}</h4>
-            <div className="ohc-employer-list">
-              <DropdownMenu items={this.state.employers}
-                            selected={this.props.selected_employer.name}
-                            onChange={this.handleEmployerChange.bind(this)} />
+          <div className="col-xs-12">
+            <div className="header-row">
+              <h4 className="pull-left">{text('diacor_section_resource_header')}</h4>
+              <div className="ohc-employer-list">
+                <DropdownMenu items={this.state.employers}
+                              selected={this.props.selected_employer.name}
+                              onChange={this.handleEmployerChange.bind(this)} />
+              </div>
+              <a href="#" className="link font-size-14 pull-right" onClick={(event) => this.toggleVisibility(event)}>
+                { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
+              </a>
             </div>
-            <a href="#" className="link font-size-14 pull-right" onClick={(event) => this.toggleVisibility(event)}>
-              { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
-            </a>
-          </div>
 
-          <div className={ active == 'active' && show_team ? "header-row ohc-employer-selection" : "hide" }>
-            <div className="ohc-employer-list-mobile">
-              <DropdownMenu items={this.state.employers}
-                            selected={this.props.selected_employer.name}
-                            onChange={this.handleEmployerChange.bind(this)} />
+            <div className={ active == 'active' && show_team ? "header-row ohc-employer-selection" : "hide" }>
+              <div className="ohc-employer-list-mobile">
+                <DropdownMenu items={this.state.employers}
+                              selected={this.props.selected_employer.name}
+                              onChange={this.handleEmployerChange.bind(this)} />
+              </div>
             </div>
-          </div>
 
-          <div className={ active == 'active' && show_team ? "" : "hide" }>
-            <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
-                         onClick={this.handleResourceSelection.bind(this)} />
-            <p className="ohc-disclaimer">{text('diacor_section_resource_content')}</p>
+            <div className={ active == 'active' && show_team ? "" : "hide" }>
+              <OhcTeamList team={this.props.ohc_team != undefined ? this.props.ohc_team : []}
+                           onClick={this.handleResourceSelection.bind(this)} />
+              <p className="ohc-disclaimer">{text('diacor_section_resource_content')}</p>
+            </div>
           </div>
         </div>
 
+        <div className="block-separator row">
+          <img src="public/img/block-separator.png" />
+        </div>
       </div>
     );
   }

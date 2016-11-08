@@ -211,10 +211,10 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration, onlin
   };
 }
 
-export function makePreReservation(clientId, resourceId, unitId, start, duration, employerId=null) {
+export function makePreReservation(clientId, resourceId, unitId, start, duration, online, employerId=null) {
 
   let request_str = `reservations?method=PUT&clientId=${clientId}&resourceId=${resourceId}`;
-  request_str += `&unitId=${unitId}&start=${start}&duration=${duration}`;
+  request_str += `&unitId=${unitId}&start=${start}&duration=${duration}&online=${online}`;
   request_str += employerId != null ? `&employerId=${employerId}` : '';
 
   console.log("Action: makePreReservation: " + request_str)

@@ -1,6 +1,10 @@
 @import "variables.less";
 @button-height: 37px;
 /**************  COMMON **********/
+[data-reactroot] {
+  height: 100% !important;
+}
+
 .hide {
     display: none;
 }
@@ -45,6 +49,10 @@
 
 .font-size-14 {
   font-size: 14px;
+}
+
+.font-size-16 {
+  font-size: 16px;
 }
 
 .italics {
@@ -107,10 +115,13 @@
     margin: 0;
     padding: 0;
     line-height: 0;
-}
-
-.block-separator img {
-    width: 100%;
+    img {
+      width: 100%;
+    }
+    /* width < 768px */
+    @media (max-width: @screen-xs-max) {
+      display: none;
+    }
 }
 
 .submit-buttons-centered {

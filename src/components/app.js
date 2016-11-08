@@ -101,7 +101,7 @@ class App extends Component {
       let slot = this.props.selectedtimeslot;
       let employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null
       this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId,
-                                     slot.start, slot.duration, employerId );
+                                     slot.start, slot.duration, slot.online, employerId );
     }
   }
 

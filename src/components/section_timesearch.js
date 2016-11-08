@@ -41,36 +41,46 @@ class SectionTimeSearch extends Component {
 
     else if( active == 'inactive') {
       return (
-        <div className="section-time-search-inactive row">
-          <div className="col-xs-12">
-            <div className="header-row">
-              <h4 className="section-title pull-left">{text('diacor_section_timesearch_header')}</h4>
-              <div className="reservation-summary">
-                <span>
-                  {formatDate2("fi", this.props.date_filter)}&nbsp;
-                  {this.props.selectedtimeslot.startTimeHours},&nbsp;
-                  {this.props.selectedtimeslot.resourceName},&nbsp;
-                  {this.props.selectedtimeslot.unitName}
-                </span>
+        <div>
+          <div className="section-time-search-inactive row">
+            <div className="">
+              <div className="header-row">
+                <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
+                <div className="reservation-summary">
+                  <span>
+                    {formatDate2("fi", this.props.date_filter)}&nbsp;
+                    {this.props.selectedtimeslot.startTimeHours},&nbsp;
+                    {this.props.selectedtimeslot.resourceName},&nbsp;
+                    {this.props.selectedtimeslot.unitName}
+                  </span>
+                </div>
+                <a href="" className="link font-size-14 pull-right" onClick={(event) => this.backToTimeSelection(event)}>{text('diacor_section_timesearch_link')}</a>
               </div>
-              <a href="" className="link font-size-14 pull-right" onClick={(event) => this.backToTimeSelection(event)}>{text('diacor_section_timesearch_link')}</a>
             </div>
+          </div>
+          <div className="block-separator row">
+            <img src="public/img/block-separator.png" />
           </div>
         </div>
       );
     }
 
     return (
-      <div className="section-time-search row">
-        <div className="">
-          <div className="header-row">
-            <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
+      <div>
+        <div className="section-time-search row">
+          <div className="">
+            <div className="header-row">
+              <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
+            </div>
+            <FilterMain {...this.props} />
+            <TimeslotList {...this.props}
+                          reservationHandler={this.props.reservationHandler}
+                          doctorinfoHandler={this.doctorinfoHandler.bind(this)}
+                          changeTimeOfDay={this.changeTimeOfDay.bind(this)} />
           </div>
-          <FilterMain {...this.props} />
-          <TimeslotList {...this.props}
-                        reservationHandler={this.props.reservationHandler}
-                        doctorinfoHandler={this.doctorinfoHandler.bind(this)}
-                        changeTimeOfDay={this.changeTimeOfDay.bind(this)} />
+        </div>
+        <div className="block-separator row">
+          <img src="public/img/block-separator.png" />
         </div>
       </div>
     );

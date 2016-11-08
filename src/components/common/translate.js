@@ -149,7 +149,7 @@ _.extend(FIN, {
      diacor_timeslot_link: 'Varaa',
      diacor_timeslot_diacorplus: 'DiacorPlus Etävastaanotto',
      diacor_timeslot_list_header: 'Vapaat ajat ',
-     diacor_timeslot_list_content: 'Ei aikoja tälle päivälle',
+     diacor_timeslot_list_no_free_times: 'Halutulle päivälle ei löydy aikoja hakukriteereilläsi. Alla ehdotettuna seuraavia lähimpiä vapaita aikoja. Kalenterissa vihreällä merkityllä päivällä varattavissa olevat ajat.',
  });
 
  _.extend(EN, {

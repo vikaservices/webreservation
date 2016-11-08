@@ -29852,7 +29852,7 @@
 	        console.log("Have pending reservation");
 	        var slot = this.props.selectedtimeslot;
 	        var employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null;
-	        this.props.makePreReservation(this.props.client_id, slot.resourceId, slot.unitId, slot.start, slot.duration, employerId);
+	        this.props.makePreReservation(this.props.client_id, slot.resourceId, slot.unitId, slot.start, slot.duration, slot.online, employerId);
 	      }
 	    }
 	  }, {
@@ -30056,11 +30056,11 @@
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: is_ohc_client ? "hide" : "links-bar" },
+	        { className: is_ohc_client ? "links-bar hide-mobile-links-bar" : "links-bar" },
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'header-link' },
-	          _react2.default.createElement('span', { className: 'logo-login-ohc' }),
+	          _react2.default.createElement('span', { className: is_ohc_client ? "hide" : "logo-login-ohc" }),
 	          _react2.default.createElement(
 	            'a',
 	            { className: 'ohc_login_desktop', href: '', 'data-target': 'ohc_login', onClick: function onClick(event) {
@@ -30261,7 +30261,7 @@
 	    diacor_timeslot_link: 'Varaa',
 	    diacor_timeslot_diacorplus: 'DiacorPlus Etävastaanotto',
 	    diacor_timeslot_list_header: 'Vapaat ajat ',
-	    diacor_timeslot_list_content: 'Ei aikoja tälle päivälle'
+	    diacor_timeslot_list_no_free_times: 'Halutulle päivälle ei löydy aikoja hakukriteereilläsi. Alla ehdotettuna seuraavia lähimpiä vapaita aikoja. Kalenterissa vihreällä merkityllä päivällä varattavissa olevat ajat.'
 	});
 
 	_lodash2.default.extend(EN, {
@@ -42715,12 +42715,6 @@
 	            emps.push({ id: item.id, value: item.name });
 	          });
 	          _this2.setState({ employers: emps, show_team: true });
-	          // if( $(".hide-team-on-mobile").css('display') === 'none' ) {
-	          //   console.log("SectionResourceSelection: componentWillReceiveProps: hide team")
-	          // } else {
-	          //   console.log("SectionResourceSelection: componentWillReceiveProps: show team")
-	          //   this.setState( {employers: emps, show_team: true} );
-	          // }
 	        })();
 	      }
 	    }
@@ -42763,55 +42757,64 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row" },
+	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-12 nopadding' },
+	          { className: active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row" },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'header-row' },
+	            { className: 'col-xs-12' },
 	            _react2.default.createElement(
-	              'h4',
-	              { className: 'pull-left' },
-	              (0, _translate2.default)('diacor_section_resource_header')
+	              'div',
+	              { className: 'header-row' },
+	              _react2.default.createElement(
+	                'h4',
+	                { className: 'pull-left' },
+	                (0, _translate2.default)('diacor_section_resource_header')
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'ohc-employer-list' },
+	                _react2.default.createElement(_dropdown_menu2.default, { items: this.state.employers,
+	                  selected: this.props.selected_employer.name,
+	                  onChange: this.handleEmployerChange.bind(this) })
+	              ),
+	              _react2.default.createElement(
+	                'a',
+	                { href: '#', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
+	                    return _this3.toggleVisibility(event);
+	                  } },
+	                active == 'active' ? show_team ? "Piilota" : "Näytä" : ""
+	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'ohc-employer-list' },
-	              _react2.default.createElement(_dropdown_menu2.default, { items: this.state.employers,
-	                selected: this.props.selected_employer.name,
-	                onChange: this.handleEmployerChange.bind(this) })
+	              { className: active == 'active' && show_team ? "header-row ohc-employer-selection" : "hide" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'ohc-employer-list-mobile' },
+	                _react2.default.createElement(_dropdown_menu2.default, { items: this.state.employers,
+	                  selected: this.props.selected_employer.name,
+	                  onChange: this.handleEmployerChange.bind(this) })
+	              )
 	            ),
 	            _react2.default.createElement(
-	              'a',
-	              { href: '#', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
-	                  return _this3.toggleVisibility(event);
-	                } },
-	              active == 'active' ? show_team ? "Piilota" : "Näytä" : ""
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: active == 'active' && show_team ? "header-row ohc-employer-selection" : "hide" },
-	            _react2.default.createElement(
 	              'div',
-	              { className: 'ohc-employer-list-mobile' },
-	              _react2.default.createElement(_dropdown_menu2.default, { items: this.state.employers,
-	                selected: this.props.selected_employer.name,
-	                onChange: this.handleEmployerChange.bind(this) })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: active == 'active' && show_team ? "" : "hide" },
-	            _react2.default.createElement(_ohc_team_list2.default, { team: this.props.ohc_team != undefined ? this.props.ohc_team : [],
-	              onClick: this.handleResourceSelection.bind(this) }),
-	            _react2.default.createElement(
-	              'p',
-	              { className: 'ohc-disclaimer' },
-	              (0, _translate2.default)('diacor_section_resource_content')
+	              { className: active == 'active' && show_team ? "" : "hide" },
+	              _react2.default.createElement(_ohc_team_list2.default, { team: this.props.ohc_team != undefined ? this.props.ohc_team : [],
+	                onClick: this.handleResourceSelection.bind(this) }),
+	              _react2.default.createElement(
+	                'p',
+	                { className: 'ohc-disclaimer' },
+	                (0, _translate2.default)('diacor_section_resource_content')
+	              )
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'block-separator row' },
+	          _react2.default.createElement('img', { src: 'public/img/block-separator.png' })
 	        )
 	      );
 	    }
@@ -43079,12 +43082,12 @@
 	  };
 	}
 
-	function makePreReservation(clientId, resourceId, unitId, start, duration) {
-	  var employerId = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+	function makePreReservation(clientId, resourceId, unitId, start, duration, online) {
+	  var employerId = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 
 
 	  var request_str = 'reservations?method=PUT&clientId=' + clientId + '&resourceId=' + resourceId;
-	  request_str += '&unitId=' + unitId + '&start=' + start + '&duration=' + duration;
+	  request_str += '&unitId=' + unitId + '&start=' + start + '&duration=' + duration + '&online=' + online;
 	  request_str += employerId != null ? '&employerId=' + employerId : '';
 
 	  console.log("Action: makePreReservation: " + request_str);
@@ -44991,65 +44994,83 @@
 	      } else if (active == 'inactive') {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'section-time-search-inactive row' },
+	          null,
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12' },
+	            { className: 'section-time-search-inactive row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'header-row' },
-	              _react2.default.createElement(
-	                'h4',
-	                { className: 'section-title pull-left' },
-	                (0, _translate2.default)('diacor_section_timesearch_header')
-	              ),
+	              { className: '' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'reservation-summary' },
+	                { className: 'header-row' },
 	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  formatDate2("fi", this.props.date_filter),
-	                  ' ',
-	                  this.props.selectedtimeslot.startTimeHours,
-	                  ', ',
-	                  this.props.selectedtimeslot.resourceName,
-	                  ', ',
-	                  this.props.selectedtimeslot.unitName
+	                  'h4',
+	                  { className: 'pull-left' },
+	                  (0, _translate2.default)('diacor_section_timesearch_header')
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'reservation-summary' },
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    formatDate2("fi", this.props.date_filter),
+	                    ' ',
+	                    this.props.selectedtimeslot.startTimeHours,
+	                    ', ',
+	                    this.props.selectedtimeslot.resourceName,
+	                    ', ',
+	                    this.props.selectedtimeslot.unitName
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
+	                      return _this2.backToTimeSelection(event);
+	                    } },
+	                  (0, _translate2.default)('diacor_section_timesearch_link')
 	                )
-	              ),
-	              _react2.default.createElement(
-	                'a',
-	                { href: '', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
-	                    return _this2.backToTimeSelection(event);
-	                  } },
-	                (0, _translate2.default)('diacor_section_timesearch_link')
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'block-separator row' },
+	            _react2.default.createElement('img', { src: 'public/img/block-separator.png' })
 	          )
 	        );
 	      }
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'section-time-search row' },
+	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: '' },
+	          { className: 'section-time-search row' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'header-row' },
+	            { className: '' },
 	            _react2.default.createElement(
-	              'h4',
-	              { className: 'pull-left' },
-	              (0, _translate2.default)('diacor_section_timesearch_header')
-	            )
-	          ),
-	          _react2.default.createElement(_filter_main2.default, this.props),
-	          _react2.default.createElement(_timeslot_list2.default, _extends({}, this.props, {
-	            reservationHandler: this.props.reservationHandler,
-	            doctorinfoHandler: this.doctorinfoHandler.bind(this),
-	            changeTimeOfDay: this.changeTimeOfDay.bind(this) }))
+	              'div',
+	              { className: 'header-row' },
+	              _react2.default.createElement(
+	                'h4',
+	                { className: 'pull-left' },
+	                (0, _translate2.default)('diacor_section_timesearch_header')
+	              )
+	            ),
+	            _react2.default.createElement(_filter_main2.default, this.props),
+	            _react2.default.createElement(_timeslot_list2.default, _extends({}, this.props, {
+	              reservationHandler: this.props.reservationHandler,
+	              doctorinfoHandler: this.doctorinfoHandler.bind(this),
+	              changeTimeOfDay: this.changeTimeOfDay.bind(this) }))
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'block-separator row' },
+	          _react2.default.createElement('img', { src: 'public/img/block-separator.png' })
 	        )
 	      );
 	    }
@@ -55547,14 +55568,34 @@
 	    ),
 	    _react2.default.createElement(
 	      'div',
+	      { className: show ? "hide" : "" },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '', className: 'link font-size-11 extra-filters-link', onClick: function onClick(event) {
+	            return _onClick(event);
+	          } },
+	        (0, _translate2.default)('diacor_filter_extra_show'),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'font-size-16' },
+	          '+'
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
 	      { className: show ? "" : "hide" },
 	      _react2.default.createElement(
 	        'a',
-	        { href: '', className: 'link font-size-11', onClick: function onClick(event) {
+	        { href: '', className: 'link font-size-11 extra-filters-link', onClick: function onClick(event) {
 	            return _onClick(event);
 	          } },
 	        (0, _translate2.default)('diacor_filter_extra_hide'),
-	        '-'
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'font-size-16' },
+	          '-'
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -55661,9 +55702,13 @@
 	        'ul',
 	        { className: 'list-group' },
 	        !props.timeslots_list || props.timeslots_list.length == 0 ? _react2.default.createElement(
-	          'p',
-	          null,
-	          (0, _translate2.default)('diacor_timeslot_list_content')
+	          'li',
+	          { className: 'list-group-item' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            (0, _translate2.default)('diacor_timeslot_list_no_free_times')
+	          )
 	        ) : result
 	      )
 	    )
@@ -55927,6 +55972,7 @@
 	      var _this3 = this;
 
 	      var active = this.props.confirmation_section_active;
+	      //active = 'active';
 
 	      if (active == 'hidden') {
 	        return _react2.default.createElement('div', null);
@@ -55954,7 +56000,7 @@
 	        { className: 'section-confirmation row' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-12' },
+	          { className: '' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'header-row' },
@@ -55971,72 +56017,89 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'confirmation-block' },
+	            { className: 'confirmation-block row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'confirmation-logo' },
-	              _react2.default.createElement('img', { src: slot.imageUrl ? slot.imageUrl : "" })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'confirmation-content' },
+	              { className: 'col-xs-12 col-sm-6 confirmation-1st-col nopadding-right' },
 	              _react2.default.createElement(
-	                'h5',
-	                null,
-	                (0, _translate2.default)('diacor_section_confirmation_content_time')
-	              ),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                slot ? slot.resourceName : ""
-	              ),
-	              _react2.default.createElement('br', null),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                this.props.selectedtimeslot ? slot.title : ""
-	              ),
-	              _react2.default.createElement('br', null),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                formatDate2('fi', new Date(this.props.date_filter))
-	              ),
-	              _react2.default.createElement('br', null),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                slot ? slot.startTimeHours : "",
-	                ' '
-	              ),
-	              _react2.default.createElement(
-	                'span',
-	                null,
-	                slot ? "(" + slot.duration + " min)" : ""
-	              ),
-	              _react2.default.createElement('br', null),
-	              slot.online ? _react2.default.createElement(
 	                'div',
-	                { className: 'unit-info' },
+	                { className: 'confirmation-logo logo-border' },
+	                _react2.default.createElement('img', { src: slot.imageUrl ? slot.imageUrl : '/public/img/placeholder-person-image.png' })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'confirmation-content' },
 	                _react2.default.createElement(
-	                  'a',
-	                  { className: 'popup-svg-phone', href: slot.unitLinkUrl ? slot.unitLinkUrl : '' },
-	                  _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
+	                  'h5',
+	                  null,
+	                  (0, _translate2.default)('diacor_section_confirmation_content_time')
 	                ),
 	                _react2.default.createElement(
 	                  'span',
-	                  { className: 'unit-name vertical-align-middle' },
+	                  null,
+	                  slot ? slot.resourceName : ""
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  this.props.selectedtimeslot ? slot.title : ""
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  formatDate2('fi', new Date(this.props.date_filter))
+	                ),
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  slot ? slot.startTimeHours : "",
+	                  ' '
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  slot ? "(" + slot.duration + " min)" : ""
+	                ),
+	                _react2.default.createElement('br', null),
+	                slot.online ? _react2.default.createElement(
+	                  'div',
+	                  { className: 'unit-info' },
 	                  _react2.default.createElement(
 	                    'a',
-	                    { className: 'link', href: slot.unitLinkUrl ? slot.unitLinkUrl : '' },
-	                    slot.unitName ? slot.unitName : ''
-	                  )
-	                ),
-	                _react2.default.createElement('br', null)
-	              ) : _react2.default.createElement(
-	                'span',
-	                null,
-	                slot.unitName ? slot.unitName : ''
+	                    { className: 'popup-svg-phone', href: slot.unitLinkUrl ? slot.unitLinkUrl : '' },
+	                    _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'unit-name vertical-align-middle' },
+	                    _react2.default.createElement(
+	                      'a',
+	                      { className: 'link', href: slot.unitLinkUrl ? slot.unitLinkUrl : '' },
+	                      slot.unitName ? slot.unitName : ''
+	                    )
+	                  ),
+	                  _react2.default.createElement('br', null)
+	                ) : _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  slot.unitName ? slot.unitName : ''
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'confirmation-note' },
+	                _react2.default.createElement(
+	                  'p',
+	                  null,
+	                  'Huom! Toimenpideajat varataan soittamalla ajanvarauksen numeroon 09 1234 5678'
+	                )
 	              )
 	            )
 	          ),
@@ -56047,101 +56110,140 @@
 	              } },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'confirmation-block' },
+	              { className: 'confirmation-block row' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'confirmation-logo' },
-	                _react2.default.createElement('img', { src: 'public/img/confirmation-reason.png' })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'confirmation-content' },
+	                { className: 'col-xs-12 col-sm-6 confirmation-1st-col nopadding-right' },
 	                _react2.default.createElement(
-	                  'h5',
-	                  null,
-	                  (0, _translate2.default)('diacor_section_confirmation_content_reason')
+	                  'div',
+	                  { className: 'confirmation-logo hide-mobile' },
+	                  _react2.default.createElement('img', { src: 'public/img/confirmation-reason.png' })
 	                ),
-	                _react2.default.createElement('textarea', { placeholder: (0, _translate2.default)('diacor_input_placeholder_reason'), name: 'notes' })
-	              )
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'confirmation-content' },
+	                  _react2.default.createElement(
+	                    'h5',
+	                    null,
+	                    (0, _translate2.default)('diacor_section_confirmation_content_reason')
+	                  ),
+	                  _react2.default.createElement('textarea', { placeholder: (0, _translate2.default)('diacor_input_placeholder_reason'), name: 'notes' })
+	                )
+	              ),
+	              _react2.default.createElement('div', { className: 'col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left' })
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'confirmation-block' },
+	              { className: 'confirmation-block row' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'confirmation-logo' },
-	                _react2.default.createElement('img', { src: 'public/img/confirmation-payer.png' })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'confirmation-content' },
+	                { className: 'col-xs-12 col-sm-6 confirmation-1st-col nopadding-right' },
 	                _react2.default.createElement(
-	                  'h5',
-	                  null,
-	                  (0, _translate2.default)('diacor_section_confirmation_content_payer')
+	                  'div',
+	                  { className: 'confirmation-logo hide-mobile' },
+	                  _react2.default.createElement('img', { src: 'public/img/confirmation-payer.png' })
 	                ),
-	                _react2.default.createElement('input', { type: 'radio',
-	                  onChange: this.onPayerChange.bind(this),
-	                  checked: this.state.payer === "PRIVATE",
-	                  name: 'visitType',
-	                  value: 'PRIVATE' }),
-	                (0, _translate2.default)('diacor_section_confirmation_content_private'),
-	                ' ',
-	                _react2.default.createElement('br', null),
 	                _react2.default.createElement(
-	                  'span',
-	                  { className: this.props.is_ohc_client ? "" : "hide" },
+	                  'div',
+	                  { className: 'confirmation-content' },
+	                  _react2.default.createElement(
+	                    'h5',
+	                    null,
+	                    (0, _translate2.default)('diacor_section_confirmation_content_payer')
+	                  ),
 	                  _react2.default.createElement('input', { type: 'radio',
 	                    onChange: this.onPayerChange.bind(this),
-	                    checked: this.state.payer === "OCCUPATIONAL",
+	                    checked: this.state.payer === "PRIVATE",
 	                    name: 'visitType',
-	                    value: 'OCCUPATIONAL' }),
-	                  (0, _translate2.default)('diacor_section_confirmation_content_ohc'),
+	                    value: 'PRIVATE' }),
+	                  (0, _translate2.default)('diacor_section_confirmation_content_private'),
 	                  ' ',
-	                  this.props.selected_employer ? this.props.selected_employer.name : "",
-	                  _react2.default.createElement('br', null)
-	                ),
-	                _react2.default.createElement('input', { type: 'radio',
-	                  onChange: this.onPayerChange.bind(this),
-	                  checked: this.state.payer === "OTHER",
-	                  name: 'visitType',
-	                  value: 'OTHER' }),
-	                (0, _translate2.default)('diacor_section_confirmation_content_other_payer')
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'confirmation-block' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'confirmation-logo' },
-	                _react2.default.createElement('img', { src: 'public/img/confirmation-contact.png' })
+	                  _react2.default.createElement('br', null),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: this.props.is_ohc_client ? "" : "hide" },
+	                    _react2.default.createElement('input', { type: 'radio',
+	                      onChange: this.onPayerChange.bind(this),
+	                      checked: this.state.payer === "OCCUPATIONAL",
+	                      name: 'visitType',
+	                      value: 'OCCUPATIONAL' }),
+	                    (0, _translate2.default)('diacor_section_confirmation_content_ohc'),
+	                    ' ',
+	                    this.props.selected_employer ? this.props.selected_employer.name : "",
+	                    _react2.default.createElement('br', null)
+	                  ),
+	                  _react2.default.createElement('input', { type: 'radio',
+	                    onChange: this.onPayerChange.bind(this),
+	                    checked: this.state.payer === "OTHER",
+	                    name: 'visitType',
+	                    value: 'OTHER' }),
+	                  (0, _translate2.default)('diacor_section_confirmation_content_other_payer')
+	                )
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'confirmation-content' },
+	                { className: 'col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left' },
 	                _react2.default.createElement(
-	                  'h5',
-	                  null,
-	                  (0, _translate2.default)('diacor_section_confirmation_content_contactInfo1')
-	                ),
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  (0, _translate2.default)('diacor_section_confirmation_content_contactInfo2')
-	                ),
-	                _react2.default.createElement('br', null),
-	                _react2.default.createElement('input', { type: 'text', name: 'emailConfirmationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_email') }),
-	                _react2.default.createElement('br', null),
-	                _react2.default.createElement('input', { type: 'text', name: 'smsNotificationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_cell') })
+	                  'div',
+	                  { className: 'confirmation-note' },
+	                  _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Varmista, että palvelu on yrityksesi työterveyspalvelujen piirissä.'
+	                  )
+	                )
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'confirmation-block confirmation-diacor-plus' },
+	              { className: 'confirmation-block row' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'confirmation-content' },
+	                { className: 'col-xs-12 col-sm-6 confirmation-1st-col nopadding-right' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'confirmation-logo hide-mobile' },
+	                  _react2.default.createElement('img', { src: 'public/img/confirmation-contact.png' })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'confirmation-content' },
+	                  _react2.default.createElement(
+	                    'h5',
+	                    null,
+	                    (0, _translate2.default)('diacor_section_confirmation_content_contactInfo1')
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    (0, _translate2.default)('diacor_section_confirmation_content_contactInfo2')
+	                  ),
+	                  _react2.default.createElement('br', null),
+	                  _react2.default.createElement('input', { type: 'text', name: 'emailConfirmationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_email') }),
+	                  _react2.default.createElement('br', null),
+	                  _react2.default.createElement('input', { type: 'text', name: 'smsNotificationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_cell') })
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-xs-12 col-sm-6 confirmation-2nd-col nopadding-left' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'confirmation-note' },
+	                  _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Tarvitsemme s-postiosoitteesi vahvistusta varten.'
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'confirmation-block confirmation-diacor-plus row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'confirmation-content col-xs-12' },
 	                _react2.default.createElement('input', { type: 'checkbox', name: 'diacor_plus' }),
 	                _react2.default.createElement(
 	                  'span',

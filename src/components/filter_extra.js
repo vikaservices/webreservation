@@ -39,25 +39,31 @@ const FilterExtra = ({onChange, onClick, languages, cities, genders,
         <span className="" />
       </div>
 
+      <div className={show ? "hide" : ""}>
+        <a href="" className="link font-size-11 extra-filters-link" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_show')}
+          <span className="font-size-16">+</span>
+        </a>
+      </div>
+
       <div className={show ? "" : "hide"}>
-        <a href="" className="link font-size-11" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_hide')}-</a>
+        <a href="" className="link font-size-11 extra-filters-link" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_hide')}
+          <span className="font-size-16">-</span>
+        </a>
         <div className="extra-filters-content">
 
           <form onChange={(event) => onChange(event)}>
-
-          <div className="filter-group">
-            <div className="extra-filters-label">{text('diacor_filter_extra_label_gender')}</div>
-            {gens}
-          </div>
-          <div className="filter-group">
-            <div className="extra-filters-label">{text('diacor_filter_extra_label_city')}</div>
-            {citys}
-          </div>
-          <div className="filter-group">
-            <div className="extra-filters-label">{text('diacor_filter_extra_label_language')}</div>
-            {langs}
-          </div>
-
+            <div className="filter-group">
+              <div className="extra-filters-label">{text('diacor_filter_extra_label_gender')}</div>
+              {gens}
+            </div>
+            <div className="filter-group">
+              <div className="extra-filters-label">{text('diacor_filter_extra_label_city')}</div>
+              {citys}
+            </div>
+            <div className="filter-group">
+              <div className="extra-filters-label">{text('diacor_filter_extra_label_language')}</div>
+              {langs}
+            </div>
           </form>
 
         </div>

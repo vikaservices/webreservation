@@ -47,6 +47,7 @@ hr {
 
 .container-fluid {
   padding: 0 !important;
+  height: 100% !important;
 }
 
 h4, h5 {
@@ -83,17 +84,47 @@ h3 {
   @media (max-width: @screen-xs-max) {
     padding: 10px 20px !important;
     line-height: 50px !important;
+
+    p {
+      font-family: @font-arialmt;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.14;
+      color: @gray-dark;
+    }
   }
 
   /* width 768px - 992px */
   @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     padding: 6px 0 !important;
     line-height: 50px !important;
+
+    p {
+      font-family: @font-arialmt;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      color: @gray-dark;
+    }
   }
 
   /* width >= 992px */
   @media (min-width: @screen-md-min) {
     padding: 6px 0 !important;
     line-height: 50px !important;
+
+    p {
+      font-family: @font-arialmt;
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      color: @gray-dark;
+    }
   }
 }

@@ -9,7 +9,12 @@
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: @gray-dark;
+  color: @gray-very-light;
+
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    display: none;
+  }
 }
 
 /******** SECTION : TIME SEARCH : FILTER MAIN BOX *********/
@@ -21,6 +26,11 @@
   @media (max-width: @screen-xs-max) {
     padding-right: 0 !important;
     border: 0;
+  }
+
+  /* width 768px - 992px */
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    width: 43.7% !important;
   }
 }
 
@@ -155,6 +165,15 @@
   .extra-filters {
     border-bottom: 1px solid @gray-light-2;
 
+    .extra-filters-link {
+      display: none;
+    }
+
+    .extra-filters-content {
+      padding-left: 10px;
+      margin: 0;
+    }
+
     .extra-filters-input {
       line-height: 50px;
 
@@ -176,17 +195,22 @@
 
 /* width 768px - 992px */
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-
+  .extra-filters-input {
+    display: none;
+  }
 }
 
 /* width >= 992px */
 @media (min-width: @screen-md-min) {
-
+  .extra-filters-input {
+    display: none;
+  }
 }
 
 .extra-filters-content {
   padding-top: 10px;
-  background-color: #e8e8e8;
+  margin: 10px 0;
+  background-color: #efefef;
 }
 
 .filter-group{
@@ -200,9 +224,9 @@
 .extra-filters span input[type="radio"] + label {
   display: inline-block;
   margin-left: 10px;
-  padding: 5px 10px;
+  padding: 4px 10px;
   border: 1px solid @red-ribbon;
-  border-radius: 14px;
+  border-radius: 20px;
   color: @red-ribbon;
 
   font-family: @font-arialmt;
@@ -365,7 +389,12 @@
 /* width 768px - 992px */
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
   .timeslot-list {
+    width: 55.9% !important;
     padding-left: 30px !important;
+  }
+  .list-container {
+    overflow-y: auto;
+    height: 400px;
   }
 }
 
@@ -373,6 +402,10 @@
 @media (min-width: @screen-md-min) {
   .timeslot-list {
     padding-left: 30px !important;
+  }
+  .list-container {
+    height: 400px;;
+    overflow-y: auto;
   }
 }
 
@@ -393,10 +426,7 @@
 }
 
 @media (min-width: 769px) {
-  .list-container {
-    overflow-y: auto;
-    height: 400px;
-  }
+
 }
 
 .slot-inline {

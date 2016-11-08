@@ -25,7 +25,7 @@ const TimeslotList = (props) => {
       <div className="list-container row nopadding">
         <ul className="list-group">
           {!props.timeslots_list || props.timeslots_list.length == 0 ?
-            <p>{text('diacor_timeslot_list_content')}</p> :
+           <li className="list-group-item"><p>{text('diacor_timeslot_list_no_free_times')}</p></li> :
            result}
         </ul>
       </div>

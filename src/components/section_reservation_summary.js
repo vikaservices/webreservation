@@ -10,7 +10,7 @@ class SectionReservationSummary extends Component {
     super(props);
 
     this.state = {
-      reminderId: '60 min',
+      reminderType: '60 min',
       reminderName: '60 min'
     }
   }
@@ -23,7 +23,7 @@ class SectionReservationSummary extends Component {
 
   onReminderChange(event) {
     console.log("onReminderChange: " + event.target.value);
-    this.setState( { reminderId: event.target.value, reminderName: event.target.dataset.name } );
+    this.setState( { reminderType: event.target.value, reminderName: event.target.dataset.name } );
   }
 
   onSubmitReminder(reminderId, event) {
@@ -143,7 +143,7 @@ class SectionReservationSummary extends Component {
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "hide" : ""}>
               <h4 className="section-title">{text('diacor_section_summary_reminder_question')}</h4>
               <p>{text('diacor_section_summary_reminder_choise')}</p>
-              <form onSubmit={(event) => this.onSubmitReminder(this.state.reminderId, event)}>
+              <form onSubmit={(event) => this.onSubmitReminder(this.state.reminderType, event)}>
                 <div className="inline-box">
                   <div>
                     <img src="public/img/reminder-logo.png"/>
@@ -151,28 +151,28 @@ class SectionReservationSummary extends Component {
                   <div className="padding-left-20">
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
-                             checked={this.state.reminderId === "1" ? true : false}
+                             checked={this.state.reminderType === "MINUTES_30" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_30min')}
-                             value="1" />{text('diacor_section_summary_reminder_30min')}<br />
+                             value="MINUTES_30" />{text('diacor_section_summary_reminder_30min')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
-                             checked={this.state.reminderId === "60 min" ? true : false}
+                             checked={this.state.reminderType === "MINUTES_60" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_60min')}
-                             value="60 min" />{text('diacor_section_summary_reminder_60min')}<br />
+                             value="MINUTES_60" />{text('diacor_section_summary_reminder_60min')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
-                             checked={this.state.reminderId === "2 h" ? true : false}
+                             checked={this.state.reminderType === "HOURS_12" ? true : false}
                              name="sms_reminder"
-                             data-name={text('diacor_section_summary_reminder_2h')}
-                             value="2 h" />{text('diacor_section_summary_reminder_2h')}<br />
+                             data-name={text('diacor_section_summary_reminder_12h')}
+                             value="HOURS_12" />{text('diacor_section_summary_reminder_12h')}<br />
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
-                             checked={this.state.reminderId === "24 h" ? true : false}
+                             checked={this.state.reminderType === "DAYS_1" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_24h')}
-                             value="24 h" />{text('diacor_section_summary_reminder_24h')}
+                             value="DAYS_1" />{text('diacor_section_summary_reminder_24h')}
                   </div>
                 </div>
                 <div className="submit-buttons-centered">

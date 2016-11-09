@@ -32,6 +32,7 @@ import { TIMESLOTS_SEARCH,
          APP_STATE_ORDER_REMINDER_OK,
          APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION,
          APP_STATE_ORDER_REMINDER_FAILED,
+         APP_STATE_ORDER_REMINDER_FORBIDDEN,
          SET_SELECTED_DATE,
          SET_FILTERS,
          SET_SELECTED_EMPLOYER,
@@ -457,12 +458,18 @@ export default function(state = INITIAL_STATE, action) {
 
         if( action.payload.status && action.payload.status == 200 ) {
           new_state.appstate = APP_STATE_ORDER_REMINDER_OK;
-        } else {
+        }
+        else {
           if( action.payload.response && action.payload.response.status == 400 ) {
             new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
-          } else if( action.payload.response && action.payload.response.status == 404 ) {
+          }
+          else if( action.payload.response && action.payload.response.status == 403 ) {
+            new_state.appstate = APP_STATE_ORDER_REMINDER_FORBIDDEN;
+          }
+          else if( action.payload.response && action.payload.response.status == 404 ) {
             new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION;
-          } else {
+          }
+          else {
             new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED;
           }
           new_state.dialogisopen = true;

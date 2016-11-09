@@ -10,7 +10,9 @@ class SectionConfirmation extends Component {
     super(props);
 
     this.state = {
-      payer: ''
+      payer: '',
+      phone_validate_error: '',
+      email_validate_error: '',
     }
   }
 
@@ -26,6 +28,16 @@ class SectionConfirmation extends Component {
     this.props.resetState();
   }
 
+  validatePhoneNumber(phone) {
+    let re = /^\s*\+?(\d[\s\-]*){6,}\d\s*$/;
+    return re.test(phone);
+  }
+
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return re.test(email);
+  }
+
   confirmReservation( notes, visitType, smsNotificationTo, emailConfirmationTo, event) {
     event.preventDefault();
     console.log( "confirmReservation" +
@@ -33,6 +45,40 @@ class SectionConfirmation extends Component {
                  " visitType: " + visitType +
                  " smsNotificationTo: " + smsNotificationTo +
                  " emailConfirmationTo: " + emailConfirmationTo);
+
+    let validation_error = false;
+    // validate phone number and sms
+    if( !smsNotificationTo ) {
+      console.log("confirmReservation: no phone");
+      this.setState({phone_validate_error: 'empty'}, () => {
+        //return false;
+      });
+      validation_error = true;
+    }
+    else if( !this.validatePhoneNumber(smsNotificationTo) ) {
+      console.log("confirmReservation: wrong phone");
+      this.setState({phone_validate_error: 'wrong_format'}, () => {
+        //return false;
+      });
+      validation_error = true;
+    }
+    if( !emailConfirmationTo ) {
+      console.log("confirmReservation: no email");
+      this.setState({email_validate_error: 'empty'}, () => {
+        //return false;
+      });
+      validation_error = true;
+    }
+    else if( !this.validateEmail(emailConfirmationTo) ) {
+      console.log("confirmReservation: wrong email");
+      this.setState({email_validate_error: 'wrong_format'}, () => {
+        //return false;
+      });
+      validation_error = true;
+    }
+    if( validation_error ) {
+      return false;
+    }
     this.props.confirmReservation( this.props.prereservation.id,
                                    this.props.client_id,
                                    notes,
@@ -111,10 +157,10 @@ class SectionConfirmation extends Component {
             </div>
             <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
               <div className="confirmation-note">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet ornare dui.</p>
+                <p>{text('diacor_section_confirmation_note_slot1')}</p>
               </div>
               <div className="confirmation-note">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet ornare dui.</p>
+                <p>{text('diacor_section_confirmation_note_slot2')}</p>
               </div>
             </div>
           </div>
@@ -188,8 +234,8 @@ class SectionConfirmation extends Component {
                 </div>
               </div>
               <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
-                <div className="confirmation-note">
-                  <p>Varmista, että palvelu on yrityksesi työterveyspalvelujen piirissä.</p>
+                <div className={this.state.payer == "OCCUPATIONAL" ? "confirmation-note" : "hide"}>
+                  <p>{text('diacor_section_confirmation_note_ohc')}</p>
                 </div>
               </div>
             </div>
@@ -201,22 +247,22 @@ class SectionConfirmation extends Component {
                 </div>
                 <div className="confirmation-content">
                   <h5>{text('diacor_section_confirmation_content_contactInfo1')}</h5>
-                  <input type="text" name="emailConfirmationTo" placeholder={text('diacor_input_placeholder_email')} /><br />
-                  <input type="text" name="smsNotificationTo" placeholder={text('diacor_input_placeholder_cell')} />
+                  <input className={this.state.email_validate_error ? "validate-error" : ""} type="text" name="emailConfirmationTo" placeholder={text('diacor_input_placeholder_email')} /><br />
+                  <input className={this.state.phone_validate_error ? "validate-error" : ""} type="text" name="smsNotificationTo" placeholder={text('diacor_input_placeholder_cell')} />
                 </div>
               </div>
               <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
-                <div className="confirmation-note hide-mobile">
-                  <p>Tarvitsemme s-postiosoitteesi vahvistusta varten.</p>
+                <div className={this.state.email_validate_error ? "confirmation-note hide-mobile" : "hide"}>
+                  <p>{text('diacor_section_confirmation_note_email')}</p>
                 </div>
-                <div className="confirmation-note hide-mobile">
-                  <p>Matkapuhelinnumero tarvitaan yksityisasiakkaalle.</p>
+                <div className={this.state.phone_validate_error ? "confirmation-note hide-mobile" : "hide"}>
+                  <p>{text('diacor_section_confirmation_note_phone')}</p>
                 </div>
               </div>
             </div>
 
-            <div className={true ? "" : "hide"}>
-              <table>
+            <div className={this.props.selectedtimeslot.online ? "" : "hide"}>
+              <table className="">
                 <tbody>
                   <tr>
                     <td style={{verticalAlign: 'top'}}><input type="checkbox" name="diacor_plus" /></td>

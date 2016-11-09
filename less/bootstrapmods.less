@@ -34,7 +34,14 @@ body {
   }
 }
 
+/*
 body {
+  @media @respond-below-mobile {
+    overflow: hidden;
+  }
+}
+*/
+.body-no-overflow {
   @media @respond-below-mobile {
     overflow: hidden;
   }
@@ -76,6 +83,10 @@ h3 {
   color: @gray-black !important;
 }
 
+.list-group {
+  width: 100% !important;
+}
+
 .list-group-item {
   border-left: 0 !important;
   border-right: 0 !important;
@@ -100,6 +111,7 @@ h3 {
   @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     padding: 6px 0 !important;
     line-height: 50px !important;
+    width: 100%;
 
     p {
       font-family: @font-arialmt;
@@ -116,6 +128,7 @@ h3 {
   @media (min-width: @screen-md-min) {
     padding: 6px 0 !important;
     line-height: 50px !important;
+    width: 100% !important;
 
     p {
       font-family: @font-arialmt;

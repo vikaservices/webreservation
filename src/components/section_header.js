@@ -36,7 +36,7 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag}) 
       <div className={is_ohc_client ? "links-bar hide-mobile-links-bar" : "links-bar"}>
         <span className="header-link">
           <span className={is_ohc_client ? "hide" : "logo-login-ohc"} />
-          <a className="ohc_login_desktop" href="" data-target="ohc_login" onClick={(event) => clickHandler(event)}>
+          <a className={is_ohc_client ? "hide" : "ohc_login_desktop"} href="" data-target="ohc_login" onClick={(event) => clickHandler(event)}>
             {text('diacor_section_header1_desktop')}
           </a>
           <a className="ohc_login_mobile" href="" data-target="ohc_login" onClick={(event) => clickHandler(event)}>

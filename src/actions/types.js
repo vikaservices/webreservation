@@ -36,6 +36,7 @@ export const APP_STATE_ORDER_REMINDER_OK = 'app_state_order_reminder_ok';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT = 'app_state_order_reminder_failed_no_client';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION = 'app_state_order_reminder_failed_no_reservation';
 export const APP_STATE_ORDER_REMINDER_FAILED = 'app_state_order_reminder_failed';
+export const APP_STATE_ORDER_REMINDER_FORBIDDEN = 'app_state_order_reminder_forbidden';
 
 // DIALOGS
 export const DLG_VIEW_NONE = 'dlg_view_none';

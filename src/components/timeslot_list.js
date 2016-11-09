@@ -22,7 +22,7 @@ const TimeslotList = (props) => {
         <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)}</h4>
         <FilterTimeOfDay {...props}/>
       </div>
-      <div className="list-container row nopadding">
+      <div className="list-container row">
         <ul className="list-group">
           {!props.timeslots_list || props.timeslots_list.length == 0 ?
            <li className="list-group-item"><p>{text('diacor_timeslot_list_no_free_times')}</p></li> :

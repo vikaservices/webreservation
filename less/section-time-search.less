@@ -31,6 +31,12 @@
   /* width 768px - 992px */
   @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     width: 43.7% !important;
+    min-height: 449px !important;
+  }
+
+  /* width >= 992px */
+  @media (min-width: @screen-md-min) {
+    min-height: 449px !important;
   }
 }
 
@@ -210,7 +216,7 @@
 .extra-filters-content {
   padding-top: 10px;
   margin: 10px 0;
-  background-color: #efefef;
+  background-color: @white;
 }
 
 .filter-group{
@@ -225,9 +231,9 @@
   display: inline-block;
   margin-left: 10px;
   padding: 4px 10px;
-  border: 1px solid @red-ribbon;
+  border: 1px solid @gray-very-light;
   border-radius: 20px;
-  color: @red-ribbon;
+  color: @gray-very-light;
 
   font-family: @font-arialmt;
   font-size: 15px;
@@ -240,7 +246,8 @@
 }
 
 .extra-filters span input[type="radio"] + label:hover  {
-  opacity: 0.2;
+  border: 1px solid @red-ribbon;
+  color: @red-ribbon;
 }
 
 .extra-filters span input[type="radio"]:checked + label {
@@ -394,7 +401,7 @@
   }
   .list-container {
     overflow-y: auto;
-    height: 400px;
+    height: 420px;
   }
 }
 
@@ -402,10 +409,16 @@
 @media (min-width: @screen-md-min) {
   .timeslot-list {
     padding-left: 30px !important;
+    overflow: hidden;
   }
   .list-container {
-    height: 400px;;
+    height: 420px;
+    width: 440px;
     overflow-y: auto;
+    padding-left: 0 !important;
+    padding-right: 17px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 

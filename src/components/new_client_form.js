@@ -77,8 +77,8 @@ class NewClientForm extends Component {
 }
 
 const phoneValidation = input => {
-  //console.log(input + " : " + /^\\s*\\+?(\\d[\\s\\-]*){6,}\\d\\s*$/.test(input));
-  return (input.length > 0 && /^\\s*\\+?(\\d[\\s\\-]*){6,}\\d\\s*$/.test(input));
+  //console.log(input + " : " + /^\s*\+?(\d[\s\-]*){6,}\d\s*$/.test(input));
+  return (input.length > 0 && /^\s*\+?(\d[\s\-]*){6,}\d\s*$/.test(input));
 }
 
 

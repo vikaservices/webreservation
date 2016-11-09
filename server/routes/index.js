@@ -227,7 +227,7 @@ router.get('/reservations', function(req, res, next) {
       }
       apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId + '/reminders';
 
-      payload = `{"clientId":${req.query.clientId}, "reminderId":${req.query.reminderId}}`;
+      payload = `{"clientId":${req.query.clientId}, "reminderType":"${req.query.reminderId}"}`;
 
     } else {
       // RESERVATION CONFIRMATION

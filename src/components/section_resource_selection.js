@@ -64,13 +64,13 @@ class SectionResourceSelection extends Component {
 
           <div className="col-xs-12">
             <div className="header-row">
-              <h4 className="pull-left">{text('diacor_section_resource_header')}</h4>
+              <h4 className="pull-left" style={{width:'25%',textAlign:'left'}}>{text('diacor_section_resource_header')}</h4>
               <div className="ohc-employer-list">
                 <DropdownMenu items={this.state.employers}
                               selected={this.props.selected_employer.name}
                               onChange={this.handleEmployerChange.bind(this)} />
               </div>
-              <a href="#" className="link font-size-14 pull-right" onClick={(event) => this.toggleVisibility(event)}>
+              <a href="#" className="link font-size-14 pull-right" style={{width:'25%',textAlign:'right'}} onClick={(event) => this.toggleVisibility(event)}>
                 { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
               </a>
             </div>

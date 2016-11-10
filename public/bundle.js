@@ -42965,16 +42965,17 @@
 	function freedaysSearch(from, to) {
 	  var resource = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 	  var speciality = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
-	  var groups = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+	  var group = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
 	  var unit = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
-	  var lang = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
+	  var language = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 	  var gender = arguments.length <= 7 || arguments[7] === undefined ? null : arguments[7];
 	  var city = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
 	  var employer = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
 	  var client = arguments.length <= 10 || arguments[10] === undefined ? null : arguments[10];
+	  var lang = arguments.length <= 11 || arguments[11] === undefined ? null : arguments[11];
 
 
-	  if (resource == null && speciality == null && groups == null && unit == null && lang == null && gender == null && city == null && employer == null && client == null) {
+	  if (resource == null && speciality == null && group == null && unit == null && language == null && gender == null && city == null && employer == null && client == null) {
 	    return {
 	      type: _types.FREEDAYS_SEARCH,
 	      payload: null
@@ -42984,13 +42985,21 @@
 	  var search_str = 'freedays?from=' + from + '&to=' + to;
 	  search_str += resource ? '&resource=' + resource : '';
 	  search_str += speciality ? '&speciality=' + speciality : '';
-	  search_str += groups ? '&groups=' + groups : '';
+	  var s = "";
+	  if (group || language || gender || city) {
+	    s += group ? group + ',' : '';
+	    s += language ? language + ',' : '';
+	    s += gender ? gender + ',' : '';
+	    s += city ? city + ',' : '';
+	  }
+	  if (s.length) {
+	    s = s.substr(0, s.length - 1);
+	    search_str += '&groups=' + s;
+	  }
 	  search_str += unit ? '&unit=' + unit : '';
-	  //search_str += lang        ? `&lang=${lang}`             : '';
-	  //search_str += gender      ? `&gender=${gender}`         : '';
-	  //search_str += city        ? `&city=${city}`             : '';
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
+	  search_str += lang ? '&lang=' + lang : '';
 
 	  console.log("Action: freedaysSearch" + search_str);
 
@@ -45350,7 +45359,6 @@
 	    value: function onKeyDown(event) {
 	      var _this4 = this;
 
-	      console.log("onKeyPress: " + event.keyCode);
 	      var target = event.target.dataset.name;
 	      if (event.keyCode == 38) {
 	        // up arrow
@@ -70292,7 +70300,7 @@
 	      if (!action.payload) {
 	        return _extends({}, state, { terms_list: [] });
 	      }
-	      console.log(action.payload.data.terms);
+	      //console.log(action.payload.data.terms);
 	      return _extends({}, state, { terms_list: action.payload.data.terms });
 
 	    default:
@@ -70401,8 +70409,11 @@
 	  switch (action.type) {
 
 	    case _types.TIMESLOTS_SEARCH:
+	      new_state = (0, _reducer_timeslots2.default)(state, action);
 	      console.log("reducer_app: TIMESLOTS_SEARCH");
-	      return (0, _reducer_timeslots2.default)(state, action);
+	      console.log("state:");
+	      console.log(new_state);
+	      return new_state;
 
 	    case _types.LOGIN_CLIENT:
 	      console.log("reducer_app: LOGIN_CLIENT");
@@ -70620,29 +70631,30 @@
 
 	    case _types.CANCEL_RESERVATION:
 	      new_state = _extends({}, state);
+	      console.log("reducer_app: CANCEL_RESERVATION:");
 	      console.log(action);
 	      if (action.payload) {
 	        if (action.payload.status == 204) {
 	          // delete ok
-	          console.log("CANCEL_RESERVATION: delete ok");
+	          console.log("reducer_app: CANCEL_RESERVATION: delete ok");
 	          new_state.dialogisopen = true;
 	          new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_OK;
 	          new_state.reservationstatus = 204;
 	        } else if (action.payload.status == 404) {
 	          // delete error
-	          console.log("CANCEL_RESERVATION: delete error 404");
+	          console.log("reducer_app: CANCEL_RESERVATION: delete error 404");
 	          new_state.dialogisopen = true;
 	          new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
 	          new_state.reservationstatus = 404;
 	        } else {
 	          // some other delete error
-	          console.log("CANCEL_RESERVATION: some other error");
+	          console.log("reducer_app: CANCEL_RESERVATION: some other error");
 	          new_state.dialogisopen = true;
 	          new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION_ERROR;
 	        }
 	      } else {
 	        // init dialog for asking reservation code
-	        console.log("CANCEL_RESERVATION: open dialog");
+	        console.log("reducer_app: CANCEL_RESERVATION: open dialog");
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_CANCEL_RESERVATION;
 	      }
@@ -70726,7 +70738,7 @@
 	        new_state.appstate = _types.APP_STATE_ORDER_REMINDER_OK;
 	      } else {
 	        if (action.payload.response && action.payload.response.status == 400) {
-	          new_state.appstate = APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
+	          new_state.appstate = _types.APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT;
 	        } else if (action.payload.response && action.payload.response.status == 403) {
 	          new_state.appstate = _types.APP_STATE_ORDER_REMINDER_FORBIDDEN;
 	        } else if (action.payload.response && action.payload.response.status == 404) {
@@ -70810,10 +70822,6 @@
 	var month = d.getMonth();
 	var year = d.getFullYear();
 	var today = d.toISOString();
-
-	// date_filter: new Date(),
-	// date_filter_month: new Date().getMonth(),
-	// date_filter_year: new Date().getFullYear()
 
 	var INITIAL_STATE = {
 	  timeslots_list: [],

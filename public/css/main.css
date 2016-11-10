@@ -357,7 +357,7 @@ h3 {
     display: inline-block;
     line-height: 22px;
     vertical-align: middle;
-    font-family: Gotham-Book, ArialMT;
+    font-family: "Gotham A", ArialMT;
     font-size: 22px;
     font-weight: normal;
     font-style: normal;
@@ -432,7 +432,7 @@ h3 {
     background-image: url('/public/img/header-diacor-logo-tab.png');
   }
   .logo-bar .title {
-    font-family: Gotham-Book, ArialMT;
+    font-family: "Gotham A", ArialMT;
     font-size: 35px;
     line-height: 26px;
     padding-top: 40px;
@@ -515,7 +515,7 @@ h3 {
     background-image: url('/public/img/header-diacor-logo.png');
   }
   .logo-bar .title {
-    font-family: Gotham-Book, ArialMT;
+    font-family: "Gotham A", ArialMT;
     font-size: 40px;
     line-height: 40px;
     text-align: center;
@@ -1680,7 +1680,7 @@ h3 {
 .submit-buttons-centered {
   text-align: center;
   margin-top: 30px;
-  font-family: Gotham-Book, ArialMT;
+  font-family: "Gotham A", ArialMT;
   letter-spacing: 1px;
   color: #fff;
 }

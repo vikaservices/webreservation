@@ -30,6 +30,7 @@ import { TIMESLOTS_SEARCH,
          APP_STATE_CLIENT_IDENTIFIED,
          APP_STATE_CONFIRMATION_OK,
          APP_STATE_ORDER_REMINDER_OK,
+         APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT,
          APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION,
          APP_STATE_ORDER_REMINDER_FAILED,
          APP_STATE_ORDER_REMINDER_FORBIDDEN,
@@ -60,10 +61,6 @@ let d = new Date();
 let month = d.getMonth();
 let year  = d.getFullYear();
 let today = d.toISOString();
-
-// date_filter: new Date(),
-// date_filter_month: new Date().getMonth(),
-// date_filter_year: new Date().getFullYear()
 
 let INITIAL_STATE = {
                       timeslots_list: [],
@@ -117,8 +114,11 @@ export default function(state = INITIAL_STATE, action) {
   switch( action.type ) {
 
     case TIMESLOTS_SEARCH:
+      new_state = reducerTimeslots( state, action );
       console.log("reducer_app: TIMESLOTS_SEARCH");
-      return reducerTimeslots( state, action );
+      console.log("state:");
+      console.log(new_state);
+      return new_state;
 
     case LOGIN_CLIENT:
       console.log("reducer_app: LOGIN_CLIENT");
@@ -351,32 +351,33 @@ export default function(state = INITIAL_STATE, action) {
 
       case CANCEL_RESERVATION:
         new_state = {...state};
+        console.log("reducer_app: CANCEL_RESERVATION:");
         console.log(action);
         if( action.payload ) {
           if( action.payload.status == 204 ) {
             // delete ok
-            console.log("CANCEL_RESERVATION: delete ok");
+            console.log("reducer_app: CANCEL_RESERVATION: delete ok");
             new_state.dialogisopen = true;
             new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_OK;
             new_state.reservationstatus = 204;
 
           } else if( action.payload.status == 404 ) {
             // delete error
-            console.log("CANCEL_RESERVATION: delete error 404");
+            console.log("reducer_app: CANCEL_RESERVATION: delete error 404");
             new_state.dialogisopen = true;
             new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND;
             new_state.reservationstatus = 404;
 
           } else {
             // some other delete error
-            console.log("CANCEL_RESERVATION: some other error");
+            console.log("reducer_app: CANCEL_RESERVATION: some other error");
             new_state.dialogisopen = true;
             new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION_ERROR;
           }
         }
         else {
           // init dialog for asking reservation code
-          console.log("CANCEL_RESERVATION: open dialog");
+          console.log("reducer_app: CANCEL_RESERVATION: open dialog");
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_CANCEL_RESERVATION;
         }

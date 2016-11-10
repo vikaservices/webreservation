@@ -96,11 +96,13 @@ export function timeslotsSearch(date, resource=null, speciality=null, group=null
 }
 
 
-export function freedaysSearch(from, to, resource=null, speciality=null, groups=null, unit=null,
-                               lang=null, gender=null, city=null, employer=null, client=null) {
+export function freedaysSearch(from, to, resource=null, speciality=null, group=null,
+                               unit=null, language=null, gender=null, city=null,
+                               employer=null, client=null, lang=null) {
 
-  if( resource == null && speciality == null && groups == null && unit == null &&
-      lang == null && gender == null && city == null && employer == null && client == null) {
+  if( resource == null && speciality == null && group == null && unit == null &&
+      language == null && gender == null && city == null && employer == null &&
+      client == null) {
     return {
       type: FREEDAYS_SEARCH,
       payload: null
@@ -110,13 +112,21 @@ export function freedaysSearch(from, to, resource=null, speciality=null, groups=
   let search_str = `freedays?from=${from}&to=${to}`;
   search_str += resource    ? `&resource=${resource}`     : '';
   search_str += speciality  ? `&speciality=${speciality}` : '';
-  search_str += groups      ? `&groups=${groups}`           : '';
+  let s = "";
+  if( group || language || gender || city ) {
+    s += group ?  `${group},`: '';
+    s += language ? `${language},` : '';
+    s += gender ? `${gender},` : '';
+    s += city ? `${city},` : '';
+  }
+  if(s.length) {
+    s = s.substr(0, s.length-1);
+    search_str += `&groups=${s}`;
+  }
   search_str += unit        ? `&unit=${unit}`             : '';
-  //search_str += lang        ? `&lang=${lang}`             : '';
-  //search_str += gender      ? `&gender=${gender}`         : '';
-  //search_str += city        ? `&city=${city}`             : '';
   search_str += employer      ? `&employer=${employer}`     : '';
   search_str += employer && client ? `&client=${client}`    : '';
+  search_str += lang        ? `&lang=${lang}`             : '';
 
   console.log("Action: freedaysSearch" + search_str);
 

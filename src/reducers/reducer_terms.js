@@ -11,7 +11,7 @@ export default function(state = INITIAL_STATE, action) {
       if( !action.payload ) {
         return {...state, terms_list: []}
       }
-      console.log(action.payload.data.terms);
+      //console.log(action.payload.data.terms);
       return {...state, terms_list: action.payload.data.terms};
 
     default:

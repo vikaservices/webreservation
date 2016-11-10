@@ -168,7 +168,6 @@ class FilterMain extends Component {
   }
 
   onKeyDown(event) {
-    console.log("onKeyPress: " + event.keyCode);
     let target = event.target.dataset.name;
     if( event.keyCode == 38 ) { // up arrow
       if( target == "terms") {

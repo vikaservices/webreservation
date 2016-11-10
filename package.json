@@ -42,6 +42,9 @@
   "dependencies": {
     "axios": "^0.14.0",
     "belle": "^2.0.8",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
     "lodash": "^3.10.1",
     "moment": "^2.15.0",
@@ -54,6 +57,7 @@
     "react-widgets": "^3.4.4",
     "redux": "^3.6.0",
     "redux-form": "^6.1.1",
-    "redux-promise": "^0.5.3"
+    "redux-promise": "^0.5.3",
+    "unirest": "^0.5.1"
   }
 }

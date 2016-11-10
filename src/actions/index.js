@@ -23,12 +23,9 @@ import { TERMS_SEARCH,
          GET_FIXEDGROUPS,
          SET_APP_ENTRY_FLAG
         } from './types';
-//import { UIServerUrl } from '../../utils/conf';
 import axios from 'axios';
-//import Config from 'Config';
 
-//let UIServerUrl = "http://vob.fi:4000/";
-//let UIServerUrl = "http://localhost:3000/";
+const UIServerUrl = "/api/";
 
 export function termsSearch(terms=null) {
 
@@ -40,7 +37,7 @@ export function termsSearch(terms=null) {
       payload: null
     };
   }
-
+  console.log(`${UIServerUrl}terms?prefix=${terms}`);
   const request = axios.get(`${UIServerUrl}terms?prefix=${terms}`);
 
   return {

@@ -42881,10 +42881,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//import Config from 'Config';
-
-	//let UIServerUrl = "http://vob.fi:4000/";
-	//let UIServerUrl = "http://localhost:3000/";
+	var UIServerUrl = "/api/";
 
 	function termsSearch() {
 	  var terms = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
@@ -42898,7 +42895,7 @@
 	      payload: null
 	    };
 	  }
-
+	  console.log(UIServerUrl + 'terms?prefix=' + terms);
 	  var request = _axios2.default.get(UIServerUrl + 'terms?prefix=' + terms);
 
 	  return {
@@ -42906,7 +42903,7 @@
 	    payload: request
 	  };
 	}
-	//import { UIServerUrl } from '../../utils/conf';
+
 	function unitsSearch() {
 	  var units = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 

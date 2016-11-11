@@ -25,7 +25,7 @@ import { TERMS_SEARCH,
         } from './types';
 import axios from 'axios';
 
-const UIServerUrl = "/api/";
+//const UIServerUrl = "/api/";
 
 export function termsSearch(terms=null) {
 

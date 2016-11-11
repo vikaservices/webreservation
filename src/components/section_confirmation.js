@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import text from './common/translate';
@@ -6,6 +6,10 @@ import SvgIcon from './common/svg_definitions';
 import { APP_STATE_CONFIRMATION_OK } from '../actions/types';
 
 class SectionConfirmation extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
 
@@ -88,6 +92,10 @@ class SectionConfirmation extends Component {
                                  ).then( () => {
                                    if( this.props.appstate == APP_STATE_CONFIRMATION_OK) {
                                      console.log("confirmReservation: confirmation ok");
+                                     if( this.props.native_entry_flag ) {
+                                       // Inform DiacorPlus app that webapp has finished
+                                       this.context.router.push("/?finish=1");
+                                     }
                                    } else {
                                      // error
                                      console.log("confirmReservation: confirmation failed");
@@ -299,7 +307,8 @@ function mapStateToProps(state) {
     client_id: state.app.client_id,
     is_ohc_client: state.app.is_ohc_client,
     selected_employer: state.app.selected_employer,
-    confirmation_section_active: state.app.confirmation_section_active
+    confirmation_section_active: state.app.confirmation_section_active,
+    native_entry_flag: state.app.native_entry_flag
   };
 }
 

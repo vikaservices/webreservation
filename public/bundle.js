@@ -42881,7 +42881,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var UIServerUrl = "/api/";
+	//const UIServerUrl = "/api/";
 
 	function termsSearch() {
 	  var terms = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
@@ -56010,6 +56010,10 @@
 	      this.props.confirmReservation(this.props.prereservation.id, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo).then(function () {
 	        if (_this2.props.appstate == _types.APP_STATE_CONFIRMATION_OK) {
 	          console.log("confirmReservation: confirmation ok");
+	          if (_this2.props.native_entry_flag) {
+	            // Inform DiacorPlus app that webapp has finished
+	            _this2.context.router.push("/?finish=1");
+	          }
 	        } else {
 	          // error
 	          console.log("confirmReservation: confirmation failed");
@@ -56428,6 +56432,11 @@
 	  return SectionConfirmation;
 	}(_react.Component);
 
+	SectionConfirmation.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+
+
 	function mapStateToProps(state) {
 	  return {
 	    date_filter: state.app.filters.date_filter,
@@ -56437,7 +56446,8 @@
 	    client_id: state.app.client_id,
 	    is_ohc_client: state.app.is_ohc_client,
 	    selected_employer: state.app.selected_employer,
-	    confirmation_section_active: state.app.confirmation_section_active
+	    confirmation_section_active: state.app.confirmation_section_active,
+	    native_entry_flag: state.app.native_entry_flag
 	  };
 	}
 

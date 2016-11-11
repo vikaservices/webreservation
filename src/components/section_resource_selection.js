@@ -24,7 +24,25 @@ class SectionResourceSelection extends Component {
       nextProps.employers.map((item) => {
           emps.push({id: item.id, value: item.name});
       });
-      this.setState( {employers: emps, show_team: true} );
+      setTimeout(() => {
+        if( this.props.native_entry_flag ) {
+          // Ohc client from diacorplus -> hide team by default
+          console.log("SectionResourceSelection: componentWillReceiveProps: 1");
+          this.setState( {employers: emps} )
+        } else {
+          if( this.props.selectedtimeslot.resourceId ) {
+            // Ohc client logged in by selecting timeslot
+            console.log("SectionResourceSelection: componentWillReceiveProps: 2");
+            this.setState( {employers: emps} );
+          } else {
+            // Ohc customer from normal browser using ohc login
+            console.log("SectionResourceSelection: componentWillReceiveProps: 3");
+            this.setState( {employers: emps, show_team: true} );
+          }
+        }
+      }
+      ,0);
+      //this.setState( {employers: emps, show_team: true} );
     }
   }
 
@@ -105,7 +123,11 @@ function mapStateToProps(state) {
     ohc_team: state.app.selected_employer.professionals,
     employers: state.app.employers,
     selected_employer: state.app.selected_employer,
-    filters: state.app.filters
+    filters: state.app.filters,
+    native_entry_flag: state.app.native_entry_flag,
+
+    selectedtimeslot: state.app.selectedtimeslot,
+    appstate: state.app.appstate
   };
 }
 

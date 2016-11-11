@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import text from './common/translate';
@@ -6,9 +6,6 @@ import SvgIcon from './common/svg_definitions';
 import { APP_STATE_CONFIRMATION_OK } from '../actions/types';
 
 class SectionConfirmation extends Component {
-  static contextTypes = {
-    router: PropTypes.object
-  }
 
   constructor(props) {
     super(props);
@@ -94,7 +91,7 @@ class SectionConfirmation extends Component {
                                      console.log("confirmReservation: confirmation ok");
                                      if( this.props.native_entry_flag ) {
                                        // Inform DiacorPlus app that webapp has finished
-                                       this.context.router.push("/?finish=1");
+                                       window.location.assign("?&finish=1");
                                      }
                                    } else {
                                      // error

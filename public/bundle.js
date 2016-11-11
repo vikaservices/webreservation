@@ -42718,7 +42718,24 @@
 	          nextProps.employers.map(function (item) {
 	            emps.push({ id: item.id, value: item.name });
 	          });
-	          _this2.setState({ employers: emps, show_team: true });
+	          setTimeout(function () {
+	            if (_this2.props.native_entry_flag) {
+	              // Ohc client from diacorplus -> hide team by default
+	              console.log("SectionResourceSelection: componentWillReceiveProps: 1");
+	              _this2.setState({ employers: emps });
+	            } else {
+	              if (_this2.props.selectedtimeslot.resourceId) {
+	                // Ohc client logged in by selecting timeslot
+	                console.log("SectionResourceSelection: componentWillReceiveProps: 2");
+	                _this2.setState({ employers: emps });
+	              } else {
+	                // Ohc customer from normal browser using ohc login
+	                console.log("SectionResourceSelection: componentWillReceiveProps: 3");
+	                _this2.setState({ employers: emps, show_team: true });
+	              }
+	            }
+	          }, 0);
+	          //this.setState( {employers: emps, show_team: true} );
 	        })();
 	      }
 	    }
@@ -42833,7 +42850,11 @@
 	    ohc_team: state.app.selected_employer.professionals,
 	    employers: state.app.employers,
 	    selected_employer: state.app.selected_employer,
-	    filters: state.app.filters
+	    filters: state.app.filters,
+	    native_entry_flag: state.app.native_entry_flag,
+
+	    selectedtimeslot: state.app.selectedtimeslot,
+	    appstate: state.app.appstate
 	  };
 	}
 
@@ -56012,7 +56033,7 @@
 	          console.log("confirmReservation: confirmation ok");
 	          if (_this2.props.native_entry_flag) {
 	            // Inform DiacorPlus app that webapp has finished
-	            _this2.context.router.push("/?finish=1");
+	            window.location.assign("?&finish=1");
 	          }
 	        } else {
 	          // error
@@ -56431,11 +56452,6 @@
 
 	  return SectionConfirmation;
 	}(_react.Component);
-
-	SectionConfirmation.contextTypes = {
-	  router: _react.PropTypes.object
-	};
-
 
 	function mapStateToProps(state) {
 	  return {

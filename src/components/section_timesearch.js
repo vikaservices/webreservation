@@ -12,7 +12,7 @@ class SectionTimeSearch extends Component {
   componentWillMount() {
     let today = new Date().toISOString().substr(0,10);
     // Initially search timeslots for today for general practioner (speciality = 2)
-    this.props.timeslotsSearch(today, null, null, [72]);
+    this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
   }
 
   // Go back to time selection

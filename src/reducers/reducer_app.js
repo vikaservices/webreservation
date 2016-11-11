@@ -92,7 +92,7 @@ let INITIAL_STATE = {
                         units_search: '',
                         resource_filter: null,
                         speciality_filter: null,
-                        group_filter: 72,
+                        group_filter: null,
                         unit_filter: null,
                         lang_filter: null,
                         gender_filter: null,
@@ -435,6 +435,26 @@ export default function(state = INITIAL_STATE, action) {
         console.log("reducer_app: SET_FILTERS");
         new_state = {...state};
         new_state.filters = action.filters;
+        // If
+        if(new_state.filters.resource_filter === null && new_state.filters.speciality_filter === null &&
+           new_state.filters.unit_filter === null &&
+           new_state.filters.lang_filter === null && new_state.filters.gender_filter === null &&
+           new_state.filters.city_filter === null && new_state.filters.employer_id_filter === null)
+        {
+          //console.log("reducer_app: SET_FILTERS: set default filter");
+          if( new_state.filters.group_filter === null ) {
+            new_state.filters.group_filter = DEFAULT_SEARCH_GROUP;
+          }
+        }
+        else {
+          //console.log("reducer_app: SET_FILTERS: null filter");
+          new_state.filters.group_filter = null;
+          if( action.filters.group_filter && (action.filters.group_filter === DEFAULT_SEARCH_GROUP) ) {
+            //console.log("reducer_app: SET_FILTERS: cancel null filter");
+            new_state.filters.group_filter = DEFAULT_SEARCH_GROUP;
+          }
+        }
+
         console.log(new_state);
         return new_state;
 

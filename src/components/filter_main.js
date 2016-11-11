@@ -78,11 +78,6 @@ class FilterMain extends Component {
       this.props.setFilter( filters );
     }
 
-    // if( nextProps.filters.employer_id_filter ) {
-    //   console.log("employer_id_filter search");
-    //   //this.doTimeslotsSearch(nextProps);
-    //   //this.doFreedaysSearch(nextProps);
-    // }
   } // componentWillReceiveProps
 
   render() {

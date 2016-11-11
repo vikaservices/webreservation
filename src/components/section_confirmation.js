@@ -18,7 +18,9 @@ class SectionConfirmation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let payer = nextProps.is_ohc_client ? 'OCCUPATIONAL' : 'PRIVATE';
+    let payer = nextProps.is_ohc_client
+                  ? nextProps.is_private_visit ? 'PRIVATE' : 'OCCUPATIONAL' 
+                  : 'PRIVATE';
     this.setState( {payer: payer} );
     console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
   }
@@ -305,7 +307,8 @@ function mapStateToProps(state) {
     is_ohc_client: state.app.is_ohc_client,
     selected_employer: state.app.selected_employer,
     confirmation_section_active: state.app.confirmation_section_active,
-    native_entry_flag: state.app.native_entry_flag
+    native_entry_flag: state.app.native_entry_flag,
+    is_private_visit: state.app.is_private_visit
   };
 }
 

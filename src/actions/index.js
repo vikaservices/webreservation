@@ -372,10 +372,11 @@ export function getFixedgroups( lang = null ) {
   }
 }
 
-export function setPageHeaderOptions( native_entry_flag, is_ohc_client ) {
+export function setNativeAppOptions( native_entry_flag = null, is_ohc_client = null, is_private_visit = null ) {
   return {
     type: SET_APP_ENTRY_FLAG,
     native_entry_flag: native_entry_flag,
-    is_ohc_client: is_ohc_client
+    is_ohc_client: is_ohc_client,
+    is_private_visit: is_private_visit
   }
 }

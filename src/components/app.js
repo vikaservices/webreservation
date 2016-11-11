@@ -47,9 +47,10 @@ class App extends Component {
       if( employerId ) {
         // 1st: native_entry_flag(true => hides diacor-logo from header)
         // 2nd: is_ohc_client(true => hides link row from header)
-        this.props.setPageHeaderOptions( true, true );
+        // 3rd: is_private_visit(true => select private payer, even if this is ohc client )
+        this.props.setNativeAppOptions( true, true, false );
       } else {
-        this.props.setPageHeaderOptions( true, false );
+        this.props.setNativeAppOptions( true, false, true );
       }
 
       this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);

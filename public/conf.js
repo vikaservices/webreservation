@@ -3,3 +3,5 @@ const UIServerUrl = "/api/";
 //const UIServerUrl = "http://localhost:3000/";
 
 const GOOGLE_ANALYTICS_KEY="UA-34352812-5";
+
+const DEFAULT_SEARCH_GROUP=72;

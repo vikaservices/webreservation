@@ -361,7 +361,14 @@ class FilterMain extends Component {
 
   onToggleExtraFilters(event) {
     event.preventDefault();
-    this.setState( {extra_filters_visible: !this.state.extra_filters_visible} );
+    this.setState( {extra_filters_visible: !this.state.extra_filters_visible}, () => {
+      console.log("FilterMain: onToggleExtraFilters: height: " + $('.filter-main').height());
+      if( $(document).width() >= 768 ) {
+        // Do this only for tablet and desktop
+        $('.timeslot-list').height($('.filter-main').height());
+        $('.list-container').height($('.filter-main').height() - 29);
+      }
+    });
   }
 
   // Handle extra filter changes

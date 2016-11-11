@@ -29800,9 +29800,10 @@
 	        if (employerId) {
 	          // 1st: native_entry_flag(true => hides diacor-logo from header)
 	          // 2nd: is_ohc_client(true => hides link row from header)
-	          this.props.setPageHeaderOptions(true, true);
+	          // 3rd: is_private_visit(true => select private payer, even if this is ohc client )
+	          this.props.setNativeAppOptions(true, true, false);
 	        } else {
-	          this.props.setPageHeaderOptions(true, false);
+	          this.props.setNativeAppOptions(true, false, true);
 	        }
 
 	        this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
@@ -42892,7 +42893,7 @@
 	exports.setSelectedEmployer = setSelectedEmployer;
 	exports.showDoctorInfo = showDoctorInfo;
 	exports.getFixedgroups = getFixedgroups;
-	exports.setPageHeaderOptions = setPageHeaderOptions;
+	exports.setNativeAppOptions = setNativeAppOptions;
 
 	var _types = __webpack_require__(278);
 
@@ -43285,11 +43286,16 @@
 	  };
 	}
 
-	function setPageHeaderOptions(native_entry_flag, is_ohc_client) {
+	function setNativeAppOptions() {
+	  var native_entry_flag = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	  var is_ohc_client = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+	  var is_private_visit = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
 	  return {
 	    type: _types.SET_APP_ENTRY_FLAG,
 	    native_entry_flag: native_entry_flag,
-	    is_ohc_client: is_ohc_client
+	    is_ohc_client: is_ohc_client,
+	    is_private_visit: is_private_visit
 	  };
 	}
 
@@ -44990,7 +44996,7 @@
 	    value: function componentWillMount() {
 	      var today = new Date().toISOString().substr(0, 10);
 	      // Initially search timeslots for today for general practioner (speciality = 2)
-	      this.props.timeslotsSearch(today, null, null, [72]);
+	      this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
 	    }
 
 	    // Go back to time selection
@@ -45254,12 +45260,6 @@
 	        _filters2.do_time_search = false;
 	        this.props.setFilter(_filters2);
 	      }
-
-	      // if( nextProps.filters.employer_id_filter ) {
-	      //   console.log("employer_id_filter search");
-	      //   //this.doTimeslotsSearch(nextProps);
-	      //   //this.doFreedaysSearch(nextProps);
-	      // }
 	    } // componentWillReceiveProps
 
 	  }, {
@@ -45596,7 +45596,14 @@
 	    key: 'onToggleExtraFilters',
 	    value: function onToggleExtraFilters(event) {
 	      event.preventDefault();
-	      this.setState({ extra_filters_visible: !this.state.extra_filters_visible });
+	      this.setState({ extra_filters_visible: !this.state.extra_filters_visible }, function () {
+	        console.log("FilterMain: onToggleExtraFilters: height: " + $('.filter-main').height());
+	        if ($(document).width() >= 768) {
+	          // Do this only for tablet and desktop
+	          $('.timeslot-list').height($('.filter-main').height());
+	          $('.list-container').height($('.filter-main').height() - 29);
+	        }
+	      });
 	    }
 
 	    // Handle extra filter changes
@@ -55966,7 +55973,7 @@
 	  _createClass(SectionConfirmation, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      var payer = nextProps.is_ohc_client ? 'OCCUPATIONAL' : 'PRIVATE';
+	      var payer = nextProps.is_ohc_client ? nextProps.is_private_visit ? 'PRIVATE' : 'OCCUPATIONAL' : 'PRIVATE';
 	      this.setState({ payer: payer });
 	      console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
 	    }
@@ -56463,7 +56470,8 @@
 	    is_ohc_client: state.app.is_ohc_client,
 	    selected_employer: state.app.selected_employer,
 	    confirmation_section_active: state.app.confirmation_section_active,
-	    native_entry_flag: state.app.native_entry_flag
+	    native_entry_flag: state.app.native_entry_flag,
+	    is_private_visit: state.app.is_private_visit
 	  };
 	}
 
@@ -70735,6 +70743,21 @@
 	      console.log("reducer_app: SET_FILTERS");
 	      new_state = _extends({}, state);
 	      new_state.filters = action.filters;
+	      // If
+	      if (new_state.filters.resource_filter === null && new_state.filters.speciality_filter === null && new_state.filters.unit_filter === null && new_state.filters.lang_filter === null && new_state.filters.gender_filter === null && new_state.filters.city_filter === null && new_state.filters.employer_id_filter === null) {
+	        //console.log("reducer_app: SET_FILTERS: set default filter");
+	        if (new_state.filters.group_filter === null) {
+	          new_state.filters.group_filter = DEFAULT_SEARCH_GROUP;
+	        }
+	      } else {
+	        //console.log("reducer_app: SET_FILTERS: null filter");
+	        new_state.filters.group_filter = null;
+	        if (action.filters.group_filter && action.filters.group_filter === DEFAULT_SEARCH_GROUP) {
+	          //console.log("reducer_app: SET_FILTERS: cancel null filter");
+	          new_state.filters.group_filter = DEFAULT_SEARCH_GROUP;
+	        }
+	      }
+
 	      console.log(new_state);
 	      return new_state;
 
@@ -70814,7 +70837,9 @@
 	      return new_state;
 
 	    case _types.SET_APP_ENTRY_FLAG:
-	      return _extends({}, state, { native_entry_flag: action.native_entry_flag, is_ohc_client: action.is_ohc_client });
+	      return _extends({}, state, { native_entry_flag: action.native_entry_flag,
+	        is_ohc_client: action.is_ohc_client,
+	        is_private_visit: action.is_private_visit });
 
 	    default:
 	      return state;
@@ -70876,7 +70901,7 @@
 	    units_search: '',
 	    resource_filter: null,
 	    speciality_filter: null,
-	    group_filter: 72,
+	    group_filter: null,
 	    unit_filter: null,
 	    lang_filter: null,
 	    gender_filter: null,

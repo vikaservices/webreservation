@@ -21,7 +21,7 @@ export default function(state = {}, action) {
         return new_state;
       }
       // ok
-      new_state.prereservation = action.payload.data.reservation;
+      new_state.reservationid = action.payload.data.reservation.id;
       new_state.reservationstatus = 0;
       return new_state;
 
@@ -40,6 +40,7 @@ export default function(state = {}, action) {
       }
       // ok
       new_state.reservation_code = action.payload.data.reservation.reservationCode;
+      new_state.reservationid = action.payload.data.reservation.id;
       new_state.reservationstatus = 0;
       return new_state;
 

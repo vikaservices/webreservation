@@ -85,7 +85,7 @@ let INITIAL_STATE = {
                       timeofdayfilter: '',
                       reservationstatus: 0,
                       reservation_code: null,
-                      prereservation: {},
+                      reservationid: 0,
                       reservation: {},
                       native_entry_flag: false,
                       pagelang: 'fi',

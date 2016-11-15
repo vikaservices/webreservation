@@ -14,7 +14,7 @@ class SectionConfirmation extends Component {
       payer: '',
       phone_validate_error: false,
       email_validate_error: false,
-      diacor_plus_approval_missing: false,
+      diacor_plus_approval_missing: false
     }
   }
 
@@ -97,7 +97,7 @@ class SectionConfirmation extends Component {
     if( validation_error ) {
       return false;
     }
-    this.props.confirmReservation( this.props.prereservation.id,
+    this.props.confirmReservation( this.props.reservationid,
                                    this.props.client_id,
                                    notes,
                                    visitType,
@@ -331,7 +331,7 @@ function mapStateToProps(state) {
   return {
     date_filter: state.app.filters.date_filter,
     selectedtimeslot: state.app.selectedtimeslot,
-    prereservation: state.app.prereservation,
+    reservationid: state.app.reservationid,
     appstate: state.app.appstate,
     client_id: state.app.client_id,
     is_ohc_client: state.app.is_ohc_client,

@@ -29,7 +29,7 @@ class SectionReservationSummary extends Component {
   onSubmitReminder(reminderId, event) {
     event.preventDefault();
     console.log("onSubmitReminder: " + reminderId);
-    this.props.orderReminder(this.props.prereservation.id, this.props.client_id, reminderId);
+    this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
   }
 
   // addCalendarEntry(event) {
@@ -184,7 +184,7 @@ class SectionReservationSummary extends Component {
           <div className="block-separator row">
             <img src="public/img/block-separator.png" />
           </div>
-          <div className={this.props.prereservation.online ? "row block" : "hide"}>
+          <div className={this.props.selectedtimeslot.online ? "row block" : "hide"}>
             <h4 className="section-title">{text('diacor_section_summary_reminder_question2')}</h4>
             <div className="inline-box">
               <div>
@@ -201,7 +201,7 @@ class SectionReservationSummary extends Component {
               </div>
             </div>
           </div>
-          <div className={this.props.prereservation.online ? "block-separator row" : "hide"}>
+          <div className={this.props.selectedtimeslot.online ? "block-separator row" : "hide"}>
             <img src="public/img/block-separator.png" />
           </div>
 
@@ -233,7 +233,7 @@ function mapStateToProps(state) {
     reservation_code: state.app.reservation_code,
     selectedtimeslot: state.app.selectedtimeslot,
     selecteddate: state.app.filters.date_filter,
-    prereservation: state.app.prereservation,
+    reservationid: state.app.reservationid,
     reservation_summary_section_active: state.app.reservation_summary_section_active
   };
 }

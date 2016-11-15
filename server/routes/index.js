@@ -8,11 +8,17 @@ var dmobAuth = dmob.apiCredentials;
 
 function wrapUnirest( apiRequest, req, res, next, payload, method) {
 
+  var date = new Date();
+  var tm = "";
+  tm += date.getHours() < 10 ? ("0" + date.getHours() + ':') : (date.getHours() + ':');
+  tm += date.getMinutes() < 10 ? ("0" + date.getMinutes() + ':') : (date.getMinutes() + ':');
+  tm += date.getSeconds() < 10 ? ("0" + date.getSeconds()) : date.getSeconds();
+
   // log request
-  console.log( "wrapUnirest: apiRequest: " + apiRequest );
+  console.log( tm + " : wrapUnirest: apiRequest: " + apiRequest );
 
   if( method && method == "PUT" ) {
-    console.log("sending PUT");
+    console.log(tm + " : sending PUT");
     console.log(payload);
 
     unirest.put( apiRequest )
@@ -30,7 +36,7 @@ function wrapUnirest( apiRequest, req, res, next, payload, method) {
             });
 
   } else if( method && method == "POST" ) {
-    console.log("sending POST");
+    console.log(tm + " : sending POST");
     console.log(payload);
 
     unirest.post( apiRequest )
@@ -48,22 +54,22 @@ function wrapUnirest( apiRequest, req, res, next, payload, method) {
             });
 
   } else if( method && method == "DELETE" ) {
-    console.log("sending DELETE");
+    console.log(tm + " : sending DELETE");
     console.log(apiRequest);
     unirest.delete( apiRequest )
             .auth(dmobAuth)
             .end(function(response){
               if( response.ok ) {
-                console.log("response.statusCode - ok : " + response.statusCode);
+                console.log(tm + " : response.statusCode - ok : " + response.statusCode);
                 res.status(response.statusCode).json(response.body);
               } else {
-                console.log("response.statusCode - not ok : " + response.statusCode);
+                console.log(tm + " : response.statusCode - not ok : " + response.statusCode);
                 res.sendStatus(response.statusCode);
               }
             });
 
   } else {
-    console.log("sending GET");
+    console.log(tm + " : sending GET");
     unirest.get( apiRequest )
             .auth(dmobAuth)
             .end(function(response){
@@ -116,14 +122,14 @@ router.get('/timeslots', function(req, res, next) {
 
 
 router.get('/freedays', function(req, res, next) {
-  console.log('router - freedays');
+  //console.log('router - freedays');
 
   var apiRequest = dmobReservationUrl + 'freedays?';
   for( var key in req.query ) {
-    console.log( key + " : " + req.query[key] );
+    //console.log( key + " : " + req.query[key] );
     apiRequest += key + '=' + encodeURIComponent(req.query[key]) + '&';
   }
-  console.log("apiRequest: " + apiRequest);
+  //console.log("apiRequest: " + apiRequest);
 
   wrapUnirest( apiRequest, req, res, next );
 });
@@ -132,34 +138,21 @@ router.get('/freedays', function(req, res, next) {
 router.get('/clients', function(req, res, next) {
 
   if( req.query.method == "GET" ) {
-    console.log('router - freedays - GET');
+    //console.log('router - clients - GET');
     var apiRequest = dmobReservationUrl + 'clients?';
     apiRequest += req.query.hetu ? "hetu=" + encodeURIComponent(req.query.hetu) : '';
-    console.log("apiRequest: " + apiRequest);
+    //console.log("apiRequest: " + apiRequest);
     wrapUnirest( apiRequest, req, res, next );
   }
 
   else if( req.query.method == "PUT") {
-    console.log('router - freedays - PUT');
+    //console.log('router - clients - PUT');
     if( !req.query.hetu || !req.query.firstName || !req.query.lastName || 
         !req.query.address || !req.query.postcode || !req.query.city || !req.query.phone ) {
       res.sendStatus(400);
       return 0;
     }
     var apiRequest = dmobReservationUrl + 'clients';
-
-    // var payload = "{";
-    // for( var key in req.query ) {
-    //   console.log( key + " : " + req.query[key] );
-    //   payload += '"' + key + '":"' + req.query[key] + '",';
-    // }
-    // if( payload.length > 1 ) {
-    //   // remove comma after last parameter
-    //   var n = payload.lastIndexOf(',');
-    //   payload = payload.substr(0, n);
-    // }
-    // payload += "}";
-    //console.log("payload: " + payload);
 
     var hetu = req.query.hetu;
     var firstName = req.query.firstName;

@@ -30,17 +30,25 @@ class App extends Component {
       return;
     }
 
-    // TODO: parameter decoding ?
-    const hetu            = query.hetu;
-    const employerId      = query.employerId;
-    const resourceId      = query.resourceId;
-    const resourceName    = query.resourceName;
-    let FirstName = query.clientFirstName  ? query.clientFirstName : null;
-    let LastName  = query.clientLastName   ? query.clientLastName  : null;
-    let Address   = query.clientAddress    ? query.clientAddress   : null;
-    let Postcode  = query.clientPostcode   ? query.clientPostcode  : null;
-    let City      = query.clientCity       ? query.clientCity      : null;
-    let Phone     = query.clientPhone      ? query.clientPhone     : null;
+    // Parameters when accessed from DiacorPlus
+    const hetu            = query.hetu             ? query.hetu            : null;
+    const employerId      = query.employerId       ? query.employerId      : null;
+    const resourceId      = query.resourceId       ? query.resourceId      : null;
+    const resourceName    = query.resourceName     ? query.resourceName    : null;
+    const FirstName       = query.clientFirstName  ? query.clientFirstName : null;
+    const LastName        = query.clientLastName   ? query.clientLastName  : null;
+    const Address         = query.clientAddress    ? query.clientAddress   : null;
+    const Postcode        = query.clientPostcode   ? query.clientPostcode  : null;
+    const City            = query.clientCity       ? query.clientCity      : null;
+    const Phone           = query.clientPhone      ? query.clientPhone     : null;
+
+    // Parameters when accessed from diacor.fi
+    const date            = query.date             ? query.date             : null;
+    const group           = query.group            ? query.group            : null;
+    const groupName       = query.groupName        ? query.groupName        : null;
+    const pageLang        = query.pageLang         ? query.pageLang         : null;
+
+    let filters = this.props.filters;
 
     if( hetu ) {
 
@@ -56,7 +64,6 @@ class App extends Component {
       this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
 
       this.props.checkClientSSN(hetu).then(() => {
-        let filters = this.props.filters;
         if( employerId ) {
 
           if( employerId != this.props.selected_employer ) {
@@ -85,12 +92,22 @@ class App extends Component {
           // Did not get employer, but if this is ohc client give him
           // ohc team as default anyway
           filters.employer_id_filter = this.props.selected_employer.id;
-          filters.terms_search = this.props.selected_employer.name + text('diacor_ohc_search');
-          filters.do_time_search = true;
+          filters.terms_search       = this.props.selected_employer.name + text('diacor_ohc_search');
+          filters.do_time_search     = true;
         }
 
         this.props.setFilter( filters );
       });
+    } // END: DiacorPlus access
+
+    else if( date && group && groupName && pageLang ) {
+      console.log("App: componentDidMount: date = " + date + " : group = " + group);
+      filters.date_filter           = date;
+      filters.group_filter          = group;
+      filters.terms_search          = groupName;
+      filters.do_time_search        = true;
+      this.props.setPageLang( pageLang );
+      this.props.setFilter( filters );
     }
   }
 
@@ -99,7 +116,7 @@ class App extends Component {
     if( (this.props.appstate == APP_STATE_CLIENT_IDENTIFIED) &&
         (this.props.pendingreservation == true) ) {
       console.log("Have pending reservation");
-      let slot = this.props.selectedtimeslot;
+      let slot       = this.props.selectedtimeslot;
       let employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null
       this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId,
                                      slot.start, slot.duration, slot.online, employerId );

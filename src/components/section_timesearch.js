@@ -93,7 +93,9 @@ function mapStateToProps(state) {
     selectedtimeslot: state.app.selectedtimeslot,
     timesearch_section_active: state.app.timesearch_section_active,
     timeslots_list: state.app.timeslots_list,
-    timeofdayfilter: state.app.timeofdayfilter
+    timeofdayfilter: state.app.timeofdayfilter,
+    nextdaysearch: state.app.filters.next_day_search,
+    previousday: state.app.filters.previous_day
   };
 }
 

@@ -50,7 +50,8 @@ import { TIMESLOTS_SEARCH,
          DIALOG_CLOSE,
          GET_DOCTOR_INFO,
          GET_FIXEDGROUPS,
-         SET_APP_ENTRY_FLAG
+         SET_APP_ENTRY_FLAG,
+         SET_PAGE_LANG
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -87,6 +88,7 @@ let INITIAL_STATE = {
                       prereservation: {},
                       reservation: {},
                       native_entry_flag: false,
+                      pagelang: 'fi',
                       filters: {
                         terms_search: '',
                         units_search: '',
@@ -103,7 +105,9 @@ let INITIAL_STATE = {
                         date_filter_year: year,
                         do_terms_search: false,
                         do_units_filtering: false,
-                        do_time_search: false
+                        do_time_search: false,
+                        next_day_search: 0,
+                        previous_day: null
                       }
                     };
 
@@ -116,6 +120,20 @@ export default function(state = INITIAL_STATE, action) {
     case TIMESLOTS_SEARCH:
       new_state = reducerTimeslots( state, action );
       console.log("reducer_app: TIMESLOTS_SEARCH");
+      // if( new_state.filters.next_day_search == 1 ) {
+      //   new_state.filters.next_day_search = 2;
+      //   console.log("reducer_app: TIMESLOTS_SEARCH: next_day_search = 2");
+      // }
+      // if( new_state.timeslots_list.length == 0 && new_state.filters.next_day_search == 0) {
+      //   console.log("reducer_app: TIMESLOTS_SEARCH: Got 0 timeslots, should do new search for next day");
+      //   new_state.filters.next_day_search = 1;
+      //   //new_state.filters.do_time_search = true;
+      //   let next_day = new Date();
+      //   let date_filter = new Date(new_state.filters.date_filter);
+      //   next_day.setDate( date_filter.getDate() + 1 );
+      //   console.log("today: " + new_state.filters.date_filter + " : tomorrow: " + next_day);
+      //   new_state.filters.date_filter = next_day.toISOString();
+      // }
       console.log("state:");
       console.log(new_state);
       return new_state;
@@ -184,7 +202,7 @@ export default function(state = INITIAL_STATE, action) {
         if( new_state.is_ohc_client ) {
           // ok, this is ohc client
           new_state.dialogisopen = false;
-          new_state.dielogview = DLG_VIEW_NONE;
+          new_state.dialogview = DLG_VIEW_NONE;
           new_state.appstate = APP_STATE_CLIENT_IDENTIFIED;
           new_state.resource_section_active = 'active';
           new_state.timesearch_section_active = 'active';
@@ -275,7 +293,7 @@ export default function(state = INITIAL_STATE, action) {
           // prereservation failed, due to reasons:
           // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
           new_state.dialogisopen = true;
-          new_state.dialogview = DLG_VIEW_REGISTER_ERROR;
+          new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
           new_state.pendingreservation = false;
         }
         else {
@@ -283,6 +301,7 @@ export default function(state = INITIAL_STATE, action) {
           console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
+          new_state.pendingreservation = false;
         }
         console.log("state:")
         console.log(new_state);
@@ -543,6 +562,11 @@ export default function(state = INITIAL_STATE, action) {
         return {...state, native_entry_flag: action.native_entry_flag,
                           is_ohc_client: action.is_ohc_client,
                           is_private_visit: action.is_private_visit};
+
+      case SET_PAGE_LANG:
+        console.log("reducer_app: SET_PAGE_LANG");
+        console.log("lang: " + action.pagelang);
+        return {...state, pagelang: action.pagelang};
 
       default:
         return state;

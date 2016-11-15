@@ -37,7 +37,6 @@ class FilterMain extends Component {
       this.props.unitsSearch().then(() => {
         this.filterUnitsList();
       });
-
     }, 500);
   }
 
@@ -69,12 +68,21 @@ class FilterMain extends Component {
 
     if( nextProps.filters.do_time_search == true ) {
       console.log("FilterMain: componentWillReceiveProps: do_time_search");
+      console.log("next_day_search: " + nextProps.filters.next_day_search);
       //console.log(nextProps);
       this.doTimeslotsSearch(nextProps);
       this.doFreedaysSearch(nextProps);
       this.props.termsSearch();
       let filters = nextProps.filters;
       filters.do_time_search = false;
+      this.props.setFilter( filters );
+    }
+
+    if( nextProps.filters.next_day_search == 1 ) {
+      console.log("FilterMain: componentWillReceiveProps: do_next_day_search");
+      this.doTimeslotsSearch(nextProps);
+      let filters = nextProps.filters;
+      filters.next_day_search = 2;
       this.props.setFilter( filters );
     }
 
@@ -280,6 +288,8 @@ class FilterMain extends Component {
       default:
     }
     filters.do_time_search = true;
+    filters.next_day_search = 0;
+    filters.previous_day = null;
     this.props.setFilter( filters );
   }
 
@@ -316,6 +326,8 @@ class FilterMain extends Component {
     filters.units_search = name;
     filters.unit_filter = id;
     filters.do_time_search = true;
+    filters.next_day_search = 0;
+    filters.previous_day = null;
     this.props.setFilter( filters );
   }
 
@@ -323,6 +335,8 @@ class FilterMain extends Component {
     let filters = this.props.filters;
     filters.date_filter = date_filter.toISOString();
     filters.do_time_search = true;
+    filters.next_day_search = 0;
+    filters.previous_day = null;
     this.props.setFilter( filters );
   }
 
@@ -338,6 +352,8 @@ class FilterMain extends Component {
     let first_of_month = new Date(filters.date_filter_year, filters.date_filter_month, 1);
     filters.date_filter = first_of_month.toISOString();
     filters.do_time_search = true;
+    filters.next_day_search = 0;
+    filters.previous_day = null;
     this.props.setFilter( filters );
   }
 
@@ -362,7 +378,6 @@ class FilterMain extends Component {
   onToggleExtraFilters(event) {
     event.preventDefault();
     this.setState( {extra_filters_visible: !this.state.extra_filters_visible}, () => {
-      console.log("FilterMain: onToggleExtraFilters: height: " + $('.filter-main').height());
       if( $(document).width() >= 768 ) {
         // Do this only for tablet and desktop
         $('.timeslot-list').height($('.filter-main').height());
@@ -400,6 +415,8 @@ class FilterMain extends Component {
       }
     }
     filters.do_time_search = true;
+    filters.next_day_search = 0;
+    filters.previous_day = null;
 
     this.props.setFilter( filters );
   }
@@ -423,7 +440,24 @@ class FilterMain extends Component {
                                            props.filters.gender_filter,
                                            props.filters.city_filter,
                                            props.filters.employer_id_filter,
-                                           props.client_id == 0 ? null : props.client_id );
+                                           props.client_id == 0 ? null : props.client_id,
+                                           props.pagelang).then(() => {
+                                             console.log("timeslotsSearch: list length: " + this.props.timeslots_list.length);
+                                             if( (this.props.timeslots_list && this.props.timeslots_list.length == 0) &&
+                                                 this.props.filters.next_day_search == 0 ) {
+                                               let filters = this.props.filters;
+                                               filters.next_day_search = 1;
+                                               let next_day = new Date();
+                                               let date_filter = new Date(filters.date_filter);
+                                               next_day.setDate( date_filter.getDate() + 1 );
+                                               console.log("today: " + filters.date_filter + " : tomorrow: " + next_day);
+                                               filters.previous_day = filters.date_filter;
+                                               filters.date_filter = next_day.toISOString();
+                                               console.log("previous_day: " + filters.previous_day);
+                                               console.log("date_filter: " + filters.date_filter);
+                                               this.props.setFilter( filters );
+                                             }
+                                           } );
   }
 
   doFreedaysSearch( props ) {
@@ -491,7 +525,9 @@ function mapStateToProps(state) {
     freedays_list: state.freedays.freedays_list,
     filters: state.app.filters,
     client_id: state.app.client_id,
-    fixedgroups: state.app.fixedgroups
+    fixedgroups: state.app.fixedgroups,
+    pagelang: state.app.pagelang,
+    timeslots_list: state.app.timeslots_list
   };
 }
 

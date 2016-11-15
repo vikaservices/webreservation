@@ -21,13 +21,14 @@ import { TERMS_SEARCH,
          SET_SELECTED_EMPLOYER,
          GET_DOCTOR_INFO,
          GET_FIXEDGROUPS,
-         SET_APP_ENTRY_FLAG
+         SET_APP_ENTRY_FLAG,
+         SET_PAGE_LANG
         } from './types';
 import axios from 'axios';
 
 //const UIServerUrl = "/api/";
 
-export function termsSearch(terms=null) {
+export function termsSearch(terms=null, lang=null) {
 
   console.log( "Action: termsSearch: " + terms );
 
@@ -38,7 +39,7 @@ export function termsSearch(terms=null) {
     };
   }
   console.log(`${UIServerUrl}terms?prefix=${terms}`);
-  const request = axios.get(`${UIServerUrl}terms?prefix=${terms}`);
+  const request = axios.get(`${UIServerUrl}terms?prefix=${terms}&lang=${lang}`);
 
   return {
     type: TERMS_SEARCH,
@@ -47,11 +48,11 @@ export function termsSearch(terms=null) {
 }
 
 
-export function unitsSearch(units = '') {
+export function unitsSearch(units = '', lang=null) {
 
   console.log( "Action: unitsSearch" );
 
-  const request = axios.get(`${UIServerUrl}units?prefix=${units}`);
+  const request = axios.get(`${UIServerUrl}units?prefix=${units}&lang=${lang}`);
 
   return {
     type: UNITS_SEARCH,
@@ -69,20 +70,20 @@ export function timeslotsSearch(date, resource=null, speciality=null, group=null
   search_str += speciality  ? `&speciality=${speciality}` : '';
   let s = "";
   if( group || language || gender || city ) {
-    s += group ?  `${group},`: '';
+    s += group    ? `${group},`    : '';
     s += language ? `${language},` : '';
-    s += gender ? `${gender},` : '';
-    s += city ? `${city},` : '';
+    s += gender   ? `${gender},`   : '';
+    s += city     ? `${city},`     : '';
   }
   if(s.length) {
     s = s.substr(0, s.length-1);
     search_str += `&groups=${s}`;
   }
-  search_str += unit        ? `&unit=${unit}`             : '';
-  search_str += employer    ? `&employer=${employer}`     : '';
-  search_str += employer && client ? `&client=${client}`  : '';
-  search_str += lang        ? `&lang=${lang}`             : '';
-  console.log("Action: timeslotsSearch" + search_str);
+  search_str += unit               ? `&unit=${unit}`         : '';
+  search_str += employer           ? `&employer=${employer}` : '';
+  search_str += employer && client ? `&client=${client}`     : '';
+  search_str += lang               ? `&lang=${lang}`         : '';
+  console.log("Action: timeslotsSearch: " + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
 
@@ -95,7 +96,7 @@ export function timeslotsSearch(date, resource=null, speciality=null, group=null
 
 export function freedaysSearch(from, to, resource=null, speciality=null, group=null,
                                unit=null, language=null, gender=null, city=null,
-                               employer=null, client=null, lang=null) {
+                               employer=null, client=null) {
 
   if( resource == null && speciality == null && group == null && unit == null &&
       language == null && gender == null && city == null && employer == null &&
@@ -111,19 +112,18 @@ export function freedaysSearch(from, to, resource=null, speciality=null, group=n
   search_str += speciality  ? `&speciality=${speciality}` : '';
   let s = "";
   if( group || language || gender || city ) {
-    s += group ?  `${group},`: '';
+    s += group    ? `${group},`    : '';
     s += language ? `${language},` : '';
-    s += gender ? `${gender},` : '';
-    s += city ? `${city},` : '';
+    s += gender   ? `${gender},`   : '';
+    s += city     ? `${city},`     : '';
   }
   if(s.length) {
     s = s.substr(0, s.length-1);
     search_str += `&groups=${s}`;
   }
-  search_str += unit        ? `&unit=${unit}`             : '';
-  search_str += employer      ? `&employer=${employer}`     : '';
-  search_str += employer && client ? `&client=${client}`    : '';
-  search_str += lang        ? `&lang=${lang}`             : '';
+  search_str += unit               ? `&unit=${unit}`         : '';
+  search_str += employer           ? `&employer=${employer}` : '';
+  search_str += employer && client ? `&client=${client}`     : '';
 
   console.log("Action: freedaysSearch" + search_str);
 
@@ -152,9 +152,9 @@ export function loginOhcClient() {
   };
 }
 
-export function checkClientSSN( ssn ) {
+export function checkClientSSN( ssn, lang=null ) {
 
-  let search_str = `clients?method=GET&hetu=${ssn}`;
+  let search_str = `clients?method=GET&hetu=${ssn}&lang=${lang}`;
   console.log("Action: checkClientSSN: " + search_str);
 
   const request = axios.get(`${UIServerUrl}${search_str}`);
@@ -164,9 +164,9 @@ export function checkClientSSN( ssn ) {
   };
 }
 
-export function checkOhcClientSSN( ssn ) {
+export function checkOhcClientSSN( ssn, lang=null ) {
 
-  let search_str = `clients?method=GET&hetu=${ssn}`;
+  let search_str = `clients?method=GET&hetu=${ssn}&lang=${lang}`;
 
   console.log("Action: checkOhcClientSSN: " + search_str);
 
@@ -378,5 +378,12 @@ export function setNativeAppOptions( native_entry_flag = null, is_ohc_client = n
     native_entry_flag: native_entry_flag,
     is_ohc_client: is_ohc_client,
     is_private_visit: is_private_visit
+  }
+}
+
+export function setPageLang( lang ) {
+  return {
+    type: SET_PAGE_LANG,
+    pagelang: lang
   }
 }

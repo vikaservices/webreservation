@@ -27,7 +27,7 @@ export const SET_TIME_OF_DAY_FILTER = 'set_time_of_day_filter';
 export const SET_FILTERS = 'set_filters';
 export const DIALOG_CLOSE = 'dialog_close';
 export const SET_APP_ENTRY_FLAG = 'set_app_entry_flag';
-
+export const SET_PAGE_LANG = 'SET_PAGE_LANG';
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';
 export const APP_STATE_CLIENT_IDENTIFIED = 'app_state_client_identified';

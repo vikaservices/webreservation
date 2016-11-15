@@ -12,16 +12,18 @@ class SectionConfirmation extends Component {
 
     this.state = {
       payer: '',
-      phone_validate_error: '',
-      email_validate_error: '',
+      phone_validate_error: false,
+      email_validate_error: false,
+      diacor_plus_approval_missing: false,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     let payer = nextProps.is_ohc_client
-                  ? nextProps.is_private_visit ? 'PRIVATE' : 'OCCUPATIONAL' 
+                  ? nextProps.is_private_visit ? 'PRIVATE' : 'OCCUPATIONAL'
                   : 'PRIVATE';
-    this.setState( {payer: payer} );
+    this.setState( {payer: payer, phone_validate_error: false,
+                    email_validate_error: false, diacor_plus_approval_missing: false} );
     console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
   }
 
@@ -41,7 +43,7 @@ class SectionConfirmation extends Component {
     return re.test(email);
   }
 
-  confirmReservation( notes, visitType, smsNotificationTo, emailConfirmationTo, event) {
+  confirmReservation( notes, visitType, smsNotificationTo, emailConfirmationTo, diacor_plus_approval, event) {
     event.preventDefault();
     console.log( "confirmReservation" +
                  " notes: " + notes +
@@ -49,36 +51,49 @@ class SectionConfirmation extends Component {
                  " smsNotificationTo: " + smsNotificationTo +
                  " emailConfirmationTo: " + emailConfirmationTo);
 
+    this.setState( {phone_validate_error: false,
+                    email_validate_error: false,
+                    diacor_plus_approval_missing: false} );
     let validation_error = false;
     // validate phone number and sms
     if( !smsNotificationTo ) {
       console.log("confirmReservation: no phone");
-      this.setState({phone_validate_error: 'empty'}, () => {
+      this.setState({phone_validate_error: true}, () => {
         //return false;
       });
       validation_error = true;
     }
     else if( !this.validatePhoneNumber(smsNotificationTo) ) {
       console.log("confirmReservation: wrong phone");
-      this.setState({phone_validate_error: 'wrong_format'}, () => {
+      this.setState({phone_validate_error: true}, () => {
         //return false;
       });
       validation_error = true;
     }
+
     if( !emailConfirmationTo ) {
       console.log("confirmReservation: no email");
-      this.setState({email_validate_error: 'empty'}, () => {
+      this.setState({email_validate_error: true}, () => {
         //return false;
       });
       validation_error = true;
     }
     else if( !this.validateEmail(emailConfirmationTo) ) {
       console.log("confirmReservation: wrong email");
-      this.setState({email_validate_error: 'wrong_format'}, () => {
+      this.setState({email_validate_error: true}, () => {
         //return false;
       });
       validation_error = true;
     }
+
+    if( this.props.selectedtimeslot.online && !diacor_plus_approval) {
+      console.log("confirmReservation: diacor plus not not approved");
+      this.setState({diacor_plus_approval_missing: true}, () => {
+        //return false;
+      });
+      validation_error = true;
+    }
+
     if( validation_error ) {
       return false;
     }
@@ -176,6 +191,7 @@ class SectionConfirmation extends Component {
                                                               this.state.payer,
                                                               $('input[name="smsNotificationTo"]').val(),
                                                               $('input[name="emailConfirmationTo"]').val(),
+                                                              $('input[name="diacor_plus_approval"]').prop('checked'),
                                                               event)} >
             <div className="confirmation-block row nopadding">
               <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
@@ -254,8 +270,14 @@ class SectionConfirmation extends Component {
                 </div>
                 <div className="confirmation-content">
                   <h5>{text('diacor_section_confirmation_content_contactInfo1')}</h5>
-                  <input className={this.state.email_validate_error ? "validate-error" : ""} type="text" name="emailConfirmationTo" placeholder={text('diacor_input_placeholder_email')} /><br />
-                  <input className={this.state.phone_validate_error ? "validate-error" : ""} type="text" name="smsNotificationTo" placeholder={text('diacor_input_placeholder_cell')} />
+                  <input className={this.state.email_validate_error ? "validate-error" : ""}
+                         type="text"
+                         name="emailConfirmationTo"
+                         placeholder={text('diacor_input_placeholder_email')} /><br />
+                  <input className={this.state.phone_validate_error ? "validate-error" : ""}
+                         type="text"
+                         name="smsNotificationTo"
+                         placeholder={text('diacor_input_placeholder_cell')} />
                 </div>
               </div>
               <div className="col-xs-12 col-sm-6 confirmation-2nd-col nopadding">
@@ -272,8 +294,14 @@ class SectionConfirmation extends Component {
               <table className="">
                 <tbody>
                   <tr>
-                    <td style={{verticalAlign: 'top'}}><input type="checkbox" name="diacor_plus" /></td>
-                    <td><label>{text('diacor_section_confirmation_content_plus')}</label></td>
+                    <td style={{verticalAlign: 'top'}}>
+                      <input type="checkbox" name="diacor_plus_approval" />
+                    </td>
+                    <td>
+                      <label className={this.state.diacor_plus_approval_missing ? "validate-error" : ''}>
+                        {text('diacor_section_confirmation_content_plus')}
+                      </label>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -282,7 +310,9 @@ class SectionConfirmation extends Component {
             <div className="confirmation-submit">
               <div className="submit-buttons-centered">
                 <button className="btn-white" onClick={(event) => this.handleCancel(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button className="btn-red">{text('diacor_popup_button_confirm')}</button>
+                <button className="btn-red">
+                  {text('diacor_popup_button_confirm')}
+                </button>
               </div>
             </div>
           </form>

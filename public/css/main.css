@@ -1146,6 +1146,15 @@ h3 {
     width: 100%;
     text-align: center;
   }
+  .timeslot-list-no-free-times p {
+    font-family: ArialMT;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.14;
+    color: #4a4a4a;
+  }
 }
 /* width 768px - 992px */
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1156,6 +1165,18 @@ h3 {
   .list-container {
     overflow-y: auto;
     height: 420px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .timeslot-list-no-free-times p {
+    font-family: ArialMT;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #4a4a4a;
+    margin: 5px 0 17px 0;
   }
 }
 /* width >= 992px */
@@ -1172,6 +1193,16 @@ h3 {
     padding-right: 17px !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+  }
+  .timeslot-list-no-free-times p {
+    font-family: ArialMT;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #4a4a4a;
+    margin: 5px 0 17px 0;
   }
 }
 .timeslot-list-header {
@@ -2214,6 +2245,7 @@ a:focus {
   .modal-class-big {
     top: 0;
     height: 100%;
+    min-height: 47.7em;
   }
 }
 .modal-class-big p {
@@ -2286,13 +2318,14 @@ a:focus {
   .modal-class {
     top: 0;
     height: 100%;
+    min-height: 47.7em;
   }
 }
 .modal-class:focus {
   outline: none;
 }
 .overlay-class {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

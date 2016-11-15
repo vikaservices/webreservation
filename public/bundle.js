@@ -29783,17 +29783,25 @@
 	        return;
 	      }
 
-	      // TODO: parameter decoding ?
-	      var hetu = query.hetu;
-	      var employerId = query.employerId;
-	      var resourceId = query.resourceId;
-	      var resourceName = query.resourceName;
+	      // Parameters when accessed from DiacorPlus
+	      var hetu = query.hetu ? query.hetu : null;
+	      var employerId = query.employerId ? query.employerId : null;
+	      var resourceId = query.resourceId ? query.resourceId : null;
+	      var resourceName = query.resourceName ? query.resourceName : null;
 	      var FirstName = query.clientFirstName ? query.clientFirstName : null;
 	      var LastName = query.clientLastName ? query.clientLastName : null;
 	      var Address = query.clientAddress ? query.clientAddress : null;
 	      var Postcode = query.clientPostcode ? query.clientPostcode : null;
 	      var City = query.clientCity ? query.clientCity : null;
 	      var Phone = query.clientPhone ? query.clientPhone : null;
+
+	      // Parameters when accessed from diacor.fi
+	      var date = query.date ? query.date : null;
+	      var group = query.group ? query.group : null;
+	      var groupName = query.groupName ? query.groupName : null;
+	      var pageLang = query.pageLang ? query.pageLang : null;
+
+	      var filters = this.props.filters;
 
 	      if (hetu) {
 
@@ -29809,7 +29817,6 @@
 	        this.props.saveClientInfo(hetu, FirstName, LastName, Address, Postcode, City, Phone);
 
 	        this.props.checkClientSSN(hetu).then(function () {
-	          var filters = _this2.props.filters;
 	          if (employerId) {
 
 	            if (employerId != _this2.props.selected_employer) {
@@ -29843,7 +29850,17 @@
 
 	          _this2.props.setFilter(filters);
 	        });
-	      }
+	      } // END: DiacorPlus access
+
+	      else if (date && group && groupName && pageLang) {
+	          console.log("App: componentDidMount: date = " + date + " : group = " + group);
+	          filters.date_filter = date;
+	          filters.group_filter = group;
+	          filters.terms_search = groupName;
+	          filters.do_time_search = true;
+	          this.props.setPageLang(pageLang);
+	          this.props.setFilter(filters);
+	        }
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
@@ -42894,6 +42911,7 @@
 	exports.showDoctorInfo = showDoctorInfo;
 	exports.getFixedgroups = getFixedgroups;
 	exports.setNativeAppOptions = setNativeAppOptions;
+	exports.setPageLang = setPageLang;
 
 	var _types = __webpack_require__(278);
 
@@ -42907,6 +42925,7 @@
 
 	function termsSearch() {
 	  var terms = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	  var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 
 	  console.log("Action: termsSearch: " + terms);
@@ -42918,7 +42937,7 @@
 	    };
 	  }
 	  console.log(UIServerUrl + 'terms?prefix=' + terms);
-	  var request = _axios2.default.get(UIServerUrl + 'terms?prefix=' + terms);
+	  var request = _axios2.default.get(UIServerUrl + 'terms?prefix=' + terms + '&lang=' + lang);
 
 	  return {
 	    type: _types.TERMS_SEARCH,
@@ -42928,11 +42947,12 @@
 
 	function unitsSearch() {
 	  var units = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	  var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 
 	  console.log("Action: unitsSearch");
 
-	  var request = _axios2.default.get(UIServerUrl + 'units?prefix=' + units);
+	  var request = _axios2.default.get(UIServerUrl + 'units?prefix=' + units + '&lang=' + lang);
 
 	  return {
 	    type: _types.UNITS_SEARCH,
@@ -42971,7 +42991,7 @@
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
 	  search_str += lang ? '&lang=' + lang : '';
-	  console.log("Action: timeslotsSearch" + search_str);
+	  console.log("Action: timeslotsSearch: " + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
 
@@ -42991,7 +43011,6 @@
 	  var city = arguments.length <= 8 || arguments[8] === undefined ? null : arguments[8];
 	  var employer = arguments.length <= 9 || arguments[9] === undefined ? null : arguments[9];
 	  var client = arguments.length <= 10 || arguments[10] === undefined ? null : arguments[10];
-	  var lang = arguments.length <= 11 || arguments[11] === undefined ? null : arguments[11];
 
 
 	  if (resource == null && speciality == null && group == null && unit == null && language == null && gender == null && city == null && employer == null && client == null) {
@@ -43018,7 +43037,6 @@
 	  search_str += unit ? '&unit=' + unit : '';
 	  search_str += employer ? '&employer=' + employer : '';
 	  search_str += employer && client ? '&client=' + client : '';
-	  search_str += lang ? '&lang=' + lang : '';
 
 	  console.log("Action: freedaysSearch" + search_str);
 
@@ -43050,8 +43068,10 @@
 	}
 
 	function checkClientSSN(ssn) {
+	  var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-	  var search_str = 'clients?method=GET&hetu=' + ssn;
+
+	  var search_str = 'clients?method=GET&hetu=' + ssn + '&lang=' + lang;
 	  console.log("Action: checkClientSSN: " + search_str);
 
 	  var request = _axios2.default.get('' + UIServerUrl + search_str);
@@ -43062,8 +43082,10 @@
 	}
 
 	function checkOhcClientSSN(ssn) {
+	  var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-	  var search_str = 'clients?method=GET&hetu=' + ssn;
+
+	  var search_str = 'clients?method=GET&hetu=' + ssn + '&lang=' + lang;
 
 	  console.log("Action: checkOhcClientSSN: " + search_str);
 
@@ -43299,6 +43321,13 @@
 	  };
 	}
 
+	function setPageLang(lang) {
+	  return {
+	    type: _types.SET_PAGE_LANG,
+	    pagelang: lang
+	  };
+	}
+
 /***/ },
 /* 278 */
 /***/ function(module, exports) {
@@ -43337,7 +43366,7 @@
 	var SET_FILTERS = exports.SET_FILTERS = 'set_filters';
 	var DIALOG_CLOSE = exports.DIALOG_CLOSE = 'dialog_close';
 	var SET_APP_ENTRY_FLAG = exports.SET_APP_ENTRY_FLAG = 'set_app_entry_flag';
-
+	var SET_PAGE_LANG = exports.SET_PAGE_LANG = 'SET_PAGE_LANG';
 	// APP STATE
 	var APP_STATE_INITIAL = exports.APP_STATE_INITIAL = 'app_state_initial';
 	var APP_STATE_CLIENT_IDENTIFIED = exports.APP_STATE_CLIENT_IDENTIFIED = 'app_state_client_identified';
@@ -45123,7 +45152,9 @@
 	    selectedtimeslot: state.app.selectedtimeslot,
 	    timesearch_section_active: state.app.timesearch_section_active,
 	    timeslots_list: state.app.timeslots_list,
-	    timeofdayfilter: state.app.timeofdayfilter
+	    timeofdayfilter: state.app.timeofdayfilter,
+	    nextdaysearch: state.app.filters.next_day_search,
+	    previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null
 	  };
 	}
 
@@ -45252,6 +45283,7 @@
 
 	      if (nextProps.filters.do_time_search == true) {
 	        console.log("FilterMain: componentWillReceiveProps: do_time_search");
+	        console.log("next_day_search: " + nextProps.filters.next_day_search);
 	        //console.log(nextProps);
 	        this.doTimeslotsSearch(nextProps);
 	        this.doFreedaysSearch(nextProps);
@@ -45259,6 +45291,14 @@
 	        var _filters2 = nextProps.filters;
 	        _filters2.do_time_search = false;
 	        this.props.setFilter(_filters2);
+	      }
+
+	      if (nextProps.filters.next_day_search == 1) {
+	        console.log("FilterMain: componentWillReceiveProps: do_next_day_search");
+	        this.doTimeslotsSearch(nextProps);
+	        var _filters3 = nextProps.filters;
+	        _filters3.next_day_search = 2;
+	        this.props.setFilter(_filters3);
 	      }
 	    } // componentWillReceiveProps
 
@@ -45452,12 +45492,12 @@
 	        filters.do_time_search = true;
 	        this.props.setFilter(filters);
 	      } else if (input == 'units') {
-	        var _filters3 = this.props.filters;
-	        _filters3.units_search = '';
-	        _filters3.unit_filter = null;
-	        _filters3.do_units_filtering = true;
-	        _filters3.do_time_search = true;
-	        this.props.setFilter(_filters3);
+	        var _filters4 = this.props.filters;
+	        _filters4.units_search = '';
+	        _filters4.unit_filter = null;
+	        _filters4.do_units_filtering = true;
+	        _filters4.do_time_search = true;
+	        this.props.setFilter(_filters4);
 	      }
 	    }
 
@@ -45497,6 +45537,8 @@
 	        default:
 	      }
 	      filters.do_time_search = true;
+	      filters.next_day_search = 0;
+	      filters.previous_day = null;
 	      this.props.setFilter(filters);
 	    }
 	  }, {
@@ -45544,6 +45586,8 @@
 	      filters.units_search = name;
 	      filters.unit_filter = id;
 	      filters.do_time_search = true;
+	      filters.next_day_search = 0;
+	      filters.previous_day = null;
 	      this.props.setFilter(filters);
 	    }
 	  }, {
@@ -45552,6 +45596,8 @@
 	      var filters = this.props.filters;
 	      filters.date_filter = date_filter.toISOString();
 	      filters.do_time_search = true;
+	      filters.next_day_search = 0;
+	      filters.previous_day = null;
 	      this.props.setFilter(filters);
 	    }
 	  }, {
@@ -45568,6 +45614,8 @@
 	      var first_of_month = new Date(filters.date_filter_year, filters.date_filter_month, 1);
 	      filters.date_filter = first_of_month.toISOString();
 	      filters.do_time_search = true;
+	      filters.next_day_search = 0;
+	      filters.previous_day = null;
 	      this.props.setFilter(filters);
 	    }
 	  }, {
@@ -45597,7 +45645,6 @@
 	    value: function onToggleExtraFilters(event) {
 	      event.preventDefault();
 	      this.setState({ extra_filters_visible: !this.state.extra_filters_visible }, function () {
-	        console.log("FilterMain: onToggleExtraFilters: height: " + $('.filter-main').height());
 	        if ($(document).width() >= 768) {
 	          // Do this only for tablet and desktop
 	          $('.timeslot-list').height($('.filter-main').height());
@@ -45638,16 +45685,33 @@
 	        }
 	      }
 	      filters.do_time_search = true;
+	      filters.next_day_search = 0;
+	      filters.previous_day = null;
 
 	      this.props.setFilter(filters);
 	    }
 	  }, {
 	    key: 'doTimeslotsSearch',
 	    value: function doTimeslotsSearch(props) {
+	      var _this6 = this;
+
 	      if (props.filters.resource_filter == null && props.filters.group_filter == null && props.filters.unit_filter == null && props.filters.lang_filter == null && props.filters.gender_filter == null && props.filters.city_filter == null && props.filters.employer_id_filter == null) {
 	        return;
 	      }
-	      this.props.timeslotsSearch(formatDate(new Date(props.filters.date_filter)), props.filters.resource_filter, null, props.filters.group_filter, props.filters.unit_filter, props.filters.lang_filter, props.filters.gender_filter, props.filters.city_filter, props.filters.employer_id_filter, props.client_id == 0 ? null : props.client_id);
+	      this.props.timeslotsSearch(formatDate(new Date(props.filters.date_filter)), props.filters.resource_filter, null, props.filters.group_filter, props.filters.unit_filter, props.filters.lang_filter, props.filters.gender_filter, props.filters.city_filter, props.filters.employer_id_filter, props.client_id == 0 ? null : props.client_id, props.pagelang).then(function () {
+	        if (_this6.props.timeslots_list && _this6.props.timeslots_list.length == 0 && _this6.props.filters.next_day_search == 0) {
+	          console.log("FilterMain: doTimeslotsSearch: no free times for today, search for tomorrow");
+	          var filters = _this6.props.filters;
+	          filters.next_day_search = 1;
+	          var next_day = new Date(filters.date_filter);
+	          var date_filter = new Date(filters.date_filter);
+	          next_day.setDate(date_filter.getDate() + 1);
+	          //console.log("today: " + filters.date_filter + " : tomorrow: " + next_day);
+	          filters.previous_day = filters.date_filter;
+	          filters.date_filter = next_day.toISOString();
+	          _this6.props.setFilter(filters);
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'doFreedaysSearch',
@@ -45703,7 +45767,9 @@
 	    freedays_list: state.freedays.freedays_list,
 	    filters: state.app.filters,
 	    client_id: state.app.client_id,
-	    fixedgroups: state.app.fixedgroups
+	    fixedgroups: state.app.fixedgroups,
+	    pagelang: state.app.pagelang,
+	    timeslots_list: state.app.timeslots_list
 	  };
 	}
 
@@ -55726,12 +55792,16 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'row nopadding' },
-	      _react2.default.createElement(
+	      props.previousday != null ? _react2.default.createElement(
+	        'h4',
+	        { className: 'timeslot-list-header' },
+	        (0, _translate2.default)('diacor_timeslot_list_header') + formatDate2("fi", props.previousday)
+	      ) : _react2.default.createElement(
 	        'h4',
 	        { className: 'timeslot-list-header' },
 	        (0, _translate2.default)('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)
 	      ),
-	      _react2.default.createElement(_filter_time_of_day2.default, props)
+	      props.previousday == null ? _react2.default.createElement(_filter_time_of_day2.default, props) : ''
 	    ),
 	    _react2.default.createElement(
 	      'div',
@@ -55739,15 +55809,26 @@
 	      _react2.default.createElement(
 	        'ul',
 	        { className: 'list-group' },
-	        !props.timeslots_list || props.timeslots_list.length == 0 ? _react2.default.createElement(
+	        props.timeslots_list && props.timeslots_list.length == 0 || props.nextdaysearch == 2 ? _react2.default.createElement(
 	          'li',
-	          { className: 'list-group-item' },
+	          { className: 'timeslot-list-no-free-times' },
 	          _react2.default.createElement(
 	            'p',
 	            null,
 	            (0, _translate2.default)('diacor_timeslot_list_no_free_times')
 	          )
-	        ) : result
+	        ) : result,
+	        props.timeslots_list && props.timeslots_list.length == 0 && props.nextdaysearch == 2 || props.timeslots_list && props.timeslots_list.length > 0 && props.nextdaysearch != 2 ? '' : _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            'h4',
+	            { className: 'timeslot-list-header' },
+	            (0, _translate2.default)('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)
+	          ),
+	          _react2.default.createElement(_filter_time_of_day2.default, props),
+	          result
+	        )
 	      )
 	    )
 	  );
@@ -55964,8 +56045,9 @@
 
 	    _this.state = {
 	      payer: '',
-	      phone_validate_error: '',
-	      email_validate_error: ''
+	      phone_validate_error: false,
+	      email_validate_error: false,
+	      diacor_plus_approval_missing: false
 	    };
 	    return _this;
 	  }
@@ -55974,7 +56056,8 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      var payer = nextProps.is_ohc_client ? nextProps.is_private_visit ? 'PRIVATE' : 'OCCUPATIONAL' : 'PRIVATE';
-	      this.setState({ payer: payer });
+	      this.setState({ payer: payer, phone_validate_error: false,
+	        email_validate_error: false, diacor_plus_approval_missing: false });
 	      console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
 	    }
 	  }, {
@@ -55998,40 +56081,53 @@
 	    }
 	  }, {
 	    key: 'confirmReservation',
-	    value: function confirmReservation(notes, visitType, smsNotificationTo, emailConfirmationTo, event) {
+	    value: function confirmReservation(notes, visitType, smsNotificationTo, emailConfirmationTo, diacor_plus_approval, event) {
 	      var _this2 = this;
 
 	      event.preventDefault();
 	      console.log("confirmReservation" + " notes: " + notes + " visitType: " + visitType + " smsNotificationTo: " + smsNotificationTo + " emailConfirmationTo: " + emailConfirmationTo);
 
+	      this.setState({ phone_validate_error: false,
+	        email_validate_error: false,
+	        diacor_plus_approval_missing: false });
 	      var validation_error = false;
 	      // validate phone number and sms
 	      if (!smsNotificationTo) {
 	        console.log("confirmReservation: no phone");
-	        this.setState({ phone_validate_error: 'empty' }, function () {
+	        this.setState({ phone_validate_error: true }, function () {
 	          //return false;
 	        });
 	        validation_error = true;
 	      } else if (!this.validatePhoneNumber(smsNotificationTo)) {
 	        console.log("confirmReservation: wrong phone");
-	        this.setState({ phone_validate_error: 'wrong_format' }, function () {
+	        this.setState({ phone_validate_error: true }, function () {
 	          //return false;
 	        });
 	        validation_error = true;
 	      }
+
 	      if (!emailConfirmationTo) {
 	        console.log("confirmReservation: no email");
-	        this.setState({ email_validate_error: 'empty' }, function () {
+	        this.setState({ email_validate_error: true }, function () {
 	          //return false;
 	        });
 	        validation_error = true;
 	      } else if (!this.validateEmail(emailConfirmationTo)) {
 	        console.log("confirmReservation: wrong email");
-	        this.setState({ email_validate_error: 'wrong_format' }, function () {
+	        this.setState({ email_validate_error: true }, function () {
 	          //return false;
 	        });
 	        validation_error = true;
 	      }
+
+	      if (this.props.selectedtimeslot.online && !diacor_plus_approval) {
+	        console.log("confirmReservation: diacor plus not not approved");
+	        this.setState({ diacor_plus_approval_missing: true }, function () {
+	          //return false;
+	        });
+	        validation_error = true;
+	      }
+
 	      if (validation_error) {
 	        return false;
 	      }
@@ -56203,7 +56299,7 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: function onSubmit(event) {
-	                return _this3.confirmReservation($('textarea[name="notes"]').val(), _this3.state.payer, $('input[name="smsNotificationTo"]').val(), $('input[name="emailConfirmationTo"]').val(), event);
+	                return _this3.confirmReservation($('textarea[name="notes"]').val(), _this3.state.payer, $('input[name="smsNotificationTo"]').val(), $('input[name="emailConfirmationTo"]').val(), $('input[name="diacor_plus_approval"]').prop('checked'), event);
 	              } },
 	            _react2.default.createElement(
 	              'div',
@@ -56359,9 +56455,15 @@
 	                    null,
 	                    (0, _translate2.default)('diacor_section_confirmation_content_contactInfo1')
 	                  ),
-	                  _react2.default.createElement('input', { className: this.state.email_validate_error ? "validate-error" : "", type: 'text', name: 'emailConfirmationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_email') }),
+	                  _react2.default.createElement('input', { className: this.state.email_validate_error ? "validate-error" : "",
+	                    type: 'text',
+	                    name: 'emailConfirmationTo',
+	                    placeholder: (0, _translate2.default)('diacor_input_placeholder_email') }),
 	                  _react2.default.createElement('br', null),
-	                  _react2.default.createElement('input', { className: this.state.phone_validate_error ? "validate-error" : "", type: 'text', name: 'smsNotificationTo', placeholder: (0, _translate2.default)('diacor_input_placeholder_cell') })
+	                  _react2.default.createElement('input', { className: this.state.phone_validate_error ? "validate-error" : "",
+	                    type: 'text',
+	                    name: 'smsNotificationTo',
+	                    placeholder: (0, _translate2.default)('diacor_input_placeholder_cell') })
 	                )
 	              ),
 	              _react2.default.createElement(
@@ -56402,14 +56504,14 @@
 	                    _react2.default.createElement(
 	                      'td',
 	                      { style: { verticalAlign: 'top' } },
-	                      _react2.default.createElement('input', { type: 'checkbox', name: 'diacor_plus' })
+	                      _react2.default.createElement('input', { type: 'checkbox', name: 'diacor_plus_approval' })
 	                    ),
 	                    _react2.default.createElement(
 	                      'td',
 	                      null,
 	                      _react2.default.createElement(
 	                        'label',
-	                        null,
+	                        { className: this.state.diacor_plus_approval_missing ? "validate-error" : '' },
 	                        (0, _translate2.default)('diacor_section_confirmation_content_plus')
 	                      )
 	                    )
@@ -70442,6 +70544,20 @@
 	    case _types.TIMESLOTS_SEARCH:
 	      new_state = (0, _reducer_timeslots2.default)(state, action);
 	      console.log("reducer_app: TIMESLOTS_SEARCH");
+	      // if( new_state.filters.next_day_search == 1 ) {
+	      //   new_state.filters.next_day_search = 2;
+	      //   console.log("reducer_app: TIMESLOTS_SEARCH: next_day_search = 2");
+	      // }
+	      // if( new_state.timeslots_list.length == 0 && new_state.filters.next_day_search == 0) {
+	      //   console.log("reducer_app: TIMESLOTS_SEARCH: Got 0 timeslots, should do new search for next day");
+	      //   new_state.filters.next_day_search = 1;
+	      //   //new_state.filters.do_time_search = true;
+	      //   let next_day = new Date();
+	      //   let date_filter = new Date(new_state.filters.date_filter);
+	      //   next_day.setDate( date_filter.getDate() + 1 );
+	      //   console.log("today: " + new_state.filters.date_filter + " : tomorrow: " + next_day);
+	      //   new_state.filters.date_filter = next_day.toISOString();
+	      // }
 	      console.log("state:");
 	      console.log(new_state);
 	      return new_state;
@@ -70507,7 +70623,7 @@
 	        if (new_state.is_ohc_client) {
 	          // ok, this is ohc client
 	          new_state.dialogisopen = false;
-	          new_state.dielogview = _types.DLG_VIEW_NONE;
+	          new_state.dialogview = _types.DLG_VIEW_NONE;
 	          new_state.appstate = _types.APP_STATE_CLIENT_IDENTIFIED;
 	          new_state.resource_section_active = 'active';
 	          new_state.timesearch_section_active = 'active';
@@ -70591,13 +70707,14 @@
 	        // prereservation failed, due to reasons:
 	        // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
 	        new_state.dialogisopen = true;
-	        new_state.dialogview = _types.DLG_VIEW_REGISTER_ERROR;
+	        new_state.dialogview = _types.DLG_VIEW_PRERESERVATION_ERROR;
 	        new_state.pendingreservation = false;
 	      } else {
 	        // some unknown error
 	        console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
 	        new_state.dialogisopen = true;
 	        new_state.dialogview = _types.DLG_VIEW_PRERESERVATION_ERROR;
+	        new_state.pendingreservation = false;
 	      }
 	      console.log("state:");
 	      console.log(new_state);
@@ -70841,6 +70958,11 @@
 	        is_ohc_client: action.is_ohc_client,
 	        is_private_visit: action.is_private_visit });
 
+	    case _types.SET_PAGE_LANG:
+	      console.log("reducer_app: SET_PAGE_LANG");
+	      console.log("lang: " + action.pagelang);
+	      return _extends({}, state, { pagelang: action.pagelang });
+
 	    default:
 	      return state;
 	  }
@@ -70896,6 +71018,7 @@
 	  prereservation: {},
 	  reservation: {},
 	  native_entry_flag: false,
+	  pagelang: 'fi',
 	  filters: {
 	    terms_search: '',
 	    units_search: '',
@@ -70912,7 +71035,9 @@
 	    date_filter_year: year,
 	    do_terms_search: false,
 	    do_units_filtering: false,
-	    do_time_search: false
+	    do_time_search: false,
+	    next_day_search: 0,
+	    previous_day: null
 	  }
 	};
 

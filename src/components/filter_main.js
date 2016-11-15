@@ -442,19 +442,17 @@ class FilterMain extends Component {
                                            props.filters.employer_id_filter,
                                            props.client_id == 0 ? null : props.client_id,
                                            props.pagelang).then(() => {
-                                             console.log("timeslotsSearch: list length: " + this.props.timeslots_list.length);
                                              if( (this.props.timeslots_list && this.props.timeslots_list.length == 0) &&
                                                  this.props.filters.next_day_search == 0 ) {
+                                               console.log("FilterMain: doTimeslotsSearch: no free times for today, search for tomorrow")
                                                let filters = this.props.filters;
                                                filters.next_day_search = 1;
-                                               let next_day = new Date();
+                                               let next_day = new Date(filters.date_filter);
                                                let date_filter = new Date(filters.date_filter);
                                                next_day.setDate( date_filter.getDate() + 1 );
-                                               console.log("today: " + filters.date_filter + " : tomorrow: " + next_day);
+                                               //console.log("today: " + filters.date_filter + " : tomorrow: " + next_day);
                                                filters.previous_day = filters.date_filter;
                                                filters.date_filter = next_day.toISOString();
-                                               console.log("previous_day: " + filters.previous_day);
-                                               console.log("date_filter: " + filters.date_filter);
                                                this.props.setFilter( filters );
                                              }
                                            } );

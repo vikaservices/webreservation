@@ -45,10 +45,10 @@ class Popup extends Component {
     //console.log("Popup : checkSSN : ssn = " + ssn);
     this.props.saveClientInfo(ssn);
     if( event.target.name == "regularLoginForm" ) {
-      this.props.checkClientSSN(ssn);
+      this.props.checkClientSSN(ssn, this.props.pagelang);
     }
     else if( event.target.name == "ohcLoginForm" ) {
-      this.props.checkOhcClientSSN(ssn);
+      this.props.checkOhcClientSSN(ssn, this.props.pagelang);
     }
   }
 
@@ -563,7 +563,8 @@ function mapStateToProps(state) {
     reservation: state.app.reservation,
     values: getFormValues('newClient')(state),
     client: state.app.client,
-    doctorinfo: state.app.doctorinfo
+    doctorinfo: state.app.doctorinfo,
+    pagelang: state.app.pagelang
   };
 }
 

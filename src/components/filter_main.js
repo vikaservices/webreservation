@@ -32,7 +32,7 @@ class FilterMain extends Component {
   componentDidMount() {
     // Prefetch all units and fixed groups for extra filters (genders & languages)
     setTimeout(() => {
-      this.props.getFixedgroups();
+      this.props.getFixedgroups( this.props.pagelang );
 
       this.props.unitsSearch().then(() => {
         this.filterUnitsList();
@@ -47,7 +47,7 @@ class FilterMain extends Component {
       //console.log("do_terms_search");
       if( nextProps.filters.terms_search.length >= 3 ) {
         console.log("FilterMain: componentWillReceiveProps: do_terms_search");
-        this.props.termsSearch(nextProps.filters.terms_search);
+        this.props.termsSearch(nextProps.filters.terms_search, this.props.pagelang);
       } else {
         console.log("FilterMain: componentWillReceiveProps: do_terms_search: clear value");
         this.props.termsSearch();

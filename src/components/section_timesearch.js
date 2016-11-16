@@ -28,7 +28,8 @@ class SectionTimeSearch extends Component {
   componentWillMount() {
     let today = new Date().toISOString().substr(0,10);
     // Initially search timeslots for today for general practioner (speciality = 2)
-    this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
+    this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP, null, null,
+                               null, null, null, null, this.props.pagelang);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,7 +82,7 @@ class SectionTimeSearch extends Component {
   doctorinfoHandler(event, resourceId) {
     event.preventDefault();
     console.log("SectionTimeSearch: doctorinfoHandler: id: " + resourceId);
-    this.props.showDoctorInfo(resourceId);
+    this.props.showDoctorInfo(resourceId, this.props.pagelang);
   }
 
   render() {
@@ -150,7 +151,8 @@ function mapStateToProps(state) {
     timeslots_list: state.app.timeslots_list,
     timeofdayfilter: state.app.timeofdayfilter,
     nextdaysearch: state.app.filters.next_day_search,
-    previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null
+    previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null,
+    pagelang: state.app.pagelang
   };
 }
 

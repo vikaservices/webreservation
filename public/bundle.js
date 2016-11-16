@@ -45035,7 +45035,7 @@
 	    value: function componentWillMount() {
 	      var today = new Date().toISOString().substr(0, 10);
 	      // Initially search timeslots for today for general practioner (speciality = 2)
-	      this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
+	      this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP, null, null, null, null, null, null, this.props.pagelang);
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -45096,7 +45096,7 @@
 	    value: function doctorinfoHandler(event, resourceId) {
 	      event.preventDefault();
 	      console.log("SectionTimeSearch: doctorinfoHandler: id: " + resourceId);
-	      this.props.showDoctorInfo(resourceId);
+	      this.props.showDoctorInfo(resourceId, this.props.pagelang);
 	    }
 	  }, {
 	    key: 'render',
@@ -45206,7 +45206,8 @@
 	    timeslots_list: state.app.timeslots_list,
 	    timeofdayfilter: state.app.timeofdayfilter,
 	    nextdaysearch: state.app.filters.next_day_search,
-	    previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null
+	    previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null,
+	    pagelang: state.app.pagelang
 	  };
 	}
 
@@ -45298,7 +45299,7 @@
 
 	      // Prefetch all units and fixed groups for extra filters (genders & languages)
 	      setTimeout(function () {
-	        _this2.props.getFixedgroups();
+	        _this2.props.getFixedgroups(_this2.props.pagelang);
 
 	        _this2.props.unitsSearch().then(function () {
 	          _this2.filterUnitsList();
@@ -45314,7 +45315,7 @@
 	        //console.log("do_terms_search");
 	        if (nextProps.filters.terms_search.length >= 3) {
 	          console.log("FilterMain: componentWillReceiveProps: do_terms_search");
-	          this.props.termsSearch(nextProps.filters.terms_search);
+	          this.props.termsSearch(nextProps.filters.terms_search, this.props.pagelang);
 	        } else {
 	          console.log("FilterMain: componentWillReceiveProps: do_terms_search: clear value");
 	          this.props.termsSearch();
@@ -55858,7 +55859,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'list-container row' },
-	      _react2.default.createElement(
+	      props.timeslots_list ? _react2.default.createElement(
 	        'ul',
 	        { className: 'list-group' },
 	        props.timeslots_list && props.timeslots_list.length == 0 || props.nextdaysearch == 2 ? _react2.default.createElement(
@@ -55881,7 +55882,7 @@
 	          _react2.default.createElement(_filter_time_of_day2.default, props),
 	          result
 	        )
-	      )
+	      ) : ''
 	    )
 	  );
 	};
@@ -57307,9 +57308,9 @@
 	      //console.log("Popup : checkSSN : ssn = " + ssn);
 	      this.props.saveClientInfo(ssn);
 	      if (event.target.name == "regularLoginForm") {
-	        this.props.checkClientSSN(ssn);
+	        this.props.checkClientSSN(ssn, this.props.pagelang);
 	      } else if (event.target.name == "ohcLoginForm") {
-	        this.props.checkOhcClientSSN(ssn);
+	        this.props.checkOhcClientSSN(ssn, this.props.pagelang);
 	      }
 	    }
 
@@ -58509,7 +58510,8 @@
 	    reservation: state.app.reservation,
 	    values: (0, _reduxForm.getFormValues)('newClient')(state),
 	    client: state.app.client,
-	    doctorinfo: state.app.doctorinfo
+	    doctorinfo: state.app.doctorinfo,
+	    pagelang: state.app.pagelang
 	  };
 	}
 

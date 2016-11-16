@@ -28,6 +28,7 @@ const TimeslotList = (props) => {
         ''}
       </div>
       <div className="list-container row">
+        {props.timeslots_list ?
         <ul className="list-group">
           {(props.timeslots_list && props.timeslots_list.length == 0) || (props.nextdaysearch == 2) ?
            <li className="timeslot-list-no-free-times"><p>{text('diacor_timeslot_list_no_free_times')}</p></li> :
@@ -40,7 +41,8 @@ const TimeslotList = (props) => {
             <FilterTimeOfDay {...props}/>
             {result}
            </span>}
-        </ul>
+        </ul> :
+        ''}
       </div>
     </div>
   );

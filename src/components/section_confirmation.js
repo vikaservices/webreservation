@@ -14,7 +14,8 @@ class SectionConfirmation extends Component {
       payer: '',
       phone_validate_error: false,
       email_validate_error: false,
-      diacor_plus_approval_missing: false
+      diacor_plus_approval_missing: false,
+      buttonDisabled: false,
     }
   }
 
@@ -106,6 +107,9 @@ class SectionConfirmation extends Component {
                                  ).then( () => {
                                    if( this.props.appstate == APP_STATE_CONFIRMATION_OK) {
                                      console.log("confirmReservation: confirmation ok");
+                                     this.setState({
+                                         buttonDisabled: true
+                                     });
                                      if( this.props.native_entry_flag ) {
                                        // Inform DiacorPlus app that webapp has finished
                                        window.location.assign("?&finish=1");
@@ -310,7 +314,7 @@ class SectionConfirmation extends Component {
             <div className="confirmation-submit">
               <div className="submit-buttons-centered">
                 <button className="btn-white" onClick={(event) => this.handleCancel(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button className="btn-red">
+                <button disabled={this.state.buttonDisabled} className="btn-red">
                   {text('diacor_popup_button_confirm')}
                 </button>
               </div>

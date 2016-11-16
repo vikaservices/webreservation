@@ -7,6 +7,21 @@ import text from './common/translate';
 
 class NewClientForm extends Component {
 
+  constructor(props) {
+      super(props);
+
+      this.state = {
+        buttonDisabled: false
+      };
+      this.handleButtonSubmit = this.handleButtonSubmit.bind(this);
+  }
+
+  handleButtonSubmit() {
+      this.setState({
+        buttonDisabled: true
+      });
+  }
+
   renderPopupButtons() {
     return (
       <div>
@@ -16,7 +31,7 @@ class NewClientForm extends Component {
         <div className="popup-control-box">
           <div className="submit-buttons-centered">
             <button onClick={(event) => this.props.resetState(event)} className="btn-white">{text('diacor_popup_button_cancel')}</button>
-            <button className="btn-red">{text('diacor_popup_button_accept')}</button>
+            <button className="btn-red" disabled={this.state.buttonDisabled}>{text('diacor_popup_button_accept')}</button>
           </div>
         </div>
       </div>
@@ -27,7 +42,7 @@ class NewClientForm extends Component {
     return (
       <div className="submit-buttons-centered">
         <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
-        <a href=""><button className="btn-red">{text('diacor_popup_button_accept')}</button></a>
+        <a href=""><button className="btn-red" disabled={this.state.buttonDisabled}>{text('diacor_popup_button_accept')}</button></a>
       </div>
     );
   }
@@ -36,7 +51,7 @@ class NewClientForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <form className={this.props.popUp === true ? 'client-popup-form' : ''}
-            onSubmit={handleSubmit} >
+            onSubmit={handleSubmit, () => this.handleButtonSubmit()} >
         <h4>{text('diacor_popup_new_client_header_one')}</h4>
         <Field name="ssn" component={renderField}  type="text" label={text('diacor_input_placeholder_ssn')} /><br />
         <div>

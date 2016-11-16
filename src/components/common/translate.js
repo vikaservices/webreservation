@@ -157,15 +157,19 @@ _.extend(FIN, {
  });
 
  _.extend(EN, {
-     diacor_popup_ask_ssn_header: 'Hi, who is coming to the reception?'
+     diacor_popup_ask_ssn_header: 'Hi, who is coming to the reception?',
+     diacor_section_header1_desktop: 'Test for languages',
  });
 
- export default function text(key, lang=null) {
+ export default function text(key) {
 
-    if (lang === 'swe') {
+    if(window.T === 'lang_fi') {
+        return FIN[key] || key;
+    }
+    else if (window.T === 'lang_se') {
         return SWE[key] || key;
     }
-    else if (lang === 'en') {
+    else if (window.T === 'lang_en') {
         return EN[key] || key;
     }
     else {

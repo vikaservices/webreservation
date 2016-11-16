@@ -36,7 +36,8 @@ class Popup extends Component {
     this.state = {
       reservation_code: '',
       ssn: '',
-      bigPop: false
+      bigPop: false,
+      buttonDisabled: false,
     };
   }
 
@@ -64,7 +65,11 @@ class Popup extends Component {
   getReservation(code, ssn, event) {
     event.preventDefault();
     //console.log("Popup: getReservation");
-    this.setState( {reservation_code: code, ssn: ssn} );
+    this.setState({
+        reservation_code: code,
+        ssn: ssn,
+        buttonDisabled: true
+    });
     this.props.getReservation(code, ssn);
   }
 
@@ -187,9 +192,10 @@ class Popup extends Component {
     console.log("renderAskClientInfoForm");
     return (
       <div className="dialog">
-        <NewClientForm popUp={true} resetState={this.resetState.bind(this)}
-                                    onSubmit={this.createClient.bind(this)}
-                                    initialValues={this.props.client} />
+        <NewClientForm popUp={true}
+                       resetState={this.resetState.bind(this)}
+                       onSubmit={this.createClient.bind(this)}
+                       initialValues={this.props.client} />
       </div>
     );
   }
@@ -266,7 +272,11 @@ class Popup extends Component {
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
                 <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
-                <a href=""><button className="btn-red">{text('diacor_popup_button_accept')}</button></a>
+                <a href="">
+                    <button disabled={this.state.buttonDisabled}
+                            className="btn-red">{text('diacor_popup_button_accept')}
+                   </button>
+                </a>
               </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>

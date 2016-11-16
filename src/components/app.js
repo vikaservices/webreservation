@@ -130,6 +130,15 @@ class App extends Component {
       this.props.cancelReservation();
     } else if( event.target.dataset.target == "ohc_login" ) {
       this.props.loginOhcClient();
+    } else if(event.target.dataset.target == "lang_fi") {
+      console.log("Language set as Finnish");
+      window.T = "lang_fi";
+    } else if(event.target.dataset.target == "lang_se") {
+      console.log("Language set as Swedish");
+      window.T = "lang_se";
+    } else if(event.target.dataset.target == "lang_en") {
+      console.log("Language set as English");
+      window.T = "lang_en";
     }
   }
 

@@ -11,7 +11,8 @@ class SectionReservationSummary extends Component {
 
     this.state = {
       reminderType: '60 min',
-      reminderName: '60 min'
+      reminderName: '60 min',
+      buttonDisabled: false
     }
   }
 
@@ -28,6 +29,9 @@ class SectionReservationSummary extends Component {
 
   onSubmitReminder(reminderId, event) {
     event.preventDefault();
+    this.setState({
+        buttonDisabled: true
+    });
     console.log("onSubmitReminder: " + reminderId);
     this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
   }
@@ -176,7 +180,7 @@ class SectionReservationSummary extends Component {
                   </div>
                 </div>
                 <div className="submit-buttons-centered">
-                  <button className="btn-red">{text('diacor_section_summary_reminder_order')}</button>
+                  <button disabled={this.state.buttonDisabled} className="btn-red">{text('diacor_section_summary_reminder_order')}</button>
                 </div>
               </form>
             </div>

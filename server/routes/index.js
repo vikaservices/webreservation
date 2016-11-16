@@ -31,7 +31,7 @@ function wrapUnirest( apiRequest, req, res, next, payload, method) {
                 res.status(response.statusCode).json(response.body);
               } else {
                 console.log("response.statusCode - not ok : " + response.statusCode);
-                res.sendStatus(response.statusCode);
+                res.status(response.statusCode).json(response.body);
               }
             });
 

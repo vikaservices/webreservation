@@ -88,13 +88,6 @@ class App extends Component {
           }
           filters.do_time_search = true;
         }
-        else if( this.props.is_ohc_client ) {
-          // Did not get employer, but if this is ohc client give him
-          // ohc team as default anyway
-          filters.employer_id_filter = this.props.selected_employer.id;
-          filters.terms_search       = this.props.selected_employer.name + text('diacor_ohc_search');
-          filters.do_time_search     = true;
-        }
 
         this.props.setFilter( filters );
       });

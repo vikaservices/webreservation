@@ -6,13 +6,65 @@ import FilterCalendar from './filter_calendar';
 import TimeslotList from './timeslot_list';
 import * as actions  from '../actions/index';
 import text from './common/translate';
+import {
+  TOD_MORNING,
+  TOD_DAY,
+  TOD_AFTERNOON
+} from '../actions/types';
 
 class SectionTimeSearch extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      // time of day filter disabled flags
+      tod_filter_morning_disabled: true,
+      tod_filter_day_disabled: true,
+      tod_filter_afternoon_disabled: true
+    };
+  }
 
   componentWillMount() {
     let today = new Date().toISOString().substr(0,10);
     // Initially search timeslots for today for general practioner (speciality = 2)
     this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Loop through the time slots and set flags for disabling time of day
+    // filters if shown timeslot list would be empty if that filter was selected
+    let list = nextProps.timeslots_list ? nextProps.timeslots_list : [];
+    let tod_filters = { tod_filter_morning_disabled: true,
+                        tod_filter_day_disabled: true,
+                        tod_filter_afternoon_disabled: true};
+    if( list.length > 0 ) {
+      for( let i = 0; i < list.length; i++ ) {
+        if( parseInt(list[i].time.substr(0,(list[i].time.indexOf(":")+1))) > parseInt(TOD_MORNING) ) {
+          tod_filters.tod_filter_morning_disabled = false;
+          break;
+        }
+      }
+      for( let i = 0; i < list.length; i++ ) {
+        if( parseInt(list[i].time.substr(0,(list[i].time.indexOf(":")+1))) > parseInt(TOD_DAY) ) {
+          tod_filters.tod_filter_day_disabled = false;
+          break;
+        }
+      }
+      for( let i = 0; i < list.length; i++ ) {
+        if( parseInt(list[i].time.substr(0,(list[i].time.indexOf(":")+1))) > parseInt(TOD_AFTERNOON) ) {
+          console.log("hep: " + list[i].time);
+          tod_filters.tod_filter_afternoon_disabled = false;
+          break;
+        }
+      }
+      console.log("SectionTimeSearch: componentWillReceiveProps: ");
+      this.setState(tod_filters, () => {
+        console.log("tod_filter_morning_disabled: " + this.state.tod_filter_morning_disabled);
+        console.log("tod_filter_day_disabled: " + this.state.tod_filter_day_disabled);
+        console.log("tod_filter_afternoon_disabled: " + this.state.tod_filter_afternoon_disabled);
+      });
+    }
   }
 
   // Go back to time selection
@@ -76,7 +128,10 @@ class SectionTimeSearch extends Component {
             <TimeslotList {...this.props}
                           reservationHandler={this.props.reservationHandler}
                           doctorinfoHandler={this.doctorinfoHandler.bind(this)}
-                          changeTimeOfDay={this.changeTimeOfDay.bind(this)} />
+                          changeTimeOfDay={this.changeTimeOfDay.bind(this)}
+                          morning_filter_disabled={this.state.tod_filter_morning_disabled}
+                          day_filter_disabled={this.state.tod_filter_day_disabled}
+                          afternoon_filter_disabled={this.state.tod_filter_afternoon_disabled} />
           </div>
         </div>
         <div className="block-separator row">

@@ -45001,6 +45001,8 @@
 
 	var _translate2 = _interopRequireDefault(_translate);
 
+	var _types = __webpack_require__(278);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -45014,10 +45016,18 @@
 	var SectionTimeSearch = function (_Component) {
 	  _inherits(SectionTimeSearch, _Component);
 
-	  function SectionTimeSearch() {
+	  function SectionTimeSearch(props) {
 	    _classCallCheck(this, SectionTimeSearch);
 
-	    return _possibleConstructorReturn(this, (SectionTimeSearch.__proto__ || Object.getPrototypeOf(SectionTimeSearch)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (SectionTimeSearch.__proto__ || Object.getPrototypeOf(SectionTimeSearch)).call(this, props));
+
+	    _this.state = {
+	      // time of day filter disabled flags
+	      tod_filter_morning_disabled: true,
+	      tod_filter_day_disabled: true,
+	      tod_filter_afternoon_disabled: true
+	    };
+	    return _this;
 	  }
 
 	  _createClass(SectionTimeSearch, [{
@@ -45026,6 +45036,45 @@
 	      var today = new Date().toISOString().substr(0, 10);
 	      // Initially search timeslots for today for general practioner (speciality = 2)
 	      this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var _this2 = this;
+
+	      // Loop through the time slots and set flags for disabling time of day
+	      // filters if shown timeslot list would be empty if that filter was selected
+	      var list = nextProps.timeslots_list ? nextProps.timeslots_list : [];
+	      var tod_filters = { tod_filter_morning_disabled: true,
+	        tod_filter_day_disabled: true,
+	        tod_filter_afternoon_disabled: true };
+	      if (list.length > 0) {
+	        for (var i = 0; i < list.length; i++) {
+	          if (parseInt(list[i].time.substr(0, list[i].time.indexOf(":") + 1)) > parseInt(_types.TOD_MORNING)) {
+	            tod_filters.tod_filter_morning_disabled = false;
+	            break;
+	          }
+	        }
+	        for (var _i = 0; _i < list.length; _i++) {
+	          if (parseInt(list[_i].time.substr(0, list[_i].time.indexOf(":") + 1)) > parseInt(_types.TOD_DAY)) {
+	            tod_filters.tod_filter_day_disabled = false;
+	            break;
+	          }
+	        }
+	        for (var _i2 = 0; _i2 < list.length; _i2++) {
+	          if (parseInt(list[_i2].time.substr(0, list[_i2].time.indexOf(":") + 1)) > parseInt(_types.TOD_AFTERNOON)) {
+	            console.log("hep: " + list[_i2].time);
+	            tod_filters.tod_filter_afternoon_disabled = false;
+	            break;
+	          }
+	        }
+	        console.log("SectionTimeSearch: componentWillReceiveProps: ");
+	        this.setState(tod_filters, function () {
+	          console.log("tod_filter_morning_disabled: " + _this2.state.tod_filter_morning_disabled);
+	          console.log("tod_filter_day_disabled: " + _this2.state.tod_filter_day_disabled);
+	          console.log("tod_filter_afternoon_disabled: " + _this2.state.tod_filter_afternoon_disabled);
+	        });
+	      }
 	    }
 
 	    // Go back to time selection
@@ -45052,7 +45101,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var active = this.props.timesearch_section_active;
 
@@ -45094,7 +45143,7 @@
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
-	                      return _this2.backToTimeSelection(event);
+	                      return _this3.backToTimeSelection(event);
 	                    } },
 	                  (0, _translate2.default)('diacor_section_timesearch_link')
 	                )
@@ -45131,7 +45180,10 @@
 	            _react2.default.createElement(_timeslot_list2.default, _extends({}, this.props, {
 	              reservationHandler: this.props.reservationHandler,
 	              doctorinfoHandler: this.doctorinfoHandler.bind(this),
-	              changeTimeOfDay: this.changeTimeOfDay.bind(this) }))
+	              changeTimeOfDay: this.changeTimeOfDay.bind(this),
+	              morning_filter_disabled: this.state.tod_filter_morning_disabled,
+	              day_filter_disabled: this.state.tod_filter_day_disabled,
+	              afternoon_filter_disabled: this.state.tod_filter_afternoon_disabled }))
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -55861,6 +55913,9 @@
 	var FilterTimeOfDay = function FilterTimeOfDay(_ref) {
 	  var timeofdayfilter = _ref.timeofdayfilter;
 	  var changeTimeOfDay = _ref.changeTimeOfDay;
+	  var morning_filter_disabled = _ref.morning_filter_disabled;
+	  var day_filter_disabled = _ref.day_filter_disabled;
+	  var afternoon_filter_disabled = _ref.afternoon_filter_disabled;
 
 
 	  return _react2.default.createElement(
@@ -55871,22 +55926,38 @@
 	      { onChange: function onChange(event) {
 	          return changeTimeOfDay(event);
 	        } },
-	      _react2.default.createElement('input', { type: 'radio', id: 'morning', name: 'tod', value: 'morning', checked: timeofdayfilter === _types.TOD_MORNING ? "checked" : "" }),
+	      _react2.default.createElement('input', { type: 'radio',
+	        id: 'morning',
+	        name: 'tod',
+	        value: 'morning',
+	        disabled: morning_filter_disabled,
+	        checked: timeofdayfilter === _types.TOD_MORNING ? "checked" : "" }),
 	      _react2.default.createElement(
 	        'label',
 	        { htmlFor: 'morning' },
 	        (0, _translate2.default)('diacor_filter_time_morning')
 	      ),
-	      _react2.default.createElement('input', { type: 'radio', id: 'day', name: 'tod', value: 'day', checked: timeofdayfilter === _types.TOD_DAY ? "checked" : "" }),
+	      _react2.default.createElement('input', { type: 'radio',
+	        id: 'day',
+	        name: 'tod',
+	        value: 'day',
+	        disabled: day_filter_disabled,
+	        checked: timeofdayfilter === _types.TOD_DAY ? "checked" : "" }),
 	      _react2.default.createElement(
 	        'label',
 	        { htmlFor: 'day' },
 	        (0, _translate2.default)('diacor_filter_time_day')
 	      ),
-	      _react2.default.createElement('input', { type: 'radio', id: 'afternoon', name: 'tod', value: 'afternoon', checked: timeofdayfilter === _types.TOD_AFTERNOON ? "checked" : "" }),
+	      _react2.default.createElement('input', { type: 'radio',
+	        id: 'afternoon',
+	        name: 'tod',
+	        value: 'afternoon',
+	        disabled: afternoon_filter_disabled,
+	        checked: timeofdayfilter === _types.TOD_AFTERNOON ? "checked" : "" }),
 	      _react2.default.createElement(
 	        'label',
-	        { htmlFor: 'afternoon' },
+	        { htmlFor: 'afternoon',
+	          className: afternoon_filter_disabled ? "disabled" : "" },
 	        (0, _translate2.default)('diacor_filter_time_evening')
 	      )
 	    )
@@ -56131,7 +56202,7 @@
 	      if (validation_error) {
 	        return false;
 	      }
-	      this.props.confirmReservation(this.props.prereservation.id, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo).then(function () {
+	      this.props.confirmReservation(this.props.reservationid, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo).then(function () {
 	        if (_this2.props.appstate == _types.APP_STATE_CONFIRMATION_OK) {
 	          console.log("confirmReservation: confirmation ok");
 	          if (_this2.props.native_entry_flag) {
@@ -56566,7 +56637,7 @@
 	  return {
 	    date_filter: state.app.filters.date_filter,
 	    selectedtimeslot: state.app.selectedtimeslot,
-	    prereservation: state.app.prereservation,
+	    reservationid: state.app.reservationid,
 	    appstate: state.app.appstate,
 	    client_id: state.app.client_id,
 	    is_ohc_client: state.app.is_ohc_client,
@@ -56755,7 +56826,7 @@
 	    value: function onSubmitReminder(reminderId, event) {
 	      event.preventDefault();
 	      console.log("onSubmitReminder: " + reminderId);
-	      this.props.orderReminder(this.props.prereservation.id, this.props.client_id, reminderId);
+	      this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
 	    }
 
 	    // addCalendarEntry(event) {
@@ -57034,7 +57105,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: this.props.prereservation.online ? "row block" : "hide" },
+	            { className: this.props.selectedtimeslot.online ? "row block" : "hide" },
 	            _react2.default.createElement(
 	              'h4',
 	              { className: 'section-title' },
@@ -57091,7 +57162,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: this.props.prereservation.online ? "block-separator row" : "hide" },
+	            { className: this.props.selectedtimeslot.online ? "block-separator row" : "hide" },
 	            _react2.default.createElement('img', { src: 'public/img/block-separator.png' })
 	          ),
 	          _react2.default.createElement(
@@ -57154,7 +57225,7 @@
 	    reservation_code: state.app.reservation_code,
 	    selectedtimeslot: state.app.selectedtimeslot,
 	    selecteddate: state.app.filters.date_filter,
-	    prereservation: state.app.prereservation,
+	    reservationid: state.app.reservationid,
 	    reservation_summary_section_active: state.app.reservation_summary_section_active
 	  };
 	}
@@ -71015,7 +71086,7 @@
 	  timeofdayfilter: '',
 	  reservationstatus: 0,
 	  reservation_code: null,
-	  prereservation: {},
+	  reservationid: 0,
 	  reservation: {},
 	  native_entry_flag: false,
 	  pagelang: 'fi',
@@ -71185,7 +71256,7 @@
 	        return new_state;
 	      }
 	      // ok
-	      new_state.prereservation = action.payload.data.reservation;
+	      new_state.reservationid = action.payload.data.reservation.id;
 	      new_state.reservationstatus = 0;
 	      return new_state;
 
@@ -71203,6 +71274,7 @@
 	      }
 	      // ok
 	      new_state.reservation_code = action.payload.data.reservation.reservationCode;
+	      new_state.reservationid = action.payload.data.reservation.id;
 	      new_state.reservationstatus = 0;
 	      return new_state;
 

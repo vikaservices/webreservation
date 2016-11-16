@@ -56,7 +56,7 @@ hr {
 }
 h4,
 h5 {
-  font-family: "Gotham A", ArialMT !important;
+  font-family: "Gotham B", ArialMT !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-stretch: normal !important;
@@ -70,7 +70,7 @@ h5 {
   color: #333333 !important;
 }
 h3 {
-  font-family: "Gotham A", ArialMT !important;
+  font-family: "Gotham B", ArialMT !important;
   font-weight: bold !important;
   font-style: normal !important;
   font-stretch: normal !important;
@@ -436,6 +436,9 @@ h3 {
     font-size: 35px;
     line-height: 26px;
     padding-top: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
     text-align: center;
     color: #fff;
   }
@@ -518,6 +521,9 @@ h3 {
     font-family: "Gotham A", ArialMT;
     font-size: 40px;
     line-height: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
     text-align: center;
     color: #fff;
   }
@@ -1128,8 +1134,11 @@ h3 {
   font-weight: normal;
   border: 1px solid #fff;
 }
+.filter-time-of-day form .disabled {
+  opacity: 0.5;
+}
 .filter-time-of-day form input[type="radio"] + label:hover {
-  opacity: 0.2;
+  opacity: 0.5;
 }
 .filter-time-of-day form input[type="radio"]:checked + label {
   border-bottom-color: #F10C29;

@@ -56,7 +56,7 @@ hr {
 }
 h4,
 h5 {
-  font-family: "Gotham A", "Gotham B", ArialMT !important;
+  font-family: "Gotham A", "Gotham B", ArialMT, Arial !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-stretch: normal !important;
@@ -70,7 +70,7 @@ h5 {
   color: #333333 !important;
 }
 h3 {
-  font-family: "Gotham A", "Gotham B", ArialMT !important;
+  font-family: "Gotham A", "Gotham B", ArialMT, Arial !important;
   font-weight: bold !important;
   font-style: normal !important;
   font-stretch: normal !important;
@@ -342,7 +342,7 @@ h3 {
   .logo-bar .lang-selection ul li a:link,
   .logo-bar .lang-selection ul li a:visited,
   .logo-bar .lang-selection ul li a:hover {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     font-size: 14px;
     color: #fff;
   }
@@ -357,7 +357,7 @@ h3 {
     display: inline-block;
     line-height: 22px;
     vertical-align: middle;
-    font-family: "Gotham A", "Gotham B", ArialMT;
+    font-family: "Gotham A", "Gotham B", ArialMT, Arial;
     font-size: 22px;
     font-weight: 300;
     font-style: normal;
@@ -396,7 +396,7 @@ h3 {
     background-image: url('/public/img/header-reservations-tab.png');
   }
   .links-bar span a {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     vertical-align: middle;
     font-size: 18px;
     color: #fff;
@@ -432,7 +432,7 @@ h3 {
     background-image: url('/public/img/header-diacor-logo-tab.png');
   }
   .logo-bar .title {
-    font-family: "Gotham A", "Gotham B", ArialMT;
+    font-family: "Gotham A", "Gotham B", ArialMT, Arial;
     font-size: 35px;
     line-height: 26px;
     padding-top: 40px;
@@ -459,7 +459,7 @@ h3 {
   .logo-bar .lang-selection ul li a:link,
   .logo-bar .lang-selection ul li a:visited,
   .logo-bar .lang-selection ul li a:hover {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     font-size: 14px;
     color: #fff;
   }
@@ -498,7 +498,7 @@ h3 {
     background-image: url('/public/img/header-reservations-tab.png');
   }
   .links-bar span a {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     vertical-align: center;
     font-size: 16px;
     color: #fff;
@@ -518,7 +518,7 @@ h3 {
     background-image: url('/public/img/header-diacor-logo.png');
   }
   .logo-bar .title {
-    font-family: "Gotham A", "Gotham B", ArialMT;
+    font-family: "Gotham A", "Gotham B", ArialMT, Arial;
     font-size: 40px;
     line-height: 40px;
     font-weight: 300;
@@ -544,7 +544,7 @@ h3 {
   .logo-bar .lang-selection ul li a:link,
   .logo-bar .lang-selection ul li a:visited,
   .logo-bar .lang-selection ul li a:hover {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     font-size: 14px;
     color: #fff;
   }
@@ -583,7 +583,7 @@ h3 {
     background-image: url('/public/img/header-reservations.png');
   }
   .links-bar span a {
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     vertical-align: middle;
     font-size: 18px;
     color: #fff;
@@ -803,7 +803,7 @@ h3 {
 /********** SECTION : TIME SEARCH : HEADER    *************/
 .reservation-summary {
   display: inline-block;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 18px;
   font-weight: normal;
   font-style: normal;
@@ -1057,7 +1057,7 @@ h3 {
     width: 100%;
     line-height: 50px;
     text-align: center;
-    font-family: ArialMT;
+    font-family: ArialMT, Arial;
     font-size: 17px;
     font-weight: normal;
     font-style: normal;
@@ -1217,7 +1217,7 @@ h3 {
 .timeslot-list-header {
   display: inline-block;
   margin-top: 0;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 17px;
   font-weight: normal;
   font-style: normal;
@@ -1285,7 +1285,7 @@ h3 {
 .slot-resource a:link,
 .slot-resource a:visited,
 .slot-resource a:hover {
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 12px;
   font-weight: bold;
   font-style: normal;
@@ -1298,7 +1298,7 @@ h3 {
   display: inline-block;
   height: 14px;
   opacity: 0.4;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 12px;
   font-weight: normal;
   font-style: normal;
@@ -1309,7 +1309,7 @@ h3 {
   display: inline-block;
   height: 14px;
   opacity: 0.4;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 12px;
   font-weight: bold;
   font-style: normal;
@@ -1331,7 +1331,7 @@ h3 {
 .turku-link a:visited,
 .turku-link a:hover {
   text-decoration: none;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 11px;
   font-weight: normal;
   font-style: normal;
@@ -1567,7 +1567,7 @@ h3 {
   margin-top: 30px;
 }
 .confirmation-terms p {
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   font-size: 12px;
   line-height: 1.67;
   color: #a4a4a4;
@@ -1720,7 +1720,7 @@ h3 {
 .submit-buttons-centered {
   text-align: center;
   margin-top: 30px;
-  font-family: "Gotham A", "Gotham B", ArialMT;
+  font-family: "Gotham A", "Gotham B", ArialMT, Arial;
   letter-spacing: 1px;
   color: #fff;
 }
@@ -1904,7 +1904,7 @@ a:focus {
   width: 240px;
   height: 34px;
   font-size: 17px;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   padding-left: 10px;
   margin-bottom: 90px;
   border-radius: 2px;
@@ -2099,7 +2099,7 @@ a:focus {
   width: 240px;
   height: 34px;
   font-size: 17px;
-  font-family: ArialMT;
+  font-family: ArialMT, Arial;
   padding-left: 10px;
   margin-bottom: 90px;
   border-radius: 2px;

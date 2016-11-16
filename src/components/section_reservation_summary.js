@@ -36,44 +36,6 @@ class SectionReservationSummary extends Component {
     this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
   }
 
-  // addCalendarEntry(event) {
-  //   event.preventDefault();
-  //   console.log("addCalendarEntry");
-  //   let today = new Date();
-  //   let end_millis = new Date(this.props.selectedtimeslot.start).getTime() + (this.props.selectedtimeslot.duration * 60000);
-  //   let end = new Date(end_millis);
-  //   let rnd = Math.floor(Math.random() * 1000000);
-  //
-  //   console.log("today: " + today);
-  //   console.log("end: " + end);
-  //
-  //   let dtstamp   = getCalendarDateString( today.toISOString() );
-  //   let dtstart   = getCalendarDateString( this.props.selectedtimeslot.start);
-  //   let dtend     = getCalendarDateString( end );
-  //   let uid       = this.props.selectedtimeslot.start + "-" + rnd + "-diacor.fi@diacor.fi";
-  //   let cn        = "Asiakaspalvelu";
-  //   let mailto    = "info@diacor.fi";
-  //   let resourcename = this.props.selectedtimeslot.resourceName;
-  //   let title     = this.props.selectedtimeslot.title;
-  //   let location  = this.props.selectedtimeslot.unitName;
-  //
-  //   let e = "";
-  //   e += "BEGIN:VCALENDAR\n";
-  //   e += "VERSION:2.0\n";
-  //   e += "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\n";
-  //   e += "BEGIN:VEVENT\n";
-  //   e += "UID:"     + uid     + "\n";
-  //   e += "DTSTAMP:" + dtstamp + "\n";
-  //   e += "ORGANIZER;CN=" + cn + ":MAILTO:" + mailto + "\n";
-  //   e += "DTSTART:" + dtstart + "\n";
-  //   e += "DTEND:"   + dtend   + "\n";
-  //   e += "SUMMARY:" + resourcename + ", " + title + ", " + location + "\n";
-  //   e += "END:VEVENT\n";
-  //   e += "END:VCALENDAR\n";
-  //
-  //   console.log("calendar entry: \n" + e)
-  // }
-
   addCalendarEntry(event) {
     // TODO: fix timezone for begin end times
     event.preventDefault();

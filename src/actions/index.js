@@ -220,8 +220,11 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration, onlin
 
 export function makePreReservation(clientId, resourceId, unitId, start, duration, online, employerId=null) {
 
+  // convert start time from UTC to local time string (YYYY-)
+  let start_date = convertUTCStringToLocal(start);
+
   let request_str = `reservations?method=PUT&clientId=${clientId}&resourceId=${resourceId}`;
-  request_str += `&unitId=${unitId}&start=${start}&duration=${duration}&online=${online}`;
+  request_str += `&unitId=${unitId}&start=${start_date}&duration=${duration}&online=${online}`;
   request_str += employerId != null ? `&employerId=${employerId}` : '';
 
   console.log("Action: makePreReservation: " + request_str)

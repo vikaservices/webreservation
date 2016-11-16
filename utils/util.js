@@ -77,9 +77,10 @@ function formatDate4(locale, date_string) {
 }
 
 function getHours( date_string ) {
-  date = new Date(date_string);
+  var hours = date_string.substr(11, 2);
+  var mins = date_string.substr(14, 2);
 
-  return date.getHours() + ":" + date.getMinutes();
+  return hours + ":" + mins;
 }
 
 function getCalendarDateString( date_string ) {
@@ -93,4 +94,18 @@ function getCalendarDateString( date_string ) {
   var SS = date.getSeconds() < 10     ? "0" + date.getSeconds()     : date.getSeconds();
 
   return `${Y}${M}${D}T${HH}${MM}${SS}`;
+}
+
+
+function convertUTCStringToLocal( date_string ) {
+  date = new Date(date_string);
+
+  var Y  = date.getFullYear();
+  var M  = date.getMonth() + 1 < 10   ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+  var D  = date.getDate() < 10        ? "0" + date.getDate()        : date.getDate();
+  var HH = date.getHours() < 10       ? "0" + date.getHours()       : date.getHours();
+  var MM = date.getMinutes() < 10     ? "0" + date.getMinutes()     : date.getMinutes();
+  var SS = date.getSeconds() < 10     ? "0" + date.getSeconds()     : date.getSeconds();
+
+  return `${Y}-${M}-${D}T${HH}:${MM}:${SS}`;
 }

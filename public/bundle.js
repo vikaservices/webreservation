@@ -29840,12 +29840,6 @@
 	              }
 	            }
 	            filters.do_time_search = true;
-	          } else if (_this2.props.is_ohc_client) {
-	            // Did not get employer, but if this is ohc client give him
-	            // ohc team as default anyway
-	            filters.employer_id_filter = _this2.props.selected_employer.id;
-	            filters.terms_search = _this2.props.selected_employer.name + (0, _translate2.default)('diacor_ohc_search');
-	            filters.do_time_search = true;
 	          }
 
 	          _this2.props.setFilter(filters);
@@ -29912,7 +29906,14 @@
 
 	      console.log("selectedtate: " + formatDate(this.props.date_filter));
 	      var start_str = start.length == 4 ? "0" + start : start;
-	      var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
+	      var date_filter_str = this.props.date_filter.toISOString();
+	      var yyyy = date_filter_str.substr(0, 4);
+	      var mm = date_filter_str.substr(5, 2) - 1;
+	      var dd = date_filter_str.substr(8, 2);
+	      var hh = start_str.substr(0, 2);
+	      var min = start_str.substr(3, 2);
+	      var start_date_obj = new Date(yyyy, mm, dd, hh, min, 0, 0);
+	      var starttime = start_date_obj.toISOString();
 	      // for unitName save either actual unitName or "DiacorPlus", depending on
 	      // value of online-flag
 	      unitName = online ? (0, _translate2.default)('diacor_timeslot_diacorplus') : unitName;
@@ -43156,8 +43157,11 @@
 	  var employerId = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 
 
+	  // convert start time from UTC to local time string (YYYY-)
+	  var start_date = convertUTCStringToLocal(start);
+
 	  var request_str = 'reservations?method=PUT&clientId=' + clientId + '&resourceId=' + resourceId;
-	  request_str += '&unitId=' + unitId + '&start=' + start + '&duration=' + duration + '&online=' + online;
+	  request_str += '&unitId=' + unitId + '&start=' + start_date + '&duration=' + duration + '&online=' + online;
 	  request_str += employerId != null ? '&employerId=' + employerId : '';
 
 	  console.log("Action: makePreReservation: " + request_str);
@@ -45056,8 +45060,6 @@
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      var _this2 = this;
-
 	      // Loop through the time slots and set flags for disabling time of day
 	      // filters if shown timeslot list would be empty if that filter was selected
 	      var list = nextProps.timeslots_list ? nextProps.timeslots_list : [];
@@ -45079,16 +45081,14 @@
 	        }
 	        for (var _i2 = 0; _i2 < list.length; _i2++) {
 	          if (parseInt(list[_i2].time.substr(0, list[_i2].time.indexOf(":") + 1)) > parseInt(_types.TOD_AFTERNOON)) {
-	            console.log("hep: " + list[_i2].time);
 	            tod_filters.tod_filter_afternoon_disabled = false;
 	            break;
 	          }
 	        }
-	        console.log("SectionTimeSearch: componentWillReceiveProps: ");
 	        this.setState(tod_filters, function () {
-	          console.log("tod_filter_morning_disabled: " + _this2.state.tod_filter_morning_disabled);
-	          console.log("tod_filter_day_disabled: " + _this2.state.tod_filter_day_disabled);
-	          console.log("tod_filter_afternoon_disabled: " + _this2.state.tod_filter_afternoon_disabled);
+	          // console.log("tod_filter_morning_disabled: " + this.state.tod_filter_morning_disabled);
+	          // console.log("tod_filter_day_disabled: " + this.state.tod_filter_day_disabled);
+	          // console.log("tod_filter_afternoon_disabled: " + this.state.tod_filter_afternoon_disabled);
 	        });
 	      }
 	    }
@@ -45117,7 +45117,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      var active = this.props.timesearch_section_active;
 
@@ -45159,7 +45159,7 @@
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '', className: 'link font-size-14 pull-right', onClick: function onClick(event) {
-	                      return _this3.backToTimeSelection(event);
+	                      return _this2.backToTimeSelection(event);
 	                    } },
 	                  (0, _translate2.default)('diacor_section_timesearch_link')
 	                )
@@ -45663,6 +45663,7 @@
 	    key: 'onDayChange',
 	    value: function onDayChange(date_filter) {
 	      var filters = this.props.filters;
+	      date_filter.setHours(12);
 	      filters.date_filter = date_filter.toISOString();
 	      filters.do_time_search = true;
 	      filters.next_day_search = 0;
@@ -56853,45 +56854,6 @@
 	      console.log("onSubmitReminder: " + reminderId);
 	      this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
 	    }
-
-	    // addCalendarEntry(event) {
-	    //   event.preventDefault();
-	    //   console.log("addCalendarEntry");
-	    //   let today = new Date();
-	    //   let end_millis = new Date(this.props.selectedtimeslot.start).getTime() + (this.props.selectedtimeslot.duration * 60000);
-	    //   let end = new Date(end_millis);
-	    //   let rnd = Math.floor(Math.random() * 1000000);
-	    //
-	    //   console.log("today: " + today);
-	    //   console.log("end: " + end);
-	    //
-	    //   let dtstamp   = getCalendarDateString( today.toISOString() );
-	    //   let dtstart   = getCalendarDateString( this.props.selectedtimeslot.start);
-	    //   let dtend     = getCalendarDateString( end );
-	    //   let uid       = this.props.selectedtimeslot.start + "-" + rnd + "-diacor.fi@diacor.fi";
-	    //   let cn        = "Asiakaspalvelu";
-	    //   let mailto    = "info@diacor.fi";
-	    //   let resourcename = this.props.selectedtimeslot.resourceName;
-	    //   let title     = this.props.selectedtimeslot.title;
-	    //   let location  = this.props.selectedtimeslot.unitName;
-	    //
-	    //   let e = "";
-	    //   e += "BEGIN:VCALENDAR\n";
-	    //   e += "VERSION:2.0\n";
-	    //   e += "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\n";
-	    //   e += "BEGIN:VEVENT\n";
-	    //   e += "UID:"     + uid     + "\n";
-	    //   e += "DTSTAMP:" + dtstamp + "\n";
-	    //   e += "ORGANIZER;CN=" + cn + ":MAILTO:" + mailto + "\n";
-	    //   e += "DTSTART:" + dtstart + "\n";
-	    //   e += "DTEND:"   + dtend   + "\n";
-	    //   e += "SUMMARY:" + resourcename + ", " + title + ", " + location + "\n";
-	    //   e += "END:VEVENT\n";
-	    //   e += "END:VCALENDAR\n";
-	    //
-	    //   console.log("calendar entry: \n" + e)
-	    // }
-
 	  }, {
 	    key: 'addCalendarEntry',
 	    value: function addCalendarEntry(event) {
@@ -57420,14 +57382,14 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn-white', onClick: function onClick(event) {
+	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
 	                    return _this2.resetState(event);
 	                  } },
 	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn-red' },
+	                { type: 'submit', className: 'btn-red' },
 	                (0, _translate2.default)('diacor_popup_button_accept')
 	              )
 	            )
@@ -57523,14 +57485,14 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn-white', onClick: function onClick(event) {
+	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
 	                    return _this4.resetState(event);
 	                  } },
 	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn-red' },
+	                { type: 'submit', className: 'btn-red' },
 	                (0, _translate2.default)('diacor_popup_button_accept')
 	              )
 	            )
@@ -57817,25 +57779,18 @@
 	              'div',
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
-	                'a',
-	                { href: '', onClick: function onClick(event) {
+	                'button',
+	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
 	                    return _this9.resetState(event);
 	                  } },
-	                _react2.default.createElement(
-	                  'button',
-	                  { className: 'btn-white' },
-	                  (0, _translate2.default)('diacor_popup_button_cancel')
-	                )
+	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
-	                'a',
-	                { href: '' },
-	                _react2.default.createElement(
-	                  'button',
-	                  { disabled: this.state.buttonDisabled,
-	                    className: 'btn-red' },
-	                  (0, _translate2.default)('diacor_popup_button_accept')
-	                )
+	                'button',
+	                { disabled: this.state.buttonDisabled,
+	                  type: 'submit',
+	                  className: 'btn-red' },
+	                (0, _translate2.default)('diacor_popup_button_accept')
 	              )
 	            )
 	          ),
@@ -57870,15 +57825,11 @@
 	            'div',
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { className: 'btn-red', onClick: function onClick(event) {
 	                  return _this10.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red' },
-	                (0, _translate2.default)('diacor_popup_button_return_scheduling')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
@@ -57995,26 +57946,18 @@
 	            'div',
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { type: 'button', className: 'btn-white', onClick: function onClick(event) {
 	                  return _this11.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-white' },
-	                (0, _translate2.default)('diacor_popup_button_return_scheduling')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            ),
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { type: 'submit', className: 'btn-red btn-red-mobile-margin', onClick: function onClick(event) {
 	                  return _this11.cancelReservation(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red btn-red-mobile-margin' },
-	                (0, _translate2.default)('diacor_popup_button_cancel_appointment')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_cancel_appointment')
 	            )
 	          )
 	        ),
@@ -58142,15 +58085,11 @@
 	              )
 	            ),
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
 	                  return _this12.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red' },
-	                (0, _translate2.default)('diacor_popup_button_new_reservation')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_new_reservation')
 	            )
 	          )
 	        ),
@@ -58183,15 +58122,11 @@
 	            'div',
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { className: 'btn-red', onClick: function onClick(event) {
 	                  return _this13.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red' },
-	                (0, _translate2.default)('diacor_popup_button_return_scheduling')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
@@ -58362,15 +58297,11 @@
 	              'div',
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
-	                'a',
-	                { href: '', onClick: function onClick(event) {
+	                'button',
+	                { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
 	                    return _this14.resetState(event);
 	                  } },
-	                _react2.default.createElement(
-	                  'button',
-	                  { className: 'btn-red' },
-	                  (0, _translate2.default)('diacor_popup_button_close')
-	                )
+	                (0, _translate2.default)('diacor_popup_button_close')
 	              )
 	            )
 	          )
@@ -58404,15 +58335,11 @@
 	            'div',
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
 	                  return _this15.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red' },
-	                (0, _translate2.default)('diacor_popup_button_return_scheduling')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
@@ -58445,15 +58372,11 @@
 	            'div',
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
-	              'a',
-	              { href: '', onClick: function onClick(event) {
+	              'button',
+	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
 	                  return _this16.resetState(event);
 	                } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-red' },
-	                (0, _translate2.default)('diacor_popup_button_return_scheduling')
-	              )
+	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),

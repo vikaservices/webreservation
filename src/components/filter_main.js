@@ -333,6 +333,7 @@ class FilterMain extends Component {
 
   onDayChange( date_filter ) {
     let filters = this.props.filters;
+    date_filter.setHours(12);
     filters.date_filter = date_filter.toISOString();
     filters.do_time_search = true;
     filters.next_day_search = 0;

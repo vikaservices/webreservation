@@ -145,7 +145,14 @@ class App extends Component {
 
     console.log("selectedtate: " + formatDate(this.props.date_filter));
     let start_str = (start.length == 4) ? ("0" + start) : start;
-    var starttime = formatDate(this.props.date_filter) + "T" + start_str + ":00";
+    let date_filter_str = this.props.date_filter.toISOString();
+    let yyyy = date_filter_str.substr(0, 4);
+    let mm   = date_filter_str.substr(5, 2) - 1;
+    let dd   = date_filter_str.substr(8, 2);
+    let hh   = start_str.substr(0, 2);
+    let min  = start_str.substr(3, 2);
+    let start_date_obj = new Date(yyyy, mm, dd, hh, min, 0, 0);
+    var starttime = start_date_obj.toISOString();
     // for unitName save either actual unitName or "DiacorPlus", depending on
     // value of online-flag
     unitName = online ? text('diacor_timeslot_diacorplus') : unitName;

@@ -29882,6 +29882,15 @@
 	        this.props.cancelReservation();
 	      } else if (event.target.dataset.target == "ohc_login") {
 	        this.props.loginOhcClient();
+	      } else if (event.target.dataset.target == "lang_fi") {
+	        console.log("Language set as Finnish");
+	        window.T = "lang_fi";
+	      } else if (event.target.dataset.target == "lang_se") {
+	        console.log("Language set as Swedish");
+	        window.T = "lang_se";
+	      } else if (event.target.dataset.target == "lang_en") {
+	        console.log("Language set as English");
+	        window.T = "lang_en";
 	      }
 	    }
 
@@ -29985,7 +29994,7 @@
 	  var is_ohc_client = _ref.is_ohc_client;
 	  var native_entry_flag = _ref.native_entry_flag;
 
-
+	  //TODO: language selection
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'row' },
@@ -30007,7 +30016,9 @@
 	              { id: 'lang_fi' },
 	              _react2.default.createElement(
 	                'a',
-	                { href: '' },
+	                { href: '', 'data-target': 'lang_fi', onClick: function onClick(event) {
+	                    return clickHandler(event);
+	                  } },
 	                (0, _translate2.default)('diacor_header_lang_fi')
 	              )
 	            ),
@@ -30016,7 +30027,9 @@
 	              { id: 'lang_se' },
 	              _react2.default.createElement(
 	                'a',
-	                { href: '' },
+	                { href: '', 'data-target': 'lang_se', onClick: function onClick(event) {
+	                    return clickHandler(event);
+	                  } },
 	                (0, _translate2.default)('diacor_header_lang_se')
 	              )
 	            ),
@@ -30025,7 +30038,9 @@
 	              { id: 'lang_en' },
 	              _react2.default.createElement(
 	                'a',
-	                { href: '' },
+	                { href: '', 'data-target': 'lang_en', onClick: function onClick(event) {
+	                    return clickHandler(event);
+	                  } },
 	                (0, _translate2.default)('diacor_header_lang_en')
 	              )
 	            )
@@ -30287,16 +30302,17 @@
 	});
 
 	_lodash2.default.extend(EN, {
-	    diacor_popup_ask_ssn_header: 'Hi, who is coming to the reception?'
+	    diacor_popup_ask_ssn_header: 'Hi, who is coming to the reception?',
+	    diacor_section_header1_desktop: 'Test for languages'
 	});
 
 	function text(key) {
-	    var lang = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-
-	    if (lang === 'swe') {
+	    if (window.T === 'lang_fi') {
+	        return FIN[key] || key;
+	    } else if (window.T === 'lang_se') {
 	        return SWE[key] || key;
-	    } else if (lang === 'en') {
+	    } else if (window.T === 'lang_en') {
 	        return EN[key] || key;
 	    } else {
 	        return FIN[key] || key;
@@ -56119,7 +56135,8 @@
 	      payer: '',
 	      phone_validate_error: false,
 	      email_validate_error: false,
-	      diacor_plus_approval_missing: false
+	      diacor_plus_approval_missing: false,
+	      buttonDisabled: false
 	    };
 	    return _this;
 	  }
@@ -56206,6 +56223,9 @@
 	      this.props.confirmReservation(this.props.reservationid, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo).then(function () {
 	        if (_this2.props.appstate == _types.APP_STATE_CONFIRMATION_OK) {
 	          console.log("confirmReservation: confirmation ok");
+	          _this2.setState({
+	            buttonDisabled: true
+	          });
 	          if (_this2.props.native_entry_flag) {
 	            // Inform DiacorPlus app that webapp has finished
 	            window.location.assign("?&finish=1");
@@ -56606,7 +56626,7 @@
 	                ),
 	                _react2.default.createElement(
 	                  'button',
-	                  { className: 'btn-red' },
+	                  { disabled: this.state.buttonDisabled, className: 'btn-red' },
 	                  (0, _translate2.default)('diacor_popup_button_confirm')
 	                )
 	              )
@@ -56804,7 +56824,8 @@
 
 	    _this.state = {
 	      reminderType: '60 min',
-	      reminderName: '60 min'
+	      reminderName: '60 min',
+	      buttonDisabled: false
 	    };
 	    return _this;
 	  }
@@ -56826,6 +56847,9 @@
 	    key: 'onSubmitReminder',
 	    value: function onSubmitReminder(reminderId, event) {
 	      event.preventDefault();
+	      this.setState({
+	        buttonDisabled: true
+	      });
 	      console.log("onSubmitReminder: " + reminderId);
 	      this.props.orderReminder(this.props.reservationid, this.props.client_id, reminderId);
 	    }
@@ -57092,7 +57116,7 @@
 	                  { className: 'submit-buttons-centered' },
 	                  _react2.default.createElement(
 	                    'button',
-	                    { className: 'btn-red' },
+	                    { disabled: this.state.buttonDisabled, className: 'btn-red' },
 	                    (0, _translate2.default)('diacor_section_summary_reminder_order')
 	                  )
 	                )
@@ -57296,7 +57320,8 @@
 	    _this.state = {
 	      reservation_code: '',
 	      ssn: '',
-	      bigPop: false
+	      bigPop: false,
+	      buttonDisabled: false
 	    };
 	    return _this;
 	  }
@@ -57337,7 +57362,11 @@
 	    value: function getReservation(code, ssn, event) {
 	      event.preventDefault();
 	      //console.log("Popup: getReservation");
-	      this.setState({ reservation_code: code, ssn: ssn });
+	      this.setState({
+	        reservation_code: code,
+	        ssn: ssn,
+	        buttonDisabled: true
+	      });
 	      this.props.getReservation(code, ssn);
 	    }
 	  }, {
@@ -57621,7 +57650,8 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog' },
-	        _react2.default.createElement(_new_client_form2.default, { popUp: true, resetState: this.resetState.bind(this),
+	        _react2.default.createElement(_new_client_form2.default, { popUp: true,
+	          resetState: this.resetState.bind(this),
 	          onSubmit: this.createClient.bind(this),
 	          initialValues: this.props.client })
 	      );
@@ -57802,7 +57832,8 @@
 	                { href: '' },
 	                _react2.default.createElement(
 	                  'button',
-	                  { className: 'btn-red' },
+	                  { disabled: this.state.buttonDisabled,
+	                    className: 'btn-red' },
 	                  (0, _translate2.default)('diacor_popup_button_accept')
 	                )
 	              )
@@ -60527,13 +60558,26 @@
 	var NewClientForm = function (_Component) {
 	  _inherits(NewClientForm, _Component);
 
-	  function NewClientForm() {
+	  function NewClientForm(props) {
 	    _classCallCheck(this, NewClientForm);
 
-	    return _possibleConstructorReturn(this, (NewClientForm.__proto__ || Object.getPrototypeOf(NewClientForm)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (NewClientForm.__proto__ || Object.getPrototypeOf(NewClientForm)).call(this, props));
+
+	    _this.state = {
+	      buttonDisabled: false
+	    };
+	    _this.handleButtonSubmit = _this.handleButtonSubmit.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(NewClientForm, [{
+	    key: 'handleButtonSubmit',
+	    value: function handleButtonSubmit() {
+	      this.setState({
+	        buttonDisabled: true
+	      });
+	    }
+	  }, {
 	    key: 'renderPopupButtons',
 	    value: function renderPopupButtons() {
 	      var _this2 = this;
@@ -60563,7 +60607,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'btn-red' },
+	              { className: 'btn-red', disabled: this.state.buttonDisabled },
 	              (0, _translate2.default)('diacor_popup_button_accept')
 	            )
 	          )
@@ -60594,7 +60638,7 @@
 	          { href: '' },
 	          _react2.default.createElement(
 	            'button',
-	            { className: 'btn-red' },
+	            { className: 'btn-red', disabled: this.state.buttonDisabled },
 	            (0, _translate2.default)('diacor_popup_button_accept')
 	          )
 	        )
@@ -60603,12 +60647,16 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this4 = this;
+
 	      var handleSubmit = this.props.handleSubmit;
 
 	      return _react2.default.createElement(
 	        'form',
 	        { className: this.props.popUp === true ? 'client-popup-form' : '',
-	          onSubmit: handleSubmit },
+	          onSubmit: (handleSubmit, function () {
+	            return _this4.handleButtonSubmit();
+	          }) },
 	        _react2.default.createElement(
 	          'h4',
 	          null,

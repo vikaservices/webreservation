@@ -100,8 +100,8 @@ class Popup extends Component {
           <img className='img-private-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <button className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
-              <button className="btn-red">{text('diacor_popup_button_accept')}</button>
+              <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
+              <button type="submit" className="btn-red">{text('diacor_popup_button_accept')}</button>
             </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -140,8 +140,8 @@ class Popup extends Component {
           <img className='img-occupational-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
-                <button className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button className="btn-red">{text('diacor_popup_button_accept')}</button>
+                <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
+                <button type="submit" className="btn-red">{text('diacor_popup_button_accept')}</button>
               </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -271,12 +271,11 @@ class Popup extends Component {
           <p className="reservation-input-info">{text('Löydät varauskoodin sähköpostistasi varausvahvistuksesta.')}</p>
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
-                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
-                <a href="">
-                    <button disabled={this.state.buttonDisabled}
-                            className="btn-red">{text('diacor_popup_button_accept')}
-                   </button>
-                </a>
+                <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
+                <button disabled={this.state.buttonDisabled}
+                        type="submit"
+                        className="btn-red">{text('diacor_popup_button_accept')}
+                 </button>
               </div>
           </div>
           <a href="" onClick={(event) => this.resetState(event)}>
@@ -294,7 +293,7 @@ class Popup extends Component {
         <h4 className="popup-error-not-found">{header}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -331,8 +330,8 @@ class Popup extends Component {
         <p>{text('diacor_popup_ask_cancel_reservation_confirm_content')}</p>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-white">{text('diacor_popup_button_return_scheduling')}</button></a>
-              <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red btn-red-mobile-margin">{text('diacor_popup_button_cancel_appointment')}</button></a>
+              <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
+              <button type="submit" className="btn-red btn-red-mobile-margin" onClick={(event) => this.cancelReservation(event)}>{text('diacor_popup_button_cancel_appointment')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -369,7 +368,7 @@ class Popup extends Component {
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <a href="http://diacor.fi"><button className="btn-white">{text('diacor_popup_button_leave_scheduling')}</button></a>
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_new_reservation')}</button></a>
+              <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_new_reservation')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -385,7 +384,7 @@ class Popup extends Component {
         <h4>{text('diacor_popup_cancel_reservation_error_header')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+              <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -462,7 +461,7 @@ class Popup extends Component {
           </div>
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
-                <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_close')}</button></a>
+                <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_close')}</button>
               </div>
           </div>
         </div>
@@ -479,7 +478,7 @@ class Popup extends Component {
         <h4>{text('diacor_popup_doctor_info_not_found')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+              <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>
@@ -495,7 +494,7 @@ class Popup extends Component {
         <h4>{text('diacor_popup_generic_failure')}</h4>
         <div className="popup-control-box">
             <div className="submit-buttons-centered">
-              <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
+              <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
         <a href="" onClick={(event) => this.resetState(event)}>

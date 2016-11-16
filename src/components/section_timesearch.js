@@ -54,16 +54,14 @@ class SectionTimeSearch extends Component {
       }
       for( let i = 0; i < list.length; i++ ) {
         if( parseInt(list[i].time.substr(0,(list[i].time.indexOf(":")+1))) > parseInt(TOD_AFTERNOON) ) {
-          console.log("hep: " + list[i].time);
           tod_filters.tod_filter_afternoon_disabled = false;
           break;
         }
       }
-      console.log("SectionTimeSearch: componentWillReceiveProps: ");
       this.setState(tod_filters, () => {
-        console.log("tod_filter_morning_disabled: " + this.state.tod_filter_morning_disabled);
-        console.log("tod_filter_day_disabled: " + this.state.tod_filter_day_disabled);
-        console.log("tod_filter_afternoon_disabled: " + this.state.tod_filter_afternoon_disabled);
+        // console.log("tod_filter_morning_disabled: " + this.state.tod_filter_morning_disabled);
+        // console.log("tod_filter_day_disabled: " + this.state.tod_filter_day_disabled);
+        // console.log("tod_filter_afternoon_disabled: " + this.state.tod_filter_afternoon_disabled);
       });
     }
   }

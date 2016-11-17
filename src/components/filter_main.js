@@ -109,7 +109,8 @@ class FilterMain extends Component {
                             onClickHandler={this.onClickHandlerTerms.bind(this)}
                             list_id="terms-search-hints"
                             index={this.state.terms_list_index}
-                            is_active={this.props.terms_list.length==0 ? false : true} />
+                            is_active={this.props.terms_list.length==0 ? false : true}
+                            pagelang={this.props.pagelang} />
 
           <div id="terms-search-quicklinks" className="hide">
             terms search quicklinks here
@@ -135,7 +136,8 @@ class FilterMain extends Component {
                             onClickHandler={this.onClickHandlerUnits.bind(this)}
                             list_id="units-search-hints"
                             index={this.state.units_list_index}
-                            is_active={this.state.unit_list_visible} />
+                            is_active={this.state.unit_list_visible}
+                            pagelang={this.props.pagelang} />
           : ''}
 
           <div id="units-search-quicklinks" className="hide">
@@ -154,7 +156,8 @@ class FilterMain extends Component {
                      gender_selected={filters.gender_filter}
                      city_selected={filters.city_filter}
                      lang_selected={filters.lang_filter}
-                     show={this.state.extra_filters_visible} />
+                     show={this.state.extra_filters_visible}
+                     pagelang={this.props.pagelang}/>
 
         <div className="turku-link">
           <a href="https://wrui01.securasp.fi/LA2094_Eloni/">{text('diacor_filter_main_reservation_turku_link')} &gt;</a>
@@ -164,7 +167,8 @@ class FilterMain extends Component {
             <FilterCalendar freedays_list={this.props.freedays_list}
                             selected_day={new Date(this.props.filters.date_filter)}
                             onDayChange={this.onDayChange.bind(this)}
-                            onMonthChange={this.onMonthChange.bind(this)} />
+                            onMonthChange={this.onMonthChange.bind(this)}
+                            pagelang={this.props.pagelang} />
         </div>
       </div>
     );

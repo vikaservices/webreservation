@@ -118,20 +118,18 @@ class App extends Component {
 
   onClickHeaderLink(event) {
     event.preventDefault();
+    let target = event.target.dataset.target;
     console.log("onClickHeaderClick: " + event.target.dataset.target);
-    if( event.target.dataset.target == "cancel_reservation" ) {
+    if( target === "cancel_reservation" ) {
       this.props.cancelReservation();
-    } else if( event.target.dataset.target == "ohc_login" ) {
+    } else if( target === "ohc_login" ) {
       this.props.loginOhcClient();
-    } else if(event.target.dataset.target == "lang_fi") {
-      console.log("Language set as Finnish");
-      window.T = "lang_fi";
-    } else if(event.target.dataset.target == "lang_se") {
-      console.log("Language set as Swedish");
-      window.T = "lang_se";
-    } else if(event.target.dataset.target == "lang_en") {
-      console.log("Language set as English");
-      window.T = "lang_en";
+    } else if(target === "fi" || target === "sv" || target === "en") {
+      console.log("Language set as " + target);
+      window.T = target;
+      this.props.setPageLang(target).then(() => {
+        this.props.setFilter( {do_time_search: true} );
+      });
     }
   }
 
@@ -169,7 +167,8 @@ class App extends Component {
         <SectionHeader clickHandler={this.onClickHeaderLink.bind(this)}
                        title={this.props.headertitle}
                        is_ohc_client={this.props.is_ohc_client}
-                       native_entry_flag={this.props.native_entry_flag} />
+                       native_entry_flag={this.props.native_entry_flag}
+                       pagelang={this.props.pagelang} />
         <div className="app">
           <SectionResourceSelection />
           <SectionTimeSearch {...this.props}
@@ -196,7 +195,8 @@ function mapStateToProps(state) {
     filters: state.app.filters,
     selected_employer: state.app.selected_employer,
     is_ohc_client: state.app.is_ohc_client,
-    native_entry_flag: state.app.native_entry_flag
+    native_entry_flag: state.app.native_entry_flag,
+    pagelang: state.app.pagelang
   };
 }
 

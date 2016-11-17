@@ -89,7 +89,7 @@ class SectionResourceSelection extends Component {
                               onChange={this.handleEmployerChange.bind(this)} />
               </div>
               <a href="#" className="link font-size-14 pull-right" style={{width:'25%',textAlign:'right'}} onClick={(event) => this.toggleVisibility(event)}>
-                { active == 'active' ? (show_team ? "Piilota" : "Näytä") : ""}
+                { active == 'active' ? (show_team ? text('diacor_section_header_show_link') : text('diacor_section_header_hide_link')) : ""}
               </a>
             </div>
 
@@ -125,9 +125,9 @@ function mapStateToProps(state) {
     selected_employer: state.app.selected_employer,
     filters: state.app.filters,
     native_entry_flag: state.app.native_entry_flag,
-
     selectedtimeslot: state.app.selectedtimeslot,
-    appstate: state.app.appstate
+    appstate: state.app.appstate,
+    pagelang: state.app.pagelang
   };
 }
 

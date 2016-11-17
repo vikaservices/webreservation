@@ -200,7 +200,8 @@ function mapStateToProps(state) {
     selectedtimeslot: state.app.selectedtimeslot,
     selecteddate: state.app.filters.date_filter,
     reservationid: state.app.reservationid,
-    reservation_summary_section_active: state.app.reservation_summary_section_active
+    reservation_summary_section_active: state.app.reservation_summary_section_active,
+    pagelang: state.app.pagelang
   };
 }
 

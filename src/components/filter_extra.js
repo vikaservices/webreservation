@@ -1,8 +1,8 @@
 import React from 'react';
 import text from './common/translate';
 
-const FilterExtra = ({onChange, onClick, languages, cities, genders,
-                     gender_selected, city_selected, lang_selected, show}) => {
+const FilterExtra = ({onChange, onClick, languages, cities, genders, gender_selected
+                     , city_selected, lang_selected, show, pagelang}) => {
 
   const gens = genders.map((gen)  => {
     return (

@@ -173,7 +173,7 @@ class FilterCalendar extends Component {
         </div>
         <div className="calendar-datepicker-desktop">
           <DatePicker
-                  locale='fi'
+                  locale={this.props.pagelang}
                   value={selected_day}
                   renderDay={ this.renderDayDesk.bind(this) }
                   onUpdate={ this.onDayChange.bind(this) }

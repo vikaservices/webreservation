@@ -342,7 +342,8 @@ function mapStateToProps(state) {
     selected_employer: state.app.selected_employer,
     confirmation_section_active: state.app.confirmation_section_active,
     native_entry_flag: state.app.native_entry_flag,
-    is_private_visit: state.app.is_private_visit
+    is_private_visit: state.app.is_private_visit,
+    pagelang: state.app.pagelang
   };
 }
 

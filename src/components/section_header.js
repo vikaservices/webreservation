@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import text from './common/translate';
 
-const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag}) => {
+const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, pagelang}) => {
 //TODO: language selection
   return (
     <div className="row">
@@ -11,9 +11,9 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag}) 
       <div className="lang-selection pull-right">
           <span className="current-lang"></span>
           <ul>
-            <li id="lang_fi"><a href="" data-target="lang_fi" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_fi')}</a></li>
-            <li id="lang_se"><a href="" data-target="lang_se" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_se')}</a></li>
-            <li id="lang_en"><a href="" data-target="lang_en" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_en')}</a></li>
+            <li id="lang_fi"><a href="" data-target="fi" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_fi')}</a></li>
+            <li id="lang_se"><a href="" data-target="sv" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_se')}</a></li>
+            <li id="lang_en"><a href="" data-target="en" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_en')}</a></li>
           </ul>
         </div>
         <span className="diacor-logo" />

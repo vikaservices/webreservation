@@ -54,19 +54,15 @@ function formatDate3(locale, date) {
 
 // locale "fi", "sw", "ru"
 function getWeekdayStr2(locale, day) {
-  var wd_strings = { fi:["Sunnuntai",
-                         "Maanantai",
-                         "Tiistai",
-                         "Keskiviikko",
-                         "Torstai",
-                         "Perjantai",
-                         "Lauantai"] };
+  var wd_strings = { "fi":["Sunnunta","Maanantai","Tiistai","Keskiviikko","Torstai","Perjantai","Lauantai"],
+                     "sv":["Söndag","Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag"],
+                     "en":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] };
 
   return wd_strings[locale][day];
 }
 
 function formatDate4(locale, date_string) {
-  date = new Date(date_string);
+  var date = new Date(date_string);
 
   return this.formatDate3(locale, date);
 }
@@ -91,10 +87,24 @@ function getCalendarDateString(date_string) {
   return `{Y}${M}${D}T${HH}${MM}${SS}`;
 }
 
+function convertUTCStringToLocal( date_string ) {
+  var date = new Date(date_string);
+
+  var Y  = date.getFullYear();
+  var M  = date.getMonth() + 1 < 10   ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+  var D  = date.getDate() < 10        ? "0" + date.getDate()        : date.getDate();
+  var HH = date.getHours() < 10       ? "0" + date.getHours()       : date.getHours();
+  var MM = date.getMinutes() < 10     ? "0" + date.getMinutes()     : date.getMinutes();
+  var SS = date.getSeconds() < 10     ? "0" + date.getSeconds()     : date.getSeconds();
+
+  return `${Y}-${M}-${D}T${HH}:${MM}:${SS}`;
+}
+
 module.exports = {
     formatDate: formatDate,
     formatDate2: formatDate2,
     formatDate3: formatDate3,
     formatDate4: formatDate4,
-    getHours: getHours
+    getHours: getHours,
+    convertUTCStringToLocal: convertUTCStringToLocal
 };

@@ -25,6 +25,7 @@ import { TERMS_SEARCH,
          SET_PAGE_LANG
         } from './types';
 import axios from 'axios';
+import util from '../components/common/util';
 
 //const UIServerUrl = "/api/";
 
@@ -221,7 +222,7 @@ export function saveSelectedTimeslot( resourceId, unitId, start, duration, onlin
 export function makePreReservation(clientId, resourceId, unitId, start, duration, online, employerId=null) {
 
   // convert start time from UTC to local time string (YYYY-)
-  let start_date = convertUTCStringToLocal(start);
+  let start_date = util.convertUTCStringToLocal(start);
 
   let request_str = `reservations?method=PUT&clientId=${clientId}&resourceId=${resourceId}`;
   request_str += `&unitId=${unitId}&start=${start_date}&duration=${duration}&online=${online}`;

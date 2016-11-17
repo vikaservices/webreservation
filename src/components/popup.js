@@ -314,7 +314,7 @@ class Popup extends Component {
           <span>{reservation.product}</span><br />
           <span>{reservation.resourceName}</span><br />
           <span>{reservation.title}</span><br/>
-          <span>{utils.formatDate4("fi", reservation.start)}</span><br />
+          <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
           <span>{utils.getHours(reservation.start)} ({reservation.duration} {text('diacor_time_min')})</span>
         </div>
         <div className="popup-unit-info">
@@ -353,7 +353,7 @@ class Popup extends Component {
             <span>{reservation.product}</span><br />
             <span>{reservation.resourceName}</span><br />
             <span>{reservation.title}</span><br/>
-            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
             <span>{reservation.start} ({reservation.duration})</span>
         </div>
         <div className="popup-unit-info">

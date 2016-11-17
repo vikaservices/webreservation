@@ -82,7 +82,7 @@ class CancelReservation extends Component {
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
             {reservation.title ? `<span>${reservation.title}</span><br />` : ''}
-            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
             <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration})</span>
           </p>
           <p>
@@ -121,7 +121,7 @@ class CancelReservation extends Component {
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
             {reservation.title ? `<span>${reservation.title}</span><br />` : ''}
-            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
             <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration})</span>
           </p>
           <p>

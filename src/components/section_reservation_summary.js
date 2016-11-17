@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { APP_STATE_ORDER_REMINDER_OK } from '../actions/types';
 import text from './common/translate';
+import utils from './common/util';
 
 class SectionReservationSummary extends Component {
 
@@ -89,7 +90,7 @@ class SectionReservationSummary extends Component {
                   <img src="public/img/calendar-logo.png"/>
                 </div>
                 <div className="padding-left-20">
-                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2(this.props.pagelang, new Date(this.props.selecteddate)) : ""}</span><br />
+                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? utils.formatDate2(this.props.pagelang, new Date(this.props.selecteddate)) : ""}</span><br />
                   <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
                   <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
                   <span><a href="#" onClick={(event) => this.addCalendarEntry(event)}>{text('diacor_section_summary_add_calendar')}</a></span>

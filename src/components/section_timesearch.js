@@ -6,6 +6,7 @@ import FilterCalendar from './filter_calendar';
 import TimeslotList from './timeslot_list';
 import * as actions  from '../actions/index';
 import text from './common/translate';
+import utils from './common/util';
 import {
   TOD_MORNING,
   TOD_DAY,
@@ -99,7 +100,7 @@ class SectionTimeSearch extends Component {
                 <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
                 <div className="reservation-summary">
                   <span>
-                    {formatDate2(this.props.pagelang, this.props.date_filter)}&nbsp;
+                    {utils.formatDate2(this.props.pagelang, this.props.date_filter)}&nbsp;
                     {this.props.selectedtimeslot.startTimeHours},&nbsp;
                     {this.props.selectedtimeslot.resourceName},&nbsp;
                     {this.props.selectedtimeslot.unitName}

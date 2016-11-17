@@ -4,6 +4,7 @@ import * as actions from '../actions/index';
 import text from './common/translate';
 import SvgIcon from './common/svg_definitions';
 import { APP_STATE_CONFIRMATION_OK } from '../actions/types';
+import utils from './common/util';
 
 class SectionConfirmation extends Component {
 
@@ -164,7 +165,7 @@ class SectionConfirmation extends Component {
                 <h5 className="hide-mobile">{text('diacor_section_confirmation_content_time')}</h5>
                 <span>{slot ? slot.resourceName : ""}</span><br />
                 <span>{this.props.selectedtimeslot ? slot.title : ""}</span><br />
-                <span>{formatDate2('fi', new Date(this.props.date_filter))}</span><br />
+                <span>{utils.formatDate2('fi', new Date(this.props.date_filter))}</span><br />
                 <span>{slot ? slot.startTimeHours : ""} </span>
                 <span>{slot ? "(" + slot.duration + " min)" : ""}</span><br />
                 {slot.online ?

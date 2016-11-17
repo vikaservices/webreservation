@@ -9,6 +9,7 @@ import Popup from './popup';
 import * as actions from '../actions/index';
 import Modal from 'react-modal';
 import text from './common/translate';
+import utils from './common/util';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_CREATE_CLIENT,
          DLG_VIEW_REGISTER_ERROR,
@@ -117,6 +118,7 @@ class App extends Component {
   }
 
   onClickHeaderLink(event) {
+     //TODO: move translations to a different method outside, which renders the whole app
     event.preventDefault();
     console.log("onClickHeaderClick: " + event.target.dataset.target);
     if( event.target.dataset.target == "cancel_reservation" ) {
@@ -143,7 +145,7 @@ class App extends Component {
     }
     console.log("makeReservation: " + resourceId + " " + unitId + " " + start + " " + duration);
 
-    console.log("selectedtate: " + formatDate(this.props.date_filter));
+    console.log("selectedtate: " + utils.formatDate(this.props.date_filter));
     let start_str = (start.length == 4) ? ("0" + start) : start;
     let date_filter_str = this.props.date_filter.toISOString();
     let yyyy = date_filter_str.substr(0, 4);
@@ -153,6 +155,7 @@ class App extends Component {
     let min  = start_str.substr(3, 2);
     let start_date_obj = new Date(yyyy, mm, dd, hh, min, 0, 0);
     var starttime = start_date_obj.toISOString();
+
     // for unitName save either actual unitName or "DiacorPlus", depending on
     // value of online-flag
     unitName = online ? text('diacor_timeslot_diacorplus') : unitName;

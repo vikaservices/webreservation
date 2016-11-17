@@ -2,6 +2,7 @@ import React from 'react';
 import FilterTimeOfDay from './filter_time_of_day';
 import TimeSlotListItem from './timeslot_list_item';
 import text from './common/translate';
+import utils from './common/util';
 
 const TimeslotList = (props) => {
 
@@ -20,8 +21,8 @@ const TimeslotList = (props) => {
     <div className="timeslot-list col-xs-12 col-sm-6 nopadding-right">
       <div className="row nopadding">
         {props.previousday != null ?
-        <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.previousday)}</h4> :
-        <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)}</h4>
+        <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + utils.formatDate2("fi", props.previousday)}</h4> :
+        <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + utils.formatDate2("fi", props.date_filter)}</h4>
         }
         {props.previousday == null ?
         <FilterTimeOfDay {...props}/> :
@@ -37,7 +38,7 @@ const TimeslotList = (props) => {
             ((props.timeslots_list && props.timeslots_list.length > 0) && (props.nextdaysearch != 2)) ?
            '' :
            <span>
-            <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + formatDate2("fi", props.date_filter)}</h4>
+            <h4 className="timeslot-list-header">{text('diacor_timeslot_list_header') + utils.formatDate2("fi", props.date_filter)}</h4>
             <FilterTimeOfDay {...props}/>
             {result}
            </span>}

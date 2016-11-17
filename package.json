@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "babel-polyfill": "^6.16.0",
     "belle": "^2.0.8",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",

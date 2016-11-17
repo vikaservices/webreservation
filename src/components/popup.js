@@ -6,6 +6,7 @@ import NewClientForm from './new_client_form';
 import SvgIcon from './common/svg_definitions';
 import text from './common/translate';
 import { getFormValues } from 'redux-form';
+import utils from './common/util';
 import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_REGISTER_FORBIDDEN,
          DLG_VIEW_REGISTER_OHC_CHECK_SSN,
@@ -313,8 +314,8 @@ class Popup extends Component {
           <span>{reservation.product}</span><br />
           <span>{reservation.resourceName}</span><br />
           <span>{reservation.title}</span><br/>
-          <span>{formatDate4("fi", reservation.start)}</span><br />
-          <span>{getHours(reservation.start)} ({reservation.duration} {text('diacor_time_min')})</span>
+          <span>{utils.formatDate4("fi", reservation.start)}</span><br />
+          <span>{utils.getHours(reservation.start)} ({reservation.duration} {text('diacor_time_min')})</span>
         </div>
         <div className="popup-unit-info">
           {reservation.online ?
@@ -352,7 +353,7 @@ class Popup extends Component {
             <span>{reservation.product}</span><br />
             <span>{reservation.resourceName}</span><br />
             <span>{reservation.title}</span><br/>
-            <span>{formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
             <span>{reservation.start} ({reservation.duration})</span>
         </div>
         <div className="popup-unit-info">

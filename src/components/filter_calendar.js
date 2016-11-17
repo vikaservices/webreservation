@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DatePicker } from 'belle';
+import utils from './common/util';
 
 class FilterCalendar extends Component {
 
@@ -122,12 +123,7 @@ class FilterCalendar extends Component {
       backgroundColor: '#fff',
     };
 
-    let selected_day;
-    if( !this.props.selected_day ) {
-      selected_day = new Date();
-    } else {
-      selected_day = this.props.selected_day;
-    }
+    let selected_day = !this.props.selected_day ? new Date() : this.props.selected_day;
 
     let current_month = new Date().getMonth();
 
@@ -145,7 +141,7 @@ class FilterCalendar extends Component {
         <div className="calendar-day-selector">
           <a href="" onClick={(event) => this.dayChange("prev", event)} className="pull-left"><span className="glyphicon glyphicon-menu-left" /></a>
           <a href="" onClick={(event) => this.toggleCalendar(event)}>
-            <span>{formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
+            <span>{utils.formatDate3("fi", selected_day)}&nbsp;&nbsp;&nbsp;</span>
             <span className="glyphicon glyphicon-calendar"/>
           </a>
           <a href="" onClick={(event) => this.dayChange("next", event)} className="pull-right"><span className="glyphicon glyphicon-menu-right" /></a>

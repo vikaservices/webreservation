@@ -429,7 +429,7 @@ export default function(state = INITIAL_STATE, action) {
         new_state.reservation_summary_section_active = 'hidden';
         new_state.dialogisopen = false;
         new_state.dialogview = DLG_VIEW_NONE;
-        new_state.headertitle = 'Ajanvaraus';
+        new_state.headertitle = text('diacor_header_reservation');
         return new_state;
 
       case SET_TIME_OF_DAY_FILTER:
@@ -566,7 +566,8 @@ export default function(state = INITIAL_STATE, action) {
       case SET_PAGE_LANG:
         console.log("reducer_app: SET_PAGE_LANG");
         console.log("lang: " + action.pagelang);
-        return {...state, pagelang: action.pagelang};
+        let title = text('diacor_header_reservation');
+        return {...state, pagelang: action.pagelang, headertitle: title};
 
       default:
         return state;

@@ -99,7 +99,7 @@ class SectionTimeSearch extends Component {
                 <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
                 <div className="reservation-summary">
                   <span>
-                    {formatDate2("fi", this.props.date_filter)}&nbsp;
+                    {formatDate2(this.props.pagelang, this.props.date_filter)}&nbsp;
                     {this.props.selectedtimeslot.startTimeHours},&nbsp;
                     {this.props.selectedtimeslot.resourceName},&nbsp;
                     {this.props.selectedtimeslot.unitName}

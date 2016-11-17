@@ -89,7 +89,7 @@ class SectionReservationSummary extends Component {
                   <img src="public/img/calendar-logo.png"/>
                 </div>
                 <div className="padding-left-20">
-                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2('fi', new Date(this.props.selecteddate)) : ""}</span><br />
+                  <span style={{fontWeight: 'bold'}}>{this.props.selecteddate ? formatDate2(this.props.pagelang, new Date(this.props.selecteddate)) : ""}</span><br />
                   <span>{reservation.startTimeHours ? reservation.startTimeHours : ""} </span>
                   <span>{reservation.duration ? "(" + reservation.duration + " min)" : ""}</span><br />
                   <span><a href="#" onClick={(event) => this.addCalendarEntry(event)}>{text('diacor_section_summary_add_calendar')}</a></span>
@@ -104,7 +104,7 @@ class SectionReservationSummary extends Component {
           <div className="block row">
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "" : "hide" }>
               <br /><br />
-              <p>Tilaus tallennettu. Saat muistutuksen tekstiviestinä {this.state.reminderName} vastaanottoaikaa.</p>
+              <p>{text('diacor_section_summary_reminder_ok1')}{this.state.reminderName}{text('diacor_section_summary_reminder_ok2')}</p>
             </div>
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "hide" : ""}>
               <h4 className="section-title">{text('diacor_section_summary_reminder_question')}</h4>

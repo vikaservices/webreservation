@@ -30,13 +30,9 @@ function formatDate2( locale, date ) {
 
 // locale "fi", "sw", "ru"
 function getWeekdayStr( locale, day ) {
-  var wd_strings = { fi:["Su",
-                         "Ma",
-                         "Ti",
-                         "Ke",
-                         "To",
-                         "Pe",
-                         "La"] };
+  var wd_strings = { "fi":["Su","Ma","Ti","Ke","To","Pe","La"],
+                     "sv":["Sö","Må","Ti","On","To","Fr","Lö"],
+                     "en":["Su","Mo","Tu","We","Th","Fr","Sa"] };
 
   return wd_strings[locale][day];
 }

@@ -35,7 +35,7 @@ class CancelReservation extends Component {
     let hetu_code = this.parseCode(this.props.location.query.id)
 
     this.props.cancelReservation(hetu_code[1], hetu_code[0]).then(() => {
-        console.log("cancelReservation status: " + this.props.reservationstatus);
+      console.log("cancelReservation status: " + this.props.reservationstatus);
     });
   }
 
@@ -54,7 +54,7 @@ class CancelReservation extends Component {
     if( this.state.loading ) {
       return (
         <div className="content">
-          <p>Haataan varauksen tietoja</p>
+          <p>{text('diacor_cancel_reservation_fetching_info')}</p>
         </div>
       );
 
@@ -62,9 +62,11 @@ class CancelReservation extends Component {
     } else if( this.props.reservationstatus == 404 ) {
       return (
         <div className="content">
-          <p>Varaustunnuksella {this.props.reservation_code} ei löytynyt varausta.</p>
+          <p>{text('diacor_cancel_reservation_not_found1')}
+          {this.props.reservation_code}
+          {text('diacor_cancel_reservation_not_found1')}</p>
           <div className="submit-buttons-centered">
-            <a href="http://diacor.fi"><button className="btn-red">Poistu</button></a>
+            <a href="http://diacor.fi"><button className="btn-red">{text('diacor_cancel_reservation_button_leave')}</button></a>
           </div>
         </div>
       );
@@ -73,8 +75,8 @@ class CancelReservation extends Component {
     } else if( this.props.reservationstatus == 204 ) {
       return (
         <div className="content">
-          <h4>Varaus peruttu</h4>
-          <p>Peruutit seuraavan varauksen.</p>
+          <h4>{text('diacor_cancel_reservation_header_cancelled')}</h4>
+          <p>{text('diacor_cancel_reservation_content1')}</p>
           <p>
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
@@ -90,8 +92,8 @@ class CancelReservation extends Component {
           </p>
           <p>Varauskoodi: {this.props.reservation_code}</p>
           <div className="submit-buttons-centered">
-            <a href="http://diacor.fi"><button className="btn-white">Poistu ajanvarauksesta</button></a>
-            <a href="http://localhost:9090"><button className="btn-red">Varaa uusi aika</button></a>
+            <a href="http://diacor.fi"><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
+            <a href="http://localhost:9090"><button className="btn-red">{text('diacor_cancel_reservation_button_new_reservation')}</button></a>
           </div>
         </div>
       );
@@ -102,9 +104,9 @@ class CancelReservation extends Component {
                this.props.reservationstatus != 0) {
       return (
         <div className="content">
-          <h4>Jotakin meni pieleen varauksen peruuttamisessa...</h4>
+          <h4>{text('diacor_cancel_reservation_header_error')}</h4>
           <div className="submit-buttons-centered">
-            <a href="http://localhost:9090"><button className="btn-red">Palaa ajanvaraukseen</button></a>
+            <a href="http://localhost:9090"><button className="btn-red">{text('diacor_cancel_reservation_button_leave')}</button></a>
           </div>
         </div>
       );
@@ -113,7 +115,7 @@ class CancelReservation extends Component {
     } else {
       return (
         <div className="content">
-          <h4>Varauksen tiedot</h4>
+          <h4>{text('diacor_cancel_reservation_header_info')}</h4>
           <p>
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
@@ -127,11 +129,11 @@ class CancelReservation extends Component {
             {reservation.unitPostCode ? <span>{reservation.unitPostCode} </span> : ''}
             {reservation.unitCity ? <span>{reservation.unitCity}<br /></span> : ''}
           </p>
-          <p>Varauskoodi: {this.props.reservation_code}</p>
-          <p>Voit hallinnoida kaikkia varauksiasi DiacorPlus-palvelussa.</p>
+          <p>{text('diacor_cancel_reservation_code')}: {this.props.reservation_code}</p>
+          <p>{text('diacor_cancel_reservation_content1')}</p>
           <div className="submit-buttons-centered">
-            <a href="http://diacor.fi" className=""><button className="btn-white">Poistu</button></a>
-            <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red">Peruuta aika</button></a>
+            <a href="http://diacor.fi" className=""><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
+            <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red">{text('diacor_cancel_reservation_button_confirm')}</button></a>
           </div>
         </div>
       );
@@ -154,7 +156,8 @@ function mapStateToProps(state) {
   return {
     reservation: state.app.reservation,
     reservation_code: state.app.reservation_code,
-    reservationstatus: state.app.reservationstatus
+    reservationstatus: state.app.reservationstatus,
+    pagelang: state.app.pagelang
   };
 }
 

@@ -127,9 +127,10 @@ class App extends Component {
     } else if(target === "fi" || target === "sv" || target === "en") {
       console.log("Language set as " + target);
       window.T = target;
-      this.props.setPageLang(target).then(() => {
-        this.props.setFilter( {do_time_search: true} );
-      });
+      this.props.setPageLang(target);
+      let filters = this.props.filters;
+      filters.do_time_search = true;
+      this.props.setFilter( filters );
     }
   }
 

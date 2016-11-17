@@ -170,7 +170,7 @@ class SectionConfirmation extends Component {
                 <h5 className="hide-mobile">{text('diacor_section_confirmation_content_time')}</h5>
                 <span>{slot ? slot.resourceName : ""}</span><br />
                 <span>{this.props.selectedtimeslot ? slot.title : ""}</span><br />
-                <span>{formatDate2('fi', new Date(this.props.date_filter))}</span><br />
+                <span>{formatDate2(this.props.pagelang, new Date(this.props.date_filter))}</span><br />
                 <span>{slot ? slot.startTimeHours : ""} </span>
                 <span>{slot ? "(" + slot.duration + " min)" : ""}</span><br />
                 {slot.online ?

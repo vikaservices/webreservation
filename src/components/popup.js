@@ -268,7 +268,7 @@ class Popup extends Component {
           <h4>{text('diacor_popup_cancel_reservation_header')}</h4>
           <input autoFocus className="input-reservation-code" type="text" name="code" placeholder={text('diacor_input_placeholder_reservation_code')} /><br />
           <input className="input-reservation-ssn" type="text" name="ssn" placeholder={text('diacor_input_placeholder_ssn')} /><br />
-          <p className="reservation-input-info">{text('Löydät varauskoodin sähköpostistasi varausvahvistuksesta.')}</p>
+          <p className="reservation-input-info">{text('diacor_popup_cancel_reservation_content')}</p>
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
                 <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>

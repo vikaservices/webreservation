@@ -30,7 +30,21 @@ class SectionTimeSearch extends Component {
     let today = new Date().toISOString().substr(0,10);
     // Initially search timeslots for today for general practioner (speciality = 2)
     this.props.timeslotsSearch(today, null, null, DEFAULT_SEARCH_GROUP, null, null,
-                               null, null, null, null, this.props.pagelang);
+                               null, null, null, null, this.props.pagelang).then(() => {
+                                 if( (this.props.timeslots_list && this.props.timeslots_list.length == 0) &&
+                                     this.props.filters.next_day_search == 0 ) {
+                                   console.log("FilterMain: doTimeslotsSearch: no free times for today, search for tomorrow")
+                                   let filters = this.props.filters;
+                                   filters.next_day_search = 1;
+                                   let next_day = new Date(filters.date_filter);
+                                   let date_filter = new Date(filters.date_filter);
+                                   next_day.setDate( date_filter.getDate() + 1 );
+                                   //console.log("today: " + filters.date_filter + " : tomorrow: " + next_day);
+                                   filters.previous_day = filters.date_filter;
+                                   filters.date_filter = next_day.toISOString();
+                                   this.props.setFilter( filters );
+                                 }
+                               } );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -151,7 +165,8 @@ function mapStateToProps(state) {
     timeofdayfilter: state.app.timeofdayfilter,
     nextdaysearch: state.app.filters.next_day_search,
     previousday: state.app.filters.previous_day ? new Date(state.app.filters.previous_day) : null,
-    pagelang: state.app.pagelang
+    pagelang: state.app.pagelang,
+    filters: state.app.filters
   };
 }
 

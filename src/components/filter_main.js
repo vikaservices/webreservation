@@ -82,6 +82,7 @@ class FilterMain extends Component {
     if( nextProps.filters.next_day_search == 1 ) {
       console.log("FilterMain: componentWillReceiveProps: do_next_day_search");
       this.doTimeslotsSearch(nextProps);
+      this.doFreedaysSearch(nextProps);
       let filters = nextProps.filters;
       filters.next_day_search = 2;
       this.props.setFilter( filters );

@@ -7,6 +7,7 @@ import _ from 'lodash';
 import SearchResultList from './search_result_list';
 import FilterExtra from './filter_extra';
 import text from './common/translate';
+import utils from './common/util';
 
 class FilterMain extends Component {
 
@@ -436,7 +437,7 @@ class FilterMain extends Component {
         props.filters.employer_id_filter == null ) {
       return;
     }
-    this.props.timeslotsSearch( formatDate(new Date(props.filters.date_filter)),
+    this.props.timeslotsSearch( utils.formatDate(new Date(props.filters.date_filter)),
                                            props.filters.resource_filter,
                                            null,
                                            props.filters.group_filter,
@@ -484,8 +485,8 @@ class FilterMain extends Component {
     let daysInMonth = new Date(props.filters.date_filter_year, props.filters.date_filter_month, 0).getDate();
     let last_of_month = new Date(props.filters.date_filter_year, props.filters.date_filter_month, daysInMonth);
 
-    this.props.freedaysSearch( formatDate(start_day),
-                               formatDate(last_of_month),
+    this.props.freedaysSearch( utils.formatDate(start_day),
+                               utils.formatDate(last_of_month),
                                props.filters.resource_filter,
                                null,
                                props.filters.group_filter,

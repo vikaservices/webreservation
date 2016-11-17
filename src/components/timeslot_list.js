@@ -2,6 +2,7 @@ import React from 'react';
 import FilterTimeOfDay from './filter_time_of_day';
 import TimeSlotListItem from './timeslot_list_item';
 import text from './common/translate';
+import utils from './common/util';
 
 const TimeslotList = (props) => {
 

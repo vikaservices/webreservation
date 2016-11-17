@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import SectionHeader from './section_header';
 import text from './common/translate'
+import utils from './common/util';
 
 class CancelReservation extends Component {
 
@@ -81,7 +82,7 @@ class CancelReservation extends Component {
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
             {reservation.title ? `<span>${reservation.title}</span><br />` : ''}
-            <span>{formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
             <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration})</span>
           </p>
           <p>
@@ -120,7 +121,7 @@ class CancelReservation extends Component {
             {reservation.product ? ['<span>',reservation.product,'</span><br />'] : ''}
             <span>{reservation.resourceName}</span><br />
             {reservation.title ? `<span>${reservation.title}</span><br />` : ''}
-            <span>{formatDate4("fi", reservation.start)}</span><br />
+            <span>{utils.formatDate4("fi", reservation.start)}</span><br />
             <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration})</span>
           </p>
           <p>

@@ -1,5 +1,5 @@
 // Take js Date object and return date string "YYYY-MM-DD"
-formatDate(date) {
+function formatDate(date) {
 
   var currY = date.getFullYear();
   var currM = (date.getMonth()+1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
@@ -15,7 +15,7 @@ formatDate(date) {
 //   date     - js Date objec
 // return
 //   localized  weekday and date string "weekday DD.MM" (no day/month zero-filling)
-formatDate2(locale, date) {
+function formatDate2(locale, date) {
 
   var currWD = date.getDay();
   var currM = date.getMonth() + 1;
@@ -29,7 +29,7 @@ formatDate2(locale, date) {
 }
 
 // locale "fi", "sw", "ru"
-function getWeekdayStr( locale, day ) {
+function getWeekdayStr(locale, day) {
   var wd_strings = { "fi":["Su","Ma","Ti","Ke","To","Pe","La"],
                      "sv":["Sö","Må","Ti","On","To","Fr","Lö"],
                      "en":["Su","Mo","Tu","We","Th","Fr","Sa"] };
@@ -38,7 +38,7 @@ function getWeekdayStr( locale, day ) {
 }
 
 // return localized  weekday and date string "weekday DD.MM.YYYY" (no day/month zero-filling)
-formatDate3(locale, date) {
+function formatDate3(locale, date) {
 
   var currWD = date.getDay();
   var currM = date.getMonth() + 1;
@@ -53,7 +53,7 @@ formatDate3(locale, date) {
 }
 
 // locale "fi", "sw", "ru"
-getWeekdayStr2(locale, day) {
+function getWeekdayStr2(locale, day) {
   var wd_strings = { fi:["Sunnuntai",
                          "Maanantai",
                          "Tiistai",
@@ -65,19 +65,20 @@ getWeekdayStr2(locale, day) {
   return wd_strings[locale][day];
 }
 
-formatDate4(locale, date_string) {
+function formatDate4(locale, date_string) {
   date = new Date(date_string);
 
   return this.formatDate3(locale, date);
 }
 
-getHours(date_string) {
-  date = new Date(date_string);
+function getHours(date_string) {
+  var hours = date_string.substr(11, 2);
+  var mins = date_string.substr(14, 2);
 
-  return date.getHours() + ":" + date.getMinutes();
+  return hours + ":" + mins;
 }
 
-getCalendarDateString(date_string) {
+function getCalendarDateString(date_string) {
   date = new Date(date_string);
 
   var Y  = date.getFullYear();
@@ -89,3 +90,11 @@ getCalendarDateString(date_string) {
 
   return `{Y}${M}${D}T${HH}${MM}${SS}`;
 }
+
+module.exports = {
+    formatDate: formatDate,
+    formatDate2: formatDate2,
+    formatDate3: formatDate3,
+    formatDate4: formatDate4,
+    getHours: getHours
+};

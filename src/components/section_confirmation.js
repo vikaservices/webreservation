@@ -4,6 +4,7 @@ import * as actions from '../actions/index';
 import text from './common/translate';
 import SvgIcon from './common/svg_definitions';
 import { APP_STATE_CONFIRMATION_OK } from '../actions/types';
+import utils from './common/util';
 
 class SectionConfirmation extends Component {
 

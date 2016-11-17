@@ -18,7 +18,8 @@ const FilterTimeOfDay = ({timeofdayfilter, changeTimeOfDay, morning_filter_disab
                value="morning"
                disabled={morning_filter_disabled}
                checked={timeofdayfilter === TOD_MORNING ? "checked" : ""} />
-        <label htmlFor="morning">{text('diacor_filter_time_morning')}</label>
+        <label htmlFor="morning"
+               className={morning_filter_disabled ? "disabled" : ""}>{text('diacor_filter_time_morning')}</label>
 
         <input type="radio"
                id="day"
@@ -26,7 +27,8 @@ const FilterTimeOfDay = ({timeofdayfilter, changeTimeOfDay, morning_filter_disab
                value="day"
                disabled={day_filter_disabled}
                checked={timeofdayfilter === TOD_DAY ? "checked" : ""} />
-        <label htmlFor="day">{text('diacor_filter_time_day')}</label>
+        <label htmlFor="day"
+               className={day_filter_disabled ? "disabled" : ""}>{text('diacor_filter_time_day')}</label>
 
         <input type="radio"
                id="afternoon"

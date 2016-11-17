@@ -51,7 +51,7 @@ class NewClientForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <form className={this.props.popUp === true ? 'client-popup-form' : ''}
-            onSubmit={handleSubmit, () => this.handleButtonSubmit()} >
+            onSubmit={handleSubmit} >
         <h4>{text('diacor_popup_new_client_header_one')}</h4>
         <Field name="ssn" component={renderField}  type="text" label={text('diacor_input_placeholder_ssn')} /><br />
         <div>

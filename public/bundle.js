@@ -68958,16 +68958,12 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
-
 	      var handleSubmit = this.props.handleSubmit;
 
 	      return _react2.default.createElement(
 	        'form',
 	        { className: this.props.popUp === true ? 'client-popup-form' : '',
-	          onSubmit: (handleSubmit, function () {
-	            return _this4.handleButtonSubmit();
-	          }) },
+	          onSubmit: handleSubmit },
 	        _react2.default.createElement(
 	          'h4',
 	          null,

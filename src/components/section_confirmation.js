@@ -126,6 +126,12 @@ class SectionConfirmation extends Component {
     this.setState( { payer: event.target.value } );
   }
 
+  // Go back to time selection
+  backToTimeSelection(e) {
+    e.preventDefault();
+    this.props.resetState( true );
+  }
+
   render() {
     let active = this.props.confirmation_section_active;
     //active = 'active';
@@ -313,8 +319,8 @@ class SectionConfirmation extends Component {
 
             <div className="confirmation-submit">
               <div className="submit-buttons-centered">
-                <button className="btn-white" onClick={(event) => this.handleCancel(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button disabled={this.state.buttonDisabled} className="btn-red">
+                <button type="button" className="btn-white" onClick={(event) => this.backToTimeSelection(event)}>{text('diacor_popup_button_cancel')}</button>
+                <button type="submit" disabled={this.state.buttonDisabled} className="btn-red">
                   {text('diacor_popup_button_confirm')}
                 </button>
               </div>

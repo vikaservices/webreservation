@@ -239,11 +239,11 @@ export function makePreReservation(clientId, resourceId, unitId, start, duration
 }
 
 export function confirmReservation(reservationId, clientId, notes, visitType,
-                                   smsNotificationTo, emailConfirmationTo=null) {
+                                   smsNotificationTo, emailConfirmationTo=null, lang=null) {
 
   let request_str = `reservations?method=POST&reservationId=${reservationId}&clientId=${clientId}`;
-  request_str += `&notes=${notes}&visitType=${visitType}`;
-  request_str += `&smsNotificationTo=${smsNotificationTo}&emailConfirmationTo=${emailConfirmationTo}`;
+  request_str += `&notes=${notes}&visitType=${visitType}&smsNotificationTo=${smsNotificationTo}`;
+  request_str += `&emailConfirmationTo=${emailConfirmationTo}&lang=${lang}`;
 
   console.log("Action: confirmReservation: " + request_str);
 

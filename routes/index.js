@@ -225,11 +225,12 @@ router.get('/reservations', function(req, res, next) {
     } else {
       // RESERVATION CONFIRMATION
       if( !req.query.reservationId || !req.query.clientId || !req.query.visitType ||
-          !req.query.smsNotificationTo || !req.query.emailConfirmationTo || !req.query.method ) {
+          !req.query.smsNotificationTo || !req.query.method ) {
         res.sendStatus(400);
         return 0;
       }
       apiRequest = dmobReservationUrl + 'reservations/' + req.query.reservationId;
+      apiRequest += req.query.lang ? `?lang=${req.query.lang}` : "?lang=";
 
       var clientId = req.query.clientId;
       var notes = req.query.notes;

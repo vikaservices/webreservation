@@ -112,6 +112,7 @@ class SectionConfirmation extends Component {
                                    visitType,
                                    smsNotificationTo,
                                    emailConfirmationTo,
+                                   this.props.pagelang
                                  ).then( () => {
                                    if( this.props.appstate == APP_STATE_CONFIRMATION_OK) {
                                      console.log("confirmReservation: confirmation ok");

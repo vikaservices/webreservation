@@ -83,7 +83,7 @@ class CancelReservation extends Component {
             <span>{reservation.resourceName}</span><br />
             {reservation.title ? `<span>${reservation.title}</span><br />` : ''}
             <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
-            <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration})</span>
+            <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration}) min</span>
           </p>
           <p>
             <span><a href={reservation.unitLinkUrl}>{reservation.unitName}</a></span><br />
@@ -93,8 +93,8 @@ class CancelReservation extends Component {
           </p>
           <p>Varauskoodi: {this.props.reservation_code}</p>
           <div className="submit-buttons-centered">
-            <a href="http://diacor.fi"><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
-            <a href="http://localhost:9090"><button className="btn-red">{text('diacor_cancel_reservation_button_new_reservation')}</button></a>
+            <a href={ window.location.origin }><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
+            <a href={ window.location.origin }><button className="btn-red">{text('diacor_cancel_reservation_button_new_reservation')}</button></a>
           </div>
         </div>
       );
@@ -107,7 +107,7 @@ class CancelReservation extends Component {
         <div className="content">
           <h4>{text('diacor_cancel_reservation_header_error')}</h4>
           <div className="submit-buttons-centered">
-            <a href="http://localhost:9090"><button className="btn-red">{text('diacor_cancel_reservation_button_leave')}</button></a>
+            <a href={ window.location.origin }><button className="btn-red">{text('diacor_cancel_reservation_button_leave')}</button></a>
           </div>
         </div>
       );
@@ -133,7 +133,7 @@ class CancelReservation extends Component {
           <p>{text('diacor_cancel_reservation_code')}: {this.props.reservation_code}</p>
           <p>{text('diacor_cancel_reservation_content1')}</p>
           <div className="submit-buttons-centered">
-            <a href="http://diacor.fi" className=""><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
+            <a href={ window.location.origin } className=""><button className="btn-white">{text('diacor_cancel_reservation_button_leave')}</button></a>
             <a href="" onClick={(event) => this.cancelReservation(event)}><button className="btn-red">{text('diacor_cancel_reservation_button_confirm')}</button></a>
           </div>
         </div>

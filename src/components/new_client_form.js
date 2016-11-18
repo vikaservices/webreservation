@@ -59,7 +59,7 @@ class NewClientForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="client-popup-form-wrapper">
+      <div className="client-popup-wrapper">
       <form className={this.props.popUp === true ? 'client-popup-form' : ''}
             onSubmit={(event) => this.handleButtonSubmit(event), handleSubmit}
             onKeyPress={this.handleKeyPress} >

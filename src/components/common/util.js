@@ -1,4 +1,5 @@
 // Take js Date object and return date string "YYYY-MM-DD"
+
 function formatDate(date) {
 
   var currY = date.getFullYear();

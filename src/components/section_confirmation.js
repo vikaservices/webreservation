@@ -18,6 +18,13 @@ class SectionConfirmation extends Component {
       diacor_plus_approval_missing: false,
       buttonDisabled: false,
     }
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress(e) {
+     if (e.charCode === 13) {
+          e.preventDefault();
+      }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -198,7 +205,8 @@ class SectionConfirmation extends Component {
             </div>
           </div>
 
-          <form onSubmit={(event) => this.confirmReservation( $('textarea[name="notes"]').val(),
+          <form onKeyPress={this.handleKeyPress}
+                onSubmit={(event) => this.confirmReservation( $('textarea[name="notes"]').val(),
                                                               this.state.payer,
                                                               $('input[name="smsNotificationTo"]').val(),
                                                               $('input[name="emailConfirmationTo"]').val(),

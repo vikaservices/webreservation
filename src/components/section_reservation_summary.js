@@ -15,12 +15,19 @@ class SectionReservationSummary extends Component {
       reminderName: '60 min',
       buttonDisabled: false
     }
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   componentDidUpdate() {
     if( this.props.reservation_summary_section_active == 'active' ) {
       window.scrollTo(0,0);
     }
+  }
+
+  handleKeyPress(e) {
+     if (e.charCode === 13) {
+          e.preventDefault();
+      }
   }
 
   onReminderChange(event) {
@@ -110,7 +117,8 @@ class SectionReservationSummary extends Component {
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "hide" : ""}>
               <h4 className="section-title">{text('diacor_section_summary_reminder_question')}</h4>
               <p>{text('diacor_section_summary_reminder_choise')}</p>
-              <form onSubmit={(event) => this.onSubmitReminder(this.state.reminderType, event)}>
+              <form onSubmit={(event) => this.onSubmitReminder(this.state.reminderType, event)}
+                    onKeyPress={this.handleKeyPress}>
                 <div className="inline-box">
                   <div>
                     <img src="public/img/reminder-logo.png"/>

@@ -4,6 +4,7 @@ var webpackConfig = require('./webpack.config.js')
 var less = require('gulp-less');
 var watch = require('gulp-watch');
 var bs = require('browser-sync').create();
+var exec = require('child_process').exec;
 
 gulp.task('watch', ['browser-sync'], function () {
   gulp.watch('./less/**/*.less', ['less']);
@@ -39,6 +40,20 @@ gulp.task('browser-sync', function() {
       port: 9090
   });
 });
+
+gulp.task('server', function (cb) {
+  exec('node src/app.js', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
+})
+
+gulp.task('build-run', [
+  'webpack',
+  'less',
+  'server'
+]);
 
 gulp.task('default', [
   'webpack',

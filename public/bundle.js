@@ -51389,11 +51389,12 @@
 
 	function confirmReservation(reservationId, clientId, notes, visitType, smsNotificationTo) {
 	  var emailConfirmationTo = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+	  var lang = arguments.length <= 6 || arguments[6] === undefined ? null : arguments[6];
 
 
 	  var request_str = 'reservations?method=POST&reservationId=' + reservationId + '&clientId=' + clientId;
-	  request_str += '&notes=' + notes + '&visitType=' + visitType;
-	  request_str += '&smsNotificationTo=' + smsNotificationTo + '&emailConfirmationTo=' + emailConfirmationTo;
+	  request_str += '&notes=' + notes + '&visitType=' + visitType + '&smsNotificationTo=' + smsNotificationTo;
+	  request_str += '&emailConfirmationTo=' + emailConfirmationTo + '&lang=' + lang;
 
 	  console.log("Action: confirmReservation: " + request_str);
 
@@ -64617,7 +64618,7 @@
 	      if (validation_error) {
 	        return false;
 	      }
-	      this.props.confirmReservation(this.props.reservationid, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo).then(function () {
+	      this.props.confirmReservation(this.props.reservationid, this.props.client_id, notes, visitType, smsNotificationTo, emailConfirmationTo, this.props.pagelang).then(function () {
 	        if (_this2.props.appstate == _types.APP_STATE_CONFIRMATION_OK) {
 	          console.log("confirmReservation: confirmation ok");
 	          _this2.setState({
@@ -65718,6 +65719,7 @@
 
 	    _this.checkInput = _this.checkInput.bind(_this);
 	    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+	    _this.closeDialog = _this.closeDialog.bind(_this);
 	    return _this;
 	  }
 
@@ -65793,7 +65795,8 @@
 	    }
 	  }, {
 	    key: 'closeDialog',
-	    value: function closeDialog() {
+	    value: function closeDialog(event) {
+	      event.preventDefault();
 	      this.props.closeDialog();
 	    }
 
@@ -65835,9 +65838,7 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
-	                    return _this2.resetState(event);
-	                  } },
+	                { type: 'button', className: 'btn-white', onClick: this.closeDialog },
 	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
@@ -65849,7 +65850,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'a',
-	            { href: '', onClick: this.closeDialog.bind(this) },
+	            { href: '', onClick: this.closeDialog },
 	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
 	        )
@@ -65858,8 +65859,6 @@
 	  }, {
 	    key: 'reservationForbidden',
 	    value: function reservationForbidden() {
-	      var _this3 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -65887,9 +65886,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: '', onClick: function onClick(event) {
-	                  return _this3.resetState(event);
-	                } },
+	              { href: '', onClick: this.closeDialog },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-red' },
@@ -65900,7 +65897,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -65908,7 +65905,7 @@
 	  }, {
 	    key: 'renderAskSnnOhc',
 	    value: function renderAskSnnOhc() {
-	      var _this4 = this;
+	      var _this3 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -65923,7 +65920,7 @@
 	          { name: 'ohcLoginForm',
 	            onKeyPress: this.handleKeyPress,
 	            onSubmit: function onSubmit(event) {
-	              return _this4.checkClientSSN($('input[name="ssn"]').val(), event);
+	              return _this3.checkClientSSN($('input[name="ssn"]').val(), event);
 	            } },
 	          _react2.default.createElement('input', { autoFocus: true,
 	            className: 'popup-form-input',
@@ -65942,9 +65939,7 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
-	                    return _this4.resetState(event);
-	                  } },
+	                { type: 'button', className: 'btn-white', onClick: this.closeDialog },
 	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
@@ -65956,7 +65951,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'a',
-	            { href: '', onClick: this.closeDialog.bind(this) },
+	            { href: '', onClick: this.closeDialog },
 	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
 	        )
@@ -65965,8 +65960,6 @@
 	  }, {
 	    key: 'ohcClientNotFound',
 	    value: function ohcClientNotFound() {
-	      var _this5 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -65988,9 +65981,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: '', onClick: function onClick(event) {
-	                  return _this5.resetState(event);
-	                } },
+	              { href: '', onClick: this.closeDialog },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-red' },
@@ -66001,7 +65992,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '#', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66009,8 +66000,6 @@
 	  }, {
 	    key: 'ohcReservationForbidden',
 	    value: function ohcReservationForbidden() {
-	      var _this6 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -66038,9 +66027,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: '', onClick: function onClick(event) {
-	                  return _this6.resetState(event);
-	                } },
+	              { href: '', onClick: this.closeDialog },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-red' },
@@ -66051,7 +66038,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66072,8 +66059,6 @@
 	  }, {
 	    key: 'renderClientCreationError',
 	    value: function renderClientCreationError() {
-	      var _this7 = this;
-
 	      //TODO: does this need more?
 	      return _react2.default.createElement(
 	        'div',
@@ -66091,16 +66076,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'btn-red', onClick: function onClick(event) {
-	                  return _this7.resetState(event);
-	                } },
+	              { className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66108,8 +66091,6 @@
 	  }, {
 	    key: 'renderPreReservationError',
 	    value: function renderPreReservationError() {
-	      var _this8 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -66126,16 +66107,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'btn-red', onClick: function onClick(event) {
-	                  return _this8.resetState(event);
-	                } },
+	              { className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66159,7 +66138,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { onClick: this.closeDialog.bind(this), className: 'btn-red' },
+	              { onClick: this.closeDialog, className: 'btn-red' },
 	              'Poistu'
 	            )
 	          )
@@ -66185,7 +66164,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { onClick: this.closeDialog.bind(this), className: 'btn-red' },
+	              { onClick: this.closeDialog, className: 'btn-red' },
 	              'Poistu'
 	            )
 	          )
@@ -66195,7 +66174,7 @@
 	  }, {
 	    key: 'renderCancelReservation',
 	    value: function renderCancelReservation() {
-	      var _this9 = this;
+	      var _this4 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -66204,7 +66183,7 @@
 	          'form',
 	          { onKeyPress: this.handleKeyPress,
 	            onSubmit: function onSubmit(event) {
-	              return _this9.getReservation($('input[name="code"]').val(), $('input[name="ssn"]').val(), event);
+	              return _this4.getReservation($('input[name="code"]').val(), $('input[name="ssn"]').val(), event);
 	            } },
 	          _react2.default.createElement(
 	            'h4',
@@ -66237,9 +66216,7 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { type: 'button', className: 'btn-white', onClick: function onClick(event) {
-	                    return _this9.resetState(event);
-	                  } },
+	                { type: 'button', className: 'btn-white', onClick: this.closeDialog },
 	                (0, _translate2.default)('diacor_popup_button_cancel')
 	              ),
 	              _react2.default.createElement(
@@ -66253,7 +66230,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'a',
-	            { href: '', onClick: this.closeDialog.bind(this) },
+	            { href: '', onClick: this.closeDialog },
 	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
 	        )
@@ -66262,8 +66239,6 @@
 	  }, {
 	    key: 'renderCancelReservationNotFound',
 	    value: function renderCancelReservationNotFound() {
-	      var _this10 = this;
-
 	      var header = (0, _translate2.default)('diacor_popup_cancel_notfound_headerone') + this.state.reservation_code + (0, _translate2.default)('diacor_popup_cancel_notfound_headertwo');
 	      return _react2.default.createElement(
 	        'div',
@@ -66281,16 +66256,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'btn-red', onClick: function onClick(event) {
-	                  return _this10.resetState(event);
-	                } },
+	              { className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66298,7 +66271,7 @@
 	  }, {
 	    key: 'renderCancelReservationConfirm',
 	    value: function renderCancelReservationConfirm() {
-	      var _this11 = this;
+	      var _this5 = this;
 
 	      var reservation = this.props.reservation;
 
@@ -66400,15 +66373,13 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { type: 'button', className: 'btn-white', onClick: function onClick(event) {
-	                  return _this11.resetState(event);
-	                } },
+	              { type: 'button', className: 'btn-white', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            ),
 	            _react2.default.createElement(
 	              'button',
 	              { type: 'submit', className: 'btn-red btn-red-mobile-margin', onClick: function onClick(event) {
-	                  return _this11.cancelReservation(event);
+	                  return _this5.cancelReservation(event);
 	                } },
 	              (0, _translate2.default)('diacor_popup_button_cancel_appointment')
 	            )
@@ -66416,7 +66387,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66424,138 +66395,136 @@
 	  }, {
 	    key: 'renderCancelReservationOk',
 	    value: function renderCancelReservationOk() {
-	      var _this12 = this;
-
 	      //TODO: change this back to old
 	      var reservation = this.props.reservation;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'dialog client-popup' },
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          (0, _translate2.default)('diacor_popup_cancel_reservation_ok_header')
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'cancellation-statement' },
-	          (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content1')
-	        ),
+	        { className: 'client-popup-wrapper' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'popup-reservation-info' },
+	          { className: 'dialog client-popup' },
 	          _react2.default.createElement(
-	            'span',
+	            'h4',
 	            null,
-	            reservation.product
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            reservation.resourceName
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            reservation.title
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            _util2.default.formatDate4(this.props.pagelang, reservation.start)
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            reservation.start,
-	            ' (',
-	            reservation.duration,
-	            ')'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'popup-unit-info' },
-	          _react2.default.createElement(
-	            'a',
-	            { className: 'popup-svg-phone', href: reservation.unitLinkUrl },
-	            _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
+	            (0, _translate2.default)('diacor_popup_cancel_reservation_ok_header')
 	          ),
 	          _react2.default.createElement(
 	            'span',
-	            { className: 'popup-unit-name' },
-	            _react2.default.createElement(
-	              'a',
-	              { href: reservation.unitLinkUrl },
-	              reservation.unitName
-	            )
+	            { className: 'cancellation-statement' },
+	            (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content1')
 	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            reservation.unitAddress
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            reservation.unitPostCode,
-	            ' ',
-	            reservation.unitCity
-	          ),
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content2') + this.state.reservation_code
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          { className: 'popup-cancellation-ok-margin' },
-	          (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content3')
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'popup-control-box' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'submit-buttons-centered' },
+	            { className: 'popup-reservation-info' },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.product
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.resourceName
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.title
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              _util2.default.formatDate4(this.props.pagelang, reservation.start)
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.start ? reservation.start.substr(11, 5) : '',
+	              ' (',
+	              reservation.duration,
+	              ') min'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'popup-unit-info' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: 'http://diacor.fi' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn-white' },
-	                (0, _translate2.default)('diacor_popup_button_leave_scheduling')
-	              )
+	              { className: 'popup-svg-phone', href: reservation.unitLinkUrl },
+	              _react2.default.createElement(_svg_definitions2.default, { className: '', Icon: 'phone' })
 	            ),
 	            _react2.default.createElement(
-	              'button',
-	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
-	                  return _this12.resetState(event);
-	                } },
-	              (0, _translate2.default)('diacor_popup_button_new_reservation')
+	              'span',
+	              { className: 'popup-unit-name' },
+	              _react2.default.createElement(
+	                'a',
+	                { href: reservation.unitLinkUrl },
+	                reservation.unitName
+	              )
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.unitAddress
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              reservation.unitPostCode,
+	              ' ',
+	              reservation.unitCity
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content2') + this.state.reservation_code
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'popup-cancellation-ok-margin' },
+	            (0, _translate2.default)('diacor_popup_cancel_reservation_ok_content3')
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'popup-control-box' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'submit-buttons-centered' },
+	              _react2.default.createElement(
+	                'a',
+	                { href: 'http://diacor.fi' },
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'btn-white' },
+	                  (0, _translate2.default)('diacor_popup_button_leave_scheduling')
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit', className: 'btn-red', onClick: this.closeDialog },
+	                (0, _translate2.default)('diacor_popup_button_new_reservation')
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: '', onClick: this.closeDialog },
+	            _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	          )
-	        ),
-	        _react2.default.createElement(
-	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
-	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
 	    }
 	  }, {
 	    key: 'renderCancelReservationError',
 	    value: function renderCancelReservationError() {
-	      var _this13 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -66572,16 +66541,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'btn-red', onClick: function onClick(event) {
-	                  return _this13.resetState(event);
-	                } },
+	              { className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66632,8 +66599,6 @@
 	  }, {
 	    key: 'renderDoctorInfo',
 	    value: function renderDoctorInfo() {
-	      var _this14 = this;
-
 	      var info = this.props.doctorinfo;
 	      return _react2.default.createElement(
 	        'div',
@@ -66745,9 +66710,7 @@
 	              { className: 'submit-buttons-centered' },
 	              _react2.default.createElement(
 	                'button',
-	                { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
-	                    return _this14.resetState(event);
-	                  } },
+	                { type: 'submit', className: 'btn-red', onClick: this.closeDialog },
 	                (0, _translate2.default)('diacor_popup_button_close')
 	              )
 	            )
@@ -66755,7 +66718,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66763,8 +66726,6 @@
 	  }, {
 	    key: 'renderDoctorInfoNotFoundError',
 	    value: function renderDoctorInfoNotFoundError() {
-	      var _this15 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -66781,16 +66742,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
-	                  return _this15.resetState(event);
-	                } },
+	              { type: 'submit', className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66798,8 +66757,6 @@
 	  }, {
 	    key: 'renderGenericFailure',
 	    value: function renderGenericFailure() {
-	      var _this16 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'dialog client-popup' },
@@ -66816,16 +66773,14 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { type: 'submit', className: 'btn-red', onClick: function onClick(event) {
-	                  return _this16.resetState(event);
-	                } },
+	              { type: 'submit', className: 'btn-red', onClick: this.closeDialog },
 	              (0, _translate2.default)('diacor_popup_button_return_scheduling')
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: this.closeDialog.bind(this) },
+	          { href: '', onClick: this.closeDialog },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        )
 	      );
@@ -66883,7 +66838,7 @@
 	        _reactModal2.default,
 	        {
 	          isOpen: this.props.dialogisopen,
-	          onRequestClose: this.resetState.bind(this),
+	          onRequestClose: this.closeDialog,
 	          shouldCloseOnOverlayClick: false,
 	          className: 'modal-class-big',
 	          overlayClassName: 'overlay-class'
@@ -68895,9 +68850,9 @@
 
 	var _reduxForm = __webpack_require__(683);
 
-	var _actions = __webpack_require__(573);
+	var _index = __webpack_require__(573);
 
-	var actions = _interopRequireWildcard(_actions);
+	var actions = _interopRequireWildcard(_index);
 
 	var _reactDom = __webpack_require__(331);
 
@@ -68954,16 +68909,12 @@
 	  }, {
 	    key: 'renderPopupButtons',
 	    value: function renderPopupButtons() {
-	      var _this2 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'a',
-	          { href: '', onClick: function onClick(event) {
-	              return _this2.props.closeDialog.bind(_this2);
-	            } },
+	          'span',
+	          { onClick: this.props.resetState },
 	          _react2.default.createElement(_svg_definitions2.default, { className: 'popup-close', Icon: 'close' })
 	        ),
 	        _react2.default.createElement(
@@ -68974,9 +68925,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'button',
-	              { onClick: function onClick(event) {
-	                  return _this2.props.resetState(event);
-	                }, className: 'btn-white' },
+	              { onClick: this.props.resetState, className: 'btn-white' },
 	              (0, _translate2.default)('diacor_popup_button_cancel')
 	            ),
 	            _react2.default.createElement(
@@ -68991,16 +68940,12 @@
 	  }, {
 	    key: 'renderNormalButtons',
 	    value: function renderNormalButtons() {
-	      var _this3 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'submit-buttons-centered' },
 	        _react2.default.createElement(
 	          'a',
-	          { href: '', onClick: function onClick(event) {
-	              return _this3.props.resetState(event);
-	            } },
+	          { href: '', onClick: this.props.resetState },
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'btn-white' },
@@ -69021,18 +68966,18 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
+	      var _this2 = this;
 
 	      var handleSubmit = this.props.handleSubmit;
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'client-popup-form-wrapper' },
+	        { className: 'client-popup-wrapper' },
 	        _react2.default.createElement(
 	          'form',
 	          { className: this.props.popUp === true ? 'client-popup-form' : '',
 	            onSubmit: (function (event) {
-	              return _this4.handleButtonSubmit(event);
+	              return _this2.handleButtonSubmit(event);
 	            }, handleSubmit),
 	            onKeyPress: this.handleKeyPress },
 	          _react2.default.createElement(
@@ -78618,7 +78563,7 @@
 	              reservation.start ? reservation.start.substr(11, 5) : '',
 	              ' (',
 	              reservation.duration,
-	              ')'
+	              ') min'
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -78664,7 +78609,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: 'http://diacor.fi' },
+	              { href: window.location.origin },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-white' },
@@ -78673,7 +78618,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'a',
-	              { href: 'http://localhost:9090' },
+	              { href: window.location.origin },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-red' },
@@ -78696,7 +78641,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: 'http://localhost:9090' },
+	              { href: window.location.origin },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-red' },
@@ -78789,7 +78734,7 @@
 	            { className: 'submit-buttons-centered' },
 	            _react2.default.createElement(
 	              'a',
-	              { href: 'http://diacor.fi', className: '' },
+	              { href: window.location.origin, className: '' },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn-white' },

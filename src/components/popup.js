@@ -197,7 +197,7 @@ class Popup extends Component {
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
-        <a href="" onClick={this.closeDialog.bind(this)}>
+        <a href="#" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -390,6 +390,7 @@ class Popup extends Component {
       //TODO: change this back to old
     let reservation = this.props.reservation;
     return (
+    <div className="client-popup-wrapper">
       <div className="dialog client-popup">
         <h4>{text('diacor_popup_cancel_reservation_ok_header')}</h4>
         <span className="cancellation-statement">{text('diacor_popup_cancel_reservation_ok_content1')}</span>
@@ -398,7 +399,7 @@ class Popup extends Component {
             <span>{reservation.resourceName}</span><br />
             <span>{reservation.title}</span><br/>
             <span>{utils.formatDate4(this.props.pagelang, reservation.start)}</span><br />
-            <span>{reservation.start} ({reservation.duration})</span>
+            <span>{reservation.start ? reservation.start.substr(11, 5) : ''} ({reservation.duration}) min</span>
         </div>
         <div className="popup-unit-info">
             <a className="popup-svg-phone" href={reservation.unitLinkUrl}>
@@ -419,6 +420,7 @@ class Popup extends Component {
         <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
+      </div>
       </div>
     );
   }

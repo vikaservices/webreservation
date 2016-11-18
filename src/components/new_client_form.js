@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import * as actions from '../actions';
+import * as actions from '../actions/index';
 import { findDOMNode } from 'react-dom';
 import SvgIcon from './common/svg_definitions';
 import text from './common/translate';
@@ -34,12 +34,12 @@ class NewClientForm extends Component {
   renderPopupButtons() {
     return (
       <div>
-        <a href="" onClick={(event) => this.props.closeDialog.bind(this)}>
+        <span onClick={this.props.resetState}>
           <SvgIcon className="popup-close" Icon='close' />
-        </a>
+        </span>
         <div className="popup-control-box">
           <div className="submit-buttons-centered">
-            <button onClick={(event) => this.props.resetState(event)} className="btn-white">{text('diacor_popup_button_cancel')}</button>
+            <button onClick={this.props.resetState} className="btn-white">{text('diacor_popup_button_cancel')}</button>
             <button className="btn-red" disabled={this.state.buttonDisabled}>{text('diacor_popup_button_accept')}</button>
           </div>
         </div>
@@ -50,7 +50,7 @@ class NewClientForm extends Component {
   renderNormalButtons() {
     return (
       <div className="submit-buttons-centered">
-        <a href="" onClick={(event) => this.props.resetState(event)}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
+        <a href="" onClick={this.props.resetState}><button className="btn-white">{text('diacor_popup_button_cancel')}</button></a>
         <a href=""><button className="btn-red" disabled={this.state.buttonDisabled}>{text('diacor_popup_button_accept')}</button></a>
       </div>
     );

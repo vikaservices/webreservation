@@ -8,7 +8,7 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, p
     <div className="section-header">
 
       <div className={native_entry_flag ? "hide" : "logo-bar"}>
-      <div className="lang-selection pull-right">
+        <div className="lang-selection pull-right">
           <span className="current-lang"></span>
           <ul className={hide_links ? "visibility-hidden" : ""}>
             <li id="lang_fi"><a href="" data-target="fi" onClick={(event) => clickHandler(event)}>{text('diacor_header_lang_fi')}</a></li>
@@ -21,19 +21,19 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, p
       </div>
 
       <div className="title-bar">
-        <span className="title">{title}</span>
+        <span className={native_entry_flag ? "hide" : "title"}>{title}</span>
         <span className="header-link pull-right">
-          <span className={is_ohc_client ? "header-link pull-right" : "hide" }>
+          <span className={!native_entry_flag ? "header-link pull-right" : "hide" }>
             <span className="logo-reservation" />
             <a href="" data-target="cancel_reservation" onClick={(event) => clickHandler(event)}>{text('diacor_section_header2')}</a>
           </span>
-          <span className={is_ohc_client ? "hide" : "header-link pull-right" }>
+          <span className={!native_entry_flag ? "hide" : "header-link pull-right" }>
             <a href="https://wrui01.securasp.fi/LA2094_Eloni/">{text('diacor_header_turku_link')} &gt;</a>
           </span>
         </span>
       </div>
 
-      <div className={hide_links ? "visibility-hidden" : ""}>
+      <div className={hide_links ? "visibility-hidden" : native_entry_flag ? "hide" : ""}>
         <div className={is_ohc_client ? "links-bar hide-mobile-links-bar" : "links-bar"}>
           <span className="header-link">
             <span className={is_ohc_client ? "hide" : "logo-login-ohc"} />

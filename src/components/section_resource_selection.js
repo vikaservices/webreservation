@@ -80,7 +80,7 @@ class SectionResourceSelection extends Component {
       <div>
         <div className={ active == 'active' ? "section-resource-selection row" : "section-resource-selection-inactive row"}>
 
-          <div className="col-xs-12">
+          <div>
             <div className="header-row">
               <h4 className="pull-left" style={{width:'25%',textAlign:'left'}}>{text('diacor_section_resource_header')}</h4>
               <div className="ohc-employer-list">
@@ -89,7 +89,7 @@ class SectionResourceSelection extends Component {
                               onChange={this.handleEmployerChange.bind(this)} />
               </div>
               <a href="#" className="link font-size-14 pull-right" style={{width:'25%',textAlign:'right'}} onClick={(event) => this.toggleVisibility(event)}>
-                { active == 'active' ? (show_team ? text('diacor_section_header_show_link') : text('diacor_section_header_hide_link')) : ""}
+                { active == 'active' ? (show_team ? text('diacor_section_header_hide_link') : text('diacor_section_header_show_link')) : ""}
               </a>
             </div>
 

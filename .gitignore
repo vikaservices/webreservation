@@ -1,5 +1,4 @@
 #webpack build
-/public/bundle.js
 /node_modules
 /server/node_modules
 npm-debug.log

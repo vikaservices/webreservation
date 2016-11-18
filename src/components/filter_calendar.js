@@ -123,7 +123,18 @@ class FilterCalendar extends Component {
       backgroundColor: '#fff',
     };
 
-    let selected_day = !this.props.selected_day ? new Date() : this.props.selected_day;
+    //let selected_day = !this.props.selected_day ? new Date() : this.props.selected_day;
+    let selected_day;
+    if( this.props.previous_day ) {
+      selected_day = this.props.previous_day;
+    }
+    else if( this.props.selected_day ) {
+      selected_day = this.props.selected_day;
+    }
+    else {
+      selected_day = new Date();
+    }
+    this.linkState.requestChange(selected_day);
 
     let current_month = new Date().getMonth();
 
@@ -158,7 +169,7 @@ class FilterCalendar extends Component {
                   min={mindate}
                   prevMonthNavStyle={(current_month != selected_day.getMonth()) ?
                                       {borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0} :
-                                      {display: 'none'}}
+                                      {visibility: 'hidden'}}
                   nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
                   navBarStyle={{border: 0}}
                   weekHeaderStyle={{boxShadow: 0}}
@@ -179,7 +190,7 @@ class FilterCalendar extends Component {
                   min={mindate}
                   prevMonthNavStyle={(current_month != selected_day.getMonth()) ?
                                       {borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0} :
-                                      {display: 'none'}}
+                                      {visibility: 'hidden'}}
                   nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
                   navBarStyle={{border: 0}}
                   weekHeaderStyle={{boxShadow: 0}}

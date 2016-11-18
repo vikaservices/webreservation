@@ -21,8 +21,8 @@ const TimeSlotListItem = (props) => {
         <span className="slot-title">{props.slot.title}</span><br />
         <span className="slot-unit">{props.slot.online ? text('diacor_timeslot_diacorplus') : props.slot.unitName}</span>
       </div>
-      <div className="slot-inline lh-50 pull-right">
-        <a className="link font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
+      <div className="slot-inline slot-link lh-50 pull-right">
+        <a className="font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,
                                                                     props.slot.time, props.slot.duration, props.slot.online,
                                                                     props.slot.imageUrl, props.slot.resourceName, props.slot.title, props.slot.unitName,
                                                                     event)}>{text('diacor_timeslot_link')}</a>

@@ -54,7 +54,7 @@ function formatDate3(locale, date) {
 
 // locale "fi", "sw", "ru"
 function getWeekdayStr2(locale, day) {
-  var wd_strings = { "fi":["Sunnunta","Maanantai","Tiistai","Keskiviikko","Torstai","Perjantai","Lauantai"],
+  var wd_strings = { "fi":["Sunnuntai","Maanantai","Tiistai","Keskiviikko","Torstai","Perjantai","Lauantai"],
                      "sv":["Söndag","Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag"],
                      "en":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] };
 

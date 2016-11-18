@@ -170,7 +170,10 @@ class FilterMain extends Component {
                             selected_day={new Date(this.props.filters.date_filter)}
                             onDayChange={this.onDayChange.bind(this)}
                             onMonthChange={this.onMonthChange.bind(this)}
-                            pagelang={this.props.pagelang} />
+                            pagelang={this.props.pagelang}
+                            previous_day={this.props.filters.previous_day ?
+                                            new Date(this.props.filters.previous_day) :
+                                            null } />
         </div>
       </div>
     );
@@ -356,8 +359,16 @@ class FilterMain extends Component {
     let filters = this.props.filters;
     filters.date_filter_month = month - 1;
     filters.date_filter_year = year;
-    let first_of_month = new Date(filters.date_filter_year, filters.date_filter_month, 1);
-    filters.date_filter = first_of_month.toISOString();
+    let selected_day;
+    let today = new Date();
+    if( today.getMonth() === filters.date_filter_month ) {
+      // For current month set today as selected day
+      selected_day = new Date(filters.date_filter_year, filters.date_filter_month, today.getDate());
+    } else {
+      // For following months set 1st day of month
+      selected_day = new Date(filters.date_filter_year, filters.date_filter_month, 1);
+    }
+    filters.date_filter = selected_day.toISOString();
     filters.do_time_search = true;
     filters.next_day_search = 0;
     filters.previous_day = null;

@@ -1165,6 +1165,20 @@ h3 {
     line-height: 1.14;
     color: #4a4a4a;
   }
+  .slot-link a:link,
+  .slot-link a:visited {
+    font-size: 15px;
+    background-color: #F10C29;
+    color: #fff;
+    line-height: 1;
+    padding: 3px 10px;
+    border: 1px solid #F10C29;
+    border-radius: 14px;
+    text-decoration: none;
+  }
+  .slot-link a:hover {
+    opacity: 0.5;
+  }
 }
 /* width 768px - 992px */
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1187,6 +1201,15 @@ h3 {
     line-height: 1.33;
     color: #4a4a4a;
     margin: 5px 0 17px 0;
+  }
+  .slot-link a:link,
+  .slot-link a:visited {
+    height: 15px;
+    font-family: HelveticaNeue, Arial;
+    text-align: left;
+    color: #F10C29;
+    vertical-align: middle;
+    text-decoration: none;
   }
 }
 /* width >= 992px */
@@ -1213,6 +1236,15 @@ h3 {
     line-height: 1.33;
     color: #4a4a4a;
     margin: 5px 0 17px 0;
+  }
+  .slot-link a:link,
+  .slot-link a:visited {
+    height: 15px;
+    font-family: HelveticaNeue, Arial;
+    text-align: left;
+    color: #F10C29;
+    vertical-align: middle;
+    text-decoration: none;
   }
 }
 .timeslot-list-header {
@@ -1611,6 +1643,7 @@ h3 {
 }
 .hide {
   display: none;
+  height: 0 !important;
 }
 .show {
   display: block;

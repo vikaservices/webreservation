@@ -406,6 +406,21 @@
       color: @gray-dark;
     }
   }
+  .slot-link {
+    a:link, a:visited {
+      font-size: 15px;
+      background-color: @red-ribbon;
+      color: @white;
+      line-height: 1;
+      padding: 3px 10px;
+      border: 1px solid @red-ribbon;
+      border-radius: 14px;
+      text-decoration: none;
+    }
+    a:hover {
+      opacity: 0.5;
+    }
+  }
 }
 
 /* width 768px - 992px */
@@ -430,6 +445,16 @@
       line-height: 1.33;
       color: @gray-dark;
       margin: 5px 0 17px 0;
+    }
+  }
+  .slot-link {
+    a:link, a:visited {
+      height: 15px;
+      font-family: @font-helveticaneue;
+      text-align: left;
+      color: @red-ribbon;
+      vertical-align: middle;
+      text-decoration: none;
     }
   }
 }
@@ -461,6 +486,16 @@
       margin: 5px 0 17px 0;
     }
   }
+  .slot-link {
+    a:link, a:visited {
+      height: 15px;
+      font-family: @font-helveticaneue;
+      text-align: left;
+      color: @red-ribbon;
+      vertical-align: middle;
+      text-decoration: none;
+    }
+  }
 }
 
 .timeslot-list-header {
@@ -477,10 +512,6 @@
 
 .list-container {
   overflow-x: hidden;
-}
-
-@media (min-width: 769px) {
-
 }
 
 .slot-inline {

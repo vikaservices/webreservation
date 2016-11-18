@@ -11,21 +11,30 @@ class NewClientForm extends Component {
       super(props);
 
       this.state = {
-        buttonDisabled: false
+        buttonDisabled: false,
       };
       this.handleButtonSubmit = this.handleButtonSubmit.bind(this);
+      this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  handleButtonSubmit() {
+  handleButtonSubmit(e) {
+      //onSubmit={handleSubmit, (event) => this.handleButtonSubmit(event)}
       this.setState({
         buttonDisabled: true
       });
+      e.preventDefault();
+  }
+
+  handleKeyPress(e) {
+     if (e.charCode === 13) {
+          e.preventDefault();
+      }
   }
 
   renderPopupButtons() {
     return (
       <div>
-        <a href="" onClick={(event) => this.props.resetState(event)}>
+        <a href="" onClick={(event) => this.props.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
         <div className="popup-control-box">
@@ -50,12 +59,14 @@ class NewClientForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
+      <div className="client-popup-form-wrapper">
       <form className={this.props.popUp === true ? 'client-popup-form' : ''}
-            onSubmit={handleSubmit} >
+            onSubmit={(event) => this.handleButtonSubmit(event), handleSubmit}
+            onKeyPress={this.handleKeyPress} >
         <h4>{text('diacor_popup_new_client_header_one')}</h4>
-        <Field name="ssn" component={renderField}  type="text" label={text('diacor_input_placeholder_ssn')} /><br />
-        <div>
+        <Field name="ssn" component={renderField} type="text" label={text('diacor_input_placeholder_ssn')} /><br />
           <h4>{text('diacor_popup_new_client_header_two')}</h4>
+          <div>
           <table>
             <tbody>
               <tr>
@@ -87,6 +98,7 @@ class NewClientForm extends Component {
         </div>
         {this.props.popUp === true ? this.renderPopupButtons() : this.renderNormalButtons()}
       </form>
+      </div>
     );
   }
 }

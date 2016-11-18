@@ -59,6 +59,10 @@
     }
 }
 
+.client-popup-form-wrapper {
+    background-color: white;
+}
+
 .client-popup-form {
 
     .client-popup;
@@ -145,6 +149,11 @@
         margin-bottom: 90px;
         border-radius: 2px;
         border: solid 1px #e8e8e8;
+    }
+
+    button:disabled, button[disabled] {
+        cursor: not-allowed;
+        background-color: lighten(@red-ribbon, 5%);
     }
 
     .input-reservation-code {

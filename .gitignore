@@ -1,5 +1,7 @@
 #webpack build
 /public/bundle.js
+#bundled css
+/public/css/main.css
 /node_modules
 /server/node_modules
 npm-debug.log

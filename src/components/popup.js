@@ -37,9 +37,15 @@ class Popup extends Component {
     this.state = {
       reservation_code: '',
       ssn: '',
+      reqssn: '',
+      code: '',
+      cSsn: '',
       bigPop: false,
       buttonDisabled: false,
     };
+
+    this.checkInput = this.checkInput.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   checkClientSSN( ssn, event ) {
@@ -80,6 +86,19 @@ class Popup extends Component {
     this.props.cancelReservation(this.state.reservation_code, this.state.ssn);
   }
 
+  handleKeyPress(e) {
+     if (e.charCode === 13) {
+          e.preventDefault();
+      }
+  }
+
+  checkInput(e) {
+      this.setState({
+          [e.target.name]: e.target.value
+      });
+      e.preventDefault();
+  }
+
   resetState(event) {
     event.preventDefault();
     //console.log("Popup: resetState");
@@ -96,16 +115,23 @@ class Popup extends Component {
     return (
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssn_header')}</h4>
-        <form name="regularLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input autoFocus className="popup-form-input" placeholder={text('diacor_input_placeholder_ssn')} type="text" name="ssn" /><br />
+        <form name="regularLoginForm"
+              onKeyPress={this.handleKeyPress}
+              onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}
+              >
+          <input autoFocus
+                className="popup-form-input"
+                placeholder={text('diacor_input_placeholder_ssn')}
+                type="text" name="ssn"
+                onChange={this.checkInput} /><br />
           <img className='img-private-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
             <div className="submit-buttons-centered">
               <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
-              <button type="submit" className="btn-red">{text('diacor_popup_button_accept')}</button>
+              <button type="submit" disabled={!this.state.ssn} className="btn-red">{text('diacor_popup_button_accept')}</button>
             </div>
           </div>
-          <a href="" onClick={(event) => this.resetState(event)}>
+          <a href="" onClick={this.closeDialog.bind(this)}>
             <SvgIcon className="popup-close" Icon='close' />
           </a>
         </form>
@@ -125,7 +151,7 @@ class Popup extends Component {
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -136,16 +162,24 @@ class Popup extends Component {
     return (
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssnohc_header')}</h4>
-        <form name="ohcLoginForm" onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
-          <input autoFocus className="popup-form-input" placeholder={text('diacor_input_placeholder_ssn')} type="text" name="ssn" /><br />
+        <form name="ohcLoginForm"
+              onKeyPress={this.handleKeyPress}
+              onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
+          <input autoFocus
+                 className="popup-form-input"
+                 placeholder={text('diacor_input_placeholder_ssn')}
+                 onChange={this.checkInput}
+                 type="text"
+                 name="ssn"
+                  /><br />
           <img className='img-occupational-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
                 <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button type="submit" className="btn-red">{text('diacor_popup_button_accept')}</button>
+                <button type="submit" disabled={!this.state.ssn} className="btn-red">{text('diacor_popup_button_accept')}</button>
               </div>
           </div>
-          <a href="" onClick={(event) => this.resetState(event)}>
+          <a href="" onClick={this.closeDialog.bind(this)}>
             <SvgIcon className="popup-close" Icon='close' />
           </a>
         </form>
@@ -163,7 +197,7 @@ class Popup extends Component {
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -182,7 +216,7 @@ class Popup extends Component {
               <a href="" onClick={(event) => this.resetState(event)}><button className="btn-red">{text('diacor_popup_button_return_scheduling')}</button></a>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -211,7 +245,7 @@ class Popup extends Component {
               <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -227,7 +261,7 @@ class Popup extends Component {
               <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -263,23 +297,33 @@ class Popup extends Component {
   renderCancelReservation() {
     return (
       <div className="dialog client-popup-form">
-        <form onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
+        <form onKeyPress={this.handleKeyPress}
+              onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
           <h4>{text('diacor_popup_cancel_reservation_header')}</h4>
-          <input autoFocus className="input-reservation-code" type="text" name="code" placeholder={text('diacor_input_placeholder_reservation_code')} /><br />
-          <input className="input-reservation-ssn" type="text" name="ssn" placeholder={text('diacor_input_placeholder_ssn')} /><br />
+          <input autoFocus
+                className="input-reservation-code"
+                type="text"
+                name="code"
+                onChange={this.checkInput}
+                placeholder={text('diacor_input_placeholder_reservation_code')} /><br />
+          <input className="input-reservation-ssn"
+                 type="text"
+                 name="cSsn"
+                 onChange={this.checkInput}
+                 placeholder={text('diacor_input_placeholder_ssn')} /><br />
           <p className="reservation-input-info">{text('diacor_popup_cancel_reservation_content')}</p>
           <div className="popup-control-box">
               <div className="submit-buttons-centered">
                 <button type="button" className="btn-white" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_cancel')}</button>
-                <button disabled={this.state.buttonDisabled}
+                <button disabled={this.state.buttonDisabled || !this.state.code || !this.state.cSsn}
                         type="submit"
                         className="btn-red">{text('diacor_popup_button_accept')}
                  </button>
               </div>
           </div>
-          <a href="" onClick={(event) => this.resetState(event)}>
+          <a href="" onClick={this.closeDialog.bind(this)}>
             <SvgIcon className="popup-close" Icon='close' />
           </a>
         </form>
@@ -297,7 +341,7 @@ class Popup extends Component {
               <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -335,7 +379,7 @@ class Popup extends Component {
               <button type="submit" className="btn-red btn-red-mobile-margin" onClick={(event) => this.cancelReservation(event)}>{text('diacor_popup_button_cancel_appointment')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -372,7 +416,7 @@ class Popup extends Component {
               <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_new_reservation')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -388,7 +432,7 @@ class Popup extends Component {
               <button className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -466,7 +510,7 @@ class Popup extends Component {
               </div>
           </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -482,7 +526,7 @@ class Popup extends Component {
               <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>
@@ -498,7 +542,7 @@ class Popup extends Component {
               <button type="submit" className="btn-red" onClick={(event) => this.resetState(event)}>{text('diacor_popup_button_return_scheduling')}</button>
             </div>
         </div>
-        <a href="" onClick={(event) => this.resetState(event)}>
+        <a href="" onClick={this.closeDialog.bind(this)}>
           <SvgIcon className="popup-close" Icon='close' />
         </a>
       </div>

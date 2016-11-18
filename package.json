@@ -10,7 +10,7 @@
   "scripts": {
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
     "start-devserver": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "start": "node ./src/app.js",
+    "start": "./webreservation-build-run.sh",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },

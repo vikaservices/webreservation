@@ -49,9 +49,15 @@ gulp.task('server', function (cb) {
   });
 })
 
+gulp.task('copy-belle-i18n', function() {
+  return gulp.src('./public/i18n.js')
+    .pipe(gulp.dest('./node_modules/belle/lib/config/'))
+});
+
 gulp.task('build-run', [
   'webpack',
   'less',
+  'copy-belle-i18n',
   'server'
 ]);
 

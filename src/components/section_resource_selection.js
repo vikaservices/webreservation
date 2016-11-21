@@ -27,22 +27,18 @@ class SectionResourceSelection extends Component {
       setTimeout(() => {
         if( this.props.native_entry_flag ) {
           // Ohc client from diacorplus -> hide team by default
-          console.log("SectionResourceSelection: componentWillReceiveProps: 1");
           this.setState( {employers: emps} )
         } else {
           if( this.props.selectedtimeslot.resourceId ) {
             // Ohc client logged in by selecting timeslot
-            console.log("SectionResourceSelection: componentWillReceiveProps: 2");
             this.setState( {employers: emps} );
           } else {
             // Ohc customer from normal browser using ohc login
-            console.log("SectionResourceSelection: componentWillReceiveProps: 3");
             this.setState( {employers: emps, show_team: true} );
           }
         }
       }
       ,0);
-      //this.setState( {employers: emps, show_team: true} );
     }
   }
 
@@ -66,6 +62,9 @@ class SectionResourceSelection extends Component {
     filters.employer_id_filter = null;
     filters.do_time_search = true;
     this.props.setFilter( filters );
+    if( this.props.native_entry_flag ) {
+      this.setState( {show_team: false} );
+    }
   }
 
   render () {

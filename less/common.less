@@ -7,7 +7,7 @@
 
 .hide {
   display: none;
-  height: 0 !important;  
+  height: 0 !important;
 }
 
 .show {
@@ -238,4 +238,18 @@ textarea:focus, input:focus, a:focus {
 
 .visibility-hidden {
   visibility: hidden;
+}
+
+.caret-desktop {
+  /* width < 768px */
+  @media (max-width: @screen-xs-max) {
+    display: none !important;
+  }
+}
+
+.caret-mobile {
+  /* width 768px-> */
+  @media (min-width: @screen-sm-min) {
+    display: none !important;
+  }
 }

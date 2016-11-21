@@ -34,6 +34,12 @@ class SectionConfirmation extends Component {
     this.setState( {payer: payer, phone_validate_error: false,
                     email_validate_error: false, diacor_plus_approval_missing: false} );
     console.log("SectionConfirmation: componentWillReceiveProps: " + payer);
+    if( nextProps.startprereservationtimer ) {
+      console.log("SectionConfirmation: componentWillReceiveProps: startprereservationtimer is set");
+    } else {
+      console.log("SectionConfirmation: componentWillReceiveProps: startprereservationtimer not set");
+      this.props.clearPreReservationTimerFlag();     
+    }
   }
 
   handleCancel(event) {
@@ -359,7 +365,8 @@ function mapStateToProps(state) {
     confirmation_section_active: state.app.confirmation_section_active,
     native_entry_flag: state.app.native_entry_flag,
     is_private_visit: state.app.is_private_visit,
-    pagelang: state.app.pagelang
+    pagelang: state.app.pagelang,
+    startprereservationtimer: state.app.startprereservationtimer
   };
 }
 

@@ -26,6 +26,7 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_DOCTOR_INFO,
          DLG_VIEW_DOCTOR_INFO_NOT_FOUND,
          DLG_VIEW_GENERIC_FAILURE,
+         DLG_PRE_RESERVATION_TIMEOUT,
          APP_STATE_INITIAL,
          APP_STATE_CLIENT_IDENTIFIED,
          APP_STATE_CONFIRMATION_OK,
@@ -51,7 +52,9 @@ import { TIMESLOTS_SEARCH,
          GET_DOCTOR_INFO,
          GET_FIXEDGROUPS,
          SET_APP_ENTRY_FLAG,
-         SET_PAGE_LANG
+         SET_PAGE_LANG,
+         CLEAR_PRE_RESERVATION_TIMEOUT_FLAG,
+         PRE_RESERVATION_TIMEOUT
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -89,6 +92,7 @@ let INITIAL_STATE = {
                       reservation: {},
                       native_entry_flag: false,
                       pagelang: 'fi',
+                      startprereservationtimer: false,
                       filters: {
                         terms_search: '',
                         units_search: '',
@@ -288,6 +292,8 @@ export default function(state = INITIAL_STATE, action) {
           new_state.dialogisopen = false;
           new_state.dialogview = DLG_VIEW_NONE;
           new_state.pendingreservation = false;
+          console.log("MAKE_PRE_RESERVATION: startprereservationtimer: " + new_state.startprereservationtimer);
+          new_state.startprereservationtimer = true;
         }
         else if( new_state.reservationstatus === 400 ) {
           // prereservation failed, due to reasons:
@@ -568,6 +574,17 @@ export default function(state = INITIAL_STATE, action) {
         console.log("lang: " + action.pagelang);
         let title = text('diacor_header_reservation');
         return {...state, pagelang: action.pagelang, headertitle: title};
+
+      case CLEAR_PRE_RESERVATION_TIMEOUT_FLAG:
+        console.log("reducer_app: CLEAR_PRE_RESERVATION_FLAG");
+        return {...state, startprereservationtimer: false};
+
+      case PRE_RESERVATION_TIMEOUT:
+        console.log("reducer_app: PRE_RESERVATION_TIMEOUT");
+        new_state = {...state};
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_PRE_RESERVATION_TIMEOUT;
+        return new_state;
 
       default:
         return state;

@@ -20,7 +20,7 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, p
         <div className="title">{title}</div>
       </div>
 
-      <div className="title-bar">
+      <div className={native_entry_flag ? "title-bar diacorplus-bg" : "title-bar"}>
         <span className={native_entry_flag ? "hide" : "title"}>{title}</span>
         <span className="header-link pull-right">
           <span className={!native_entry_flag ? "header-link pull-right" : "hide" }>

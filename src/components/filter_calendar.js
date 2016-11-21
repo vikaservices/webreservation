@@ -83,7 +83,7 @@ class FilterCalendar extends Component {
     // green circle for free days
     var box = {
       position: 'absolute',
-      top: '-3px',
+      top: '3px',
       left: '0',
       width: '46px',
       height: '38px',
@@ -120,10 +120,9 @@ class FilterCalendar extends Component {
   render() {
     let selectedStyle = {
       border: '1px solid red',
-      backgroundColor: '#fff',
+      background: '#ffffff'
     };
 
-    //let selected_day = !this.props.selected_day ? new Date() : this.props.selected_day;
     let selected_day;
     if( this.props.previous_day ) {
       selected_day = this.props.previous_day;
@@ -137,10 +136,6 @@ class FilterCalendar extends Component {
     this.linkState.requestChange(selected_day);
 
     let current_month = new Date().getMonth();
-
-    //console.log("selecter_day = " + selected_day);
-    //console.log("current_month = " + current_month);
-    //console.log("selected_month = " + selected_day.getMonth());
 
     let mindate = new Date();
     mindate.setDate(mindate.getDate() - 1);
@@ -173,7 +168,7 @@ class FilterCalendar extends Component {
                   nextMonthNavStyle={{borderTop: 0, borderLeft: 0, borderBottom: 0, borderRight: 0}}
                   navBarStyle={{border: 0}}
                   weekHeaderStyle={{boxShadow: 0}}
-                  dayStyle={{border: 0, width: '46px', height: '46px', fontSize: '16px', display: 'inline-block', lineHeigh: '46px', verticalAlign: 'middle'}}
+                  dayStyle={{paddingTop: '11px', border: 0, width: '46px', height: '46px', fontSize: '16px', display: 'inline-block', lineHeigh: '46px', verticalAlign: 'middle'}}
                   dayLabelStyle={{width: '46px', height: '46px', opacity: '0.75'}}
                   style={{width: '318px', display: 'inline-block'}}
                   />

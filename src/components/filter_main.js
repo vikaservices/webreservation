@@ -27,6 +27,8 @@ class FilterMain extends Component {
       terms_list_index: -1,
       //
       units_list_index: -1,
+      // Handle for pre reseration timeout timer
+      timer_id: 0
     };
   }
 
@@ -86,6 +88,32 @@ class FilterMain extends Component {
       let filters = nextProps.filters;
       filters.next_day_search = 2;
       this.props.setFilter( filters );
+    }
+
+    if( nextProps.startprereservationtimer ) {
+      console.log("FilterMain: componentWillReceiveProps: startprereservationtimer");
+      // Clear timer if set
+      if( this.state.timer_id != 0 ) {
+        console.log("FilterMain: componentWillReceiveProps: clear timer");
+        clearTimeout(this.state.timer_id);
+        this.setState( {timer_id: 0}, () => {
+          console.log("FilterMain: componentWillReceiveProps: set timer");
+          let timer_id = setTimeout(() => {
+            this.props.preReservationTimeout();
+          }, PRE_RESERVATION_TIMEOUT);
+          console.log("timer_id: " + timer_id);
+          this.setState( {timer_id: timer_id} );
+        });
+      }
+      else {
+        console.log("FilterMain: componentWillReceiveProps: set timer 1st time");
+        let timer_id = setTimeout(() => {
+          this.props.preReservationTimeout();
+        }, PRE_RESERVATION_TIMEOUT);
+        console.log("timer_id: " + timer_id);
+        this.setState( {timer_id: timer_id} );
+      }
+      this.props.clearPreReservationTimerFlag();
     }
 
   } // componentWillReceiveProps
@@ -543,7 +571,9 @@ function mapStateToProps(state) {
     client_id: state.app.client_id,
     fixedgroups: state.app.fixedgroups,
     pagelang: state.app.pagelang,
-    timeslots_list: state.app.timeslots_list
+    timeslots_list: state.app.timeslots_list,
+    startprereservationtimer: state.app.startprereservationtimer,
+    reservationid: state.app.reservationid
   };
 }
 

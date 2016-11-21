@@ -24,7 +24,8 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_CANCEL_RESERVATION_ERROR,
          DLG_VIEW_DOCTOR_INFO,
          DLG_VIEW_DOCTOR_INFO_NOT_FOUND,
-         DLG_VIEW_GENERIC_FAILURE
+         DLG_VIEW_GENERIC_FAILURE,
+         DLG_PRE_RESERVATION_TIMEOUT
 
        } from '../actions/types';
 
@@ -553,6 +554,22 @@ class Popup extends Component {
     );
   }
 
+  renderPreReservationTimeout() {
+    return (
+      <div className="dialog client-popup">
+        <h4>{text('dialog_popup_prereservation_timeout')}</h4>
+        <div className="popup-control-box">
+            <div className="submit-buttons-centered">
+              <button type="submit" className="btn-red" onClick={this.closeDialog}>{text('diacor_popup_button_return_scheduling')}</button>
+            </div>
+        </div>
+        <a href="" onClick={this.closeDialog}>
+          <SvgIcon className="popup-close" Icon='close' />
+        </a>
+      </div>
+    );
+  }
+
   renderDialog() {
     switch( this.props.dialogview ) {
       case DLG_VIEW_REGISTER_CHECK_SSN:
@@ -593,6 +610,8 @@ class Popup extends Component {
         return this.renderDoctorInfoNotFoundError();
       case DLG_VIEW_GENERIC_FAILURE:
         return this.renderGenericFailure();
+      case DLG_PRE_RESERVATION_TIMEOUT:
+        return this.renderPreReservationTimeout();
       default:
         return null;
       }

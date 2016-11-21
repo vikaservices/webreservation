@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
+    "build-production": "webpack --config ./webpack.prod.config.js --progress --colors && uglifyjs ./public/bundle.js -c -m -o ./public/bundle.min.js --source-map ./public/bundle.min.js.map",
     "start-devserver": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start": "./webreservation-build-run.sh",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
@@ -35,6 +36,7 @@
     "mocha": "^2.4.5",
     "react-addons-test-utils": "<=15.3.2",
     "react-hot-loader": "^3.0.0-beta.4",
+    "uglify-js": "^2.7.4",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.7.0",
     "webpack-dev-server": "^1.14.0",

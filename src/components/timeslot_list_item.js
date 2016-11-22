@@ -14,12 +14,12 @@ const TimeSlotListItem = (props) => {
           <a href="" onClick={(event) => props.doctorinfoHandler(event, props.slot.resourceId)}><img src={props.slot.imageUrl}/></a>
         </span>
       </div>
-      <div className="slot-inline slot-align-middle">
-        <span className="slot-resource">
+      <div className="slot-inline slot-align-middle slot-resource-info">
+        <p className="slot-resource">
           <a href="" onClick={(event) => props.doctorinfoHandler(event, props.slot.resourceId)}>{props.slot.resourceName}</a>
-        </span><br />
-        <span className="slot-title">{props.slot.title}</span><br />
-        <span className="slot-unit">{props.slot.online ? text('diacor_timeslot_diacorplus') : props.slot.unitName}</span>
+        </p>
+        <p className="slot-title">{props.slot.title}</p>
+        <p className="slot-unit">{props.slot.online ? text('diacor_timeslot_diacorplus') : props.slot.unitName}</p>
       </div>
       <div className="slot-inline slot-link lh-50 pull-right">
         <a className="font-size-13" href="" onClick={(event) => props.reservationHandler(props.slot.resourceId, props.slot.unitId,

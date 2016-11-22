@@ -58,7 +58,7 @@
 
     /* width 768px - 992px */
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-      width: 52%;
+      width: 55%;
     }
     /* width >= 992px */
     @media (min-width: @screen-md-min) {
@@ -71,7 +71,7 @@
     }
     /* width 768px - 992px */
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-      width: 48%;
+      width: 45%;
       padding-top: 28px;
     }
     /* width >= 992px */
@@ -96,8 +96,15 @@
       width: 78px;
       max-width: 78px;
     }
+    /* width <768px */
     @media (max-width: @screen-xs-max) {
       margin-top: 0;
+      margin-left: 20px;
+    }
+    /* width 768px - 992px */
+    @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+      margin-left: 0px;
+      margin-right: 28px;
     }
   }
   .logo-border {
@@ -139,7 +146,7 @@
       }
     }
     textarea {
-      width: 270px;
+      width: 259px;
       height: 115px;
       @media (max-width: @screen-xs-max) {
         border: 0;
@@ -174,7 +181,7 @@
     }
     input[type="text"] {
       margin-top: 5px;
-      width: 270px;
+      width: 259px;
       height: 39px;
       @media (max-width: @screen-xs-max) {
         border: 0;
@@ -196,6 +203,13 @@
         border-bottom: 1px solid @gray-light-2;
       }
     }
+
+    .unit-info {
+      .unit-name {
+        padding-left: 6px;
+        padding-bottom: 5px;
+      }
+    }
   }
 
   .confirmation-note {
@@ -206,7 +220,7 @@
     margin-top: 5px;
     p {
       display: inline-block;
-      width: 278px;
+      width: 236px;
       padding: 9px;
       margin: 0;
       text-align: left;

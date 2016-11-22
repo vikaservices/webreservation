@@ -192,7 +192,7 @@ class SectionConfirmation extends Component {
                   <a className="popup-svg-phone" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>
                     <SvgIcon className="" Icon='phone' />
                   </a>
-                  <p className="unit-name vertical-align-middle">
+                  <p className="unit-name">
                     <a className="link" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>{slot.unitName ? slot.unitName : ''}</a>
                   </p>
                 </div>

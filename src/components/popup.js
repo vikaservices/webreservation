@@ -42,11 +42,16 @@ class Popup extends Component {
       cSsn: '',
       bigPop: false,
       buttonDisabled: false,
+      enterPressedssn: false,
+      enterPressedcode: false,
+      enterPressedcSsn: false,
+      new: false
     };
 
     this.checkInput = this.checkInput.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
+    this.renderAskClientInfoForm = this.renderAskClientInfoForm.bind(this);
   }
 
   checkClientSSN( ssn, event ) {
@@ -87,10 +92,19 @@ class Popup extends Component {
     this.props.cancelReservation(this.state.reservation_code, this.state.ssn);
   }
 
-  handleKeyPress(e) {
-     if (e.charCode === 13) {
-          e.preventDefault();
-      }
+  handleKeyPress(input, e) {
+    if (e.charCode === 13 && input) {
+        this.setState({
+            ['enterPressed' + e.target.name]: true}, () => {
+                if (!this.state['enterPressed' + e.target.name]) {
+                    e.preventDefault();
+                }
+                console.log(this.state['enterPressed' + e.target.name]);
+        });
+        //this.setState({ input: e.target.value }, () => {
+        //    console.log(`state: ${this.state}, value: ${e.target.value}`); // this is my checking
+        //});
+    }
   }
 
   checkInput(e) {
@@ -118,13 +132,15 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssn_header')}</h4>
         <form name="regularLoginForm"
-              onKeyPress={this.handleKeyPress}
+              onKeyPress={(event) => this.handleKeyPress(this.state.ssn, event)}
+              //TODO: spinner here
               onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}
               >
           <input autoFocus
                 className="popup-form-input"
                 placeholder={text('diacor_input_placeholder_ssn')}
-                type="text" name="ssn"
+                type="text"
+                name="ssn"
                 onChange={this.checkInput} /><br />
           <img className='img-private-doctor' src="public/img/group-15@3x.png" />
           <div className="popup-control-box">
@@ -165,7 +181,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssnohc_header')}</h4>
         <form name="ohcLoginForm"
-              onKeyPress={this.handleKeyPress}
+              onKeyPress={this.handleKeyPress(this.state.ssn)}
               onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <input autoFocus
                  className="popup-form-input"
@@ -299,7 +315,7 @@ class Popup extends Component {
   renderCancelReservation() {
     return (
       <div className="dialog client-popup-form">
-        <form onKeyPress={this.handleKeyPress}
+        <form onKeyPress={this.handleKeyPress(this.state.cSsn)}
               onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
@@ -599,12 +615,17 @@ class Popup extends Component {
   }
 
   render() {
+      let popupMinHeight = 'joku';
+      if (this.props.dialogview === DLG_VIEW_REGISTER_CREATE_CLIENT) {
+
+      }
+
     return (
       <Modal
         isOpen={this.props.dialogisopen}
         onRequestClose={this.closeDialog}
         shouldCloseOnOverlayClick={false}
-        className='modal-class-big'
+        className={this.props.dialogview !== DLG_VIEW_REGISTER_CREATE_CLIENT ? 'modal-class-big joku' : 'modal-class-big jokutoinen'}
         overlayClassName="overlay-class"
         >
         { this.renderDialog() }

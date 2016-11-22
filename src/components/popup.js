@@ -634,11 +634,6 @@ class Popup extends Component {
   }
 
   render() {
-      let popupMinHeight = 'joku';
-      if (this.props.dialogview === DLG_VIEW_REGISTER_CREATE_CLIENT) {
-
-      }
-
     return (
       <Modal
         isOpen={this.props.dialogisopen}

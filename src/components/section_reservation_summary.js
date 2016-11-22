@@ -129,25 +129,32 @@ class SectionReservationSummary extends Component {
                              checked={this.state.reminderType === "MINUTES_30" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_30min')}
-                             value="MINUTES_30" />{text('diacor_section_summary_reminder_30min')}<br />
+                             value="MINUTES_30" />
+                      <label>{text('diacor_section_summary_reminder_30min')}</label><br />
+
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminderType === "MINUTES_60" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_60min')}
-                             value="MINUTES_60" />{text('diacor_section_summary_reminder_60min')}<br />
+                             value="MINUTES_60" />
+                      <label>{text('diacor_section_summary_reminder_60min')}</label><br />
+
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminderType === "HOURS_12" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_12h')}
-                             value="HOURS_12" />{text('diacor_section_summary_reminder_12h')}<br />
+                             value="HOURS_12" />
+                      <label>{text('diacor_section_summary_reminder_12h')}</label><br />
+
                       <input type="radio"
                              onChange={this.onReminderChange.bind(this)}
                              checked={this.state.reminderType === "DAYS_1" ? true : false}
                              name="sms_reminder"
                              data-name={text('diacor_section_summary_reminder_24h')}
-                             value="DAYS_1" />{text('diacor_section_summary_reminder_24h')}
+                             value="DAYS_1" />
+                      <label>{text('diacor_section_summary_reminder_24h')}</label>                      
                   </div>
                 </div>
                 <div className="submit-buttons-centered">

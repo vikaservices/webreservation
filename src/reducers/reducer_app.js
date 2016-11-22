@@ -26,9 +26,11 @@ import { TIMESLOTS_SEARCH,
          DLG_VIEW_DOCTOR_INFO,
          DLG_VIEW_DOCTOR_INFO_NOT_FOUND,
          DLG_VIEW_GENERIC_FAILURE,
+         DLG_PRE_RESERVATION_TIMEOUT,
          APP_STATE_INITIAL,
          APP_STATE_CLIENT_IDENTIFIED,
          APP_STATE_CONFIRMATION_OK,
+         APP_STATE_PRE_RESERVATION_OK,
          APP_STATE_ORDER_REMINDER_OK,
          APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT,
          APP_STATE_ORDER_REMINDER_FAILED_NO_RESERVATION,
@@ -51,7 +53,9 @@ import { TIMESLOTS_SEARCH,
          GET_DOCTOR_INFO,
          GET_FIXEDGROUPS,
          SET_APP_ENTRY_FLAG,
-         SET_PAGE_LANG
+         SET_PAGE_LANG,
+         CLEAR_PRE_RESERVATION_TIMEOUT_FLAG,
+         PRE_RESERVATION_TIMEOUT
        } from '../actions/types';
 import reducerTimeslots from './reducer_timeslots';
 import reducerClient from './reducer_client';
@@ -80,7 +84,6 @@ let INITIAL_STATE = {
                       confirmation_section_active: 'inactive',
                       reservation_summary_section_active: 'hidden',
                       selectedtimeslot: {},
-                      pendingreservation: false,
                       headertitle: text('diacor_header_reservation'),
                       timeofdayfilter: '',
                       reservationstatus: 0,
@@ -89,6 +92,7 @@ let INITIAL_STATE = {
                       reservation: {},
                       native_entry_flag: false,
                       pagelang: 'fi',
+                      startprereservationtimer: false,
                       filters: {
                         terms_search: '',
                         units_search: '',
@@ -120,20 +124,6 @@ export default function(state = INITIAL_STATE, action) {
     case TIMESLOTS_SEARCH:
       new_state = reducerTimeslots( state, action );
       console.log("reducer_app: TIMESLOTS_SEARCH");
-      // if( new_state.filters.next_day_search == 1 ) {
-      //   new_state.filters.next_day_search = 2;
-      //   console.log("reducer_app: TIMESLOTS_SEARCH: next_day_search = 2");
-      // }
-      // if( new_state.timeslots_list.length == 0 && new_state.filters.next_day_search == 0) {
-      //   console.log("reducer_app: TIMESLOTS_SEARCH: Got 0 timeslots, should do new search for next day");
-      //   new_state.filters.next_day_search = 1;
-      //   //new_state.filters.do_time_search = true;
-      //   let next_day = new Date();
-      //   let date_filter = new Date(new_state.filters.date_filter);
-      //   next_day.setDate( date_filter.getDate() + 1 );
-      //   console.log("today: " + new_state.filters.date_filter + " : tomorrow: " + next_day);
-      //   new_state.filters.date_filter = next_day.toISOString();
-      // }
       console.log("state:");
       console.log(new_state);
       return new_state;
@@ -287,21 +277,21 @@ export default function(state = INITIAL_STATE, action) {
           new_state.confirmation_section_active = 'active';
           new_state.dialogisopen = false;
           new_state.dialogview = DLG_VIEW_NONE;
-          new_state.pendingreservation = false;
+          new_state.appstate = APP_STATE_PRE_RESERVATION_OK;
+          console.log("MAKE_PRE_RESERVATION: startprereservationtimer: " + new_state.startprereservationtimer);
+          new_state.startprereservationtimer = true;
         }
         else if( new_state.reservationstatus === 400 ) {
           // prereservation failed, due to reasons:
           // WEB_RESERVATION_IN_PAST or WEB_RESERVATION_OVERLAP
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
-          new_state.pendingreservation = false;
         }
         else {
           // some unknown error
           console.log("reducer_app: MAKE_PRE_RESERVATION: pre reservation failed");
           new_state.dialogisopen = true;
           new_state.dialogview = DLG_VIEW_PRERESERVATION_ERROR;
-          new_state.pendingreservation = false;
         }
         console.log("state:")
         console.log(new_state);
@@ -404,7 +394,7 @@ export default function(state = INITIAL_STATE, action) {
 
       case SAVE_SELECTED_TIMESLOT:
         console.log("reducer_app: SAVE_SELECTED_TIMESLOT");
-        return {...state, selectedtimeslot: action.selectedtimeslot, pendingreservation: true};
+        return {...state, selectedtimeslot: action.selectedtimeslot};
 
       case SAVE_CLIENT_INFO:
         console.log("reducer_app: SAVE_CLIENT_INFO");
@@ -568,6 +558,17 @@ export default function(state = INITIAL_STATE, action) {
         console.log("lang: " + action.pagelang);
         let title = text('diacor_header_reservation');
         return {...state, pagelang: action.pagelang, headertitle: title};
+
+      case CLEAR_PRE_RESERVATION_TIMEOUT_FLAG:
+        console.log("reducer_app: CLEAR_PRE_RESERVATION_FLAG");
+        return {...state, startprereservationtimer: false};
+
+      case PRE_RESERVATION_TIMEOUT:
+        console.log("reducer_app: PRE_RESERVATION_TIMEOUT");
+        new_state = {...state};
+        new_state.dialogisopen = true;
+        new_state.dialogview = DLG_PRE_RESERVATION_TIMEOUT;
+        return new_state;
 
       default:
         return state;

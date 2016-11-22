@@ -111,7 +111,8 @@ class SectionTimeSearch extends Component {
           <div className="section-time-search-inactive row">
             <div className="">
               <div className="header-row">
-                <h4 className="pull-left">{text('diacor_section_timesearch_header')}</h4>
+                <h4 className="pull-left show-desktop">{text('diacor_section_timesearch_header')}</h4>
+                <h4 className="pull-left show-mobile">{text('diacor_section_timesearch_header_mobile')}</h4>
                 <div className="reservation-summary">
                   <span>
                     {utils.formatDate2(this.props.pagelang, this.props.date_filter)}&nbsp;

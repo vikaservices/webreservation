@@ -28,9 +28,13 @@ export const SET_FILTERS = 'set_filters';
 export const DIALOG_CLOSE = 'dialog_close';
 export const SET_APP_ENTRY_FLAG = 'set_app_entry_flag';
 export const SET_PAGE_LANG = 'SET_PAGE_LANG';
+export const CLEAR_PRE_RESERVATION_TIMEOUT_FLAG = 'clear_pre_reservation_timeout_flag';
+export const PRE_RESERVATION_TIMEOUT = 'pre_reservation_timeout';
+
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';
 export const APP_STATE_CLIENT_IDENTIFIED = 'app_state_client_identified';
+export const APP_STATE_PRE_RESERVATION_OK = 'app_state_pre_reservation_ok';
 export const APP_STATE_CONFIRMATION_OK = 'app_state_confirmation_ok';
 export const APP_STATE_ORDER_REMINDER_OK = 'app_state_order_reminder_ok';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT = 'app_state_order_reminder_failed_no_client';
@@ -58,6 +62,7 @@ export const DLG_VIEW_CANCEL_RESERVATION_ERROR = 'dlg_view_cancel_reservation_er
 export const DLG_VIEW_DOCTOR_INFO = 'dlg_view_doctor_info';
 export const DLG_VIEW_DOCTOR_INFO_NOT_FOUND = 'dlg_view_doctor_info_not_found';
 export const DLG_VIEW_GENERIC_FAILURE = 'dlg_view_generic_failure';
+export const DLG_PRE_RESERVATION_TIMEOUT = 'dlg_view_pre_reservation_timeout';
 
 // TIME OF DAY FILTER CUTOFFS
 export const TOD_MORNING = '7';

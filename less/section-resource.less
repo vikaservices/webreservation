@@ -23,17 +23,47 @@
     line-height: 28px;
     font-size: 18px;
     font-family: @font-arialmt;
+    width: 100%;
 
-    .dropdown-menu>li {
-      border-bottom: 1px solid @gray-white;
-    }
-    .dropdown-menu>li:last-child {
-      border-bottom: 0;
-    }
-    .btn-white-dropdown {
-        border: none;
-        background-color: @white;
-        color: @gray-very-light;
+    .dropdown {
+      width: 100%;
+
+      .dropdown-toggle {
+        width: 100%;
+        text-align: left;
+
+        .caret-container {
+          float: right;
+          display: inline-block;
+          text-align: right;
+
+          span.glyphicon-menu-down {
+            color: @red-ribbon;
+            font-size: 15px;
+          }
+        }
+      }
+      .btn-white-dropdown {
+          border: none;
+          background-color: @white;
+          color: @gray-very-light;
+      }
+      .dropdown-menu {
+        width: 120%;
+        margin-left: -20px;
+        margin-right: -20px;
+
+        .dropdown-menu ul {
+          width: 100%;
+        }
+        .dropdown-menu>li {
+          width: 100%;
+          border-bottom: 1px solid @gray-white;
+        }
+        .dropdown-menu>li:last-child {
+          border-bottom: 0;
+        }
+      }
     }
   }
 
@@ -47,9 +77,9 @@
       li {
         display: block;
         width: 100%;
-        line-height: 50px;
+        line-height: 53px;
         list-style-type: none;
-        padding: 10px 20px;
+        padding: 11px 21px 10px 19px;
         border-top: 1px solid @gray-light-2;
 
         p, a {
@@ -65,8 +95,8 @@
         .ohc-image {
           display: inline-block;
           width: 50px;
-          height: 50px;
-          line-height: 50px;
+          height: 52px;
+          line-height: 52px;
           text-align: center;
           vertical-align: middle;
           overflow: hidden;
@@ -82,6 +112,7 @@
           height: 50px;
           line-height: 55px;
           vertical-align: top;
+          max-width: 150px;
 
           .ohc-name {
             font-weight: bold;

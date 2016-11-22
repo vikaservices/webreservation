@@ -2,20 +2,24 @@
 /**********  SECTION : CONFIRMATION **************/
 
 .section-confirmation {
+  p, label {
+    font-family: @font-arialmt;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.18;
+    color: @gray-dark;
+    margin: 0;
+    padding: 0;
+  }
   /* width < 768px */
   @media (max-width: @screen-xs-max) {
     .header-row {
       display: none;
     }
-    p {
-      font-family: @font-arialmt;
+    .confirmation-text {
       font-size: 17px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.18;
-      color: @gray-dark;
-      padding-left: 20px;
+      padding: 15px 0 20px 20px;
     }
   }
 
@@ -33,13 +37,8 @@
         vertical-align: top;
       }
       label {
-        font-family: @font-arialmt;
         font-size: 16px;
-        font-weight: normal;
-        font-style: normal;
-        font-stretch: normal;
         line-height: 1.25;
-        color: @gray-dark;
         margin-bottm: 0;
       }
     }
@@ -47,15 +46,16 @@
 }
 
 .confirmation-block {
-  margin-top: 50px;
+  margin-top: 34px;
   @media (max-width: @screen-xs-max) {
-    margin-top: 8px;
+    margin-top: 0;
     padding-left: 20px;
     padding-right: 20px;
     border-bottom: 2px solid @red-ribbon;
   }
 
   .confirmation-1st-col {
+
     /* width 768px - 992px */
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
       width: 52%;
@@ -67,6 +67,8 @@
   }
 
   .confirmation-2nd-col {
+    @media (max-width: @screen-xs-max) {
+    }
     /* width 768px - 992px */
     @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
       width: 48%;
@@ -94,6 +96,9 @@
       width: 78px;
       max-width: 78px;
     }
+    @media (max-width: @screen-xs-max) {
+      margin-top: 0;
+    }
   }
   .logo-border {
     border: 1px solid @gray-white;
@@ -105,16 +110,32 @@
     }
   }
 
+  .confirmation-content-narrow {
+    max-width: 270px !important;
+      h5 {
+        padding-left: 0 !important;
+      }
+      .confirmation-content
+    }
+
   .confirmation-content {
     display: inline-block;
     vertical-align: top;
-    max-width: 270px;
+    h5 {
+      margin: 16px 0;
+      padding-left: 20px;
+    }
     @media (max-width: @screen-xs-max) {
       width: 100%;
-      max-width: 100%;
-      h5 {
-        margin: 16px 0;
-        padding-left: 20px;
+      p {
+        font-size: 17px;
+      }
+    }
+    /* width 768px -> */
+    @media (min-width: @screen-sm-min)  {
+      max-width: 250px;
+      p {
+        font-size: 16px;
       }
     }
     textarea {
@@ -124,11 +145,12 @@
         border: 0;
         border-top: 1px solid @gray-light-2;
         height: 50px;
-        width: 100%;
+        width: 100% !important;
         line-height: 50px;
         padding: 0;
         padding-left: 20px;
         overflow: hidden;
+        resize: none;
       }
       /* width 768px -> */
       @media (min-width: @screen-sm-min)  {
@@ -169,6 +191,11 @@
         padding-left: 11px;
       }
     }
+    input[type="text"]:last-child {
+      @media (max-width: @screen-xs-max) {
+        border-bottom: 1px solid @gray-light-2;
+      }
+    }
   }
 
   .confirmation-note {
@@ -183,24 +210,26 @@
       padding: 9px;
       margin: 0;
       text-align: left;
-      font-family: @font-arialmt;
       font-size: 14px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
       line-height: 1.21;
-      color: @gray-dark;
       border: 1px solid @gray-light-3;
     }
     @media (max-width: @screen-xs-max) {
       max-width: 100%;
       margin-top: 0;
+      padding-top: 20px;
       p {
         width: 100%;
         border: 0;
-        padding: 0 20px 14px 20px;
+        padding: 0 20px 0 20px;
         color: @gray-very-light;
       }
+    }
+  }
+  .confirmation-note:last-child {
+    @media (max-width: @screen-xs-max) {
+      padding-top: 11px;
+      padding-bottom: 13px;
     }
   }
 } /* END: confirmation-block */
@@ -214,6 +243,9 @@
 
 .confirmation-terms {
   margin-top: 30px;
+  @media (max-width: @screen-xs-max) {
+    padding: 0 20px;
+  }
   p {
     font-family: @font-arialmt;
     font-size: 12px;

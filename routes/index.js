@@ -260,6 +260,7 @@ router.get('/reservations', function(req, res, next) {
     var apiRequest = dmobReservationUrl;
     apiRequest += 'reservations?hetu=' + encodeURIComponent(req.query.hetu);
     apiRequest += '&reservationCode=' + encodeURIComponent(req.query.reservationCode);
+    apiRequest += '&lang=' + req.query.lang;
   }
 
   //console.log(payload);

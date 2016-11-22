@@ -22,7 +22,9 @@ import { TERMS_SEARCH,
          GET_DOCTOR_INFO,
          GET_FIXEDGROUPS,
          SET_APP_ENTRY_FLAG,
-         SET_PAGE_LANG
+         SET_PAGE_LANG,
+         CLEAR_PRE_RESERVATION_TIMEOUT_FLAG,
+         PRE_RESERVATION_TIMEOUT
         } from './types';
 import axios from 'axios';
 import util from '../components/common/util';
@@ -256,8 +258,8 @@ export function confirmReservation(reservationId, clientId, notes, visitType,
 }
 
 
-export function getReservation(code, ssn, standalone=null) {
-  let request_str = `reservations?hetu=${ssn}&reservationCode=${code}`;
+export function getReservation(code, ssn, standalone=null, lang=null) {
+  let request_str = `reservations?hetu=${ssn}&reservationCode=${code}&lang=${lang}`;
 
   console.log("Action: getReservation: " + request_str);
 
@@ -389,5 +391,19 @@ export function setPageLang( lang ) {
   return {
     type: SET_PAGE_LANG,
     pagelang: lang
+  }
+}
+
+export function clearPreReservationTimerFlag() {
+  console.log("clearPreReservationTimerFlag");
+  return {
+    type: CLEAR_PRE_RESERVATION_TIMEOUT_FLAG
+  }
+}
+
+export function preReservationTimeout() {
+  console.log("preReservationTimeout: timeout called");
+  return {
+    type: PRE_RESERVATION_TIMEOUT
   }
 }

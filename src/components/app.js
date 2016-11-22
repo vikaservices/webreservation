@@ -17,10 +17,19 @@ import { DLG_VIEW_REGISTER_CHECK_SSN,
          DLG_VIEW_CANCEL_RESERVATION,
          MAKE_RESERVATION,
          APP_STATE_INITIAL,
-         APP_STATE_CLIENT_IDENTIFIED
+         APP_STATE_CLIENT_IDENTIFIED,
+         APP_STATE_PRE_RESERVATION_OK
        } from '../actions/types';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pendingreservation:  false
+    }
+  }
 
   componentDidMount() {
     console.log("App: componentDidMount");
@@ -108,12 +117,14 @@ class App extends Component {
   componentDidUpdate() {
     //console.log("App: componentDidUpdate");
     if( (this.props.appstate == APP_STATE_CLIENT_IDENTIFIED) &&
-        (this.props.pendingreservation == true) ) {
-      console.log("Have pending reservation");
-      let slot       = this.props.selectedtimeslot;
-      let employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null
-      this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId,
-                                     slot.start, slot.duration, slot.online, employerId );
+        (this.state.pendingreservation == true) ) {
+      console.log("componentDidUpdate: Have pending reservation");
+      this.setState( {pendingreservation: false}, () => {
+        let slot       = this.props.selectedtimeslot;
+        let employerId = this.props.selected_employer.id != undefined ? this.props.selected_employer.id : null
+        this.props.makePreReservation( this.props.client_id, slot.resourceId, slot.unitId,
+                                       slot.start, slot.duration, slot.online, employerId );
+      });
     }
   }
 
@@ -162,6 +173,7 @@ class App extends Component {
     if ( this.props.appstate == APP_STATE_INITIAL ) {
       this.props.loginClient( true );
     }
+    this.setState( {pendingreservation: true});
   }
 
   render() {
@@ -172,7 +184,8 @@ class App extends Component {
                        title={this.props.headertitle}
                        is_ohc_client={this.props.is_ohc_client}
                        native_entry_flag={this.props.native_entry_flag}
-                       pagelang={this.props.pagelang} />
+                       pagelang={this.props.pagelang}
+                       app_state_confirmation={this.props.appstate == APP_STATE_PRE_RESERVATION_OK ? true : false} />
         <div className="app">
           <SectionResourceSelection />
           <SectionTimeSearch {...this.props}

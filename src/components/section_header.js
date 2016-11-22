@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import text from './common/translate';
 
-const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, pagelang, hide_links}) => {
+const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag,
+                        pagelang, hide_links, app_state_confirmation}) => {
 //TODO: language selection
   return (
     <div className="row">
@@ -20,20 +21,20 @@ const SectionHeader = ({clickHandler, title, is_ohc_client, native_entry_flag, p
         <div className="title">{title}</div>
       </div>
 
-      <div className="title-bar">
+      <div className={native_entry_flag ? "title-bar diacorplus-bg" : "title-bar"}>
         <span className={native_entry_flag ? "hide" : "title"}>{title}</span>
         <span className="header-link pull-right">
-          <span className={!native_entry_flag ? "header-link pull-right" : "hide" }>
+          <span className={native_entry_flag ? "hide" : app_state_confirmation ? "header-link pull-right" : "hide"}>
             <span className="logo-reservation" />
             <a href="" data-target="cancel_reservation" onClick={(event) => clickHandler(event)}>{text('diacor_section_header2')}</a>
           </span>
-          <span className={!native_entry_flag ? "hide" : "header-link pull-right" }>
+          <span className={native_entry_flag ? "header-link pull-right" : app_state_confirmation ? "hide" : "header-link pull-right"}>
             <a href="https://wrui01.securasp.fi/LA2094_Eloni/">{text('diacor_header_turku_link')} &gt;</a>
           </span>
         </span>
       </div>
 
-      <div className={hide_links ? "visibility-hidden" : native_entry_flag ? "hide" : ""}>
+      <div className={hide_links ? "visibility-hidden" : native_entry_flag || app_state_confirmation ? "hide" : ""}>
         <div className={is_ohc_client ? "links-bar hide-mobile-links-bar" : "links-bar"}>
           <span className="header-link">
             <span className={is_ohc_client ? "hide" : "logo-login-ohc"} />

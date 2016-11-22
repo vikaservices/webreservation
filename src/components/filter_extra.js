@@ -34,8 +34,8 @@ const FilterExtra = ({onChange, onClick, languages, cities, genders, gender_sele
 
   return (
     <div className="extra-filters">
-      <div className="extra-filters-input">
-        <span className="extra-filters-label" onClick={(event) => onClick(event)}>{text('diacor_filter_extra_label')}</span>
+      <div className="extra-filters-input" onClick={(event) => onClick(event)}>
+        <span className="extra-filters-label">{text('diacor_filter_extra_label')}</span>
         <span className="" />
       </div>
 

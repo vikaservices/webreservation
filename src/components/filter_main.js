@@ -146,8 +146,9 @@ class FilterMain extends Component {
             terms search quicklinks here
           </div>
 
-          <a className={filters.terms_search == '' ? "hide" : "input-reset"}
-              onClick={(event) => this.clearInput('terms', event)} href=""></a>
+          <a href="" className="input-reset-box" onClick={(event) => this.clearInput('terms', event)}>
+            <span className={filters.terms_search == '' ? "hide" : "input-reset"}></span>
+          </a>
         </div>
 
         <div className="search-box">
@@ -174,8 +175,9 @@ class FilterMain extends Component {
             units search quicklinks here
           </div>
 
-          <a className={filters.units_search == '' ? "hide" : "input-reset"}
-             onClick={(event) => this.clearInput('units', event)} href=""></a>
+          <a href="" className="input-reset-box" onClick={(event) => this.clearInput('units', event)}>
+            <span className={filters.units_search == '' ? "hide" : "input-reset"}></span>
+          </a>
         </div>
 
         <FilterExtra onChange={this.onChange.bind(this)}

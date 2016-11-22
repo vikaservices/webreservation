@@ -131,6 +131,7 @@ diacor_section_summary_sure: 'Varmista, että sinulla on puhelin mukana ja että
 diacor_section_summary_valued_customer: 'ARVOASIAKKUUS',
 diacor_section_summary_what: 'Mitäs tähän?',
 diacor_section_timesearch_header: 'AJAN VALINTA',
+diacor_section_timesearch_header_mobile: 'VALITTU AIKA',
 diacor_section_timesearch_link: 'Muuta valintaa',
 diacor_time_min: 'min',
 diacor_timeslot_diacorplus: 'DiacorPlus Etävastaanotto',

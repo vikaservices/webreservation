@@ -16,8 +16,8 @@ const DropdownMenu = ({items, selected, onChange}) => {
       <button className={items.length == 1 ? "dropdown-toggle btn-white-dropdown disabled" : "dropdown-toggle btn-white-dropdown"} type="button" data-toggle="dropdown">
         {selected}
         <span className="caret-container">
-          <span className={items.length == 1 ? "" : "caret-mobile glyphicon glyphicon-menu-down"}></span>
-          <span className={items.length == 1 ? "" : "caret-desktop caret"}></span>
+          <span className={items.length == 1 ? "" : "show-mobile glyphicon glyphicon-menu-down"}></span>
+          <span className={items.length == 1 ? "" : "show-desktop caret"}></span>
         </span>
       </button>
       <ul className="dropdown-menu">

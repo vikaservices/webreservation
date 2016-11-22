@@ -6,8 +6,6 @@ function formatDate(date) {
   var currM = (date.getMonth()+1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
   var currD = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
 
-  //console.log("formatDate: " + currY + "-" + currM + "-" + currD);
-
   return currY + "-" + currM + "-" + currD;
 }
 
@@ -23,8 +21,6 @@ function formatDate2(locale, date) {
   var currD = date.getDate();
 
   var wd_str = getWeekdayStr( locale, currWD );
-
-  //console.log("formatDate2: " + wd_str + " " + currD + "." + currM);
 
   return wd_str + " " + currD + "." + currM;
 }
@@ -48,9 +44,14 @@ function formatDate3(locale, date) {
 
   var wd_str = getWeekdayStr2( locale, currWD );
 
-  //console.log("formatDate3: " + wd_str + " " + currD + "." + currM);
-
   return wd_str + " " + currD + "." + currM + "." + currY;
+}
+
+
+function formatDate4(locale, date_string) {
+  var date = new Date(date_string);
+
+  return this.formatDate3(locale, date);
 }
 
 // locale "fi", "sw", "ru"
@@ -62,11 +63,32 @@ function getWeekdayStr2(locale, day) {
   return wd_strings[locale][day];
 }
 
-function formatDate4(locale, date_string) {
-  var date = new Date(date_string);
 
-  return this.formatDate3(locale, date);
+// return localized  weekday and date string "weekday DD.MM.YYYY" (no day/month zero-filling)
+function formatDate3(locale, date) {
+
+  var currWD = date.getDay();
+  var currM = date.getMonth() + 1;
+  var currD = date.getDate();
+  var currY = date.getFullYear();
+
+  var wd_str = getWeekdayStr3( locale, currWD );
+
+  return wd_str + " " + currD + "." + currM + "." + currY;
 }
+
+// locale "fi", "sw", "ru"
+function getWeekdayStr3(locale, day) {
+  var wd_strings = { "fi":["Sunnuntaina","Maanantaina","Tiistaina","Keskiviikkona","Torstaina","Perjantaina","Lauantaina"],
+                     "sv":["På Söndag","På Måndag","På Tisdag","På Onsdag","På Torsdag","På Fredag","På Lördag"],
+                     "en":["On Sunday"," On Monday","On Tuesday","On Wednesday","On Thursday","On Friday","On Saturday"] };
+
+  return wd_strings[locale][day];
+}
+
+
+
+
 
 function getHours(date_string) {
   var hours = date_string.substr(11, 2);

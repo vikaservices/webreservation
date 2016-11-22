@@ -1,8 +1,23 @@
 @import "variables.less";
 /***************** SUMMARY PAGE  ******************/
 .reservation-info-face {
+  display: inline-block;
   width: 80px;
   height: 80px;
+  text-align: center;
+  overflow: hidden;
   border: 1px solid @gray-white;
   border-radius: 40px;
+  img {
+    max-width: 80px;
+  }
+}
+
+.summary-block {
+    background-color: @white;
+    padding: 0 30px 30px 30px;
+    
+    @media (max-width: @screen-xs-max) {
+      border-bottom: 2px solid @red-ribbon;
+    }
 }

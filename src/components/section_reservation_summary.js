@@ -77,14 +77,14 @@ class SectionReservationSummary extends Component {
             <h4 className="section-title pull-left">{text('diacor_section_summary_header')}</h4>
           </div>
 
-          <div className="block row">
+          <div className="summary-block row">
             <p>
             {text('diacor_section_summary_content')}<span style={{fontWeight: 'bold'}}>{this.props.reservation_code ? this.props.reservation_code : ""}</span>
             </p>
             <div className="inline-box">
               <div className="col-xs-12 col-sm-6">
-                <div className="summary-logo">
-                  <img className="reservation-info-face" src={reservation.imageUrl ? reservation.imageUrl : ""} />
+                <div className="reservation-info-face">
+                  <img className="" src={reservation.imageUrl ? reservation.imageUrl : ""} />
                 </div>
                 <div className="padding-left-20">
                   <span>{reservation.resourceName ? reservation.resourceName : ""}</span><br />
@@ -109,7 +109,7 @@ class SectionReservationSummary extends Component {
             <img src="public/img/block-separator.png" />
           </div>
 
-          <div className="block row">
+          <div className="summary-block row">
             <div className={this.props.appstate === APP_STATE_ORDER_REMINDER_OK ? "" : "hide" }>
               <br /><br />
               <p>{text('diacor_section_summary_reminder_ok1')}{this.state.reminderName}{text('diacor_section_summary_reminder_ok2')}</p>
@@ -159,7 +159,7 @@ class SectionReservationSummary extends Component {
           <div className="block-separator row">
             <img src="public/img/block-separator.png" />
           </div>
-          <div className={this.props.selectedtimeslot.online ? "row block" : "hide"}>
+          <div className={this.props.selectedtimeslot.online ? "row summary-block" : "hide"}>
             <h4 className="section-title">{text('diacor_section_summary_reminder_question2')}</h4>
             <div className="inline-box">
               <div>
@@ -180,7 +180,7 @@ class SectionReservationSummary extends Component {
             <img src="public/img/block-separator.png" />
           </div>
 
-          <div className="row block">
+          <div className="row summary-block">
             <h4 className="section-title">{text('diacor_section_summary_valued_customer')}</h4>
             <p>{text('diacor_section_summary_what')}</p>
           </div>

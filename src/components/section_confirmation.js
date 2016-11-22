@@ -38,7 +38,7 @@ class SectionConfirmation extends Component {
       console.log("SectionConfirmation: componentWillReceiveProps: startprereservationtimer is set");
     } else {
       console.log("SectionConfirmation: componentWillReceiveProps: startprereservationtimer not set");
-      this.props.clearPreReservationTimerFlag();     
+      this.props.clearPreReservationTimerFlag();
     }
   }
 
@@ -173,7 +173,7 @@ class SectionConfirmation extends Component {
           <div className="header-row">
             <h4 className="section-title pull-left">{text('diacor_section_confirmation_header')}</h4>
           </div>
-          <p>{text('diacor_section_confirmation_content')}</p>
+          <p className="confirmation-text">{text('diacor_section_confirmation_content')}</p>
 
           <div className="confirmation-block row nopadding">
             <div className="col-xs-12 col-sm-6 confirmation-1st-col nopadding">
@@ -181,24 +181,23 @@ class SectionConfirmation extends Component {
               <div className="confirmation-logo logo-border">
                 <img src={slot.imageUrl ? slot.imageUrl : '/public/img/placeholder-person-image.png'} />
               </div>
-              <div className="confirmation-content">
+              <div className="confirmation-content-narrow">
                 <h5 className="hide-mobile">{text('diacor_section_confirmation_content_time')}</h5>
-                <span>{slot ? slot.resourceName : ""}</span><br />
-                <span>{this.props.selectedtimeslot ? slot.title : ""}</span><br />
-                <span>{utils.formatDate2(this.props.pagelang, new Date(this.props.date_filter))}</span><br />
-                <span>{slot ? slot.startTimeHours : ""} </span>
-                <span>{slot ? "(" + slot.duration + " min)" : ""}</span><br />
+                <p>{slot ? slot.resourceName : ""}</p>
+                <p>{this.props.selectedtimeslot ? slot.title : ""}</p>
+                <p>{utils.formatDate3(this.props.pagelang, new Date(this.props.date_filter))}</p>
+                <p>{slot ? slot.startTimeHours : ""} {slot ? "(" + slot.duration + " min)" : ""}</p>
                 {slot.online ?
                 <div className="unit-info">
                   <a className="popup-svg-phone" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>
                     <SvgIcon className="" Icon='phone' />
                   </a>
-                  <span className="unit-name vertical-align-middle">
+                  <p className="unit-name vertical-align-middle">
                     <a className="link" href={slot.unitLinkUrl ? slot.unitLinkUrl : ''}>{slot.unitName ? slot.unitName : ''}</a>
-                  </span><br />
+                  </p>
                 </div>
                 :
-                <span>{slot.unitName ? slot.unitName : ''}</span>
+                <p>{slot.unitName ? slot.unitName : ''}</p>
                 }
               </div>
             </div>

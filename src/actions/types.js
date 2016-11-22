@@ -34,6 +34,7 @@ export const PRE_RESERVATION_TIMEOUT = 'pre_reservation_timeout';
 // APP STATE
 export const APP_STATE_INITIAL = 'app_state_initial';
 export const APP_STATE_CLIENT_IDENTIFIED = 'app_state_client_identified';
+export const APP_STATE_PRE_RESERVATION_OK = 'app_state_pre_reservation_ok';
 export const APP_STATE_CONFIRMATION_OK = 'app_state_confirmation_ok';
 export const APP_STATE_ORDER_REMINDER_OK = 'app_state_order_reminder_ok';
 export const APP_STATE_ORDER_REMINDER_FAILED_NO_CLIENT = 'app_state_order_reminder_failed_no_client';

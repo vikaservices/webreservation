@@ -182,7 +182,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssnohc_header')}</h4>
         <form name="ohcLoginForm"
-              onKeyPress={this.handleKeyPress(this.state.ssn)}
+            
               onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <input autoFocus
                  className="popup-form-input"
@@ -316,7 +316,7 @@ class Popup extends Component {
   renderCancelReservation() {
     return (
       <div className="dialog client-popup-form">
-        <form onKeyPress={this.handleKeyPress(this.state.cSsn)}
+        <form
               onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>

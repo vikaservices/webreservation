@@ -41,7 +41,6 @@ class Popup extends Component {
       reqssn: '',
       code: '',
       cSsn: '',
-      bigPop: false,
       buttonDisabled: false,
       enterPressedssn: false,
       enterPressedcode: false,
@@ -53,6 +52,27 @@ class Popup extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
     this.renderAskClientInfoForm = this.renderAskClientInfoForm.bind(this);
+  }
+
+  componentWillReceiveProps() {
+      switch (this.props.dialogview) {
+          case DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND:
+              this.setState({
+                  code: '',
+                  cSsn: '',
+                  buttonDisabled: false
+              });
+           case DLG_VIEW_REGISTER_OHC_NOT_FOUND:
+                this.setState({
+                    ssn: ''
+                });
+            case DLG_VIEW_REGISTER_ERROR:
+                this.setState({
+                    ssn: ''
+                });
+          default:
+              return null;
+      }
   }
 
   checkClientSSN( ssn, event ) {
@@ -93,18 +113,22 @@ class Popup extends Component {
     this.props.cancelReservation(this.state.reservation_code, this.state.ssn);
   }
 
-  handleKeyPress(input, e) {
-    if (e.charCode === 13 && input) {
+  handleKeyPress(e, input, inputTwo=null) {
+    const eventName = 'enterPressed' + event.target.name;
+    if (e.charCode === 13 && input && inputTwo) {
         this.setState({
-            ['enterPressed' + e.target.name]: true}, () => {
-                if (!this.state['enterPressed' + e.target.name]) {
+            [eventName]: true}, () => {
+                if (!this.state[eventName]) {
                     e.preventDefault();
                 }
-                console.log(this.state['enterPressed' + e.target.name]);
         });
-        //this.setState({ input: e.target.value }, () => {
-        //    console.log(`state: ${this.state}, value: ${e.target.value}`); // this is my checking
-        //});
+    } else if (e.charCode === 13 && input) {
+        this.setState({
+            [eventName]: true}, () => {
+                if (!this.state[eventName]) {
+                    e.preventDefault();
+                }
+        });
     }
   }
 
@@ -133,7 +157,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssn_header')}</h4>
         <form name="regularLoginForm"
-              onKeyPress={(event) => this.handleKeyPress(this.state.ssn, event)}
+              onKeyPress={(event) => this.handleKeyPress(event, this.state.ssn)}
               //TODO: spinner here
               onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}
               >
@@ -182,7 +206,7 @@ class Popup extends Component {
       <div className="client-popup">
         <h4>{text('diacor_popup_ask_ssnohc_header')}</h4>
         <form name="ohcLoginForm"
-              onKeyPress={this.handleKeyPress(this.state.ssn)}
+              onKeyPress={(event) => this.handleKeyPress(this.state.ssn, event)}
               onSubmit={(event) => this.checkClientSSN($('input[name="ssn"]').val(), event)}>
           <input autoFocus
                  className="popup-form-input"
@@ -314,9 +338,13 @@ class Popup extends Component {
   }
 
   renderCancelReservation() {
+       console.log('CODE');
+       console.log(this.state.code);
+       console.log('SSN');
+       console.log(this.state.cSsn);
     return (
       <div className="dialog client-popup-form">
-        <form onKeyPress={this.handleKeyPress(this.state.cSsn)}
+        <form onKeyPress={this.handleKeyPress(event, this.state.code, this.state.cSsn)}
               onSubmit={(event) => this.getReservation($('input[name="code"]').val(),
                                                        $('input[name="ssn"]').val(),
                                                        event)}>
@@ -613,10 +641,8 @@ class Popup extends Component {
       case DLG_VIEW_CANCEL_RESERVATION_NOT_FOUND:
         return this.renderCancelReservationNotFound();
       case DLG_VIEW_CANCEL_RESERVATION_CONFIRM:
-        //TODO: this is big class
         return this.renderCancelReservationConfirm();
       case DLG_VIEW_CANCEL_RESERVATION_OK:
-        //TODO: this is big class
         return this.renderCancelReservationOk();
       case DLG_VIEW_CANCEL_RESERVATION_ERROR:
         return this.renderCancelReservationError();
@@ -634,16 +660,29 @@ class Popup extends Component {
   }
 
   render() {
+    var modalClass = 'modal-class-big';
+    switch (this.props.dialogview) {
+      case DLG_VIEW_REGISTER_CREATE_CLIENT:
+          modalClass = modalClass + ' big-popup';
+      case DLG_VIEW_CANCEL_RESERVATION_CONFIRM:
+          modalClass = modalClass + ' big-popup';
+      case DLG_VIEW_CANCEL_RESERVATION_OK:
+          modalClass = modalClass + ' big-popup';
+      case DLG_VIEW_DOCTOR_INFO:
+          modalClass = modalClass + ' big-popup';
+      default:
+          modalClass = modalClass + ' normal-popup';
+    }
     return (
-      <Modal
-        isOpen={this.props.dialogisopen}
-        onRequestClose={this.closeDialog}
-        shouldCloseOnOverlayClick={false}
-        className={this.props.dialogview !== DLG_VIEW_REGISTER_CREATE_CLIENT ? 'modal-class-big joku' : 'modal-class-big jokutoinen'}
-        overlayClassName="overlay-class"
-        >
-        { this.renderDialog() }
-      </Modal>
+        <Modal
+            isOpen={this.props.dialogisopen}
+            onRequestClose={this.closeDialog}
+            shouldCloseOnOverlayClick={false}
+            className={modalClass}
+            overlayClassName="overlay-class"
+            >
+            { this.renderDialog() }
+        </Modal>
     );
   }
 };

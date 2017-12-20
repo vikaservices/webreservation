@@ -1,1 +1,1 @@
-Web app for making appointments at medical center. Apart from styling and minor functional differences project was essentially about cloning another company's similar system [https://ajanvaraus.mehilainen.fi](https://ajanvaraus.mehilainen.fi/?language=fi)
+Web app for making appointments at medical center. Apart from styling and minor functional differences project was essentially about cloning another company's similar system [https://ajanvaraus.mehilainen.fi](https://ajanvaraus.mehilainen.fi/?language=en)

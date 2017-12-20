@@ -1,0 +1,1 @@
+Web app for making appointments at medical center. Apart from styling and minor functional differences projec was about cloning another company's similar system [https://ajanvaraus.mehilainen.fi](https://ajanvaraus.mehilainen.fi/?language=fi)
